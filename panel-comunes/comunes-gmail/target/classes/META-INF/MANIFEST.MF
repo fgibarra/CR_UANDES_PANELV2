@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1675458602190
+Build-Jdk: 1.8.0_291
+Built-By: fernando
+Bundle-Description: ComunesGmail
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: Sademail [comunes-gmail-v1]
+Bundle-SymbolicName: comunes-gmail-v1
+Bundle-Version: 0.0.1
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: com.google.*
+Export-Package: cl.uandes.sadmemail.comunes.gmail.json;version="0.0.1";u
+ ses:="cl.uandes.sadmemail.comunes.google.api.services,com.fasterxml.jac
+ kson.annotation",cl.uandes.sadmemail.comunes.google.api.services;versio
+ n="0.0.1";uses:="com.fasterxml.jackson.annotation",cl.uandes.sadmemail.
+ comunes.utils;version="0.0.1";uses:="org.apache.log4j",cl.uandes.sadmem
+ ail.comunes;version="0.0.1"
+Import-Package: org.apache.log4j;version="[1.2,2)",com.fasterxml.jackson
+ .databind;version="[2.6,3)",com.fasterxml.jackson.annotation;version="[
+ 2.6,3)",com.fasterxml.jackson.jaxrs.json;version="[2.6,3)"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
+Tool: Bnd-3.2.0.201605172007

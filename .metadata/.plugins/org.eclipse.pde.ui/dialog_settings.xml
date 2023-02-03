@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="quick_assist_proposal_size">
+	</section>
+	<section name="PDEFormActionManager">
+	</section>
+	<section name="PluginExportWizard">
+		<item key="exportType" value="1"/>
+		<item key="destination0" value="/home/fernando/.m2/repository/com/google/http-client/google-http-client-jackson2/1.20.0b"/>
+		<item key="destination1" value="/home/fernando/.m2/repository/com/google/http-client/google-http-client-jackson2/1.20.0b"/>
+		<item key="exportUpdate" value="true"/>
+		<item key="exportSource" value="false"/>
+		<item key="exportSourceFormat" value="Generate source bundles"/>
+		<item key="saveAsAnt" value="false"/>
+		<item key="qualifier" value="false"/>
+		<item key="qualifierName" value="202108232012"/>
+		<item key="allowBinaryCycles" value="true"/>
+		<item key="useWorkspaceCompiledClasses" value="false"/>
+		<item key="signJAR" value="false"/>
+		<item key="destination2" value="/home/fernando/.m2/repository/com/google/http-client/google-http-client-jackson2/1.39.2-sp.1b"/>
+		<item key="destination3" value="/home/fernando/.m2/repository/com/google/apis/google-api-services-admin-directory/1.20.0b"/>
+		<item key="destination4" value="/home/fernando/.m2/repository/com/google/apis/google-api-services-admin-directory/directory_v1-rev53-1.20.0b"/>
+		<item key="destination5" value="/home/fernando/.m2/repository/com/google/apis/google-api-services-groupssettings/v1-rev60-1.22.0b"/>
+	</section>
+</section>

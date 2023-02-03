@@ -1,0 +1,5 @@
+package cl.uandes.sadmemail.apiGmailServices.model.hibernate;
+
+public class ParametersServiceImpl {
+
+}

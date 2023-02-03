@@ -1,0 +1,9 @@
+package cl.uandes.sadmemail.apiGmailServices.model.hibernate.service;
+
+import cl.uandes.sadmemail.apiGmailServices.model.hibernate.bean.CuentaGmailParameters;
+
+public interface ParametersService {
+
+	public CuentaGmailParameters getParameters();
+
+}

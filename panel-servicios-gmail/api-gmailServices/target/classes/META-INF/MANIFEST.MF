@@ -1,0 +1,37 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1675461229113
+Build-Jdk: 1.8.0_291
+Built-By: fernando
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: ApiGmailServices
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: Sademail [api-gmailServices-v1]
+Bundle-SymbolicName: api-gmailServices-v1
+Bundle-Version: 0.0.1
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: cl.uandes.sadmemail.comunes.*
+Export-Package: cl.uandes.sadmemail.apiGmailServices.api.resources;versi
+ on="0.0.1";uses:="cl.uandes.sadmemail.comunes.gmail.json,javax.ws.rs,ja
+ vax.ws.rs.core"
+Import-Package: cl.uandes.sadmemail.comunes.gmail.json;version="[0.0,1)"
+ ,cl.uandes.sadmemail.comunes.google.api.services;version="[0.0,1)",com.
+ google.api.client.json;version="[1.39,2)",com.google.api.client.googlea
+ pis.auth.oauth2,com.google.api.client.googleapis.javanet,com.google.api
+ .client.googleapis.json;version="[1.32,2)",com.google.api.client.http,c
+ om.google.api.client.http.javanet,com.google.api.client.json.jackson2;v
+ ersion="[5.0,6)",com.google.api.services.admin.directory;version="[5.0,
+ 6)",com.google.api.services.admin.directory.model;version="[5.0,6)",com
+ .google.api.services.groupssettings;version="[5.0,6)",com.google.api.se
+ rvices.groupssettings.model;version="[5.0,6)",com.google.gson;version="
+ [2.8,3)",com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",javax.sql,j
+ avax.ws.rs;version="[2.1,3)",javax.ws.rs.core;version="[2.1,3)",org.apa
+ che.camel;version="[2.21,3)",org.apache.log4j;version="[1.2,2)",org.osg
+ i.service.blueprint;version="[1.0.0,2.0.0)",cl.uandes.sadmemail.comunes
+ .utils;version="[0.0,1)",cl.uandes.mail.json;version="[0.0,1)",cl.uande
+ s.utils;version="[0.0,1)",org.apache.camel.builder;version="[2.21,3)",o
+ rg.apache.cxf.jaxrs.impl;version="[3.1,4)"
+Import-Service: javax.sql.DataSource;multiple:=false;filter=(osgi.jndi.s
+ ervice.name=bannerds)
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
+Tool: Bnd-3.2.0.201605172007

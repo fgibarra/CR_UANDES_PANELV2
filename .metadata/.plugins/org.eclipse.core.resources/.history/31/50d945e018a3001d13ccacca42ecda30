@@ -1,0 +1,300 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uandes.panel-v2.servicios</groupId>
+  <artifactId>panel-servicios</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
+  <name>ServiciosGMAIL</name>
+  <description>Servicios que se conecta an GMAIL</description>
+  <modules>
+  	<module>GmailApiConector</module>
+  	<module>lib-conector-gmail</module>
+  	<module>api-gmailServices</module>
+  </modules>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<distribution>repo</distribution>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>firsa</id>
+			<name>FIR S.A. Development Team</name>
+			<organization>FIR S.A.</organization>
+			<organizationUrl>http://fibarra.cl/</organizationUrl>
+		</developer>
+	</developers>
+
+	<repositories>
+		<repository>
+			<id>redhat-ga-repository</id>
+			<url>https://maven.repository.redhat.com/ga</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>redhat-ea-repository</id>
+			<url>https://maven.repository.redhat.com/earlyaccess/all</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>jboss-ea-repository</id>
+			<name>Red Hat JBoss Early Access Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/ea</url>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>fuse-public-repository</id>
+			<name>FuseSource Community Release Repository</name>
+			<url>https://repo.fusesource.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>redhat-ga-repository</id>
+			<url>https://maven.repository.redhat.com/ga</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>redhat-ea-repository</id>
+			<url>https://maven.repository.redhat.com/earlyaccess/all</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>fusesource.ea</id>
+			<name>Fusesource Early Access Release Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/ea</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>fuse-public-repository</id>
+			<name>FuseSource Community Release Repository</name>
+			<url>https://repo.fusesource.com/nexus/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<scm>
+		<connection>scm:git:git@github.com:jboss-fuse/fuse.git</connection>
+		<developerConnection>scm:git:git@github.com:jboss-fuse/fuse.git</developerConnection>
+		<url>https://github.com/jboss-fuse/fuse/tree/master/quickstarts</url>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.maven-bundle-plugin>3.2.0</version.maven-bundle-plugin>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.surefire.plugin.version>2.19.1</maven.surefire.plugin.version>
+		
+		<!-- PARA FUSE -->
+		<fuse.version>7.6.0.fuse-760027-redhat-00001</fuse.version>
+		<camel.version>2.21.0.fuse-760027-redhat-00001</camel.version>
+
+		<!-- PARA KARAF
+		<camel.version>3.6.0</camel.version>
+		 -->
+		 
+		<jackson.version>2.6.3</jackson.version>
+
+		<!-- para el soap -->
+		<!-- the version of the BOM, defining all the dependency versions -->
+		<fabric.version>1.2.0.redhat-630187</fabric.version>
+
+		<!-- fabric8 deploy profile configuration -->
+		<fabric8.profile>quickstarts-cxf-camel.cxf.code.first</fabric8.profile>
+		<fabric8.parentProfiles>feature-camel feature-cxf</fabric8.parentProfiles>
+		<fabric8.features>camel-cxf camel-blueprint</fabric8.features>
+
+		<!-- the version of the JBoss Fuse BOM, defining all the dependency versions -->
+		<jboss.fuse.bom.version>6.3.0.redhat-187</jboss.fuse.bom.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- <dependency> <groupId>org.jboss.redhat-fuse</groupId> <artifactId>fuse-karaf-bom</artifactId> 
+				<version>${fuse.version}</version> <type>pom</type> <scope>import</scope> 
+				</dependency> -->
+			<dependency>
+				<groupId>org.jboss.fuse.bom</groupId>
+				<artifactId>jboss-fuse-parent</artifactId>
+				<version>${jboss.fuse.bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- assuming camel is pulling aries 1.0.0, pull asm 4.0 first -->
+			<!-- this is needed when unit testing camel-cxf with camel-test-blueprint -->
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm-all</artifactId>
+				<version>4.0</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>${camel.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-blueprint</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<dependency>
+		  <groupId>org.apache.camel</groupId>
+		  <artifactId>camel-jackson</artifactId>
+		  <version>${camel.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-blueprint</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>org.apache.felix.fileinstall</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>biz.aQute</groupId>
+					<artifactId>bndlib</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- para el cxf -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-cxf</artifactId>
+		</dependency>
+
+		<!-- Jackson dependencies -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<!-- -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-xml-provider</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.stream</groupId>
+			<artifactId>stax-api</artifactId>
+			<version>1.0-2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- using Jetty with CXF -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+		</dependency>
+
+		<!-- explicit dependency to exclude asm:asm:3.3.1 -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+		<dependency>
+		    <groupId>commons-lang</groupId>
+		    <artifactId>commons-lang</artifactId>
+		    <version>2.6</version>
+		</dependency>
+
+	</dependencies>
+</project>

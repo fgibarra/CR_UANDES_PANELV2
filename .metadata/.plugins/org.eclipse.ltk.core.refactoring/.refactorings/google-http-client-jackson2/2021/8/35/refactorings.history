@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;google-http-client-jackson2/google-http-client-jackson2-1.39.2-sp.1.jar&apos; to &apos;google-http-client-jackson2-1.39.2.jar&apos;" description="Rename resource &apos;google-http-client-jackson2-1.39.2-sp.1.jar&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="google-http-client-jackson2-1.39.2-sp.1.jar" name="google-http-client-jackson2-1.39.2.jar" stamp="1630014177503" updateReferences="true"/>
+</session>

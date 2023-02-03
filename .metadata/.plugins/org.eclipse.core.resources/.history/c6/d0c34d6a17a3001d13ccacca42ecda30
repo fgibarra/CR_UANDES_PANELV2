@@ -1,0 +1,63 @@
+package cl.uandes.sadmemail.apiGmailServices.model.wao;
+
+import org.apache.karaf.shell.api.action.lifecycle.Reference;
+
+import cl.uandes.sadmemail.apiGmailServices.model.hibernate.bean.CuentaGmailParameters;
+import cl.uandes.sadmemail.apiGmailServices.model.hibernate.service.ParametersServiceImpl;
+
+public class GmailWAOesb extends GmailWAOBaseImpl implements GmailWAOBase {
+
+
+	@Reference
+	ParametersServiceImpl daoService;
+	private CuentaGmailParameters cuentaGmailParameters;
+	
+	private static GmailWAOesb instance = null;
+	
+	public GmailWAOesb() {
+		super();
+		init();
+	}
+
+	public static GmailWAOesb getInstance() {
+		if (instance == null) {
+			instance = new GmailWAOesb();
+			instance.logger.info(String.format("getInstance: daoService es %s nulo", instance.daoService!=null?"NO":"COMPLETAMENTE"));
+			instance.init();
+		}
+		return instance;
+	}
+	
+	@Override
+	protected String getGmailAdmin() {
+		if (cuentaGmailParameters == null) {
+			cuentaGmailParameters = daoService.getParameters();
+		}
+		return cuentaGmailParameters != null ? cuentaGmailParameters.getGmailAdmin() : null;
+	}
+
+	@Override
+	protected String getGmailPasswd() {
+		if (cuentaGmailParameters == null) {
+			cuentaGmailParameters = daoService.getParameters();
+		}
+		return cuentaGmailParameters != null ? cuentaGmailParameters.getGmailPasswd() : null;
+	}
+
+	@Override
+	protected String getGmailDominio() {
+		logger.info(String.format("getInstance: daoService(6) es %s nulo", daoService!=null?"NO":"COMPLETAMENTE"));
+		if (cuentaGmailParameters == null) {
+			cuentaGmailParameters = daoService.getParameters();
+		}
+		return cuentaGmailParameters != null ? cuentaGmailParameters.getGmailDominio() : null;
+	}
+
+	public ParametersServiceImpl getDaoService() {
+		return daoService;
+	}
+
+	public void setDaoService(ParametersServiceImpl daoService) {
+		this.daoService = daoService;
+	}
+}

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectWizardLocationPage">
+		<list key="location">
+			<item value="/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/pom.xml"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArchetypePage">
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="Maven2ProjectWizardArchifactPage">
+		<list key="package">
+			<item value="org.comunes.sademail"/>
+		</list>
+		<list key="groupId">
+			<item value="uandes"/>
+		</list>
+		<list key="artifactId">
+			<item value="comunes-sademail"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArtifactPage">
+		<list key="groupId">
+			<item value="uandes"/>
+		</list>
+		<list key="name">
+			<item value="ComunesSademail"/>
+			<item value="ComunesGmail"/>
+			<item value="PanelFeatures"/>
+			<item value="api-gmail-services"/>
+			<item value="GmailApiConector"/>
+			<item value="ComunesPanel"/>
+			<item value="GUIPanel"/>
+			<item value="ServiciosBD"/>
+			<item value="ServiciosGMAIL"/>
+		</list>
+		<list key="artifactId">
+			<item value="comunes-sademail"/>
+			<item value="panel-comunes"/>
+			<item value="comunes-gmail"/>
+			<item value="panel-features"/>
+			<item value="api-gmailServices"/>
+			<item value="panel-servicios-gmail"/>
+			<item value="GmailApiConector"/>
+			<item value="comunes-panel"/>
+			<item value="gui-panel"/>
+			<item value="panel-servicios-sademail"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1"/>
+		</list>
+	</section>
+	<section name="MavenModuleWizardParentPage">
+		<list key="moduleName">
+			<item value="comunes-sademail"/>
+			<item value="comunes-gmail"/>
+			<item value="api-gmailServices"/>
+			<item value="GmailApiConector"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+</section>

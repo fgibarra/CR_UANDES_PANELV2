@@ -1,0 +1,7 @@
+package cl.uandes.sadmemail.apiGmailServices.model.hibernate.bean;
+
+import java.io.Serializable;
+
+public class CuentaGmailParameters implements Serializable {
+
+}

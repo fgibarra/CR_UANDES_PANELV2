@@ -1,0 +1,5 @@
+package cl.uandes.sadmemail.apiGmailServices.model.wao;
+
+public class GmailWAOesb {
+
+}

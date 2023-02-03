@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="logger.info"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="true"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="logger.debug"/>
+			<item value="(2)"/>
+			<item value="(1)"/>
+			<item value="(6)"/>
+			<item value="ProcesaPeriodos"/>
+			<item value="registraProcesaCursoException"/>
+			<item value="preparaDatosMailAttach"/>
+			<item value="soloNuevosChk"/>
+			<item value="DeleteReadingListRequest"/>
+			<item value="areaErrorTimeout"/>
+			<item value="msgErrorTimeout"/>
+			<item value="huboErrorTimeout"/>
+			<item value="onErrorTimeout"/>
+			<item value="Session"/>
+			<item value="40000"/>
+		</list>
+		<list key="replacehistory">
+			<item value="logger.info"/>
+			<item value="(3)"/>
+			<item value="(2)"/>
+			<item value="(1)"/>
+			<item value="GeneraRespuestaGetArchivo"/>
+			<item value="ProcesaFiltro"/>
+			<item value="ProgramarProcesoCarga"/>
+			<item value="InputFormCursos"/>
+			<item value="fFIni"/>
+			<item value="selInicTerm"/>
+			<item value="progProcForm"/>
+			<item value="WS_Consulta_LDAP"/>
+			<item value="XSSF"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="2236"/>
+		<item key="DIALOG_Y_ORIGIN" value="447"/>
+		<item key="DIALOG_WIDTH" value="345"/>
+		<item key="DIALOG_HEIGHT" value="458"/>
+		<item key="DIALOG_FONT_NAME" value="1|Cantarell|11.0|0|GTK|1|"/>
+	</section>
+</section>
