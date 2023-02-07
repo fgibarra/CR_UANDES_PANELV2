@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <features name="GmailApiConector">
   <feature name="jars-gmail">
+  <feature prerequisite="true">camel-quartz2</feature>
   	<bundle>mvn:io.grpc/grpc-context/1.27.2</bundle>
     <bundle>mvn:io.opencensus/opencensus-api/0.28.3</bundle> <!-- bundle:dynamic-import -->
     <bundle>mvn:io.opencensus/opencensus-contrib-http-util/0.28.3</bundle> <!-- bundle:dynamic-import -->
@@ -27,8 +28,14 @@
     <bundle>mvn:uandes.panel-v2.comunes/comunes-gmail/0.0.1</bundle> <!-- bundle:dynamic-import -->
   </feature>
 
-  <feature name="servicio-api-gmail">
+  <feature name="servicios-api-gmail">
   	<feature prerequisite="true">panel-basic</feature>
-    <bundle>mvn:uandes.panel-v2.servicios/gmail.api-gmailServices/0.0.1</bundle> <!-- bundle:dynamic-import -->
+    <bundle>mvn:uandes.panel-v2.servicios/gmail.api-gmailServices/0.0.1</bundle> 
+  </feature>
+
+  <feature name="servicios-panel">
+  	<feature prerequisite="true">servicios-api-gmail</feature>
+    <bundle>mvn:uandes.panel-v2.servicios/serv-actualiza-id-gmail/0.0.1</bundle> 
+    <bundle>mvn:uandes.panel-v2.servicios/schedules-actualiza-id-gmail/0.0.1</bundle> 
   </feature>
 </features>

@@ -78,10 +78,6 @@ public class ProcesaLista implements Processor {
 				}
 			}
 		}
-
-
-		UpdateIdGmailResponse response = new UpdateIdGmailResponse(0, "OK", cuentasActualizadas);
-		exchange.getIn().setBody(response);
 	}
 
 }

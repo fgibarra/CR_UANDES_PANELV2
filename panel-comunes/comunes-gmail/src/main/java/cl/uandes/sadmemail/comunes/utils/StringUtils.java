@@ -18,6 +18,8 @@ public class StringUtils {
 	public final static DateFormat DIAHORA_DATE_FORMATTER = new SimpleDateFormat(DIAHORA_DATE_PATTERN);
 	public final static String YYYYMMDD_DATE_PATTERN = "yyyyMMdd";
 	public final static DateFormat YYYYMMDD_DATE_FORMATTER = new SimpleDateFormat(YYYYMMDD_DATE_PATTERN);
+	public final static String YYYYMMDDHHMMSS_DATE_PATTERN = "yyyyMMddHHmmss";
+	public final static DateFormat YYYYMMDDHHMMSS_DATE_FORMATTER = new SimpleDateFormat(YYYYMMDDHHMMSS_DATE_PATTERN);
 	
 	public static String toString(Object obj) {
 		if (obj == null || obj instanceof String)

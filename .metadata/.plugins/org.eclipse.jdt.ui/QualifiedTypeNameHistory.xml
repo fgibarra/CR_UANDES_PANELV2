@@ -26,7 +26,6 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.apiGmailServices.model.hibernate.ParametersServiceImpl"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.apiGmailServices.model.hibernate.bean.CuentaGmailParameters"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.apiGmailServices.model.wao.GmailWAOesb"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
     <fullyQualifiedTypeName name="javax.ws.rs.POST"/>
     <fullyQualifiedTypeName name="javax.ws.rs.Path"/>
     <fullyQualifiedTypeName name="javax.ws.rs.GET"/>
@@ -47,4 +46,5 @@
     <fullyQualifiedTypeName name="java.io.SequenceInputStream"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.JSonUtilities"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
 </qualifiedTypeNameHistroy>

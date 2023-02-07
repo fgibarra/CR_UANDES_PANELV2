@@ -11,6 +11,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.updateidgmail.UpdateIdGmailResponse;
+import cl.uandes.sadmemail.comunes.utils.StringUtils;
 
 /**
  * URI : cxf//ESB/panel/panelToolActualizaIdGmail/
@@ -30,6 +31,7 @@ public class ActualizaIdGmailRestService {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/procese")
 	public UpdateIdGmailResponse procese() {
-		return (UpdateIdGmailResponse)producer.requestBody(null);
+		
+		return (UpdateIdGmailResponse)producer.requestBody(StringUtils.YYYYMMDDHHMMSS_DATE_FORMATTER.format(new java.util.Date()));
 	}
 }

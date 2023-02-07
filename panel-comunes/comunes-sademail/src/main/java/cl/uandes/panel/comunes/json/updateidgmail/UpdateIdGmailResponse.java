@@ -25,16 +25,28 @@ public class UpdateIdGmailResponse implements Serializable {
 	String mensaje;
 	@JsonProperty("cuentas_actualizadas")
 	Integer cuentasActualizadas;
-
+	@JsonProperty("hora_comienzo")
+	String horaComienzo;
+	@JsonProperty("hora_termino")
+	String horaTermino;
+	@JsonProperty("duracion")
+	String duracion;
+	
 	@JsonCreator
 	public UpdateIdGmailResponse(
 			@JsonProperty("codigo")Integer codigo, 
 			@JsonProperty("mensaje")String mensaje, 
-			@JsonProperty("cuentas_actualizadas")Integer cuentasActualizadas) {
+			@JsonProperty("cuentas_actualizadas")Integer cuentasActualizadas,
+			@JsonProperty("hora_comienzo")String horaComienzo,
+			@JsonProperty("hora_termino")String horaTermino, 
+			@JsonProperty("duracion")String duracion) {
 		super();
 		this.codigo = codigo;
 		this.mensaje = mensaje;
 		this.cuentasActualizadas = cuentasActualizadas;
+		this.horaComienzo = horaComienzo;
+		this.horaTermino = horaTermino;
+		this.duracion = duracion;
 	}
 
 	@Override
@@ -71,6 +83,30 @@ public class UpdateIdGmailResponse implements Serializable {
 
 	public void setCuentasActualizadas(Integer cuentasActualizadas) {
 		this.cuentasActualizadas = cuentasActualizadas;
+	}
+
+	public String getHoraComienzo() {
+		return horaComienzo;
+	}
+
+	public void setHoraComienzo(String horaComienzo) {
+		this.horaComienzo = horaComienzo;
+	}
+
+	public String getHoraTermino() {
+		return horaTermino;
+	}
+
+	public void setHoraTermino(String horaTermino) {
+		this.horaTermino = horaTermino;
+	}
+
+	public String getDuracion() {
+		return duracion;
+	}
+
+	public void setDuracion(String duracion) {
+		this.duracion = duracion;
 	}
 
 }

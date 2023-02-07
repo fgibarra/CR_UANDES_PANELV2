@@ -295,5 +295,6 @@
 	</dependencies>
 	<modules>
 		<module>serv-actualiza-id-gmail</module>
+		<module>scheduler-actualiza-id-gmail</module>
 	</modules>
 </project>
