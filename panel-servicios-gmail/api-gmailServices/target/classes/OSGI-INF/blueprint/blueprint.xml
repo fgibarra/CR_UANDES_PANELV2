@@ -31,7 +31,7 @@
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <route id="_readjson">
             <from id="_promService" uri="direct:start"/>
-            <log id="_log1" message="received from cliente: ${body}"/>
+            <!--log id="_log1" message="received from cliente: ${body}"/-->
             <to id="_ApreparaReqRoute" uri="seda:incomingRequest?timeout=65000"/>
         </route>
         <route id="preparaResponseRoute">
@@ -42,7 +42,7 @@
         </route>
         <route id="_doResponseRoute">
             <from id="_doResponse" uri="direct:doResponse"/>
-            <log id="_log2" message="devuelve a WS: ${body}"/>
+            <!--log id="_log2" message="devuelve a WS: ${body}"/-->
             <to id="_final" uri="mock:end"/>
         </route>
     </camelContext>

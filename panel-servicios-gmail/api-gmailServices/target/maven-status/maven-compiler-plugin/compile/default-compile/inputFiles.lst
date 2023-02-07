@@ -1,6 +1,6 @@
 /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/procesor/GeneraResponse.java
-/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/model/wao/GmailWAOesb.java
+/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/wao/dto/CuentaGmailParameters.java
+/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOBase.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/api/resources/GmailServicesRestService.java
-/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/model/wao/GmailWAOBase.java
-/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/model/wao/GmailWAOBaseImpl.java
-/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/model/hibernate/bean/CuentaGmailParameters.java
+/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOesb.java
+/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/src/main/java/cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOBaseImpl.java

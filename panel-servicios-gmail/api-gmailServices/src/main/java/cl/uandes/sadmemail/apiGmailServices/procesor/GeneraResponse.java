@@ -11,33 +11,34 @@ import org.apache.log4j.Logger;
 import com.google.api.services.admin.directory.model.User;
 import com.google.api.services.admin.directory.model.UserName;
 
-import cl.uandes.sadmemail.apiGmailServices.model.wao.GmailWAOesb;
+import cl.uandes.sadmemail.apiGmailServices.wao.GmailWAOesb;
 import cl.uandes.sadmemail.comunes.gmail.json.UserRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
 
 public class GeneraResponse implements Processor {
 
 	GmailWAOesb wao;
+	@SuppressWarnings("unused")
 	private Logger logger = Logger.getLogger(getClass());
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (Map<String, Object>) ((List<?>)exchange.getIn().getBody()).get(0);
-		logger.info(String.format("Va a instanciar GmailWAOesb: map es %s NULO", map!=null?"NO":"LAMENTABLEMENTE"));
+		//logger.info(String.format("Va a instanciar GmailWAOesb: map es %s NULO", map!=null?"NO":"LAMENTABLEMENTE"));
 		wao = new GmailWAOesb(map);
 		String operacion = (String)exchange.getIn().getHeader("Operacion");
 		
 		if ("user-create".equals(operacion)) {
 			UserRequest request = (UserRequest)exchange.getIn().getHeader("Body");
-			logger.info(String.format("recuperado desde header: %s", request!=null?request.toString():"NULO!!!!"));
+			//logger.info(String.format("recuperado desde header: %s", request!=null?request.toString():"NULO!!!!"));
 			User user = wao.createUser(request.getUser().getUsername(), 
 					request.getUser().getGivenName(), 
 					request.getUser().getFamilyName(), 
 					request.getUser().getPassword());
 			UserResponse response = new UserResponse(0, "OK");
 			response.setUser(response.factoryUser(user));
-			logger.info(String.format("respuesta desde gmail: %s", response!=null?response.toString():"NULO!!!!"));
+			//logger.info(String.format("respuesta desde gmail: %s", response!=null?response.toString():"NULO!!!!"));
 			exchange.getIn().setBody(response);
 			
 		} else if ("user-retrieve".equals(operacion)) {
@@ -61,9 +62,9 @@ public class GeneraResponse implements Processor {
 			UserResponse response = null;
 			User usr = new User();
 			UserName name = new UserName();
-			logger.info(String.format("user-update: Id: %s FamilyName:%s Username: %s GivenName: %s", 
+			/*logger.info(String.format("user-update: Id: %s FamilyName:%s Username: %s GivenName: %s", 
 					request.getUser().getId(),request.getUser().getFamilyName(), request.getUser().getUsername(),
-					request.getUser().getGivenName()));
+					request.getUser().getGivenName()));*/
 			name.setFamilyName(request.getUser().getFamilyName());
 			name.setFullName(request.getUser().getUsername());
 			name.setGivenName(request.getUser().getGivenName());

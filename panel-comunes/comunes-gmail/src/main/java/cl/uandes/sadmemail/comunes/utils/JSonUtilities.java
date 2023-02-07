@@ -24,7 +24,7 @@ public class JSonUtilities {
 	}
 
 	public Object json2java(String jsonString, Class<?> response) throws Exception {
-		logger.info("convertir a Class ="+response);
+		//logger.info("convertir a Class ="+response);
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);

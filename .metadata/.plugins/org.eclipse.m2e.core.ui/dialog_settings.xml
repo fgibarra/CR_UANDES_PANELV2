@@ -25,13 +25,13 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
-			<item value="org.comunes.sademail"/>
+			<item value="org.serv.actualiza.id.gmail"/>
 		</list>
 		<list key="groupId">
-			<item value="uandes"/>
+			<item value="uandes.panel-v2.servicios-"/>
 		</list>
 		<list key="artifactId">
-			<item value="comunes-sademail"/>
+			<item value="serv-actualiza-id-gmail"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -47,9 +47,11 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="uandes.panel-v2.servicios-"/>
 			<item value="uandes"/>
 		</list>
 		<list key="name">
+			<item value="serv-actualiza-id-gmail"/>
 			<item value="ComunesSademail"/>
 			<item value="ComunesGmail"/>
 			<item value="PanelFeatures"/>
@@ -61,6 +63,8 @@
 			<item value="ServiciosGMAIL"/>
 		</list>
 		<list key="artifactId">
+			<item value="serv-actualiza-id-gmail"/>
+			<item value="panel-servicios-sademail"/>
 			<item value="comunes-sademail"/>
 			<item value="panel-comunes"/>
 			<item value="comunes-gmail"/>
@@ -70,7 +74,6 @@
 			<item value="GmailApiConector"/>
 			<item value="comunes-panel"/>
 			<item value="gui-panel"/>
-			<item value="panel-servicios-sademail"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -86,6 +89,7 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="serv-actualiza-id-gmail"/>
 			<item value="comunes-sademail"/>
 			<item value="comunes-gmail"/>
 			<item value="api-gmailServices"/>

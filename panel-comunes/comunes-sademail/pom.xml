@@ -21,13 +21,20 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Export-Package>cl.uandes.sadmemail.comunes.sademail</Export-Package>
+						<Export-Package>
+							cl.uandes.panel.comunes.json.cambiacuenta,
+							cl.uandes.panel.comunes.json.updateidgmail
+						</Export-Package>
 						<Import-Package>
+							org.apache.log4j;version="[1.2,2)",
+							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",
+							com.fasterxml.jackson.databind,
+							com.fasterxml.jackson.annotation
 						</Import-Package>
-						<Bundle-Description>ComunesSademail</Bundle-Description>
-						<Bundle-Name>Comunes Sademail v1.0</Bundle-Name>
-						<Bundle-SymbolicName>comunes-sademail-v1</Bundle-SymbolicName>
-						<Bundle-Name>Sademail [comunes-sademail-v1]</Bundle-Name>
+						<Bundle-Description>ComunesPanel</Bundle-Description>
+						<Bundle-Name>Comunes Panel v1.0</Bundle-Name>
+						<Bundle-SymbolicName>comunes-panel-v1</Bundle-SymbolicName>
+						<Bundle-Name>Panel [comunes-panel-v1]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>

@@ -32,7 +32,7 @@ import cl.uandes.sadmemail.comunes.gmail.json.UserRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
 
 /**
- * URI : cxf/ESB/panelv2/gmailServices/
+ * URI : cxf/ESB/panel/gmailServices/
  * @author fernando
  *
  */
@@ -49,7 +49,7 @@ public class GmailServicesRestService {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/user/create")
 	public UserResponse createUser(UserRequest in_msg) {
-		logger.info(String.format("createUser: in_msg= %s - %s", in_msg.getClass().getSimpleName(), in_msg));
+		//logger.info(String.format("createUser: in_msg= %s - %s", in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("Operacion", "user-create");
 		headers.put("Body", in_msg);
@@ -61,8 +61,7 @@ public class GmailServicesRestService {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/user/retrieve/{username}")
 	public UserResponse retrieveUser(@PathParam("username")String in_msg) {
-		logger.info(String.format("retrieveUser: in_msg: %s - %s", 
-				in_msg.getClass().getSimpleName(), in_msg));
+//		logger.info(String.format("retrieveUser: in_msg: %s - %s",in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("Operacion", "user-retrieve");
 		headers.put("Body", in_msg);
@@ -75,8 +74,7 @@ public class GmailServicesRestService {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/user/update")
 	public UserResponse updateUser(UserRequest in_msg) {
-		logger.info(String.format("updateUser: in_msg: %s - %s", 
-				in_msg.getClass().getSimpleName(), in_msg));
+		//logger.info(String.format("updateUser: in_msg: %s - %s",in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("Operacion", "user-update");
 		headers.put("Body", in_msg);
