@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class StringUtils {
 
@@ -150,14 +150,6 @@ public class StringUtils {
         return valor;
 	}
 
-	public static String escape2Html(String data) {
-		return StringEscapeUtils.escapeHtml(data);
-	}
-	
-	public static String unescape2Html(String data) {
-		return StringEscapeUtils.unescapeHtml(data);
-	}
-	
     /**
      * Dump hexadecimal y ascii del buffer
      * @param dato
@@ -206,4 +198,16 @@ public class StringUtils {
 
         return sb.toString();
     }
+    
+	public static String escape2Html(String data) {
+		return StringEscapeUtils.escapeHtml4(data);
+	}
+	
+	public static String unescape2Html(String data) {
+		if (data == null || data.isEmpty())
+			return data;
+		data = data.replace("&quot;", "'");
+		String convertido = StringEscapeUtils.unescapeHtml4(data);
+		return convertido;
+	}
 }

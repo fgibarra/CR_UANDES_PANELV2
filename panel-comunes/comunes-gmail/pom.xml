@@ -40,7 +40,8 @@
 							org.apache.log4j;version="[1.2,2)",
 							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",
 							com.fasterxml.jackson.databind,
-							com.fasterxml.jackson.annotation
+							com.fasterxml.jackson.annotation,
+							org.apache.commons.lang3
 						</Import-Package>
 						<DynamicImport-Package>
 							com.google.*

@@ -33,7 +33,10 @@ public class ArmaLista implements Processor {
 			//BigDecimal key = (BigDecimal) map.get("KEY");
 			String loginName = (String)map.get("LOGIN_NAME");
 			String url = String.format(uriRetrieveUser, loginName);
-			//logger.info(String.format("key: %s loginName: %s url: %s", key, loginName, url));
+			if (url.indexOf('.') >= 0)
+				continue;
+//				url = url.replace(".", "&#46;");
+			logger.info(String.format("loginName: %s url: %s", loginName, url));
 			
 			// consultarlo a gmail
 			headers.clear();

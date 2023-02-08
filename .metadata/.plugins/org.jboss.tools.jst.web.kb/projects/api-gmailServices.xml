@@ -28,6 +28,7 @@
   <path value="/home/fernando/.m2/repository/log4j/log4j/1.2.17.redhat-1/log4j-1.2.17.redhat-1.jar"/>
   <path value="/home/fernando/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.6.3/jackson-databind-2.6.3.jar"/>
   <path value="/home/fernando/.m2/repository/org/apache/cxf/cxf-rt-rs-security-oauth/3.1.5.redhat-630187/cxf-rt-rs-security-oauth-3.1.5.redhat-630187.jar"/>
+  <path value="/home/fernando/.m2/repository/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar"/>
   <path value="/home/fernando/.m2/repository/org/apache/cxf/cxf-rt-databinding-jaxb/3.1.5.redhat-630187/cxf-rt-databinding-jaxb-3.1.5.redhat-630187.jar"/>
   <path value="/home/fernando/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.6.3/jackson-annotations-2.6.3.jar"/>
   <path value="/home/fernando/.m2/repository/org/eclipse/jetty/jetty-continuation/9.2.19.v20160908/jetty-continuation-9.2.19.v20160908.jar"/>
@@ -107,6 +108,7 @@
   <path value="/home/fernando/.m2/repository/org/apache/camel/camel-core-osgi/2.17.0.redhat-630187/camel-core-osgi-2.17.0.redhat-630187.jar"/>
   <path value="/home/fernando/.m2/repository/org/apache/aries/blueprint/org.apache.aries.blueprint.core/1.4.5/org.apache.aries.blueprint.core-1.4.5.jar"/>
   <path value="/home/fernando/.m2/repository/org/codehaus/woodstox/stax2-api/3.1.4/stax2-api-3.1.4.jar"/>
+  <path value="/home/fernando/.m2/repository/org/apache/commons/commons-lang3/3.12.0.redhat-00001/commons-lang3-3.12.0.redhat-00001.jar"/>
   <path value="/home/fernando/.m2/repository/org/apache/cxf/cxf-core/3.1.5.redhat-630187/cxf-core-3.1.5.redhat-630187.jar"/>
   <path value="/home/fernando/.m2/repository/org/eclipse/jetty/jetty-http/9.2.19.v20160908/jetty-http-9.2.19.v20160908.jar"/>
   <path value="/home/fernando/.m2/repository/org/apache/aries/proxy/org.apache.aries.proxy.api/1.0.1/org.apache.aries.proxy.api-1.0.1.jar"/>
@@ -117,7 +119,6 @@
   <path value="/home/fernando/.m2/repository/com/sun/xml/messaging/saaj/saaj-impl/1.4.0-b03/saaj-impl-1.4.0-b03.jar"/>
  </paths>
  <validation>
-  <core validator-id="jboss.cdi.core"/>
   <el>
    <linked-el length="46" name="%0" offset="2267" path="%1"/>
    <linked-el length="30" name="%2" offset="1938" path="%3"/>
