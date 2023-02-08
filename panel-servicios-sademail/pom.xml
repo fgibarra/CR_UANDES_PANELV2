@@ -296,5 +296,6 @@
 	<modules>
 		<module>serv-actualiza-id-gmail</module>
 		<module>scheduler-actualiza-id-gmail</module>
+		<module>serv-cambiar-apellido</module>
 	</modules>
 </project>

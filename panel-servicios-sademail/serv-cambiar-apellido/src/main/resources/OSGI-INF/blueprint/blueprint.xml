@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/panelToolCambiaApellido/"
+        id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Consultar cuanta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve/{username}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiActualizaIdGmailServices.api.restclient.ConsultaGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.api.resources.CambiaApellidoRestService" id="restService"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.RecuperaDeBanner" id="recuperaDeBanner"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.GeneraNextLoginName" id="generaNextLoginName"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.BuscaEnGmail" id="buscaEnGmail"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.CambiaGmail" id="cambiaGmail"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.PreparaUndo" id="preparaUndo"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.RecuperaMailSoporte" id="recuperaMailSoporte"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.PreparaTemplateMail" id="preparaTemplateMail"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.PreparaDatosMail" id="preparaDatosMail"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.PreparaResponse" id="preparaResponse"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.GeneraResponseError" id="generaResponseError"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.bean.MensajesErrorBean" id="mensajesError">
+        <property name="notFoundBanner" value="{{notFoundBanner}}"/>
+    </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <camelContext id="serv-cambia-apellido-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <route id="_readjson">
+            <from id="_promService" uri="direct:start?timeout=-1"/>
+            <choice id="_cuentaorut">
+                <when id="_whenRut">
+                    <simple>${header.operacion} == 'porRUT'</simple>
+                    <!-- 
+						- Buscar los datos del alumno/profesor en Banner
+						- armar el nuevo nombre: primera letra primer nombre + primera letra segundo nombre - apellido paterno
+						- encontrar en MI_CUENTAS_GMAIL un login_name que no exista, usar un numero de secuencia.
+						- validar que la nueva cuenta no exista en GMAIL como cuenta o nickname. si existe incrementar el numero de secuencia hasta encontrar uno que no exista
+						- cambiar en MI_CUENTAS_GMAIL, GOREMAL el nuevo LOGIN_NAME. Guardar el antiguo por si rollback
+						- cambiar la cuenta en GMAIL (incluir nombres y apellidos recuperados de Banner). Si falla, hacer rollback en la BD. 
+					-->
+                    <to id="_AprocesaPorRutRoute" uri="seda:procesaPorRut"/>
+                </when>
+                <when id="_whenCuenta">
+                    <simple>${header.operacion} == 'porCuenta'</simple>
+                    <!--
+						- validar que la nueva cuenta no exista en GMAIL como cuenta o nickname. si existe incrementar el numero de secuencia hasta encontrar uno que no exista
+						- cambiar en MI_CUENTAS_GMAIL, GOREMAL el nuevo LOGIN_NAME. Guardar el antiguo por si rollback
+						- cambiar la cuenta en GMAIL. Si falla, hacer rollback en la BD. 
+					-->
+                    <to id="_AprocesaPorCuentaRoute" uri="seda:procesaPorCuenta"/>
+                </when>
+            </choice>
+            <!--
+				- si se solicito en el request, 
+					- si request.cuentas-envio es nulo enviar email a soporte con el resultado de la operacion (nombre nueva cuenta)
+					- caso contrario enviarlo a las cuentas indicadas en request 
+				- armar respuesta para el webservice
+			-->
+            <choice id="_mandamail">
+                <when id="_simandamail">
+                    <simple>${header.CambiaCuentaRequest.enviaMail} == true</simple>
+                    <choice id="_indicaTo">
+                        <when id="_asoporte">
+                            <simple>${header.CambiaCuentaRequest.cuentasEnvio} == null</simple>
+                            <to id="_qrySoporte" uri="sql:select email_support from kco_sendmail_params where key={{sendmail_params_id}}?dataSource=#bannerDataSource"/>
+                            <process id="_recuperaMailSoporte" ref="recuperaMailSoporte"/>
+                        </when>
+                        <otherwise id="_aloindicado">
+                            <setHeader headerName="emailTO" id="_setHeader1">
+                                <simple>${header.CambiaCuentaRequest.cuentasEnvio}</simple>
+                            </setHeader>
+                        </otherwise>
+                    </choice>
+                    <process id="_preparaTemplateMail" ref="preparaTemplateMail"/>
+                    <to id="creaCuerpo" uri="velocity:mailTemplate.vm?contentCache=true"/>
+                    <process id="_preparaDatosMail" ref="preparaDatosMail"/>
+                    <to id="_mandaEmail" uri="cxfrs:bean:sendMail"/>
+                </when>
+            </choice>
+            <process id="_preparaResponse" ref="preparaResponse"/>
+        </route>
+        <!-- ================================================================================  -->
+        <route id="_procesaPorRutRoute">
+            <!-- 
+				- Buscar los datos del alumno/profesor en Banner
+				- armar el nuevo nombre: primera letra primer nombre + primera letra segundo nombre - apellido paterno
+				- encontrar en MI_CUENTAS_GMAIL un login_name que no exista, usar un numero de secuencia.
+				- validar que la nueva cuenta no exista en GMAIL como cuenta o nickname. si existe incrementar el numero de secuencia hasta encontrar uno que no exista
+				- cambiar en MI_CUENTAS_GMAIL, GOREMAL el nuevo LOGIN_NAME. Guardar el antiguo por si rollback
+				- cambiar la cuenta en GMAIL (incluir nombres y apellidos recuperados de Banner). Si falla, hacer rollback en la BD. 
+			-->
+            <from id="_procesaPorRut" uri="seda:procesaPorRut"/>
+            <onException id="_onExceptionBanner">
+                <exception>cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NotFoundBannerException</exception>
+                <camel:handled>
+                    <camel:constant>true</camel:constant>
+                </camel:handled>
+                <setBody id="_setBody1">
+                    <method method="notFoundBannerException" ref="mensajesError"/>
+                </setBody>
+                <process id="_generaResponseError" ref="generaResponseError"/>
+                <to id="_final1" uri="mock:end"/>
+            </onException>
+            <doTry id="_doTryQryBanner">
+                <to id="_qryBanner" uri="sql:select spriden_pidm, spriden_id, spriden_last_name, spriden_first_name, spriden_mi, from sgbstdn, spriden where spriden_pidm = sgbstdn_pidm and spriden_change_ind is null and sgbstdn_stst_code='AS' and (sgbstdn_term_code_eff = sgbstdn_term_code_admit) and (sgbstdn_admt_code &lt;> 'CI') and (sgbstdn_admt_code &lt;> 'CB') and (sgbstdn_styp_code &lt;> 'D') and spriden_id = :#${header.CambiaCuentaRequest.rut}?dataSource=#bannerDataSource"/>
+                <process id="_recuperaDeBanner" ref="recuperaDeBanner"/>
+            </doTry>
+            <to id="_qryLogin" uri="sql:select login_name from (select login_name from mi_cuentas_gmail where login_name like ':#${body}%' order by login_name desc) where rownum &lt; 2?dataSource=#bannerDataSource"/>
+            <process id="_getNextLoginName" ref="generaNextLoginName"/>
+            <loop doWhile="true" id="_loopBuscaEnGmail">
+                <simple>${header.foundName} == 1</simple>
+                <process id="_buscaEnGmail" ref="buscaEnGmail"/>
+            </loop>
+            <process id="_armaDatosUpdate" ref="armaDatosUpdate"/>
+            <to id="_updateSademail" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+            <process id="_cambiaGmail" ref="cambiaGmail"/>
+            <choice id="_choiceResultado">
+                <when id="_fallo">
+                    <simple>${header.resultadoCambioEnGmail} == 'no'</simple>
+                    <process id="_preparaUndo" ref="preparaUndo"/>
+                    <to id="_undoSademail" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                </when>
+            </choice>
+        </route>
+        <!-- ================================================================================  -->
+        <route id="_procesaPorCuentaRoute">
+            <!--
+						- validar que la nueva cuenta no exista en GMAIL como cuenta o nickname. si existe incrementar el numero de secuencia hasta encontrar uno que no exista
+						- cambiar en MI_CUENTAS_GMAIL, GOREMAL el nuevo LOGIN_NAME. Guardar el antiguo por si rollback
+						- cambiar la cuenta en GMAIL. Si falla, hacer rollback en la BD. 
+					-->
+            <from id="_procesaPorCuenta" uri="seda:procesaPorCuenta"/>
+            <process id="_getNextLoginName" ref="generaNextLoginName"/>
+            <loop doWhile="true" id="_loopBuscaEnGmail">
+                <simple>${header.foundName} == 1</simple>
+                <process id="_buscaEnGmail" ref="buscaEnGmail"/>
+            </loop>
+            <process id="_armaDatosUpdate" ref="armaDatosUpdate"/>
+            <to id="_updateSademail" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+            <process id="_cambiaGmail" ref="cambiaGmail"/>
+            <choice id="_choiceResultado">
+                <when id="_fallo">
+                    <simple>${header.resultadoCambioEnGmail} == 'no'</simple>
+                    <process id="_preparaUndo" ref="preparaUndo"/>
+                    <to id="_undoSademail" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                </when>
+            </choice>
+        </route>
+    </camelContext>
+</blueprint>
