@@ -45,9 +45,9 @@ public class RecuperaDeBanner implements Processor {
 	private String getNewLoginName(DatosUsuarioBannerDTO dto) {
 		String loginName = null;
         // dos espacios por un espacio
-        String apellidos;
+        String apellidos = dto.getLastName().toLowerCase();
         do
-            apellidos = dto.getLastName().toLowerCase().replace("  ", " "); //ut.replaceInString(dto.getLastName().toLowerCase(),"  "," ");
+            apellidos = apellidos.replace("  ", " "); //ut.replaceInString(dto.getLastName().toLowerCase(),"  "," ");
             while (apellidos.indexOf("  ")>=0);
         apellidos = apellidos.trim();
 
@@ -95,9 +95,10 @@ public class RecuperaDeBanner implements Processor {
             if (cc == ' ')
                 continue; //skip espacios
             if (cc > 'z') {
-                char europeos[] = {'�','�','�','�','�','�','�','�','�'};
+                @SuppressWarnings("unused")
+				char europeos[] =    {'á',  'é', 'è', 'í', 'ó', 'ú', 'ö', 'ü', 'ñ'};
                 char europeoshex[] = {0xE1,0xE9,0xE8,0xED,0xF3,0xFA,0xF6,0xFC,0xF1};
-                char corresp[] = {'a','e','e','i','o','u','o','u','n'};
+                char corresp[] =     {'a',  'e', 'e', 'i', 'o', 'u', 'o', 'u', 'n'};
                 for (int j=0; j<europeoshex.length; j++)
                     if (cc == europeoshex[j]) {
                         cc = corresp[j];
@@ -114,5 +115,4 @@ public class RecuperaDeBanner implements Processor {
         }
         return newValor.toString();
     }
-
 }

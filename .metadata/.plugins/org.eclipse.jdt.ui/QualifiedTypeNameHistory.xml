@@ -4,7 +4,6 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.model.hibernate.bean.CuentaGmailParameters"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.model.hibernate.service.ParametersServiceImpl"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AliasResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AliasRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AliasesResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.GroupsResponse"/>
@@ -44,16 +43,19 @@
     <fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.CambiaCuentaResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.CambiaCuentaRequest"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonInclude.Include"/>
-    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.dto.DatosUsuarioBannerDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NotFoundBannerException"/>
-    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="javax.ws.rs.QueryParam"/>
     <fullyQualifiedTypeName name="java.net.URI"/>
     <fullyQualifiedTypeName name="java.net.URLEncoder"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AliasResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.ResultadoGmail"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NoPudoAccederGmailException"/>
 </qualifiedTypeNameHistroy>

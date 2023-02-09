@@ -14,10 +14,11 @@ import cl.uandes.sadmemail.comunes.utils.JSonUtilities;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponse implements Serializable {
+public class UserResponse implements Serializable, ResultadoGmail {
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	private static final long serialVersionUID = 4934104985440701230L;
 	@JsonProperty("codigo")
 	Integer codigo;

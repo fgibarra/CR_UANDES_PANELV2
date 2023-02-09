@@ -65,7 +65,7 @@
             <camel:setHeader headerName="horaComienzo" id="_setHeader1">
                 <camel:simple>${body}</camel:simple>
             </camel:setHeader>
-            <to id="_cuentasPanel" uri="sql:select KEY,LOGIN_NAME from MI_CUENTAS_GMAIL WHERE ID_GMAIL IS NULL AND ROWNUM &lt;= {{consulta_mail_limit}}?dataSource=#bannerDataSource"/>
+            <to id="_cuentasPanel" uri="sql:select KEY,LOGIN_NAME from MI_CUENTAS_GMAIL WHERE ID_GMAIL IS NULL AND ROWNUM &lt;= {{serv.actualizaIdGmail.consulta_mail_limit}}?dataSource=#bannerDataSource"/>
             <process id="_armaListaAction" ref="armaLista"/>
             <loop doWhile="true" id="_loopCuentas">
                 <simple>${header.listaCuentas.size} &gt; 0</simple>

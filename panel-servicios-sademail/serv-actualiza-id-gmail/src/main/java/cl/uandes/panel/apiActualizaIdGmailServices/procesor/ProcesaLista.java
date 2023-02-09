@@ -13,7 +13,6 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
-import cl.uandes.panel.comunes.json.updateidgmail.UpdateIdGmailResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
 import cl.uandes.sadmemail.comunes.utils.JSonUtilities;
 

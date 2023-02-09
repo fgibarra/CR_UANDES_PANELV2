@@ -8,8 +8,46 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import cl.uandes.sadmemail.comunes.utils.JSonUtilities;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AliasResponse implements Serializable {
+public class AliasResponse implements Serializable, ResultadoGmail {
+
+	/**
+	 * 
+	 */
+	@JsonIgnore
+	private static final long serialVersionUID = -7581275675446890747L;
+	@JsonProperty("codigo")
+	Integer codigo;
+	@JsonProperty("mensaje")
+	String mensaje;
+
+	@Override
+	@JsonIgnore
+	public String toString() {
+		try {
+			return JSonUtilities.getInstance().java2json(this);
+		} catch (Exception e) {
+			return String.format("No pudo serializar %s",this.getClass().getSimpleName());
+		}
+	}
+
+	public Integer getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
 
 }

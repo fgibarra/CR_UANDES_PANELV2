@@ -17,10 +17,24 @@
         </jaxrs:providers>
     </jaxrs:server>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-    <!-- Consultar cuanta gmail -->
+    <!-- Consultar cuenta gmail -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve/{username}"
-        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiActualizaIdGmailServices.api.restclient.ConsultaGMailEndpoint">
+        id="consultaUserGMail" loggingFeatureEnabled="true" 
+		serviceClass="cl.uandes.panel.apiCambiaApellidoServices.api.restclient.ConsultaUserGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- Consultar cuenta nickname -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
+        id="consultaAliasGMail" loggingFeatureEnabled="true" 
+		serviceClass="cl.uandes.panel.apiCambiaApellidoServices.api.restclient.ConsultaAliasGMailEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -39,6 +53,8 @@
     <bean
         class="cl.uandes.panel.apiCambiaApellidoServices.procesor.BuscaEnGmail" id="buscaEnGmail"/>
     <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.ArmaDatosUpdate" id="armaDatosUpdate"/>
+    <bean
         class="cl.uandes.panel.apiCambiaApellidoServices.procesor.CambiaGmail" id="cambiaGmail"/>
     <bean
         class="cl.uandes.panel.apiCambiaApellidoServices.procesor.PreparaUndo" id="preparaUndo"/>
@@ -54,7 +70,8 @@
         class="cl.uandes.panel.apiCambiaApellidoServices.procesor.GeneraResponseError" id="generaResponseError"/>
     <bean
         class="cl.uandes.panel.apiCambiaApellidoServices.bean.MensajesErrorBean" id="mensajesError">
-        <property name="notFoundBanner" value="{{notFoundBanner}}"/>
+        <property name="notFoundBanner" value="{{serv.cambiaApellido.notFoundBanner}}"/>
+        <property name="noPudoAccederGmail" value="{{serv.cambiaApellido.noPudoAccederGmail}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <camelContext id="serv-cambia-apellido-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
@@ -135,16 +152,34 @@
                 <process id="_generaResponseError" ref="generaResponseError"/>
                 <to id="_final1" uri="mock:end"/>
             </onException>
+            <onException id="_onExceptionGmail">
+                <exception>cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NoPudoAccederGmailException</exception>
+                <camel:handled>
+                    <camel:constant>true</camel:constant>
+                </camel:handled>
+                <setBody id="_setBody1">
+                    <method method="noPudoAccederGmailException" ref="mensajesError"/>
+                </setBody>
+                <process id="_generaResponseError" ref="generaResponseError"/>
+                <to id="_final1" uri="mock:end"/>
+            </onException>
             <doTry id="_doTryQryBanner">
                 <to id="_qryBanner" uri="sql:select spriden_pidm, spriden_id, spriden_last_name, spriden_first_name, spriden_mi, from sgbstdn, spriden where spriden_pidm = sgbstdn_pidm and spriden_change_ind is null and sgbstdn_stst_code='AS' and (sgbstdn_term_code_eff = sgbstdn_term_code_admit) and (sgbstdn_admt_code &lt;> 'CI') and (sgbstdn_admt_code &lt;> 'CB') and (sgbstdn_styp_code &lt;> 'D') and spriden_id = :#${header.CambiaCuentaRequest.rut}?dataSource=#bannerDataSource"/>
                 <process id="_recuperaDeBanner" ref="recuperaDeBanner"/>
+				<!-- queda en ${header.new_login_name} el loginName propuesto en base a nombres/apellido-->
+				<log message="loginName propuesto: ${header.new_login_name} "/>
             </doTry>
             <to id="_qryLogin" uri="sql:select login_name from (select login_name from mi_cuentas_gmail where login_name like ':#${body}%' order by login_name desc) where rownum &lt; 2?dataSource=#bannerDataSource"/>
             <process id="_getNextLoginName" ref="generaNextLoginName"/>
-            <loop doWhile="true" id="_loopBuscaEnGmail">
-                <simple>${header.foundName} == 1</simple>
-                <process id="_buscaEnGmail" ref="buscaEnGmail"/>
-            </loop>
+				<!-- queda en ${header.new_login_name} el loginName propuesto o el siguiente en la secuencia 
+					si esta compuesto por base + secuencia quedan header.new_login_name_base y header.new_login_name_seq
+				-->
+            <doTry id="_doTryQryGMail">
+	            <loop doWhile="true" id="_loopBuscaEnGmail">
+	                <simple>${header.foundName} == 1</simple>
+	                <process id="_buscaEnGmail" ref="buscaEnGmail"/>
+	            </loop>
+            </doTry>
             <process id="_armaDatosUpdate" ref="armaDatosUpdate"/>
             <to id="_updateSademail" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
             <process id="_cambiaGmail" ref="cambiaGmail"/>
