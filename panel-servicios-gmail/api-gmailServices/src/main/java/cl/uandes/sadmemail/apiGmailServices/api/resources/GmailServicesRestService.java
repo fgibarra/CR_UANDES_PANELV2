@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -61,7 +62,20 @@ public class GmailServicesRestService {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/user/retrieve/{username}")
 	public UserResponse retrieveUser(@PathParam("username")String in_msg) {
-//		logger.info(String.format("retrieveUser: in_msg: %s - %s",in_msg.getClass().getSimpleName(), in_msg));
+		logger.info(String.format("retrieveUser: in_msg: %s - %s",in_msg.getClass().getSimpleName(), in_msg));
+		Map<String,Object> headers = new HashMap<String,Object>();
+		headers.put("Operacion", "user-retrieve");
+		headers.put("Body", in_msg);
+		return (UserResponse) producer.requestBodyAndHeaders(in_msg, headers);
+		//return (UserResponse) producer.requestBodyAndHeader(in_msg, "Operacion", "user-retrieve");
+	}
+	
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/user/retrieve")
+	public UserResponse retrieveUserByQP(@QueryParam("loginName")String in_msg) {
+		logger.info(String.format("retrieveUserByQP: in_msg: %s - %s",in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("Operacion", "user-retrieve");
 		headers.put("Body", in_msg);

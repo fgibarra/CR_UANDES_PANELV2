@@ -1,6 +1,8 @@
 package cl.uandes.panel.apiActualizaIdGmailServices.procesor;
 
 import java.io.SequenceInputStream;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,7 @@ public class ArmaLista implements Processor {
 	@EndpointInject(uri = "cxfrs:bean:consultaGMail") // recupera de Gmail los datos de la cuenta
 	ProducerTemplate apiRetrieveUser;
 	private Logger logger = Logger.getLogger(getClass());
-	private final String uriRetrieveUser = "http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve/%s";
+	private final String uriRetrieveUser = "http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=%s";
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
@@ -31,11 +33,8 @@ public class ArmaLista implements Processor {
 		
 		for (Map<String, Object> map : resultados) {
 			//BigDecimal key = (BigDecimal) map.get("KEY");
-			String loginName = (String)map.get("LOGIN_NAME");
+			String loginName = URLEncoder.encode(((String)map.get("LOGIN_NAME")).trim(), java.nio.charset.StandardCharsets.UTF_8.toString());
 			String url = String.format(uriRetrieveUser, loginName);
-			if (url.indexOf('.') >= 0)
-				continue;
-//				url = url.replace(".", "&#46;");
 			logger.info(String.format("loginName: %s url: %s", loginName, url));
 			
 			// consultarlo a gmail

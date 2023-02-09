@@ -25,10 +25,11 @@
 	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <camelContext id="scheduler-actualiza-id-gmail-v1"
         trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <route id="_route1">
 			<!-- seconds+minutes+hours+day of month+month+day of week+year-->
 			<!--  http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html -->
-			<from id="_partiendo" uri="quartz2://horaProcesoActualizaIdGmail?cron=0+0/2+*+?+*+*"/> 
+			<from id="_partiendo" uri="quartz2://horaProcesoActualizaIdGmail?cron={{sheduler.actualizaIdGmail.cronexpr}}"/> 
 			<log id="_log1" message="partiendo un nuevo ciclo"/>
 			<to id="_mandaEjecutar" uri="cxfrs:bean:servActualizaIdGmail?timeout=-1"/>
         </route>

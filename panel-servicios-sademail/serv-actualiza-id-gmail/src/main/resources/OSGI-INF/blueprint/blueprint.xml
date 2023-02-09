@@ -19,7 +19,7 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- Consultar cuanta gmail -->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve/{username}"
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
         id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiActualizaIdGmailServices.api.restclient.ConsultaGMailEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -50,16 +50,18 @@
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <route id="_readjson">
             <from id="_promService" uri="direct:start?timeout=-1"/>
-			<onException id="_onExceptionUpdate">
-				<exception>java.sql.SQLIntegrityConstraintViolationException</exception>
-				<!-- handled o continued no ambas
+            <onException id="_onExceptionUpdate">
+                <exception>java.sql.SQLIntegrityConstraintViolationException</exception>
+                <!-- handled o continued no ambas
                 <camel:handled>
                     <camel:constant>true</camel:constant>
                 </camel:handled>
 				-->
-				<continued><constant>true</constant></continued>
-				<log id="_logException" message="EXCEPTION: key: ${header.key} login_name: ${header.loginName} id_gmail: ${header.idGmail}"/>
-			</onException>
+                <continued>
+                    <constant>true</constant>
+                </continued>
+                <log id="_logException" message="EXCEPTION: key: ${header.key} login_name: ${header.loginName} id_gmail: ${header.idGmail}"/>
+            </onException>
             <camel:setHeader headerName="horaComienzo" id="_setHeader1">
                 <camel:simple>${body}</camel:simple>
             </camel:setHeader>
@@ -70,7 +72,7 @@
                 <process id="_armaDatosUpdate" ref="armaDatosUpdate"/>
                 <!-- to id="_updateCuenta" uri="sql:update mi_cuentas_gmail set id_gmail=:#${header.idGmail} where key=:#{header.key}?dataSource=#bannerDataSource"/ -->
                 <doTry id="_tryUpdate">
-					<to id="_updateCuenta" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                    <to id="_updateCuenta" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
                 </doTry>
                 <process id="_actualizaCount" ref="actualizaCount"/>
             </loop>

@@ -53,4 +53,7 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.dto.DatosUsuarioBannerDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NotFoundBannerException"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.QueryParam"/>
+    <fullyQualifiedTypeName name="java.net.URI"/>
+    <fullyQualifiedTypeName name="java.net.URLEncoder"/>
 </qualifiedTypeNameHistroy>
