@@ -52,6 +52,34 @@ public class DatosUsuarioBannerDTO implements Serializable {
 			return String.format("No pudo serializar %s", this.getClass().getSimpleName());
 		}
 	}
+	
+	public Object getNombres() {
+		return parseaDato(String.format("%s %s", getFirstName(), getMiddleName()));
+	}
+
+	public Object getApellidos() {
+		return parseaDato(getLastName());
+	}
+	
+	private String parseaDato(String dato) {
+        // dos espacios por un espacio
+        String valor = dato;
+        do
+        	valor = valor.replace("  ", " "); //ut.replaceInString(dto.getLastName().toLowerCase(),"  "," ");
+            while (valor.indexOf("  ")>=0);
+        valor = valor.trim();
+
+        int indx = valor.indexOf('/');
+        if (indx < 0) {
+        	// viene un solo apellido
+        	valor = valor.replace("/"," ");
+        }
+        return valor;
+	}
+
+	//===========================================================================================
+	// GETTERS y SETTERS
+	//===========================================================================================
 
 	public Integer getSpridenPidm() {
 		return spridenPidm;

@@ -20,8 +20,7 @@
     <!-- Consultar cuenta gmail -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve/{username}"
-        id="consultaUserGMail" loggingFeatureEnabled="true" 
-		serviceClass="cl.uandes.panel.apiCambiaApellidoServices.api.restclient.ConsultaUserGMailEndpoint">
+        id="consultaUserGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCambiaApellidoServices.api.restclient.ConsultaUserGMailEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -33,8 +32,7 @@
     <!-- Consultar cuenta nickname -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
-        id="consultaAliasGMail" loggingFeatureEnabled="true" 
-		serviceClass="cl.uandes.panel.apiCambiaApellidoServices.api.restclient.ConsultaAliasGMailEndpoint">
+        id="consultaAliasGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCambiaApellidoServices.api.restclient.ConsultaAliasGMailEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -72,6 +70,7 @@
         class="cl.uandes.panel.apiCambiaApellidoServices.bean.MensajesErrorBean" id="mensajesError">
         <property name="notFoundBanner" value="{{serv.cambiaApellido.notFoundBanner}}"/>
         <property name="noPudoAccederGmail" value="{{serv.cambiaApellido.noPudoAccederGmail}}"/>
+        <property name="notFoundPanel" value="{{serv.cambiaApellido.notFoundPanel}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <camelContext id="serv-cambia-apellido-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
@@ -137,6 +136,7 @@
 				- armar el nuevo nombre: primera letra primer nombre + primera letra segundo nombre - apellido paterno
 				- encontrar en MI_CUENTAS_GMAIL un login_name que no exista, usar un numero de secuencia.
 				- validar que la nueva cuenta no exista en GMAIL como cuenta o nickname. si existe incrementar el numero de secuencia hasta encontrar uno que no exista
+				- recuperar los datos actuales de la cuenta para el rut del usuario
 				- cambiar en MI_CUENTAS_GMAIL, GOREMAL el nuevo LOGIN_NAME. Guardar el antiguo por si rollback
 				- cambiar la cuenta en GMAIL (incluir nombres y apellidos recuperados de Banner). Si falla, hacer rollback en la BD. 
 			-->
@@ -163,25 +163,49 @@
                 <process id="_generaResponseError" ref="generaResponseError"/>
                 <to id="_final1" uri="mock:end"/>
             </onException>
+            <onException id="_onExceptionPanel">
+                <exception>cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NotFoundPanelException</exception>
+                <camel:handled>
+                    <camel:constant>true</camel:constant>
+                </camel:handled>
+                <setBody id="_setBody1">
+                    <method method="notFoundPanelException" ref="mensajesError"/>
+                </setBody>
+                <process id="_generaResponseError" ref="generaResponseError"/>
+                <to id="_final1" uri="mock:end"/>
+            </onException>
             <doTry id="_doTryQryBanner">
                 <to id="_qryBanner" uri="sql:select spriden_pidm, spriden_id, spriden_last_name, spriden_first_name, spriden_mi, from sgbstdn, spriden where spriden_pidm = sgbstdn_pidm and spriden_change_ind is null and sgbstdn_stst_code='AS' and (sgbstdn_term_code_eff = sgbstdn_term_code_admit) and (sgbstdn_admt_code &lt;> 'CI') and (sgbstdn_admt_code &lt;> 'CB') and (sgbstdn_styp_code &lt;> 'D') and spriden_id = :#${header.CambiaCuentaRequest.rut}?dataSource=#bannerDataSource"/>
                 <process id="_recuperaDeBanner" ref="recuperaDeBanner"/>
-				<!-- queda en ${header.new_login_name} el loginName propuesto en base a nombres/apellido-->
-				<log message="loginName propuesto: ${header.new_login_name} "/>
+                <!-- queda en ${header.new_login_name} el loginName propuesto en base a nombres/apellido
+					Queda en header.DatosUsuarioBannerDTO datos leidos desde Banner
+				-->
+                <log id="_log1" message="loginName propuesto: ${header.new_login_name} "/>
             </doTry>
             <to id="_qryLogin" uri="sql:select login_name from (select login_name from mi_cuentas_gmail where login_name like ':#${body}%' order by login_name desc) where rownum &lt; 2?dataSource=#bannerDataSource"/>
             <process id="_getNextLoginName" ref="generaNextLoginName"/>
-				<!-- queda en ${header.new_login_name} el loginName propuesto o el siguiente en la secuencia 
+            <!-- queda en ${header.new_login_name} el loginName propuesto o el siguiente en la secuencia 
 					si esta compuesto por base + secuencia quedan header.new_login_name_base y header.new_login_name_seq
 				-->
             <doTry id="_doTryQryGMail">
-	            <loop doWhile="true" id="_loopBuscaEnGmail">
-	                <simple>${header.foundName} == 1</simple>
-	                <process id="_buscaEnGmail" ref="buscaEnGmail"/>
-	            </loop>
+                <loop doWhile="true" id="_loopBuscaEnGmail">
+                    <simple>${header.foundName} == 1</simple>
+                    <process id="_buscaEnGmail" ref="buscaEnGmail"/>
+                </loop>
             </doTry>
+			<to id="_qryDatosActualesCuenta" uri="sql:select m.key, m.moodle_id, m.banner_pidm,m.login_name,m.nombres,m.apellidos,m.id_gmail,g.rowid,g.goremal_email_address from mi_cuentas_gmail m, goremal g where moodle_id=:#${header.CambiaCuentaRequest.rut} and g.goremal_pidm (+) = nvl(m.banner_pidm,0) and g.goremal_preferred_ind (+) = 'Y'?dataSource=#bannerDataSource"/>
             <process id="_armaDatosUpdate" ref="armaDatosUpdate"/>
-            <to id="_updateSademail" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+            <to id="_updateSademail" uri="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR  ${header.funcionPrd},'p_key' java.sql.Types.NUMBER ${header.DatosMiCuentaGmail_new.key}, 'p_login_name', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.loginName, 'p_nombres', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.nombres, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.apellidos, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.rowid, OUT 'out_nuevo_rowid' java.sql.Types.VARCHAR ${header.nuevo_rowid}, OUT 'out_resultado' java.sql.Types.VARCHAR ${header.resultado_update})?dataSource=#bannerDataSource"/>
+			<choice id="_resultadoUpdate">
+				<when id="_fallo">
+					<simple>${header.resultado_update} != 'OK'</simple>
+	                <setBody id="_setBody1">
+	                    <simple>${header.resultado_update}</simple>
+	                </setBody>
+	                <process id="_generaResponseError" ref="generaResponseError"/>
+	                <to id="_final1" uri="mock:end"/>
+				</when>
+			</choice>
             <process id="_cambiaGmail" ref="cambiaGmail"/>
             <choice id="_choiceResultado">
                 <when id="_fallo">
