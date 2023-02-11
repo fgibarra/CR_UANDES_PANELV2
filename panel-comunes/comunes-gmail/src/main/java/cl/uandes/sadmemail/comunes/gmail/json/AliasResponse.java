@@ -23,6 +23,17 @@ public class AliasResponse implements Serializable, ResultadoGmail {
 	Integer codigo;
 	@JsonProperty("mensaje")
 	String mensaje;
+	@JsonProperty("hay_alias")
+	Boolean hayAlias;
+
+	public AliasResponse(
+			@JsonProperty("codigo")Integer codigo, 
+			@JsonProperty("mensaje")String mensaje,
+			@JsonProperty("hay_alias")Boolean hayAlias) {
+		super();
+		this.codigo = codigo;
+		this.mensaje = mensaje;
+	}
 
 	@Override
 	@JsonIgnore
@@ -48,6 +59,14 @@ public class AliasResponse implements Serializable, ResultadoGmail {
 
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
+	}
+
+	public Boolean getHayAlias() {
+		return hayAlias;
+	}
+
+	public void setHayAlias(Boolean hayAlias) {
+		this.hayAlias = hayAlias;
 	}
 
 }

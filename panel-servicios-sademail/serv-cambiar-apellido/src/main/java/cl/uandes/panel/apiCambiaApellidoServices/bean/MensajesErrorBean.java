@@ -4,6 +4,8 @@ public class MensajesErrorBean implements MensajesError {
 
 	private String notFoundBanner;
 	private String noPudoAccederGmail;
+	private String notFoundPanel;
+	private String actualizaGmail;
 	
 	@Override
 	public String notFoundBannerException() {
@@ -25,6 +27,30 @@ public class MensajesErrorBean implements MensajesError {
 
 	public void setNotFoundBanner(String notFoundBanner) {
 		this.notFoundBanner = notFoundBanner;
+	}
+
+	public String getNoPudoAccederGmail() {
+		return noPudoAccederGmail;
+	}
+
+	public void setNoPudoAccederGmail(String noPudoAccederGmail) {
+		this.noPudoAccederGmail = noPudoAccederGmail;
+	}
+
+	public String getNotFoundPanel() {
+		return notFoundPanel;
+	}
+
+	public void setNotFoundPanel(String notFoundPanel) {
+		this.notFoundPanel = notFoundPanel;
+	}
+
+	public String getActualizaGmail() {
+		return actualizaGmail;
+	}
+
+	public void setActualizaGmail(String actualizaGmail) {
+		this.actualizaGmail = actualizaGmail;
 	}
 
 }

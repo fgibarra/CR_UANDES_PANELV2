@@ -8,10 +8,12 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 
+import com.google.api.services.admin.directory.model.Alias;
 import com.google.api.services.admin.directory.model.User;
 import com.google.api.services.admin.directory.model.UserName;
 
 import cl.uandes.sadmemail.apiGmailServices.wao.GmailWAOesb;
+import cl.uandes.sadmemail.comunes.gmail.json.AliasResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.UserRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
 
@@ -83,7 +85,18 @@ public class GeneraResponse implements Processor {
 			exchange.getIn().setBody(response);
 			
 		} else if ("user-forceToChangePassword".equals(operacion)) {
-			
+			String username = (String)exchange.getIn().getHeader("Body");
+			UserResponse response = null;
+			try {
+				User userGmail = wao.forceUserToChangePassword(username);
+				if (userGmail != null) {
+					response = new UserResponse(0, "OK");
+					response.setUser(response.factoryUser(userGmail));
+				}
+			} catch (Exception e) {
+				response = new UserResponse(-1, e.getMessage());
+			}
+			exchange.getIn().setBody(response);
 		} else if ("user-suspend".equals(operacion)) {
 			
 		} else if ("user-reactivar".equals(operacion)) {
@@ -95,6 +108,18 @@ public class GeneraResponse implements Processor {
 		} else if ("nickname-retrieve".equals(operacion)) {
 			
 		} else if ("nicknames-retrieve".equals(operacion)) {
+			String username = (String)exchange.getIn().getHeader("Body");
+			AliasResponse response = null;
+			try {
+				Alias alias = wao.retrieveNickname(username);
+				if (alias != null) {
+					response = new AliasResponse(0, "OK", Boolean.TRUE);
+				} else
+					response = new AliasResponse(1, "OK", Boolean.FALSE);
+			} catch (Exception e) {
+				response = new AliasResponse(-1, e.getMessage(), Boolean.FALSE);
+			}
+			exchange.getIn().setBody(response);
 			
 		} else if ("nickname-delete".equals(operacion)) {
 			

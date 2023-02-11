@@ -41,6 +41,18 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
         </cxf:providers>
     </cxf:rsClient>
+    <!-- Actualiza cuenta  -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/update"
+        id="actualizaCuentaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCambiaApellidoServices.api.restclient.ActualizaCuentaGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.apiCambiaApellidoServices.api.resources.CambiaApellidoRestService" id="restService"/>
@@ -71,6 +83,7 @@
         <property name="notFoundBanner" value="{{serv.cambiaApellido.notFoundBanner}}"/>
         <property name="noPudoAccederGmail" value="{{serv.cambiaApellido.noPudoAccederGmail}}"/>
         <property name="notFoundPanel" value="{{serv.cambiaApellido.notFoundPanel}}"/>
+        <property name="actualizaGmail" value="{{serv.cambiaApellido.actualizaGmail}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <camelContext id="serv-cambia-apellido-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
@@ -169,8 +182,23 @@
                     <camel:constant>true</camel:constant>
                 </camel:handled>
                 <setBody id="_setBody1">
-                    <method method="notFoundPanelException" ref="mensajesError"/>
+                    <method method="getNotFoundPanel" ref="mensajesError"/>
                 </setBody>
+                <process id="_generaResponseError" ref="generaResponseError"/>
+                <to id="_final1" uri="mock:end"/>
+            </onException>
+            <onException id="_onExceptionActualizaGmail">
+                <exception>cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.ActualizaGmailException</exception>
+                <camel:handled>
+                    <camel:constant>true</camel:constant>
+                </camel:handled>
+                <setBody id="_setBody1">
+                    <method method="getActualizaGmail" ref="mensajesError"/>
+                </setBody>
+                <setHeader headerName="funcionPrd" id="_setHeader2">
+                    <constant>UNDO</constant>
+                </setHeader>
+                <to id="_undoBD" uri="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR  ${header.funcionPrd},'p_key' java.sql.Types.NUMBER ${header.DatosMiCuentaGmail_old.key}, 'p_login_name', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.loginName, 'p_nombres', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.nombres, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.apellidos, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.rowid, OUT 'out_nuevo_rowid' java.sql.Types.VARCHAR ${header.nuevo_rowid}, OUT 'out_resultado' java.sql.Types.VARCHAR ${header.resultado_update})?dataSource=#bannerDataSource"/>
                 <process id="_generaResponseError" ref="generaResponseError"/>
                 <to id="_final1" uri="mock:end"/>
             </onException>
@@ -193,25 +221,31 @@
                     <process id="_buscaEnGmail" ref="buscaEnGmail"/>
                 </loop>
             </doTry>
-			<to id="_qryDatosActualesCuenta" uri="sql:select m.key, m.moodle_id, m.banner_pidm,m.login_name,m.nombres,m.apellidos,m.id_gmail,g.rowid,g.goremal_email_address from mi_cuentas_gmail m, goremal g where moodle_id=:#${header.CambiaCuentaRequest.rut} and g.goremal_pidm (+) = nvl(m.banner_pidm,0) and g.goremal_preferred_ind (+) = 'Y'?dataSource=#bannerDataSource"/>
+            <to id="_qryDatosActualesCuenta" uri="sql:select m.key, m.moodle_id, m.banner_pidm,m.login_name,m.nombres,m.apellidos,m.id_gmail,g.rowid,g.goremal_email_address from mi_cuentas_gmail m, goremal g where moodle_id=:#${header.CambiaCuentaRequest.rut} and g.goremal_pidm (+) = nvl(m.banner_pidm,0) and g.goremal_preferred_ind (+) = 'Y'?dataSource=#bannerDataSource"/>
             <process id="_armaDatosUpdate" ref="armaDatosUpdate"/>
             <to id="_updateSademail" uri="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR  ${header.funcionPrd},'p_key' java.sql.Types.NUMBER ${header.DatosMiCuentaGmail_new.key}, 'p_login_name', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.loginName, 'p_nombres', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.nombres, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.apellidos, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.rowid, OUT 'out_nuevo_rowid' java.sql.Types.VARCHAR ${header.nuevo_rowid}, OUT 'out_resultado' java.sql.Types.VARCHAR ${header.resultado_update})?dataSource=#bannerDataSource"/>
-			<choice id="_resultadoUpdate">
-				<when id="_fallo">
-					<simple>${header.resultado_update} != 'OK'</simple>
-	                <setBody id="_setBody1">
-	                    <simple>${header.resultado_update}</simple>
-	                </setBody>
-	                <process id="_generaResponseError" ref="generaResponseError"/>
-	                <to id="_final1" uri="mock:end"/>
-				</when>
-			</choice>
-            <process id="_cambiaGmail" ref="cambiaGmail"/>
+            <choice id="_resultadoUpdate">
+                <when id="_fallo">
+                    <simple>${header.resultado_update} != 'OK'</simple>
+                    <setBody id="_setBody1">
+                        <simple>${header.resultado_update}</simple>
+                    </setBody>
+                    <process id="_generaResponseError" ref="generaResponseError"/>
+                    <to id="_final1" uri="mock:end"/>
+                </when>
+            </choice>
+            <doTry id="_actualizaGMail">
+                <process id="_cambiaGmail" ref="cambiaGmail"/>
+                <to id="_servicioGmail" uri="cxfrs:bean:actualizaCuentaGMail"/>
+            </doTry>
             <choice id="_choiceResultado">
                 <when id="_fallo">
-                    <simple>${header.resultadoCambioEnGmail} == 'no'</simple>
-                    <process id="_preparaUndo" ref="preparaUndo"/>
-                    <to id="_undoSademail" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                    <simple>${bodyAs(cl.uandes.sadmemail.comunes.gmail.json.UserResponse).codigo} != 0</simple>
+                    <setHeader headerName="funcionPrd" id="_setHeader3">
+                        <constant>UNDO</constant>
+                    </setHeader>
+                    <to id="_undoBD" uri="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR  ${header.funcionPrd},'p_key' java.sql.Types.NUMBER ${header.DatosMiCuentaGmail_old.key}, 'p_login_name', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.loginName, 'p_nombres', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.nombres, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.apellidos, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.rowid, OUT 'out_nuevo_rowid' java.sql.Types.VARCHAR ${header.nuevo_rowid}, OUT 'out_resultado' java.sql.Types.VARCHAR ${header.resultado_update})?dataSource=#bannerDataSource"/>
+                    <to id="final_falla_actualizacion" uri="mock:end"/>
                 </when>
             </choice>
         </route>
