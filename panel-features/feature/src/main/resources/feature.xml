@@ -37,5 +37,6 @@
   	<feature prerequisite="true">servicios-api-gmail</feature>
     <bundle>mvn:uandes.panel-v2.servicios/serv-actualiza-id-gmail/0.0.1</bundle> 
     <bundle>mvn:uandes.panel-v2.servicios/schedules-actualiza-id-gmail/0.0.1</bundle> 
+    <bundle>mvn:uandes.panel-v2.servicios/serv-cambiar-apellido/0.0.1</bundle> 
   </feature>
 </features>

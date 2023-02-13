@@ -1,7 +1,6 @@
 package cl.uandes.panel.apiCambiaApellidoServices.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,9 +32,9 @@ public class DatosUsuarioBannerDTO implements Serializable {
 
 	public DatosUsuarioBannerDTO(Map<String, Object> mapDatos) {
 		super();
-		this.spridenPidm = ((BigDecimal)mapDatos.get("spriden_pidm")).intValue();
+		this.spridenPidm = Integer.valueOf(((String)mapDatos.get("spriden_pidm")));
 		this.spridenId = (String)mapDatos.get("spriden_id");
-		this.lastName = (String)mapDatos.get("spriden_last_name");
+		this.lastName = parseaDato((String)mapDatos.get("spriden_last_name"));
 		this.firstName = (String)mapDatos.get("spriden_first_name");
 		this.middleName = (String)mapDatos.get("spriden_mi");
 		
@@ -70,7 +69,7 @@ public class DatosUsuarioBannerDTO implements Serializable {
         valor = valor.trim();
 
         int indx = valor.indexOf('/');
-        if (indx < 0) {
+        if (indx >= 0) {
         	// viene un solo apellido
         	valor = valor.replace("/"," ");
         }

@@ -20,6 +20,17 @@
     		<artifactId>comunes-sademail</artifactId>
     		<version>0.0.1</version>
 		</dependency>
+		<!-- BIBLIOTECAS DE LA APLICACION BDC -->
+		<dependency>
+			<groupId>uandes</groupId>
+			<artifactId>json-datatransfer</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-velocity</artifactId>
+			<version>${camel.version}</version>
+	    </dependency>
 	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
@@ -34,7 +45,11 @@
 						<Export-Package>cl.uandes.panel.apiCambiaApellidoServices.api.resources</Export-Package>
 						<Import-Package>
 							cl.uandes.panel.comunes.json.updateidgmail,
+							cl.uandes.panel.comunes.json.cambiacuenta,
+							cl.uandes.mail.json,
+							cl.uandes.utils,
 							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",
+							com.fasterxml.jackson.databind,
 							javax.sql,
 							javax.ws.rs;version="[2.1,3)",
 							javax.ws.rs.core;version="[2.1,3)",

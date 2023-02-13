@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1676154431551
-Build-Jdk: 1.8.0_291
+Bnd-LastModified: 1676316438994
+Build-Jdk: 15.0.1
 Built-By: fernando
 Bundle-Description: ComunesGmail
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -10,11 +10,11 @@ Bundle-SymbolicName: comunes-gmail-v1
 Bundle-Version: 0.0.1
 Created-By: Apache Maven Bundle Plugin
 DynamicImport-Package: com.google.*
-Export-Package: cl.uandes.sadmemail.comunes.gmail.json;version="0.0.1";u
- ses:="cl.uandes.sadmemail.comunes.google.api.services,com.fasterxml.jac
- kson.annotation",cl.uandes.sadmemail.comunes.google.api.services;versio
- n="0.0.1";uses:="com.fasterxml.jackson.annotation",cl.uandes.sadmemail.
- comunes.utils;version="0.0.1";uses:="org.apache.log4j",cl.uandes.sadmem
+Export-Package: cl.uandes.sadmemail.comunes.gmail.json;uses:="cl.uandes.
+ sadmemail.comunes.google.api.services,com.fasterxml.jackson.annotation"
+ ;version="0.0.1",cl.uandes.sadmemail.comunes.google.api.services;uses:=
+ "com.fasterxml.jackson.annotation";version="0.0.1",cl.uandes.sadmemail.
+ comunes.utils;uses:="org.apache.log4j";version="0.0.1",cl.uandes.sadmem
  ail.comunes;version="0.0.1"
 Import-Package: org.apache.log4j;version="[1.2,2)",com.fasterxml.jackson
  .databind;version="[2.6,3)",com.fasterxml.jackson.annotation;version="[

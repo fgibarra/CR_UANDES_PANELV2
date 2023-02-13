@@ -1,15 +1,16 @@
 package cl.uandes.panel.apiCambiaApellidoServices.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import cl.uandes.utils.StringUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -41,14 +42,14 @@ public class DatosMiCuentaGmailDTO implements Serializable {
 
 	public DatosMiCuentaGmailDTO(Map<String, Object> mapDatos) {
 		super();
-		this.key = ((BigDecimal)mapDatos.get("key")).longValue();
+		this.key = StringUtils.toLong(mapDatos.get("key"));
 		this.moodleId = (String)mapDatos.get("moodle_id");
-		this.bannerPidm = ((BigDecimal)mapDatos.get("banner_pidm")).longValue();
+		this.bannerPidm = StringUtils.toLong(mapDatos.get("banner_pidm"));
 		this.loginName = (String)mapDatos.get("login_name");
 		this.nombres = (String)mapDatos.get("nombres");
 		this.apellidos = (String)mapDatos.get("apellidos");
 		this.idGmail = (String)mapDatos.get("id_gmail");
-		this.rowid = (String)mapDatos.get("rowid");
+		this.rowid = mapDatos.get("rowid").toString();
 		this.goremailEmail = (String)mapDatos.get("goremal_email_address");
 	}
 

@@ -27,15 +27,16 @@ public class CambiaApellidoRestService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/procese")
+    @Path("/cambiaCuenta")
 	public CambiaCuentaResponse procese(CambiaCuentaRequest in_msg) {
 		String operacion;
-		if (in_msg.getRut() != null)
-			operacion = "porRUT";
+		
+		if (in_msg.getRut() == null)
+			return new CambiaCuentaResponse(Integer.valueOf(-1), "Debe ingresar RUT",null, null);
 		else if (in_msg.getNuevoNombreCuenta() != null)
 			operacion = "porCuenta";
 		else
-			return new CambiaCuentaResponse(Integer.valueOf(-1), "Debe ingresar RUT o nuevo nombre de cuenta",null, null);
+			operacion = "porRUT";
 
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("Operacion", operacion);

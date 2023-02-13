@@ -37,9 +37,9 @@ public class RecuperaDeBanner implements Processor {
 		DatosUsuarioBannerDTO dto = new DatosUsuarioBannerDTO(resultados.get(0));
 		exchange.getIn().setHeader("DatosUsuarioBannerDTO", dto);
 		
-		// determinar el nuevo login_name
 		String newLoginName = getNewLoginName(dto);
 		exchange.getIn().setHeader("new_login_name", newLoginName);
+		exchange.getIn().setBody(newLoginName);
 	}
 
 	private String getNewLoginName(DatosUsuarioBannerDTO dto) {

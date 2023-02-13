@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="armaDatosUpdate"/>
+		<item key="selection" value="mock:end"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="mock:end"/>
+			<item value="_setBody"/>
+			<item value="_undoBD"/>
+			<item value="sql-stored:pck_funciones"/>
+			<item value="_updateSademail"/>
+			<item value="_fallo"/>
+			<item value="fallo"/>
+			<item value="choiceResultado"/>
 			<item value="armaDatosUpdate"/>
 			<item value="1.7"/>
 			<item value="logger.debug"/>
@@ -15,14 +23,6 @@
 			<item value="(1)"/>
 			<item value="(6)"/>
 			<item value="ProcesaPeriodos"/>
-			<item value="registraProcesaCursoException"/>
-			<item value="preparaDatosMailAttach"/>
-			<item value="soloNuevosChk"/>
-			<item value="DeleteReadingListRequest"/>
-			<item value="areaErrorTimeout"/>
-			<item value="msgErrorTimeout"/>
-			<item value="huboErrorTimeout"/>
-			<item value="onErrorTimeout"/>
 		</list>
 		<list key="replacehistory">
 			<item value="logger.info"/>
