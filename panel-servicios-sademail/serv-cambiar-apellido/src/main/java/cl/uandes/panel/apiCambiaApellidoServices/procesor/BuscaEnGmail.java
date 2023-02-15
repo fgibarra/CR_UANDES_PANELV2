@@ -51,6 +51,7 @@ public class BuscaEnGmail implements Processor {
 		if (base == null) base = loginName;
 		if (seq == null) seq = Integer.valueOf(0);
 		
+		logger.info(String.format("BuscaEnGmail: busca %s", loginName));
 		try {
 			// buscar cuenta en GMail
 			boolean estaEnGmail = buscaEnGmail(loginName, templateUriUser, apiRetrieveUser, true);
@@ -62,7 +63,8 @@ public class BuscaEnGmail implements Processor {
 				if (estaEnGmail)
 					preparaSiguienteIteracion(exchange);
 				else {
-					// FOUND
+					// NOT FOUND
+					logger.info(String.format("BuscaEnGmail: NO ESTA EN GMAIL %s", loginName));
 					exchange.getIn().setHeader("foundName", Integer.valueOf(0));
 				}
 			}

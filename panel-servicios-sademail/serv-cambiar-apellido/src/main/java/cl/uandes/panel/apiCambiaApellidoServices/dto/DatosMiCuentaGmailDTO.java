@@ -137,4 +137,8 @@ public class DatosMiCuentaGmailDTO implements Serializable {
 		this.goremailEmail = goremailEmail;
 	}
 
+	public String getFullName() {
+		return String.format("%s %s", getNombres(), getApellidos());
+	}
+
 }

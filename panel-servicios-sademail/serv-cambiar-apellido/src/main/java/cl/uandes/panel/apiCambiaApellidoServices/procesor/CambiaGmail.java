@@ -24,7 +24,10 @@ public class CambiaGmail implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		DatosMiCuentaGmailDTO dto = (DatosMiCuentaGmailDTO)exchange.getIn().getHeader("DatosMiCuentaGmail_new");
-		User user = new User(dto.getLoginName(), dto.getNombres(), dto.getApellidos(),null);
+		String email = dto.getLoginName();
+		if (email.indexOf('@') < 0)
+			email = String.format("%s@miuandes.cl", email);
+		User user = new User(email, dto.getFullName(), dto.getNombres(), dto.getApellidos(),null);
 		user.setId(dto.getIdGmail());
 		UserRequest request = new UserRequest(user);
 		logger.info(String.format("pide actualizar a: %s", request.toString()));

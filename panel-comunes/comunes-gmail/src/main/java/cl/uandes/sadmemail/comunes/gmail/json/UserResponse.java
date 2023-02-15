@@ -30,10 +30,12 @@ public class UserResponse implements Serializable, ResultadoGmail {
 	@JsonCreator
 	public UserResponse(
 			@JsonProperty("codigo")Integer codigo, 
-			@JsonProperty("mensaje")String mensaje) {
+			@JsonProperty("mensaje")String mensaje,
+			@JsonProperty("user")User user) {
 		super();
 		this.codigo = codigo;
 		this.mensaje = mensaje;
+		this.user = user;
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class UserResponse implements Serializable, ResultadoGmail {
 
 	public User factoryUser(com.google.api.services.admin.directory.model.User usr) {
 		UserName name = usr.getName();
-		User user = new User(name.getFullName(), 
+		User user = new User(usr.getPrimaryEmail(),name.getFullName(), 
 		name.getGivenName(), 
 		name.getFamilyName(), 
 		usr.getPassword());

@@ -26,6 +26,7 @@ public class AliasResponse implements Serializable, ResultadoGmail {
 	@JsonProperty("hay_alias")
 	Boolean hayAlias;
 
+	@JsonCreator
 	public AliasResponse(
 			@JsonProperty("codigo")Integer codigo, 
 			@JsonProperty("mensaje")String mensaje,
@@ -33,6 +34,7 @@ public class AliasResponse implements Serializable, ResultadoGmail {
 		super();
 		this.codigo = codigo;
 		this.mensaje = mensaje;
+		this.hayAlias = hayAlias;
 	}
 
 	@Override

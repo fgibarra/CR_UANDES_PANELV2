@@ -2,6 +2,9 @@ package cl.uandes.sadmemail.apiGmailServices.procesor;
 
 import java.io.IOException;
 import java.util.Map;
+
+import javax.ws.rs.core.Response;
+
 import java.util.List;
 
 import org.apache.camel.Exchange;
@@ -38,24 +41,24 @@ public class GeneraResponse implements Processor {
 					request.getUser().getGivenName(), 
 					request.getUser().getFamilyName(), 
 					request.getUser().getPassword());
-			UserResponse response = new UserResponse(0, "OK");
+			UserResponse response = new UserResponse(0, "OK", null);
 			response.setUser(response.factoryUser(user));
 			//logger.info(String.format("respuesta desde gmail: %s", response!=null?response.toString():"NULO!!!!"));
 			exchange.getIn().setBody(response);
 			
 		} else if ("user-retrieve".equals(operacion)) {
 			String username = (String)exchange.getIn().getHeader("Body");
-			UserResponse response = new UserResponse(0, "OK");
+			UserResponse response = new UserResponse(0, "OK", null);
 			User user;
 			try {
 				user = wao.retrieveUser(username);
 				if (user != null) {
-					response = new UserResponse(0, "OK");
+					response = new UserResponse(0, "OK", null);
 					response.setUser(response.factoryUser(user));
 				} else 
-					response = new UserResponse(-1, "NOT_FOUND");
+					response = new UserResponse(-1, "NOT_FOUND", null);
 			} catch (Exception e) {
-				response = new UserResponse(-1, e.getMessage());
+				response = new UserResponse(-1, e.getMessage(), null);
 			}
 			exchange.getIn().setBody(response);
 
@@ -72,16 +75,17 @@ public class GeneraResponse implements Processor {
 			name.setGivenName(request.getUser().getGivenName());
 			usr.setId(request.getUser().getId());
 			usr.setName(name);
-			usr.setPrimaryEmail(request.getUser().getUsername());
+			usr.setPrimaryEmail(request.getUser().getEmail());
 			try {
 				usr = wao.updateUser( usr);
 				if (usr != null) {
-					response = new UserResponse(0, "OK");
+					response = new UserResponse(0, "OK", null);
 					response.setUser(response.factoryUser(usr));
 				}
 			} catch (IOException e) {
-				response = new UserResponse(-1, e.getMessage());
+				response = new UserResponse(-1, e.getMessage(), null);
 			}
+			logger.info(String.format("user-update: response: %s", response.toString()));
 			exchange.getIn().setBody(response);
 			
 		} else if ("user-forceToChangePassword".equals(operacion)) {
@@ -90,70 +94,108 @@ public class GeneraResponse implements Processor {
 			try {
 				User userGmail = wao.forceUserToChangePassword(username);
 				if (userGmail != null) {
-					response = new UserResponse(0, "OK");
+					response = new UserResponse(0, "OK", null);
 					response.setUser(response.factoryUser(userGmail));
 				}
 			} catch (Exception e) {
-				response = new UserResponse(-1, e.getMessage());
+				response = new UserResponse(-1, e.getMessage(), null);
 			}
 			exchange.getIn().setBody(response);
 		} else if ("user-suspend".equals(operacion)) {
+			// TODO
 			
 		} else if ("user-reactivar".equals(operacion)) {
+			// TODO
 			
 		} else if ("user-delete".equals(operacion)) {
+			// TODO
 			
 		} else if ("nickname-create".equals(operacion)) {
+			// TODO
 			
 		} else if ("nickname-retrieve".equals(operacion)) {
-			
-		} else if ("nicknames-retrieve".equals(operacion)) {
 			String username = (String)exchange.getIn().getHeader("Body");
 			AliasResponse response = null;
 			try {
 				Alias alias = wao.retrieveNickname(username);
 				if (alias != null) {
+					logger.info(String.format("Alias: %s", alias.getAlias()));
 					response = new AliasResponse(0, "OK", Boolean.TRUE);
-				} else
+					response.setHayAlias(true);
+				} else {
 					response = new AliasResponse(1, "OK", Boolean.FALSE);
+					response.setHayAlias(false);
+				}
 			} catch (Exception e) {
 				response = new AliasResponse(-1, e.getMessage(), Boolean.FALSE);
 			}
 			exchange.getIn().setBody(response);
+			logger.info(String.format("AliasResponse: %s", response.toString()));
 			
+		} else if ("nicknames-retrieve".equals(operacion)) {
+			// TODO
+
 		} else if ("nickname-delete".equals(operacion)) {
 			
+			String oldAlias = (String)exchange.getIn().getHeader("Body");
+			Response response = null;
+			if (oldAlias != null) {
+				if (oldAlias.indexOf('@') < 0)
+					oldAlias = String.format("%s@miuandes.cl", oldAlias);
+				wao.deleteNickname(oldAlias);
+				response = Response.status(Response.Status.OK).entity(String.format("Alias %s eliminado",oldAlias)).build();
+			} else {
+				response = Response.status(Response.Status.BAD_REQUEST).build();
+			}
+			exchange.getIn().setBody(response);
+			
 		} else if ("groups-retrieve".equals(operacion)) {
+			// TODO
 			
 		} else if ("groups-retrieveAll".equals(operacion)) {
+			// TODO
 			
 		} else if ("group-retrieveSettings".equals(operacion)) {
+			// TODO
 			
 		} else if ("group-create".equals(operacion)) {
+			// TODO
 			
 		} else if ("group-retrieve".equals(operacion)) {
+			// TODO
 			
 		} else if ("group-update".equals(operacion)) {
+			// TODO
 			
 		} else if ("group-delete".equals(operacion)) {
+			// TODO
 			
 		} else if ("member-isOwner".equals(operacion)) {
+			// TODO
 			
 		} else if ("member-isMember".equals(operacion)) {
+			// TODO
 			
 		} else if ("member-addOwner".equals(operacion)) {
+			// TODO
 			
 		} else if ("member-addMember".equals(operacion)) {
+			// TODO
 			
 		} else if ("member-retrieve".equals(operacion)) {
+			// TODO
 			
 		} else if ("members-retrieveOwners".equals(operacion)) {
+			// TODO
 			
 		} else if ("members-retreiveMembers".equals(operacion)) {
+			// TODO
 			
 		} else if ("member-deleteMember".equals(operacion)) {
+			// TODO
 			
 		} else if ("member-deleteOwner".equals(operacion)) {
+			// TODO
 			
 		}
 	}

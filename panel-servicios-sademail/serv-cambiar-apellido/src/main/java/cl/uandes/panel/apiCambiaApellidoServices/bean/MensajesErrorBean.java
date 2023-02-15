@@ -1,10 +1,16 @@
 package cl.uandes.panel.apiCambiaApellidoServices.bean;
 
+import org.apache.camel.PropertyInject;
+
 public class MensajesErrorBean implements MensajesError {
 
+    @PropertyInject(value = "serv.cambiaApellido.notFoundBanner")
 	private String notFoundBanner;
+    @PropertyInject(value = "serv.cambiaApellido.noPudoAccederGmail")
 	private String noPudoAccederGmail;
+    @PropertyInject(value = "serv.cambiaApellido.notFoundPanel")
 	private String notFoundPanel;
+    @PropertyInject(value = "serv.cambiaApellido.actualizaGmail")
 	private String actualizaGmail;
 	
 	@Override

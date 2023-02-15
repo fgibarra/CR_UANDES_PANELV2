@@ -29,14 +29,18 @@ public class User implements Serializable {
 	String password;
 	@JsonProperty("id")
 	String id;
+	@JsonProperty("email")
+	String email;
 	
 	@JsonCreator
 	public User(
+			@JsonProperty("email")String email,
 			@JsonProperty("user_name")String username, 
 			@JsonProperty("given_name")String givenName, 
 			@JsonProperty("family_name")String familyName, 
 			@JsonProperty("password")String password) {
 		super();
+		this.email = email;
 		this.username = username;
 		this.givenName = givenName;
 		this.familyName = familyName;
@@ -91,6 +95,14 @@ public class User implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 

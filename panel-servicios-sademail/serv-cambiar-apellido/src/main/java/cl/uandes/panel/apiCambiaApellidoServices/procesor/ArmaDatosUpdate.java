@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.log4j.Logger;
 
 import cl.uandes.panel.apiCambiaApellidoServices.dto.DatosMiCuentaGmailDTO;
 import cl.uandes.panel.apiCambiaApellidoServices.dto.DatosUsuarioBannerDTO;
@@ -26,6 +27,8 @@ import cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NotFoundPan
  */
 public class ArmaDatosUpdate implements Processor {
 
+	private Logger logger = Logger.getLogger(getClass());
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void process(Exchange exchange) throws Exception {
@@ -33,6 +36,8 @@ public class ArmaDatosUpdate implements Processor {
 		if (resultados == null || resultados.isEmpty())
 			throw new NotFoundPanelException(String.format("datos recuperados desde MI_CUENTAS_GMAIL son %s",resultados==null?"NULOS":"VACIOS"));
 		DatosMiCuentaGmailDTO dto = new DatosMiCuentaGmailDTO(resultados.get(0));
+		
+		logger.info(String.format("ArmaDatosUpdate: DatosMiCuentaGmail_old: %s", dto.toString()));
 		
 		exchange.getIn().setHeader("DatosMiCuentaGmail_old", dto);
 		// Armar el nuevo nombre
@@ -43,12 +48,14 @@ public class ArmaDatosUpdate implements Processor {
 		mapDatos.put("login_name", exchange.getIn().getHeader("new_login_name"));
 		DatosUsuarioBannerDTO usuarioBanner = (DatosUsuarioBannerDTO)exchange.getIn().getHeader("DatosUsuarioBannerDTO");
 		mapDatos.put("nombres", usuarioBanner.getNombres());
-		mapDatos.put("apellidos", usuarioBanner.getApellidos());
+		mapDatos.put("apellidos", usuarioBanner.parseaDato((String) usuarioBanner.getApellidos()));
 		mapDatos.put("id_gmail", dto.getIdGmail());
 		mapDatos.put("rowid", dto.getRowid());
 		DatosMiCuentaGmailDTO nuevo = new DatosMiCuentaGmailDTO(mapDatos);
 		exchange.getIn().setHeader("DatosMiCuentaGmail_new", nuevo);
 		exchange.getIn().setHeader("funcionPrd", "DO"); // actualiza
+
+		logger.info(String.format("ArmaDatosUpdate: DatosMiCuentaGmail_new: %s", nuevo.toString()));
 	}
 
 }

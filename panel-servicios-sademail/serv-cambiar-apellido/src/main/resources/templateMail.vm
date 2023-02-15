@@ -179,11 +179,11 @@ dujS9beCmNj/AM/qdJfB+4YmAAAAAElFTkSuQmCC" alt="Logo UAndes" />
 <section>
 <h3>Estimado</h3>
 <br><br>
-<p align="right">Fecha del proceso: ${header.fechaProceso}</p>
+<p align="right">Fecha del proceso: ${headers.fechaProceso}</p>
 <br><br>
 Se ha modificado la cuenta de correo:
 <br><br>
-#foreach($reporte in ${header.reporteList}
+#foreach($reporte in ${headers.reporteList})
 <table style="border: 1px solid black;width=100%">
 <caption style="padding-bottom: 30px;text-decoration: underline;">$reporte.caption</caption>
 <tr>

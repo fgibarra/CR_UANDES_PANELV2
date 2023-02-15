@@ -38,8 +38,10 @@ public class RecuperaDeBanner implements Processor {
 		exchange.getIn().setHeader("DatosUsuarioBannerDTO", dto);
 		
 		String newLoginName = getNewLoginName(dto);
+		logger.info(String.format("el loginName propuesto inicialmente: %s", newLoginName));
 		exchange.getIn().setHeader("new_login_name", newLoginName);
-		exchange.getIn().setBody(newLoginName);
+		exchange.getIn().setBody(newLoginName+"%");
+		exchange.getIn().setHeader("buscaLogin",newLoginName+"%");
 	}
 
 	private String getNewLoginName(DatosUsuarioBannerDTO dto) {
@@ -115,4 +117,20 @@ public class RecuperaDeBanner implements Processor {
         }
         return newValor.toString();
     }
+/*	
+	public static void main(String args[]) {
+		RecuperaDeBanner r = new RecuperaDeBanner();
+		Map<String,Object> map = new java.util.HashMap<String,Object>();
+		map.put("spriden_last_name", "RODRIGUEZ/SALGADO");
+		map.put("spriden_first_name", "MONSERRAT");
+		map.put("spriden_mi", "ANA MARIA");
+		map.put("spriden_pidm", "10");
+		map.put("spriden_id", "88699181");
+		
+		DatosUsuarioBannerDTO dto = new DatosUsuarioBannerDTO(map);
+		String newLoginName = r.getNewLoginName(dto);
+		
+		System.out.println(String.format("newLoginName: %s", newLoginName));
+	}
+	*/
 }

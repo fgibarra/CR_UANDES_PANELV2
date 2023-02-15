@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.velocity.VelocityConstants;
+import org.apache.log4j.Logger;
 import org.apache.velocity.VelocityContext;
 
 import cl.uandes.panel.apiCambiaApellidoServices.dto.DatosMailDTO;
@@ -23,11 +24,14 @@ import cl.uandes.panel.apiCambiaApellidoServices.dto.DatosMiCuentaGmailDTO;
  */
 public class PreparaTemplateMail implements Processor {
 
+	private Logger logger = Logger.getLogger(getClass());
+	
 	@Override
 	public void process(Exchange exchange) throws Exception {
+
 		Map<String, Object> variableMap = new HashMap<String, Object>();
 		Map<String, Object> headersMap = new HashMap<String, Object>();
-		variableMap.put("header", headersMap);
+		variableMap.put("headers", headersMap);
 		variableMap.put("exchange", exchange);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEEEEEEE dd MMMMMMMMMMM yyyy");
@@ -45,9 +49,9 @@ public class PreparaTemplateMail implements Processor {
 		listaDatosMail.add(new DatosMailDTO("Datos modificados", nuevo.getMoodleId(), nuevo.getBannerPidm(),
 				nuevo.getLoginName(), nuevo.getNombres(), nuevo.getApellidos()));
 
+//		logger.info("copia a headersMap lo que habia en header y lo coloca");
 		VelocityContext velocityContext = new VelocityContext(variableMap);
 		exchange.getIn().setHeader(VelocityConstants.VELOCITY_CONTEXT, velocityContext);
-
 	}
 
 }

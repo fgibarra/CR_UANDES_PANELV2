@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.log4j.Logger;
 
 /**
  * @author fernando
@@ -23,18 +24,57 @@ import org.apache.camel.Processor;
  *  y la secuencia en header.new_login_name_seq
  */
 public class GeneraNextLoginName implements Processor {
-
+	
+	private Logger logger = Logger.getLogger(getClass());
+	
 	@Override
 	public void process(Exchange exchange) throws Exception {
+		
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>>resultados = (List<Map<String, Object>>)exchange.getIn().getBody();
-		if (resultados == null || resultados.isEmpty()) {
+		if (resultados == null || resultados.size() == 0) {
+			logger.info("GeneraNextLoginName: no vienen resultados en el body");
 			return;
 		}
+		// hay que buscar un new_login_name a partir del mayor numero de secuencia
+		Map<String, Object> mapDatos = null;
+		Map<String, Object> mapOut = new HashMap<String, Object>();
+		mapOut.putAll(exchange.getIn().getHeaders());
+		if (resultados.size() == 1) {
+			mapDatos = resultados.get(0);
+			String loginName = (String)mapDatos.get("login_name");
+			//logger.info(String.format("GeneraNextLoginName: loginName: %s", loginName));
+			Map<String,Object> map = getNewLoginName(loginName);
+			logger.info(String.format("GeneraNextLoginName: el propuesto--> new_loginName: %s new_login_name_base:%s new_login_name_seq:%d", 
+					map.get("new_login_name"), map.get("new_login_name_base"), map.get("new_login_name_seq")));
+			mapOut.putAll(map);
+		} else {
+			Map<String,Object> mapLoginMayor = null;
+			for (Map<String, Object> map : resultados) {
+				// buscar el que tenga la secuencia mayor
+				String loginName = (String)map.get("login_name");
+				//logger.info(String.format("GeneraNextLoginName: loginName: %s", loginName));
+				Map<String,Object> mapLogin = getNewLoginName(loginName);
+				//logger.info(String.format("GeneraNextLoginName: new_loginName: %s new_login_name_base:%s new_login_name_seq:%d", 
+				//		mapLogin.get("new_login_name"), mapLogin.get("new_login_name_base"), mapLogin.get("new_login_name_seq")));
+				if (mapLoginMayor == null) {
+					mapLoginMayor = mapLogin;
+					continue;
+				}
+				if ((Integer)mapLoginMayor.get("new_login_name_seq") < (Integer)mapLogin.get("new_login_name_seq")) {
+					mapLoginMayor = mapLogin;
+				}
+			}
+
+			logger.info(String.format("GeneraNextLoginName: el propuesto--> new_loginName: %s new_login_name_base:%s new_login_name_seq:%d", 
+					mapLoginMayor.get("new_login_name"), mapLoginMayor.get("new_login_name_base"), mapLoginMayor.get("new_login_name_seq")));
+			
+			
+			mapOut.putAll(mapLoginMayor);
+		}
 		
-		// hay que buscar un new_login_name
-		Map<String, Object> mapDatos = resultados.get(0);
-		exchange.getIn().setHeaders(getNewLoginName((String)mapDatos.get("login_name")));
+		mapOut.put("foundName", Integer.valueOf(1));
+		exchange.getIn().setHeaders(mapOut);
 	}
 
 	private Map<String,Object> getNewLoginName(String loginName) {
@@ -62,10 +102,20 @@ public class GeneraNextLoginName implements Processor {
 		}
 		Map<String,Object> resultado = new HashMap<String,Object>();
 		resultado.put("new_login_name", loginName);
+		resultado.put("new_login_name_base", base);
 		if (valor != null) {
-			resultado.put("new_login_name_base", base);
 			resultado.put("new_login_name_seq", valor);
+		} else {
+			resultado.put("new_login_name_seq", Integer.valueOf(0));
 		}
 		return resultado;
+	}
+	
+	public static void main (String args[]) {
+		GeneraNextLoginName r = new GeneraNextLoginName();
+		Map<String,Object>  map = r.getNewLoginName("marodriguez");
+		System.out.println(String.format("GeneraNextLoginName: new_loginName: %s new_login_name_base:%s new_login_name_seq:%d", 
+				map.get("new_login_name"), map.get("new_login_name_base"), map.get("new_login_name_seq")));
+		
 	}
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="mock:end"/>
+		<item key="selection" value="nickname-retrieve"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="nickname-retrieve"/>
 			<item value="mock:end"/>
 			<item value="_setBody"/>
 			<item value="_undoBD"/>
@@ -22,7 +23,6 @@
 			<item value="(2)"/>
 			<item value="(1)"/>
 			<item value="(6)"/>
-			<item value="ProcesaPeriodos"/>
 		</list>
 		<list key="replacehistory">
 			<item value="logger.info"/>

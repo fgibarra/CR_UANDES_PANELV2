@@ -34,7 +34,7 @@ public class DatosUsuarioBannerDTO implements Serializable {
 		super();
 		this.spridenPidm = Integer.valueOf(((String)mapDatos.get("spriden_pidm")));
 		this.spridenId = (String)mapDatos.get("spriden_id");
-		this.lastName = parseaDato((String)mapDatos.get("spriden_last_name"));
+		this.lastName = (String)mapDatos.get("spriden_last_name");
 		this.firstName = (String)mapDatos.get("spriden_first_name");
 		this.middleName = (String)mapDatos.get("spriden_mi");
 		
@@ -60,7 +60,7 @@ public class DatosUsuarioBannerDTO implements Serializable {
 		return parseaDato(getLastName());
 	}
 	
-	private String parseaDato(String dato) {
+	public String parseaDato(String dato) {
         // dos espacios por un espacio
         String valor = dato;
         do

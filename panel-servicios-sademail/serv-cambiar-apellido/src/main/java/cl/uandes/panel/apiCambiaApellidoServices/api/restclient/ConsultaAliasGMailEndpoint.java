@@ -15,6 +15,6 @@ public interface ConsultaAliasGMailEndpoint {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/nickNames/retrieve/{username}")
+    @Path("/nickName/retrieve/{username}")
 	public AliasesResponse retrieveNicknames(@PathParam("username")String in_msg);
 }
