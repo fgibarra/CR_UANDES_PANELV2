@@ -1,5 +1,9 @@
 package cl.uandes.panel.apiCambiaApellidoServices.procesor;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.PropertyInject;
@@ -27,14 +31,23 @@ public class PreparaDatosMail implements Processor {
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		String cuerpo = (String)exchange.getIn().getBody();
 		CambiaCuentaRequest req = (CambiaCuentaRequest)exchange.getIn().getHeader("CambiaCuentaRequest");
 		if (req.getCuentasEnvio() != null)
 			para = req.getCuentasEnvio();
-		logger.info(String.format("PreparaDatosMail.process: para:%s recupera cuerpo: %s", para, cuerpo));
 		
-		SendmailRequest request = new SendmailRequest(para, cc, StringUtils.escape2Html(asunto), cuerpo);
-		exchange.getIn().setBody(request);
+		exchange.getIn().setHeader("To", para);
+		exchange.getIn().setHeader("Subject", toIso88591(asunto));
+		
+		logger.info(String.format("PreparaDatosMail.process: To:%s Subject: %s", para, asunto));
 	}
 
+
+	Charset utf8charset = Charset.forName("UTF-8");
+	Charset iso88591charset = Charset.forName("ISO-8859-1");
+	private String toIso88591(String input) {
+		ByteBuffer inputBuffer = ByteBuffer.wrap(input.getBytes());
+		CharBuffer data = utf8charset.decode(inputBuffer);
+		ByteBuffer outputBuffer = iso88591charset.encode(data);
+		return new String(outputBuffer.array());
+	}
 }

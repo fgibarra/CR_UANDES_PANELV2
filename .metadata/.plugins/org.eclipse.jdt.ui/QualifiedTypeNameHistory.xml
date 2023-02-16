@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MemberResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MembersResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MembersRequest"/>
-    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonCreator"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.model.wao.GmailWAOesb"/>
-    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.User"/>
-    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.UserName"/>
-    <fullyQualifiedTypeName name="org.apache.karaf.shell.api.action.lifecycle.Service"/>
     <fullyQualifiedTypeName name="org.osgi.service.component.annotations.Reference"/>
     <fullyQualifiedTypeName name="org.apache.karaf.shell.api.action.lifecycle.Reference"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.apiGmailServices.model.hibernate.ParametersServiceImpl"/>
@@ -22,11 +14,9 @@
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.updateidgmail.UpdateIdGmailResponse"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonInclude.Include"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NotFoundBannerException"/>
     <fullyQualifiedTypeName name="javax.ws.rs.QueryParam"/>
@@ -42,7 +32,6 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.User"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AliasResponse"/>
     <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Alias"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.dto.DatosMailDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.mail.json.SendmailRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.CambiaCuentaRequest"/>
@@ -60,4 +49,15 @@
     <fullyQualifiedTypeName name="java.io.SequenceInputStream"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.JSonUtilities"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.dto.DatosMailDTO"/>
+    <fullyQualifiedTypeName name="org.apache.velocity.VelocityContext"/>
+    <fullyQualifiedTypeName name="org.apache.camel.component.velocity.VelocityConstants"/>
+    <fullyQualifiedTypeName name="java.util.Locale"/>
+    <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
+    <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
+    <fullyQualifiedTypeName name="java.nio.CharBuffer"/>
 </qualifiedTypeNameHistroy>

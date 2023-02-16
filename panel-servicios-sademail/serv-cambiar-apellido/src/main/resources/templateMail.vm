@@ -13,6 +13,9 @@ th, td {
   text-align: left;
 }
 th {text-align: center;}
+.myDiv {
+  width: 1200px;
+}
 </style>
 </head>
 <body>
@@ -183,25 +186,27 @@ dujS9beCmNj/AM/qdJfB+4YmAAAAAElFTkSuQmCC" alt="Logo UAndes" />
 <br><br>
 Se ha modificado la cuenta de correo:
 <br><br>
+<div class="myDiv">
 #foreach($reporte in ${headers.reporteList})
-<table style="border: 1px solid black;width=100%">
-<caption style="padding-bottom: 30px;text-decoration: underline;">$reporte.caption</caption>
+<table style="border: 1px solid black;width: 100%">
+<caption style="padding-bottom: 50px;text-decoration: underline;">$reporte.caption</caption>
 <tr>
-<th>RUT</th>
-<th>PIDM</th>
-<th>Cuenta</th>
-<th colspan="2">Nombres</th>
-<th colspan="2">Apellidos</th>
+<th style="with: 10%;">RUT</th>
+<th style="with: 10%;">PIDM</th>
+<th style="with: 20%;">Cuenta</th>
+<th style="with: 30%;">Nombres</th>
+<th style="with: 30%;">Apellidos</th>
 </tr>
 <tr>
-<td>$reporte.rut</td>
-<td>$reporte.pidm</td>
-<td>$reporte.cuenta</td>
-<td colspan="2">$reporte.nombres</td>
-<td colspan="2">$reporte.apellidos</td>
+<td style="with: 10%;">$reporte.rut</td>
+<td style="with: 10%;">$reporte.pidm</td>
+<td style="with: 20%;">$reporte.cuenta</td>
+<td style="with: 30%;">$reporte.nombres</td>
+<td style="with: 30%;">$reporte.apellidos</td>
 </tr>
 </table>
 #end
+</div>
 </section>
 
 <footer style="padding-top: 100px;">

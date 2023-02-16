@@ -89,7 +89,8 @@
         class="cl.uandes.panel.apiCambiaApellidoServices.procesor.PreparaResponse" id="preparaResponse"/>
     <bean
         class="cl.uandes.panel.apiCambiaApellidoServices.procesor.GeneraResponseError" id="generaResponseError"/>
-	<bean class="cl.uandes.panel.apiCambiaApellidoServices.procesor.DefineResultadoActualizacionGmail" id="defineResultadoActualizacionGmail"/>
+    <bean
+        class="cl.uandes.panel.apiCambiaApellidoServices.procesor.DefineResultadoActualizacionGmail" id="defineResultadoActualizacionGmail"/>
     <bean
         class="cl.uandes.panel.apiCambiaApellidoServices.bean.MensajesErrorBean" id="mensajesError">
         <property name="notFoundBanner" value="{{serv.cambiaApellido.notFoundBanner}}"/>
@@ -221,7 +222,7 @@
             <to id="_qryDatosActualesCuenta" uri="sql:select m.key, m.moodle_id, m.banner_pidm, m.login_name, m.nombres, m.apellidos, m.id_gmail, g.rowid, g.goremal_email_address from mi_cuentas_gmail m, goremal g where moodle_id=:#${header.CambiaCuentaRequest.rut} and g.goremal_pidm (+) = nvl(m.banner_pidm,0) and g.goremal_preferred_ind (+) = 'Y'?dataSource=#bannerDataSource"/>
             <process id="_armaDatosUpdate" ref="armaDatosUpdate"/>
             <log id="_log4" message="funcionPrd: ${header.funcionPrd} key: ${header.DatosMiCuentaGmail_new.key} loginName: ${header.DatosMiCuentaGmail_new.loginName} nombres: ${header.DatosMiCuentaGmail_new.nombres} apellidos: ${header.DatosMiCuentaGmail_new.apellidos} rowid: ${header.DatosMiCuentaGmail_new.rowid}"/>
-			<log message="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR ${header.funcionPrd},'p_key' java.sql.Types.NUMERIC ${header.DatosMiCuentaGmail_new.key},'p_login_name' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.loginName}, 'p_nombres' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.apellidos},'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.rowid},OUT java.sql.Types.VARCHAR out_nuevo_rowid,OUT java.sql.Types.VARCHAR out_resultado_update)?dataSource=#bannerDataSource"/>
+            <log id="_log7" message="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR ${header.funcionPrd},'p_key' java.sql.Types.NUMERIC ${header.DatosMiCuentaGmail_new.key},'p_login_name' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.loginName}, 'p_nombres' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.apellidos},'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.rowid},OUT java.sql.Types.VARCHAR out_nuevo_rowid,OUT java.sql.Types.VARCHAR out_resultado_update)?dataSource=#bannerDataSource"/>
             <to id="_updateSademail" uri="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR ${header.funcionPrd},'p_key' java.sql.Types.NUMERIC ${header.DatosMiCuentaGmail_new.key},'p_login_name' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.loginName}, 'p_nombres' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.apellidos},'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_new.rowid},OUT java.sql.Types.VARCHAR out_nuevo_rowid,OUT java.sql.Types.VARCHAR out_resultado_update)?dataSource=#bannerDataSource"/>
             <choice id="_resultadoUpdate">
                 <when id="_fallo">
@@ -240,16 +241,16 @@
                 </setHeader>
                 <to id="_servicioGmail" uri="cxfrs:bean:actualizaCuentaGMail"/>
             </doTry>
-			<process id="_defineResultadoActualizacion" ref="defineResultadoActualizacionGmail"/>
-			<log message="header.resultadoActualizacionGmail: ${header.resultadoActualizacionGmail}"/>
+            <process id="_defineResultadoActualizacion" ref="defineResultadoActualizacionGmail"/>
+            <log id="_log8" message="header.resultadoActualizacionGmail: ${header.resultadoActualizacionGmail}"/>
             <choice id="_choiceResultado">
                 <when id="_fallo1">
                     <simple>${header.resultadoActualizacionGmail} != 0</simple>
                     <setHeader headerName="funcionPrd" id="_setHeaderUNDO">
                         <constant>UNDO</constant>
                     </setHeader>
-					<log message="resultado actualizacion gmail funcionPrd: ${header.funcionPrd}"/>
-					<log message="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR  ${header.funcionPrd},'p_key' java.sql.Types.NUMERIC ${header.DatosMiCuentaGmail_old.key},'p_login_name' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.loginName}, 'p_nombres' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.nombres}, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.apellidos}, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.rowid}, OUT java.sql.Types.VARCHAR out_nuevo_rowid, OUT java.sql.Types.VARCHAR out_resultado_update)?dataSource=#bannerDataSource"/>
+                    <log id="_log9" message="resultado actualizacion gmail funcionPrd: ${header.funcionPrd}"/>
+                    <log id="_log10" message="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR  ${header.funcionPrd},'p_key' java.sql.Types.NUMERIC ${header.DatosMiCuentaGmail_old.key},'p_login_name' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.loginName}, 'p_nombres' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.nombres}, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.apellidos}, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.rowid}, OUT java.sql.Types.VARCHAR out_nuevo_rowid, OUT java.sql.Types.VARCHAR out_resultado_update)?dataSource=#bannerDataSource"/>
                     <to id="_undoBD1" uri="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR ${header.funcionPrd},'p_key' java.sql.Types.NUMERIC ${header.DatosMiCuentaGmail_old.key},'p_login_name' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.loginName}, 'p_nombres' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.nombres}, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.apellidos}, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.rowid}, OUT java.sql.Types.VARCHAR out_nuevo_rowid, OUT java.sql.Types.VARCHAR out_resultado_update)?dataSource=#bannerDataSource"/>
                     <setHeader headerName="resultadoProceso" id="_setHeaderKO">
                         <constant>KO</constant>
@@ -259,7 +260,7 @@
                     <setHeader headerName="resultadoProceso" id="_setHeaderOK">
                         <constant>OK</constant>
                     </setHeader>
-					<log message="resultado actualizacion gmail funcionPrd: ${header.funcionPrd}"/>
+                    <log id="_log11" message="resultado actualizacion gmail funcionPrd: ${header.funcionPrd}"/>
                 </otherwise>
             </choice>
             <!--
@@ -285,12 +286,16 @@
                     </choice>
                     <process id="_preparaTemplateMail" ref="preparaTemplateMail"/>
                     <to id="creaCuerpo" uri="velocity:templateMail.vm?contentCache=true"/>
-					<log message="despues de velocity: ${body}"/>
-                    <process id="_preparaDatosMail" ref="preparaDatosMail"/>
-	                <setHeader headerName="CamelHttpMethod" id="_setHeader3">
-	                    <constant>POST</constant>
-	                </setHeader>
-                    <to id="_mandaEmail" uri="cxfrs:bean:sendMail"/>
+					
+					<!-- manda email -->
+		            <setHeader headerName="cc" id="_setHeaderContent">
+		                <simple>{{serv.cambiaApellido.mail_cc}}</simple>
+		            </setHeader>
+		            <setHeader headerName="contentType" id="_setHeaderContent">
+		                <simple>text/html;charset=ISO-8859-1</simple>
+		            </setHeader>
+					<to uri="smtps://smtp.gmail.com?username={{serv.cambiaApellido.mail_username}}&amp;password={{serv.cambiaApellido.mail_password}}&amp;from={{serv.cambiaApellido.mail_from}}&amp;contentType=text/html;charset=ISO-8859-1"/>
+
                 </when>
             </choice>
             <process id="_preparaResponse" ref="preparaResponse"/>

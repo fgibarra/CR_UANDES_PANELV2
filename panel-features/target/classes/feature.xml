@@ -17,15 +17,50 @@
 	<bundle>mvn:com.google.http-client/google-http-client-apache-v2/1.39.2</bundle>
 	<bundle>mvn:com.google.oauth-client/google-oauth-client/1.31.5</bundle>
 	<bundle>mvn:com.google.http-client/google-http-client-gson/1.39.2</bundle>
+	<bundle>mvn:com.google.http-client/google-http-client-jackson2/1.39.2-sp.1</bundle>
 	<bundle>mvn:com.google.apis/google-api-services-admin-directory/directory_v1-rev53-1.20.0</bundle> <!-- bundle:dynamic-import -->
 	<bundle>mvn:com.google.apis/google-api-services-groupssettings/v1-rev60-1.22.0</bundle>
 	<bundle>mvn:com.google.apis/google-api-services-oauth2/v2-rev93-1.20.0</bundle>
-	<bundle>mvn:com.google.http-client/google-http-client-jackson2/1.39.2-sp.1</bundle>
   </feature>
   
   <feature name="panel-basic">
   	<feature prerequisite="true">jars-gmail</feature>
+  	<config name="cl.uandes.panelv2">
+################################################################################
+#
+# Parametros para los servicios PANEL V2
+#
+################################################################################
+
+# parametros usados por mas de un servicio
+sendmail_params_id=1
+
+################################################################################
+# serv-actualiza-id-gmail
+
+serv.actualizaIdGmail.consulta_mail_limit=1000
+
+################################################################################
+# scheduler-actualiza-id-gmail
+
+sheduler.actualizaIdGmail.cronexpr=0+0/12+*+?+*+*
+
+################################################################################
+# serv-cambiar-apellido
+
+serv.cambiaApellido.notFoundBanner=El rut solicitado no se encuentra definido en BANNER
+serv.cambiaApellido.noPudoAccederGmail=No pudo acceder a GMAIL
+serv.cambiaApellido.notFoundPanel=El rut solicitado no se encuentra definido en PANEL
+serv.cambiaApellido.actualizaGmail=No pudo actualizar datos en GMAIL
+serv.cambiaApellido.mail_to=fibarra.fir@gmail.com
+serv.cambiaApellido.mail_cc=fgibarra@miuandes.cl
+serv.cambiaApellido.mail_asunto=Actualizó cuenta correo @miuandes.cl
+serv.cambiaApellido.mail_username=panel-noreply@miuandes.cl
+serv.cambiaApellido.mail_password=pirquep64
+serv.cambiaApellido.mail_from=panel@miuandes.cl
+	</config>
     <bundle>mvn:uandes.panel-v2.comunes/comunes-gmail/0.0.1</bundle> <!-- bundle:dynamic-import -->
+    <bundle>mvn:uandes.panel-v2.comunes/comunes-sademail/0.0.1</bundle> <!-- bundle:dynamic-import -->
   </feature>
 
   <feature name="servicios-api-gmail">
