@@ -1,16 +1,16 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1676579858493
+Bnd-LastModified: 1676672692882
 Build-Jdk: 1.8.0_291
 Built-By: fernando
 Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
 Bundle-Description: ApiGmailServices
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
 Bundle-ManifestVersion: 2
-Bundle-Name: Sademail [api-gmailServices-v1]
+Bundle-Name: api-gmailServices-v1
 Bundle-SymbolicName: api-gmailServices-v1
 Bundle-Version: 0.0.1
 Created-By: Apache Maven Bundle Plugin
-DynamicImport-Package: cl.uandes.sadmemail.comunes.*
+DynamicImport-Package: cl.uandes.sadmemail.comunes.*,
 Export-Package: cl.uandes.sadmemail.apiGmailServices.api.resources;versi
  on="0.0.1";uses:="cl.uandes.sadmemail.comunes.gmail.json,javax.ws.rs,ja
  vax.ws.rs.core"
@@ -31,7 +31,10 @@ Import-Package: cl.uandes.sadmemail.comunes.gmail.json;version="[0.0,1)"
  .utils;version="[0.0,1)",cl.uandes.mail.json;version="[0.0,1)",cl.uande
  s.utils;version="[0.0,1)",org.apache.camel.builder;version="[2.21,3)",o
  rg.apache.cxf.jaxrs.impl;version="[3.1,4)"
-Import-Service: javax.sql.DataSource;multiple:=false;filter=(osgi.jndi.s
- ervice.name=bannerds)
+Include-Resource: OSGI-INF/blueprint/blueprint.xml=src/main/resources/OS
+ GI-INF/blueprint/blueprint.xml
+Private-Package: cl.uandes.sadmemail.apiGmailServices.wao,cl.uandes.sadm
+ email.apiGmailServices.wao.dto,cl.uandes.sadmemail.apiGmailServices.pro
+ cesor
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
 Tool: Bnd-3.2.0.201605172007

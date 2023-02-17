@@ -62,6 +62,7 @@
 						<DynamicImport-Package>
 							cl.uandes.sadmemail.comunes.*
 						</DynamicImport-Package>
+						<_removeheaders>Import-Service,Export-Service</_removeheaders>
 						<Bundle-Description>ServiceCambiaApellido</Bundle-Description>
 						<Bundle-Name>Service cambia apellido v1.0</Bundle-Name>
 						<Bundle-SymbolicName>serv-cambia-apellido-v1</Bundle-SymbolicName>

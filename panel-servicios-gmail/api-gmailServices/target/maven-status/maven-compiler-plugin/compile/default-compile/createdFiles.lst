@@ -1,0 +1,9 @@
+cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOBase.class
+cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOBaseImpl$GoogleJsonResponse$Errores.class
+cl/uandes/sadmemail/apiGmailServices/wao/dto/CuentaGmailParameters.class
+cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOBaseImpl$DatosAccount.class
+cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOBaseImpl$GoogleJsonResponse.class
+cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOesb.class
+cl/uandes/sadmemail/apiGmailServices/procesor/GeneraResponse.class
+cl/uandes/sadmemail/apiGmailServices/api/resources/GmailServicesRestService.class
+cl/uandes/sadmemail/apiGmailServices/wao/GmailWAOBaseImpl.class

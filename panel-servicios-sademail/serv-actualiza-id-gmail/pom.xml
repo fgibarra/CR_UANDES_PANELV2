@@ -45,6 +45,7 @@
 						<DynamicImport-Package>
 							cl.uandes.sadmemail.comunes.*
 						</DynamicImport-Package>
+						<_removeheaders>Import-Service,Export-Service</_removeheaders>
 						<Bundle-Description>ServiceActualizaIdGmail</Bundle-Description>
 						<Bundle-Name>Service actualiza id gmail v1.0</Bundle-Name>
 						<Bundle-SymbolicName>serv-actualiza-id-gmail-v1</Bundle-SymbolicName>
