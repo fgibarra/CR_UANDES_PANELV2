@@ -38,7 +38,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.DatosCuenta"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.CambiaCuentaResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.dto.DatosMiCuentaGmailDTO"/>
-    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
     <fullyQualifiedTypeName name="cl.uandes.utils.StringUtils"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.procesor.GeneraNextLoginName"/>
     <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
     <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
     <fullyQualifiedTypeName name="java.nio.CharBuffer"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
 </qualifiedTypeNameHistroy>

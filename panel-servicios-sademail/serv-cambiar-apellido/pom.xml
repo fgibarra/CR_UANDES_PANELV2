@@ -24,7 +24,9 @@
 		<dependency>
 			<groupId>uandes</groupId>
 			<artifactId>json-datatransfer</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.2</version>
+			<scope>system</scope>
+			<systemPath>/home/fernando/CodeReady/UANDES/INTEGRACION_LEGANTO/comunes-leganto/json-datatransfer/target/json-datatransfer-0.0.2.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>

@@ -286,16 +286,15 @@
                     </choice>
                     <process id="_preparaTemplateMail" ref="preparaTemplateMail"/>
                     <to id="creaCuerpo" uri="velocity:templateMail.vm?contentCache=true"/>
-					
-					<!-- manda email -->
-		            <setHeader headerName="cc" id="_setHeaderContent">
-		                <simple>{{serv.cambiaApellido.mail_cc}}</simple>
-		            </setHeader>
-		            <setHeader headerName="contentType" id="_setHeaderContent">
-		                <simple>text/html;charset=ISO-8859-1</simple>
-		            </setHeader>
-					<to uri="smtps://smtp.gmail.com?username={{serv.cambiaApellido.mail_username}}&amp;password={{serv.cambiaApellido.mail_password}}&amp;from={{serv.cambiaApellido.mail_from}}&amp;contentType=text/html;charset=ISO-8859-1"/>
-
+					<process id="_preparaDatosMail" ref="preparaDatosMail"/>
+                    <!-- manda email -->
+                    <setHeader headerName="cc" id="_setHeaderContent">
+                        <simple>{{serv.cambiaApellido.mail_cc}}</simple>
+                    </setHeader>
+                    <setHeader headerName="contentType" id="_setHeaderContent">
+                        <simple>text/html;charset=ISO-8859-1</simple>
+                    </setHeader>
+                    <to id="_to1" uri="smtps://smtp.gmail.com?username={{serv.cambiaApellido.mail_username}}&amp;password={{serv.cambiaApellido.mail_password}}&amp;from={{serv.cambiaApellido.mail_from}}&amp;contentType=text/html;charset=ISO-8859-1"/>
                 </when>
             </choice>
             <process id="_preparaResponse" ref="preparaResponse"/>
