@@ -7,7 +7,7 @@
   </parent>
   <artifactId>serv-cambiar-apellido</artifactId>
   <packaging>bundle</packaging>
-  <name>serv-actualiza-id-gmail</name>
+  <name>serv-cambiar-apellido</name>
 
 	<dependencies>
 		<dependency>

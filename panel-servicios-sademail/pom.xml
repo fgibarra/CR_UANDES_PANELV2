@@ -297,5 +297,6 @@
 		<module>serv-actualiza-id-gmail</module>
 		<module>scheduler-actualiza-id-gmail</module>
 		<module>serv-cambiar-apellido</module>
+		<module>serv-ae-owner-members</module>
 	</modules>
 </project>

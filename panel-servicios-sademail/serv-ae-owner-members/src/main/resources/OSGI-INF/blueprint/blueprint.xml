@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/serviciosJboss/"
+        id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <cxf:cxfEndpoint
+        address="http://localhost:8080/ESB/panel/Servicios/Procesar/v1.0"
+        id="wsServiciosPanel"
+        serviceClass="cl.uandes.panel.aeOwnersMembers.api.resources.soap.WsServiciosPanel" wsdlURL="data/wsdl/wsServiciosPanel.wsdl"/>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.panel.aeOwnersMembers.api.resources.AEOwnersMembersRestService" id="restService"/>
+    <bean
+        class="cl.uandes.panel.aeOwnersMembers.procesor.PreparaResponse" id="preparaResponse"/>
+    <bean
+        class="cl.uandes.panel.aeOwnersMembers.procesor.RecuperaWrkOwnersGrupos" id="recuperaWrkOwnersGrupos"/>
+    <bean
+        class="cl.uandes.panel.aeOwnersMembers.procesor.PreparaDatosMail" id="preparaDatosMail"/>
+    <bean class="cl.uandes.panel.aeOwnersMembers.bean.MensajesBean" id="mensajes"/>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <camelContext id="serv-ae-owners-members" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <route id="_readjson">
+            <from id="_fromService" uri="direct:start"/>
+            <!--
+				- armar el xml que se usara para invocar al WS ownersGrupos
+				- cuando vuelva de WS:
+					-  loop mientras se este procesando el servicio jboss AsignarOwners esperando que
+					   La condicion es que columna resultado no quede ningun INPROGRESS
+					- Una vez terminado, recuprara la lista y correos, generar un correo con el resultado
+			-->
+            <onException id="_onExceptionServicioInvalido">
+                <exception>cl.uandes.panel.aeOwnersMembers.procesor.exceptions.NotFoundBannerException</exception>
+                <camel:handled>
+                    <camel:constant>true</camel:constant>
+                </camel:handled>
+                <camel:setBody id="_setBody2">
+                    <camel:method method="notFound" ref="mensajes"/>
+                </camel:setBody>
+                <to id="_to6" uri="mock:end"/>
+            </onException>
+            <onException id="_onExceptionServicioInvalido">
+                <exception>java.net.ConnectException</exception>
+                <camel:handled>
+                    <camel:constant>true</camel:constant>
+                </camel:handled>
+                <camel:setBody>
+                    <camel:method method="connectError" ref="mensajes"/>
+                </camel:setBody>
+                <to uri="mock:end"/>
+            </onException>
+            <!-- ==================================================================================================== -->
+            <to id="_WsServiciosPanel" uri="cxf:bean:wsServiciosPanel"/>
+            <process id="_preparaResponse" ref="preparaResponse"/>
+            <setBody id="_setBody1">
+                <method method="generaResponse" ref="mensajes"/>
+            </setBody>
+            <to id="_to2" uri="mock:end"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <!-- activada en forma asincrona por el proceso PreparaRespuesta -->
+        <route id="_esperaProceso">
+            <from id="_from1" uri="seda:procesoBatch"/>
+            <!-- contestar al que invoco el api y seguir con la ejecucion en batch -->
+            <camel:setHeader headerName="waitProceso" id="_setHeader1">
+                <camel:constant>1</camel:constant>
+            </camel:setHeader>
+            <camel:loop doWhile="true" id="_loop1">
+                <simple>${header.waitProceso} &gt; 0</simple>
+                <log id="_log1" message="antes del wait"/>
+                <delay><constant>10000</constant></delay>
+                <log id="_log2" message="depues del wait"/>
+                <to id="_to4" uri="sql-stored:pck_funciones.prd_cuentaInProgress(OUT java.sql.Types.NUMERIC out_waitingProceso)?dataSource=#bannerDataSource"/>
+            </camel:loop>
+            <to id="_to5" uri="sql:select correo, lista, funcion, to_char(fecha,'DD-MM-YY HH24:MI:SS') as fecha, resultado from wrk_owner_grupos order by correo, lista?dataSource=#bannerDataSource"/>
+            <process id="_recuperaWrkOwnersGrupos" ref="recuperaWrkOwnersGrupos"/>
+            <to id="creaCuerpo" uri="velocity:templateMail.vm?contentCache=true"/>
+            <process id="_preparaDatosMail" ref="preparaDatosMail"/>
+            <!-- manda email -->
+            <setHeader headerName="cc" id="_setHeaderContent">
+                <simple>{{serv.mailPanel.mail_cc}}</simple>
+            </setHeader>
+            <setHeader headerName="contentType" id="_setHeaderContent">
+                <simple>text/html;charset=ISO-8859-1</simple>
+            </setHeader>
+            <to id="_to1" uri="smtps://smtp.gmail.com?username={{serv.mailPanel.mail_username}}&amp;password={{serv.mailPanel.mail_password}}&amp;from={{serv.mailPanel.mail_from}}&amp;contentType=text/html;charset=ISO-8859-1"/>
+        </route>
+    </camelContext>
+</blueprint>
