@@ -58,7 +58,9 @@
 							javax.xml.bind,
 							org.apache.velocity,
 							org.apache.camel;version="[2.21,3)",org.apache.camel.builder;version="[2.21,3)",
-							org.apache.cxf.jaxrs.impl;version="[3.1,4)",org.apache.log4j;version="[1.2,2)",
+							org.apache.cxf.jaxrs.impl;version="[3.1,4)",
+							org.apache.cxf.transport.http,
+							org.apache.log4j;version="[1.2,2)",
 							org.osgi.service.blueprint;version="[1.0.0,2.0.0)"
 						</Import-Package>
 						<DynamicImport-Package>

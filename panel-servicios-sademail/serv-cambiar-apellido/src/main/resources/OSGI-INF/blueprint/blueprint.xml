@@ -163,7 +163,7 @@
                 <setHeader headerName="funcionPrd" id="_setHeader2">
                     <constant>UNDO</constant>
                 </setHeader>
-                <to id="_undoBD" uri="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR  ${header.funcionPrd},'p_key' java.sql.Types.NUMBER ${header.DatosMiCuentaGmail_old.key}, 'p_login_name', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.loginName, 'p_nombres', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.nombres, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.apellidos, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.rowid}, OUT java.sql.Types.VARCHAR nuevo_rowid, OUT java.sql.Types.VARCHAR resultado_update)?dataSource=#bannerDataSource"/>
+                <to id="_undoBD" uri="sql-stored:pck_funciones.prd_updateCuenta_goremal('p_funcion' java.sql.Types.VARCHAR  ${header.funcionPrd},'p_key' java.sql.Types.NUMBER ${header.DatosMiCuentaGmail_old.key}, 'p_login_name', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.loginName, 'p_nombres', java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.nombres, 'p_apellidos' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.apellidos, 'p_rowid' java.sql.Types.VARCHAR ${header.DatosMiCuentaGmail_old.rowid}, OUT java.sql.Types.VARCHAR out_nuevo_rowid, OUT java.sql.Types.VARCHAR out_resultado_update)?dataSource=#bannerDataSource"/>
                 <process id="_generaResponseError4" ref="generaResponseError"/>
                 <to id="_final4" uri="mock:end"/>
             </onException>

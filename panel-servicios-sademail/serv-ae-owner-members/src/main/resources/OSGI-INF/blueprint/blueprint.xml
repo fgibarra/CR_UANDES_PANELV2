@@ -20,7 +20,7 @@
     <cxf:cxfEndpoint
         address="http://localhost:8080/ESB/panel/Servicios/Procesar/v1.0"
         id="wsServiciosPanel"
-        serviceClass="cl.uandes.panel.aeOwnersMembers.api.resources.soap.WsServiciosPanel" wsdlURL="data/wsdl/wsServiciosPanel.wsdl"/>
+        serviceClass="cl.uandes.panel.aeOwnersMembers.api.resources.soap.WsServiciosPanel" wsdlURL="http://panel.miuandes.cl/ESB/panel/Servicios/Procesar/v1.0?wsdl"/>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.aeOwnersMembers.api.resources.AEOwnersMembersRestService" id="restService"/>
@@ -59,16 +59,19 @@
             </onException>
             <onException id="_onExceptionServicioInvalido">
                 <exception>java.net.ConnectException</exception>
+                <exception>org.apache.cxf.transport.http.HTTPException</exception>
                 <camel:handled>
                     <camel:constant>true</camel:constant>
                 </camel:handled>
-                <camel:setBody>
+                <camel:setBody id="_setBody3">
                     <camel:method method="connectError" ref="mensajes"/>
                 </camel:setBody>
-                <to uri="mock:end"/>
+                <to id="_to3" uri="mock:end"/>
             </onException>
             <!-- ==================================================================================================== -->
+            <log id="_log3" message="antes de WsServiciosPanel: body: ${body}"/>
             <to id="_WsServiciosPanel" uri="cxf:bean:wsServiciosPanel"/>
+			<log message="volvio del ws: ${body}"/>
             <process id="_preparaResponse" ref="preparaResponse"/>
             <setBody id="_setBody1">
                 <method method="generaResponse" ref="mensajes"/>
@@ -80,28 +83,52 @@
         <route id="_esperaProceso">
             <from id="_from1" uri="seda:procesoBatch"/>
             <!-- contestar al que invoco el api y seguir con la ejecucion en batch -->
-            <camel:setHeader headerName="waitProceso" id="_setHeader1">
+            <camel:setHeader headerName="out_proceso" id="_setHeader1">
                 <camel:constant>1</camel:constant>
             </camel:setHeader>
+            <camel:setHeader headerName="out_count" id="_setHeader1">
+                <camel:constant>0</camel:constant>
+            </camel:setHeader>
+            <log id="_log4" message="inicial: out_waiting_proceso: ${header.out_waiting_proceso} out_count:${header.out_count} resultado ${header.out_waiting_proceso} > 0 &amp;&amp; ${header.out_count} &lt; 10"/>
             <camel:loop doWhile="true" id="_loop1">
-                <simple>${header.waitProceso} &gt; 0</simple>
-                <log id="_log1" message="antes del wait"/>
-                <delay><constant>10000</constant></delay>
-                <log id="_log2" message="depues del wait"/>
-                <to id="_to4" uri="sql-stored:pck_funciones.prd_cuentaInProgress(OUT java.sql.Types.NUMERIC out_waitingProceso)?dataSource=#bannerDataSource"/>
+                <simple>${header.out_proceso} &gt; 0 &amp;&amp; ${header.out_count} &lt; 5</simple>
+                <!--log id="_log1" message="antes del wait: out_waiting_proceso: ${header.out_waiting_proceso} out_count:${header.out_count} resultado ${header.out_waiting_proceso} > 0 &amp;&amp; ${header.out_count} &lt; 10"/-->
+                <delay id="_delay1">
+                    <constant>10000</constant>
+                </delay>
+                <!--log id="_log2" message="depues del wait: out_waiting_proceso: ${header.out_waiting_proceso} out_count:${header.out_count} resultado ${header.out_waiting_proceso} > 0 &amp;&amp; ${header.out_count} &lt; 10"/-->
+                <to id="_to4" uri="sql-stored:pck_funciones.prd_cuentaInProgress(OUT java.sql.Types.VARCHAR out_proceso)?dataSource=#bannerDataSource"/>
+                <camel:setHeader headerName="out_proceso">
+                    <simple>${body[out_proceso]}</simple>
+                </camel:setHeader>
+                <camel:setHeader headerName="out_count" id="_setHeader1">
+                    <simple>${header.out_count}++</simple>
+                </camel:setHeader>			
+                <!--log id="_log5" message="despues de SP: out_proceso: ${header.out_proceso} body: ${body}"/-->
             </camel:loop>
-            <to id="_to5" uri="sql:select correo, lista, funcion, to_char(fecha,'DD-MM-YY HH24:MI:SS') as fecha, resultado from wrk_owner_grupos order by correo, lista?dataSource=#bannerDataSource"/>
-            <process id="_recuperaWrkOwnersGrupos" ref="recuperaWrkOwnersGrupos"/>
-            <to id="creaCuerpo" uri="velocity:templateMail.vm?contentCache=true"/>
-            <process id="_preparaDatosMail" ref="preparaDatosMail"/>
-            <!-- manda email -->
-            <setHeader headerName="cc" id="_setHeaderContent">
-                <simple>{{serv.mailPanel.mail_cc}}</simple>
-            </setHeader>
-            <setHeader headerName="contentType" id="_setHeaderContent">
-                <simple>text/html;charset=ISO-8859-1</simple>
-            </setHeader>
-            <to id="_to1" uri="smtps://smtp.gmail.com?username={{serv.mailPanel.mail_username}}&amp;password={{serv.mailPanel.mail_password}}&amp;from={{serv.mailPanel.mail_from}}&amp;contentType=text/html;charset=ISO-8859-1"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.out_count} &gt;= 5</simple>
+                    <!-- timeout no termino el proceso -->
+                    <log id="_log6" message="timeout no termino el proceso en JBOSS"/>
+                </when>
+				<otherwise>
+					<log message="va a enviar correo"/>
+		            <to id="_to5" uri="sql:select correo, lista, funcion, to_char(fecha,'DD-MM-YY HH24:MI:SS') as fecha, resultado from wrk_owners_grupos order by correo, lista?dataSource=#bannerDataSource"/>
+		            <process id="_recuperaWrkOwnersGrupos" ref="recuperaWrkOwnersGrupos"/>
+		            <to id="creaCuerpo" uri="velocity:templateMail.vm?contentCache=true"/>
+		            <process id="_preparaDatosMail" ref="preparaDatosMail"/>
+		            <!-- manda email -->
+		            <setHeader headerName="cc" id="_setHeaderContent">
+		                <simple>{{serv.mailPanel.mail_cc}}</simple>
+		            </setHeader>
+		            <setHeader headerName="contentType" id="_setHeaderContent">
+		                <simple>text/html;charset=ISO-8859-1</simple>
+		            </setHeader>
+		            <to id="_to1" uri="smtps://smtp.gmail.com?username={{serv.mailPanel.mail_username}}&amp;password={{serv.mailPanel.mail_password}}&amp;from={{serv.mailPanel.mail_from}}&amp;contentType=text/html;charset=ISO-8859-1"/>
+				</otherwise>
+            </choice>
         </route>
+
     </camelContext>
 </blueprint>
