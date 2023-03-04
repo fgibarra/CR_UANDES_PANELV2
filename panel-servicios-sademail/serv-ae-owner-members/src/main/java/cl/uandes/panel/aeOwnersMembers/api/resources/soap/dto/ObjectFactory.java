@@ -32,7 +32,8 @@ public class ObjectFactory {
 				criterio.getProgramas(), 
 				criterio.getCuentas());
 		String xml = requestOwnersTYPE.toString();
-		return String.format("<![CDATA[%s]]>", xml.substring(xml.indexOf("<requestOwners>")));
+		return String.format("%s", xml.substring(xml.indexOf("<requestOwners>")));
+//		return String.format("<![CDATA[%s]]>", xml.substring(xml.indexOf("<requestOwners>")));
 	}
 /*	
 	public static void main (String args[]) {

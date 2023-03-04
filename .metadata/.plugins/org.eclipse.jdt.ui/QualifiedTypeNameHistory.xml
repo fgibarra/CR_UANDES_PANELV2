@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonInclude.Include"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NotFoundBannerException"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.QueryParam"/>
-    <fullyQualifiedTypeName name="java.net.URI"/>
     <fullyQualifiedTypeName name="java.net.URLEncoder"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.ResultadoGmail"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.procesor.exceptions.NoPudoAccederGmailException"/>
@@ -33,7 +29,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.dto.DatosMailDTO"/>
     <fullyQualifiedTypeName name="org.apache.velocity.VelocityContext"/>
     <fullyQualifiedTypeName name="org.apache.camel.component.velocity.VelocityConstants"/>
-    <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
     <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
     <fullyQualifiedTypeName name="java.nio.CharBuffer"/>
     <fullyQualifiedTypeName name="java.math.BigDecimal"/>
@@ -60,4 +55,9 @@
     <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
     <fullyQualifiedTypeName name="java.util.Locale"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersRequest"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
+    <fullyQualifiedTypeName name="org.apache.commons.codec.binary.Base64"/>
+    <fullyQualifiedTypeName name="javax.security.auth.Subject"/>
+    <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.core.HttpHeaders"/>
 </qualifiedTypeNameHistroy>

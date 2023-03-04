@@ -1,16 +1,21 @@
 package cl.uandes.panel.aeOwnersMembers.api.resources;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.security.auth.Subject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.camel.EndpointInject;
+import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.aeOwnersMembers.api.resources.soap.dto.ObjectFactory;
@@ -58,6 +63,16 @@ public class AEOwnersMembersRestService {
 		headers.put("AeOwnersMembersRequest", request);
 		PanelRequestTYPE reqType = ObjectFactory.factoryPanelRequestTYPE(request);
 		logger.info(String.format("AEOwnersMembersRestService: request para JBOSS: %s", reqType));
+		
+		String type = "Basic";
+    	String username = "panelesb";
+    	String password = "panel2019";
+    	
+        	String usernameAndPassword = username + ":" + password;
+        	byte[] encodedAuth = Base64.encodeBase64(usernameAndPassword.getBytes(Charset.forName("US-ASCII")));
+        	String authorizationHeaderValue = String.format("%s %s", type, new String(encodedAuth));
+        	
+		headers.put(HttpHeaders.AUTHORIZATION, authorizationHeaderValue);
 		return (AeOwnersMembersResponse) producer.requestBodyAndHeaders(reqType, headers);
 	}
 
