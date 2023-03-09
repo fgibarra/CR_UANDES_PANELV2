@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import cl.uandes.sadmemail.comunes.google.api.services.Alias;
 import cl.uandes.sadmemail.comunes.utils.JSonUtilities;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,6 +26,8 @@ public class AliasResponse implements Serializable, ResultadoGmail {
 	String mensaje;
 	@JsonProperty("hay_alias")
 	Boolean hayAlias;
+	@JsonProperty("alias")
+	Alias alias;
 
 	@JsonCreator
 	public AliasResponse(
@@ -69,6 +72,14 @@ public class AliasResponse implements Serializable, ResultadoGmail {
 
 	public void setHayAlias(Boolean hayAlias) {
 		this.hayAlias = hayAlias;
+	}
+
+	public Alias getAlias() {
+		return alias;
+	}
+
+	public void setAlias(Alias alias) {
+		this.alias = alias;
 	}
 
 }

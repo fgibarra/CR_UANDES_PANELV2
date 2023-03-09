@@ -627,7 +627,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 		try {
 			com.google.api.services.groupssettings.model.Groups grupo = get.execute();
 			logger.info("retrieveGroupSettings: grupo="+(grupo != null ? "NO ":"")+"es NULO");
-			return "";
+			return grupo.getEmail();
 		} catch (Exception e) {
 			if (e instanceof com.google.api.client.googleapis.json.GoogleJsonResponseException) {
 				if (analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e) > 5) {

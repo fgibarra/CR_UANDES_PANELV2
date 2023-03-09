@@ -215,13 +215,13 @@ public class GmailServicesRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/groups/retrieve/{username}")
-	public GroupsResponse retrieveGroups(@PathParam("username")String in_msg) {
+	public GroupResponse retrieveGroups(@PathParam("loginName")String in_msg) {
 		logger.info(String.format("retrieveGroups: in_msg: %s - %s", 
 				in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("Operacion", "groups-retrieve");
 		headers.put("Body", in_msg);
-		return (GroupsResponse) producer.requestBodyAndHeaders(in_msg, headers);
+		return (GroupResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 
 	@GET
@@ -392,7 +392,7 @@ public class GmailServicesRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/member/deleteMember")
-	public Response deleteMemberFromGroup(MembersRequest in_msg) {
+	public Response deleteMemberFromGroup(MemberRequest in_msg) {
 		logger.info(String.format("deleteMemberFromGroup: in_msg: %s - %s", 
 				in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
@@ -405,7 +405,7 @@ public class GmailServicesRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/member/deleteOwner")
-	public Response deleteOwnerFromGroup(MembersRequest in_msg) {
+	public Response deleteOwnerFromGroup(MemberRequest in_msg) {
 		logger.info(String.format("deleteOwnerFromGroup: in_msg: %s - %s", 
 				in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
