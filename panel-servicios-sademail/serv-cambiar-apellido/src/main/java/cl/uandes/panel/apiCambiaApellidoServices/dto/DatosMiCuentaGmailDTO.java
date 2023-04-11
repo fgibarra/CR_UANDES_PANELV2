@@ -49,7 +49,7 @@ public class DatosMiCuentaGmailDTO implements Serializable {
 		this.nombres = (String)mapDatos.get("nombres");
 		this.apellidos = (String)mapDatos.get("apellidos");
 		this.idGmail = (String)mapDatos.get("id_gmail");
-		this.rowid = mapDatos.get("rowid").toString();
+		this.rowid = mapDatos.get("rowid") != null ? mapDatos.get("rowid").toString() : null;
 		this.goremailEmail = (String)mapDatos.get("goremal_email_address");
 	}
 

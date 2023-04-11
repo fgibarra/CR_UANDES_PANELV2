@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.CambiaCuentaRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.DatosCuenta"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.CambiaCuentaResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.dto.DatosMiCuentaGmailDTO"/>
-    <fullyQualifiedTypeName name="cl.uandes.utils.StringUtils"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.apiCambiaApellidoServices.procesor.GeneraNextLoginName"/>
-    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response.Status"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserResponse"/>
@@ -52,7 +45,6 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.Alias"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.GroupsResponse"/>
     <fullyQualifiedTypeName name="java.io.Serializable"/>
-    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Group"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.Group"/>
     <fullyQualifiedTypeName name="com.google.api.services.admin.directory.Directory.Groups"/>
     <fullyQualifiedTypeName name="java.util.List"/>
@@ -60,4 +52,12 @@
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.GroupRequest"/>
     <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Groups"/>
+    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Group"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MemberRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MemberResponse"/>
+    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Member"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.Member"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MembersRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MembersResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.Members"/>
 </qualifiedTypeNameHistroy>
