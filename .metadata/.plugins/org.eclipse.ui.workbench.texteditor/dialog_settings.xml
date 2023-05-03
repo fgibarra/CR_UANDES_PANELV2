@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=" Response"/>
+		<item key="selection" value="suspendeGMail"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="suspendeGMail"/>
 			<item value=" Response"/>
 			<item value="Response"/>
 			<item value="nickname-retrieve"/>
@@ -22,7 +23,6 @@
 			<item value="armaDatosUpdate"/>
 			<item value="1.7"/>
 			<item value="logger.debug"/>
-			<item value="(2)"/>
 		</list>
 		<list key="replacehistory">
 			<item value="logger.info"/>

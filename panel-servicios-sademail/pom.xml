@@ -298,5 +298,6 @@
 		<module>scheduler-actualiza-id-gmail</module>
 		<module>serv-cambiar-apellido</module>
 		<module>serv-ae-owner-members</module>
+		<module>serv-elimina_suspende_cuentas</module>
 	</modules>
 </project>

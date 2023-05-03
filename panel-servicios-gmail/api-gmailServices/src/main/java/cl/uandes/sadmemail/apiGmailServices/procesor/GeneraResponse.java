@@ -132,10 +132,12 @@ public class GeneraResponse implements Processor {
 			}
 		} else if ("user-delete".equals(operacion)) {
 			String username = (String)exchange.getIn().getHeader("Body");
+			logger.info(String.format("user_delete: username=%s", username));
 			try {
 				wao.deleteUser(username);
 				exchange.getIn().setBody(Response.ok().build());
 			} catch (Exception e) {
+				logger.error(String.format("ERROR user_delete: username=%s", username), e);
 				exchange.getIn().setBody(Response.status(Response.Status.BAD_REQUEST).build());
 			}
 			

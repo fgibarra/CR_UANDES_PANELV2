@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/panelToolEliminaSuspende/"
+        id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Eliminar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/delete/{username}"
+        id="deleteUserGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiEliminaSuspendeCuentaServices.api.restclient.DeleteUserGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- Suspender cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/suspend/{username}"
+        id="suspendeUserGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiEliminaSuspendeCuentaServices.api.restclient.SuspendUserGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.api.resources.EliminaSuspendeRestService" id="restService"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.ArmaDatosProceso" id="armaDatosProceso"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.EliminaEnGmail" id="eliminaEnGmail"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.GeneraRespuesta" id="generaRespuesta"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.RecuperaDeBanner" id="recuperaDeBanner">
+        <property name="maxUso" value="{{serv-elimina-suspende-cuentas.maxUso}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.SuspendeEnGmail" id="suspendeEnGmail"/>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <http-conf:conduit name="*.http-conduit">
+        <http-conf:client ReceiveTimeout="6000000"/>
+        <!-- 1 minuto -->
+    </http-conf:conduit>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <camelContext id="serv-elimina-suspende-cuentas-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <route id="_readjson">
+            <from id="_promService" uri="direct:start?timeout=-1"/>
+            <!-- 
+				- Lee tabla WRK_CUENTAS_OPERAR
+				- arma lista con los datos que se van a procesar
+				- loop
+					- saca los datos de  la lista de a 1 y los deja en el header
+					- si operacion es eliminar
+						- elimnina en gmail
+						- invoca SP que:
+							actualice goramal, 
+							elimina la cuenta de todos los grupos en NAP_GRUPO_MIEMBRO
+							elimina la cuenta de MI_CUENTAS_GMAIL
+						- incrementa contador
+						- fin
+					- si operacion es suspender
+						- suspende la cuenta en gmaol
+						- incrementa contador de suspendidos
+						- fin
+				- fin loop
+				- preparea la respuesta
+			-->
+            <to id="_qryDatos" uri="sql:select cuenta,spriden_id,usado,estado from wrk_cuentas_operar where resultado is null order by cuenta?dataSource=#bannerDataSource"/>
+            <process id="_recuperaDeBanner" ref="recuperaDeBanner"/>
+            <log id="_log1" message="hay ${header.listaCuentas.size} elementos en la lista"/>
+            <loop doWhile="true" id="_loopProcesaDatos">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
+                <process id="_armaDatosProceso" ref="armaDatosProceso"/>
+                <choice id="_operacion">
+                    <when id="_when1">
+                        <simple>${header.operacion} == 'elimina'</simple>
+                        <process id="_eliminaEnGmail" ref="eliminaEnGmail"/>
+                        <setHeader headerName="countEliminados" id="_setHeader1">
+                            <simple>${header.countEliminados}++</simple>
+                        </setHeader>
+                    </when>
+                    <when id="_when2">
+                        <simple>${header.operacion} == 'suspende'</simple>
+                        <process id="_suspendeEnGmail" ref="suspendeEnGmail"/>
+                        <setHeader headerName="countSuspendidos" id="_setHeader2">
+                            <simple>${header.countSuspendidos}++</simple>
+                        </setHeader>
+                    </when>
+                </choice>
+                <to id="_updateSademail" uri="sql-stored:pck_funciones.prd_eliminacuenta('p_spriden_id' java.sql.Types.VARCHAR ${header.spriden_id},'p_operacion' java.sql.Types.VARCHAR ${header.operacion}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
+                <log id="_log2" message="quedan ${header.listaCuentas.size} elementos en la lista"/>
+            </loop>
+            <process id="_generaRespuesta" ref="generaRespuesta"/>
+        </route>
+    </camelContext>
+</blueprint>
