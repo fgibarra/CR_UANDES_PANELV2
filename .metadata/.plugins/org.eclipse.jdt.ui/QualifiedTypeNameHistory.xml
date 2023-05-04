@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.panel.aeOwnersMembers.api.resources.soap.dto.PanelEsbResponseTYPE"/>
-    <fullyQualifiedTypeName name="org.apache.camel.CamelContext"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.aeOwnersMembers.procesor.exceptions.NotFoundBannerException"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.aeOwnersMembers.procesor.dto.ReporteDTO"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-    <fullyQualifiedTypeName name="java.util.Locale"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersRequest"/>
     <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
     <fullyQualifiedTypeName name="org.apache.commons.codec.binary.Base64"/>
@@ -40,7 +36,6 @@
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonInclude.Include"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto.DatosLeidosBannerDTO"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="javax.ws.rs.PUT"/>
     <fullyQualifiedTypeName name="javax.ws.rs.DELETE"/>
     <fullyQualifiedTypeName name="javax.ws.rs.Consumes"/>
@@ -51,13 +46,18 @@
     <fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
-    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="org.apache.cxf.jaxrs.impl.ResponseImpl"/>
     <fullyQualifiedTypeName name="java.io.SequenceInputStream"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.ResultadoGmail"/>
-    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.EliminaSuspendeCuentaResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.EliminaSuspendeCuentaRequest"/>
+    <fullyQualifiedTypeName name="org.apache.camel.CamelContext"/>
+    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+    <fullyQualifiedTypeName name="java.util.Locale"/>
+    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto.DatosReactivarBannerDTO"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

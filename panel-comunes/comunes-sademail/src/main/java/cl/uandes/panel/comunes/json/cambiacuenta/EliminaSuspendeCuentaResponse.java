@@ -22,21 +22,13 @@ public class EliminaSuspendeCuentaResponse implements Serializable {
 	Integer codigo;
 	@JsonProperty("mensaje")
 	String mensaje;
-	@JsonProperty("numero_eliminados")
-	Integer countEliminados;
-	@JsonProperty("numero_suspendidos")
-	Integer countSuspendidos;
 
 	public EliminaSuspendeCuentaResponse(
 			@JsonProperty("codigo")Integer codigo, 
-			@JsonProperty("mensaje")String mensaje, 
-			@JsonProperty("numero_eliminados")Integer countEliminados,
-			@JsonProperty("numero_suspendidos")Integer countSuspendidos) {
+			@JsonProperty("mensaje")String mensaje) { 
 		super();
 		this.codigo = codigo;
 		this.mensaje = mensaje;
-		this.countEliminados = countEliminados;
-		this.countSuspendidos = countSuspendidos;
 	}
 
 	@Override
@@ -65,22 +57,6 @@ public class EliminaSuspendeCuentaResponse implements Serializable {
 
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
-	}
-
-	public Integer getCountEliminados() {
-		return countEliminados;
-	}
-
-	public void setCountEliminados(Integer countEliminados) {
-		this.countEliminados = countEliminados;
-	}
-
-	public Integer getCountSuspendidos() {
-		return countSuspendidos;
-	}
-
-	public void setCountSuspendidos(Integer countSuspendidos) {
-		this.countSuspendidos = countSuspendidos;
 	}
 
 }

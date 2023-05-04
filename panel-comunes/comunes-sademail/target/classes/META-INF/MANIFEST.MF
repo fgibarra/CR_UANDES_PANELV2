@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1683063067862
+Bnd-LastModified: 1683222730253
 Build-Jdk: 1.8.0_291
 Built-By: fernando
 Bundle-Description: ComunesPanel

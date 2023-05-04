@@ -52,6 +52,7 @@ public class RecuperaDeBanner implements Processor {
 		exchange.getIn().setHeader("listaCuentas", lista);
 		exchange.getIn().setHeader("countEliminados", Integer.valueOf(0));
 		exchange.getIn().setHeader("countSuspendidos", Integer.valueOf(0));
+		exchange.getIn().setHeader("countReactivados", Integer.valueOf(0));
 	}
 
 	public String getMaxUso() {
