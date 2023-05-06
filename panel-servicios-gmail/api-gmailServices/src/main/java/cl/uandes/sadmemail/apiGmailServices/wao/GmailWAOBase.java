@@ -7,6 +7,7 @@ import com.google.api.services.admin.directory.model.Groups;
 import com.google.api.services.admin.directory.model.Member;
 import com.google.api.services.admin.directory.model.Members;
 import com.google.api.services.admin.directory.model.User;
+import com.google.api.services.admin.directory.model.Users;
 
 public interface GmailWAOBase {
 
@@ -45,4 +46,6 @@ public interface GmailWAOBase {
 	public Members retrieveAllMembers(String groupName, String token) throws Exception;
 	public void deleteMemberFromGroup(String groupName, String email) throws Exception;
 	public void deleteOwnerFromGroup(String groupName, String email) throws Exception;
+	public void unDeleteUser(String userKey) throws Exception;
+	public Users getAllUsers(String pageToken, String showDeleted) throws Exception;
 }

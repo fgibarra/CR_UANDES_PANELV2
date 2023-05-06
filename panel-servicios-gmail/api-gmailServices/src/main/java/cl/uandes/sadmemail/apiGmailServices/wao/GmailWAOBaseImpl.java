@@ -25,6 +25,7 @@ import com.google.api.services.admin.directory.model.Member;
 import com.google.api.services.admin.directory.model.Members;
 import com.google.api.services.admin.directory.model.User;
 import com.google.api.services.admin.directory.model.UserName;
+import com.google.api.services.admin.directory.model.Users;
 import com.google.api.services.groupssettings.*;
 import com.google.gson.Gson;
 
@@ -397,6 +398,13 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 		}
 	}
 
+	@Override
+	public void unDeleteUser(String userKey) throws Exception {
+		if (userKey != null) {
+			directory.users().undelete(userKey, null).execute();
+		}
+	}
+
 	/* Borrar el alias
 	 * @see sadmemail.lib.model.wao.GmailWAOBase#deleteNickname(java.lang.String)
 	 */
@@ -459,6 +467,24 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 		}
 	}
 
+	@Override
+	public Users getAllUsers(String pageToken, String showDeleted) throws Exception {
+		Users users = null;
+		try {
+			Directory.Users.List list = directory.users().list();
+			list.setMaxResults(100);
+			if (showDeleted != null && "true".equalsIgnoreCase(showDeleted))
+				list.setShowDeleted("true");
+			if (pageToken != null && pageToken.length() > 0) {
+				list.setPageToken(pageToken);
+			}
+			list.setDomain("miuandes.cl");
+			users = list.execute();
+		} catch (IOException e) {
+			logger.error("getDeletedUsers", e);
+		}
+		return users;
+	}
 	/* Crea nickName a cuenta
 	 * @see sadmemail.lib.model.wao.GmailWAOBase#createNickname(java.lang.String, java.lang.String)
 	 */
@@ -512,7 +538,12 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			updateUser(user);
 		}
 	}
+
 	
+	//---------------------------------------------------------------------------------------------------
+	//  GRUPOS
+	//---------------------------------------------------------------------------------------------------
+
 	/* Recupera los grupos a los que pertenece la cuenta email
 	 * @see sadmemail.lib.model.wao.GmailWAOBase#retrieveGroups(java.lang.String)
 	 */
@@ -527,10 +558,6 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 		}
 		return null;
 	}
-
-	//---------------------------------------------------------------------------------------------------
-	//  GRUPOS
-	//---------------------------------------------------------------------------------------------------
 
 	/* Crear grupo
 	 * @see sadmemail.lib.model.wao.GmailWAOBase#createGroup(java.lang.String, java.lang.String, java.lang.String, java.lang.String)

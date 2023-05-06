@@ -4,6 +4,7 @@
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/AliasRequest.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/MemberResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/GroupsResponse.java
+/home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/AllUsersResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/google/api/services/Group.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/UserResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/AliasResponse.java
@@ -13,6 +14,7 @@
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/MembersRequest.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/google/api/services/Member.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/GroupRequest.java
+/home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/AllUsersRequest.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/GroupResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/gmail/json/AliasesResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/src/main/java/cl/uandes/sadmemail/comunes/utils/JSonUtilities.java

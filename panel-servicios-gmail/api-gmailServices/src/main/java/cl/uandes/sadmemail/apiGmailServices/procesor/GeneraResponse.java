@@ -15,11 +15,14 @@ import com.google.api.services.admin.directory.model.Alias;
 import com.google.api.services.admin.directory.model.Aliases;
 import com.google.api.services.admin.directory.model.User;
 import com.google.api.services.admin.directory.model.UserName;
+import com.google.api.services.admin.directory.model.Users;
 
 import cl.uandes.sadmemail.apiGmailServices.wao.GmailWAOesb;
 import cl.uandes.sadmemail.comunes.gmail.json.AliasRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.AliasResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.AliasesResponse;
+import cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest;
+import cl.uandes.sadmemail.comunes.gmail.json.AllUsersResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.GroupRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.GroupResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.GroupsResponse;
@@ -72,6 +75,26 @@ public class GeneraResponse implements Processor {
 					response = new UserResponse(-1, "NOT_FOUND", null);
 			} catch (Exception e) {
 				response = new UserResponse(-1, e.getMessage(), null);
+			}
+			exchange.getIn().setBody(response);
+
+		} else if ("all-user-retrieve".equals(operacion)) {
+			AllUsersRequest request = (AllUsersRequest)exchange.getIn().getHeader("Body");
+			logger.info(String.format("request: %s", request.toString()));
+			AllUsersResponse response = new AllUsersResponse(0, "OK", null);
+			Users users;
+			try {
+				users = wao.getAllUsers(request.getPageToken(), 
+							request.getShowDeleted() != null ? request.getShowDeleted().toString() : null);
+				if (users != null) {
+					response = new AllUsersResponse(0, "OK", users.getNextPageToken());
+					response.setListaUsuarios(response.factoryListaUsuarios(users.getUsers()));
+					response.setCantidadRecuperados(response.getListaUsuarios().size());
+				} else 
+					response = new AllUsersResponse(-1, "NOT_FOUND", null);
+			} catch (Exception e) {
+				logger.error("all-user-retrieve", e);
+				response = new AllUsersResponse(-1, e.getMessage(), null);
 			}
 			exchange.getIn().setBody(response);
 
@@ -138,6 +161,17 @@ public class GeneraResponse implements Processor {
 				exchange.getIn().setBody(Response.ok().build());
 			} catch (Exception e) {
 				logger.error(String.format("ERROR user_delete: username=%s", username), e);
+				exchange.getIn().setBody(Response.status(Response.Status.BAD_REQUEST).build());
+			}
+			
+		} else if ("user-undelete".equals(operacion)) {
+			String userKey = (String)exchange.getIn().getHeader("Body");
+			logger.info(String.format("user_undelete: username=%s", userKey));
+			try {
+				wao.unDeleteUser(userKey);
+				exchange.getIn().setBody(Response.ok().build());
+			} catch (Exception e) {
+				logger.error(String.format("ERROR user_delete: userKey=%s", userKey), e);
 				exchange.getIn().setBody(Response.status(Response.Status.BAD_REQUEST).build());
 			}
 			

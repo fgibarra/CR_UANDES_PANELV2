@@ -22,6 +22,8 @@ import org.apache.log4j.Logger;
 import cl.uandes.sadmemail.comunes.gmail.json.AliasRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.AliasResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.AliasesResponse;
+import cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest;
+import cl.uandes.sadmemail.comunes.gmail.json.AllUsersResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.GroupRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.GroupResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.GroupsResponse;
@@ -55,6 +57,19 @@ public class GmailServicesRestService {
 		headers.put("Operacion", "user-create");
 		headers.put("Body", in_msg);
 		return (UserResponse) producer.requestBodyAndHeaders(in_msg, headers);
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/user/retrieveAllUsers")
+	public AllUsersResponse retrieveAllUser(AllUsersRequest in_msg) {
+		logger.info(String.format("retrieveUser: in_msg: %s - %s",in_msg.getClass().getSimpleName(), in_msg));
+		Map<String,Object> headers = new HashMap<String,Object>();
+		headers.put("Operacion", "all-user-retrieve");
+		headers.put("Body", in_msg);
+		return (AllUsersResponse) producer.requestBodyAndHeaders(in_msg, headers);
+		//return (UserResponse) producer.requestBodyAndHeader(in_msg, "Operacion", "user-retrieve");
 	}
 	
 	@GET
@@ -146,7 +161,21 @@ public class GmailServicesRestService {
 		headers.put("Body", in_msg);
 		return (Response) producer.requestBodyAndHeaders(in_msg, headers);
 	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/user/undelete/{userKey}")
+	public Response undeleteUser(@PathParam("userKey")String in_msg) {
+		logger.info(String.format("undeleteUser: in_msg: %s - %s", 
+				in_msg.getClass().getSimpleName(), in_msg));
+		Map<String,Object> headers = new HashMap<String,Object>();
+		headers.put("Operacion", "user-undelete");
+		headers.put("Body", in_msg);
+		return (Response) producer.requestBodyAndHeaders(in_msg, headers);
+	}
 	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")

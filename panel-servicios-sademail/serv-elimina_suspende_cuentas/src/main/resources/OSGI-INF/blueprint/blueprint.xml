@@ -91,18 +91,18 @@
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <route id="_readjson">
             <from id="_promService" uri="direct:start?timeout=-1"/>
-			<to uri="seda:generaResponse"/>
-		</route>
-    	<!-- ==================================================================================================== -->
-		<route id="_generaResponseRoute">
-			<from uri="seda:generaResponse"/>
-			<process id="_generaRespuesta" ref="generaRespuesta"/>
-		</route>
-    	<!-- ==================================================================================================== -->
-		<route id="_reactivaCuentasRoute">
-			<from uri="seda:reactivaCuentas?timeout=-1"/>
-			<log message="Reactiva cuentas: ${header.listaCuentas.size} leidos"/>
-			<!-- 
+            <to id="_to2" uri="seda:generaResponse"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_generaResponseRoute">
+            <from id="_from1" uri="seda:generaResponse"/>
+            <process id="_generaRespuesta" ref="generaRespuesta"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_reactivaCuentasRoute">
+            <from id="_from2" uri="seda:reactivaCuentas?timeout=-1"/>
+            <log id="_log3" message="Reactiva cuentas: ${header.listaCuentas.size} leidos"/>
+            <!-- 
 				- Lee tabla WRK_CUENTAS_OPERAR las suspendidas
 				- arma lista con los datos que se van a procesar
 				- loop
@@ -111,33 +111,35 @@
 				- fin loop
 				- envia correo
 			-->
-			<camel:setHeader headerName="funcion"><constant>Reactivar cuentas suspendidas</constant></camel:setHeader>
+            <camel:setHeader headerName="funcion" id="_setHeader3">
+                <constant>Reactivar cuentas suspendidas</constant>
+            </camel:setHeader>
             <to id="_qryDatosReactiva" uri="sql:select cuenta from wrk_cuentas_operar where resultado like 'suspende%' order by cuenta?dataSource=#bannerDataSource"/>
-			<process id="_armaDatosReactiva" ref="armaDatosReactiva"/>
-			<loop doWhile="true" id="_loopReactivaDatos">
-				<simple>${header.listaCuentas.size} &gt; 0</simple>
+            <process id="_armaDatosReactiva" ref="armaDatosReactiva"/>
+            <loop doWhile="true" id="_loopReactivaDatos">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <process id="_reactivaEnGmail" ref="reactivaEnGmail"/>
-				<choice>
-					<when>
-						<simple>${header.resultado} != null</simple>
-						<setBody>
-							<simple>update wrk_cuentas_operar set resultado2 = :?resultado where cuenta = :?cuenta</simple>
-						</setBody>
-						<log message="Parametros: resultado=${header.resultado} - cuenta=${header.cuenta}"/>
-						<log message="SQL: ${body}"/>
-		                <to id="_updateReactiva" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
-		                <setHeader headerName="countReactivados">
-		                    <simple>${header.countReactivados}++</simple>
-		                </setHeader>
-		                <log message="quedan ${header.listaCuentas.size} elementos en la lista"/>
-					</when>
-				</choice>
-			</loop>
+                <choice id="_choice1">
+                    <when id="_when3">
+                        <simple>${header.resultado} != null</simple>
+                        <setBody id="_setBody1">
+                            <simple>update wrk_cuentas_operar set resultado2 = :?resultado where cuenta = :?cuenta</simple>
+                        </setBody>
+                        <log id="_log4" message="Parametros: resultado=${header.resultado} - cuenta=${header.cuenta}"/>
+                        <log id="_log5" message="SQL: ${body}"/>
+                        <to id="_updateReactiva" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                        <setHeader headerName="countReactivados" id="_setHeader4">
+                            <simple>${header.countReactivados}++</simple>
+                        </setHeader>
+                        <log id="_log6" message="quedan ${header.listaCuentas.size} elementos en la lista"/>
+                    </when>
+                </choice>
+            </loop>
             <to id="_generaMail1" uri="seda:generaMail"/>
-		</route>
-	    <!-- ==================================================================================================== -->
-		<route id="_procesaSuspendeElimina">
-			<from id="_readJsonRoute" uri="seda:procesaSuspendeElimina?timeout=-1"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_procesaSuspendeElimina">
+            <from id="_readJsonRoute" uri="seda:procesaSuspendeElimina?timeout=-1"/>
             <!-- 
 				- Lee tabla WRK_CUENTAS_OPERAR
 				- arma lista con los datos que se van a procesar
@@ -158,11 +160,12 @@
 				- fin loop
 				- envia correo
 			-->
-			<camel:setHeader headerName="funcion"><constant>Procesar eliminacion/suspencion de cuentas</constant></camel:setHeader>
+            <camel:setHeader headerName="funcion" id="_setHeader5">
+                <constant>Procesar eliminacion/suspencion de cuentas</constant>
+            </camel:setHeader>
             <to id="_qryDatos" uri="sql:select cuenta,spriden_id,usado,estado from wrk_cuentas_operar where resultado is null order by cuenta?dataSource=#bannerDataSource"/>
             <process id="_recuperaDeBanner" ref="recuperaDeBanner"/>
             <log id="_log1" message="hay ${header.listaCuentas.size} elementos en la lista"/>
-
             <loop doWhile="true" id="_loopProcesaDatos">
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <process id="_armaDatosProceso" ref="armaDatosProceso"/>
@@ -187,11 +190,11 @@
             </loop>
             <to id="_generaMail2" uri="seda:generaMail"/>
         </route>
-	    <!-- ==================================================================================================== -->
-		<route id="_generaMailRoute">
-			<from uri="seda:generaMail"/>
-			<log message="funcion: ${header.funcion} countReactivados: ${header.countReactivados}"/>
-			<process id="_preparaTemplateMail" ref="preparaTemplateMail"/>
+        <!-- ==================================================================================================== -->
+        <route id="_generaMailRoute">
+            <from id="_from3" uri="seda:generaMail"/>
+            <log id="_log7" message="funcion: ${header.funcion} countReactivados: ${header.countReactivados}"/>
+            <process id="_preparaTemplateMail" ref="preparaTemplateMail"/>
             <to id="creaCuerpo" uri="velocity:templateMail.vm?contentCache=true"/>
             <process id="_preparaDatosMail" ref="preparaDatosMail"/>
             <!-- manda email -->
@@ -202,6 +205,6 @@
                 <simple>text/html;charset=ISO-8859-1</simple>
             </setHeader>
             <to id="_to1" uri="smtps://smtp.gmail.com?username={{serv.mailPanel.mail_username}}&amp;password={{serv.mailPanel.mail_password}}&amp;from={{serv.mailPanel.mail_from}}&amp;contentType=text/html;charset=ISO-8859-1"/>
-		</route>
+        </route>
     </camelContext>
 </blueprint>
