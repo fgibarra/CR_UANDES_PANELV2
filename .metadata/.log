@@ -4890,3 +4890,2925 @@ java.lang.IllegalArgumentException
 	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
 	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
 	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+!SESSION 2023-06-02 13:53:07.459 -----------------------------------------------
+eclipse.buildId=12.18.0.GA-v20210115-1005-B7439
+java.version=11.0.10
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+
+!ENTRY org.eclipse.ui 2 0 2023-06-02 13:53:18.136
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.136
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.136
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.136
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.136
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.136
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.add.import'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.organize.imports'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-02 13:53:18.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+
+!ENTRY org.eclipse.jface 2 0 2023-06-02 13:53:21.419
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-06-02 13:53:21.419
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@42c2a1da,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@70ca533a,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 13:54:33.554
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 13:54:33.561
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 13:54:33.563
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.eclipse.pde.core 4 0 2023-06-02 13:57:34.627
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:114)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:125)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:87)
+	at org.eclipse.pde.internal.core.PluginModelManager.addWorkspaceBundleToState(PluginModelManager.java:760)
+	at org.eclipse.pde.internal.core.PluginModelManager.initializeTable(PluginModelManager.java:621)
+	at org.eclipse.pde.internal.core.PluginModelManager.findModel(PluginModelManager.java:1053)
+	at org.eclipse.pde.core.plugin.PluginRegistry.findModel(PluginRegistry.java:113)
+	at org.jboss.ide.eclipse.as.core.modules.OSGiModuleFactory.createModules(OSGiModuleFactory.java:70)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.cacheModules(ProjectModuleFactoryDelegate.java:62)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.getModules(ProjectModuleFactoryDelegate.java:267)
+	at org.eclipse.wst.server.core.internal.ModuleFactory.getModules(ModuleFactory.java:142)
+	at org.eclipse.wst.server.core.ServerUtil.getModules(ServerUtil.java:100)
+	at org.eclipse.wst.server.core.internal.ResourceManager.publishHandleProjectChange(ResourceManager.java:1082)
+	at org.eclipse.wst.server.core.internal.ResourceManager$ServerResourceChangeListener$1.visit(ResourceManager.java:127)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
+	at org.eclipse.wst.server.core.internal.ResourceManager$ServerResourceChangeListener.resourceChanged(ResourceManager.java:121)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
+	at org.eclipse.core.internal.resources.Workspace.broadcastBuildEvent(Workspace.java:366)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:157)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:244)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Contains: Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+!SUBENTRY 1 org.eclipse.pde.core 4 0 2023-06-02 13:57:34.628
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!SUBENTRY 2 org.eclipse.pde.core 4 0 2023-06-02 13:57:34.628
+!MESSAGE Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 13:59:41.523
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:08:34.198
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.eclipse.lsp4e 4 0 2023-06-02 15:12:34.744
+!MESSAGE java.lang.NullPointerException
+!STACK 0
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:395)
+	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2022)
+	at org.eclipse.lsp4e.operations.hover.LSPTextHover.getHoverInfo(LSPTextHover.java:73)
+	at org.eclipse.ui.internal.genericeditor.hover.CompositeTextHover.getHoverInfo2(CompositeTextHover.java:60)
+	at org.eclipse.jface.text.TextViewerHoverManager$1.run(TextViewerHoverManager.java:155)
+Caused by: java.lang.NullPointerException
+	at org.eclipse.lsp4e.operations.hover.LSPTextHover.getHoverString(LSPTextHover.java:108)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:177)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1655)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:484)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:474)
+	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:913)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:578)
+	at org.eclipse.lsp4e.operations.hover.LSPTextHover.lambda$0(LSPTextHover.java:96)
+	at java.base/java.util.concurrent.CompletableFuture.uniApplyNow(CompletableFuture.java:680)
+	at java.base/java.util.concurrent.CompletableFuture.uniApplyStage(CompletableFuture.java:658)
+	at java.base/java.util.concurrent.CompletableFuture.thenApply(CompletableFuture.java:2094)
+	at org.eclipse.lsp4e.operations.hover.LSPTextHover.getHoverInfoFuture(LSPTextHover.java:91)
+	at org.eclipse.lsp4e.operations.hover.LSPTextHover.getHoverInfo(LSPTextHover.java:70)
+	... 2 more
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:14:23.827
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:14:27.810
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:16:34.056
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:31:09.287
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:34:02.086
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:34:55.137
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:34:55.219
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:34:55.220
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:34:59.251
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:34:59.311
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:34:59.313
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:40:02.776
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:40:02.836
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:40:02.837
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:41:45.022
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:41:45.107
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:41:45.109
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:47:18.067
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:47:18.151
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:47:18.153
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:47:22.529
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:47:22.588
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:47:22.589
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:50:18.136
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:50:18.205
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:50:18.207
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:51:03.847
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:51:03.928
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:51:03.929
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:51:07.488
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:51:07.539
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:51:07.540
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:54:17.896
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:54:17.949
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:54:17.950
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:57:09.134
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:57:09.201
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:57:09.202
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:57:13.178
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:57:13.249
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:57:13.250
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:58:23.042
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:58:23.114
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 15:58:23.115
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:02:40.110
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:02:40.174
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:02:40.175
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:21.831
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:21.900
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:21.901
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:28.454
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:28.531
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:28.532
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:31.669
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:31.737
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:31.739
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:43.428
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:43.519
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:03:43.520
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:04:58.563
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:04:58.633
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:04:58.635
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:05:02.005
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:05:02.071
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:05:02.072
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:05:11.319
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:05:11.388
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:05:11.389
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:38.307
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:38.372
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:38.373
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:41.938
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:42.001
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:42.003
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:47.940
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:48.011
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 16:06:48.013
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:23:31.778
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:23:31.847
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:23:31.848
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:26:46.605
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:26:46.683
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:26:46.684
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:29:39.414
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:29:39.485
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:29:39.486
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:31:46.570
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:31:46.642
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:31:46.643
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:33:16.895
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:33:16.982
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:33:16.983
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:33:43.796
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:33:43.858
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:33:43.860
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:35:07.567
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:35:07.635
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:35:07.636
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:35:12.323
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:35:12.410
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:35:12.412
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:29.380
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:29.447
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:29.449
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:33.155
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:33.219
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:33.220
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:51.794
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:51.854
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:55:51.855
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:56:12.155
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:56:12.230
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 17:56:12.231
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:11:38.806
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:11:38.882
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:11:38.884
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:11:42.803
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:11:42.867
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:11:42.869
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:13:20.781
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:13:20.866
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:13:20.868
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:15:32.063
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:15:32.139
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:15:32.141
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:34.984
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:35.037
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:35.038
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:39.276
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:39.343
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:39.344
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:49.657
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:49.728
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:17:49.730
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:24:53.767
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:24:53.830
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:24:53.831
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:24:56.677
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:24:56.744
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:24:56.745
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:26:44.906
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:26:44.976
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:26:44.978
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:27:08.718
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:27:08.773
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:27:08.774
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:33:55.578
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:33:55.639
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:33:55.640
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:33:58.044
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:33:58.111
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:33:58.112
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:34:14.660
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:34:14.732
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:34:14.733
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:34:48.521
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:34:48.588
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:34:48.589
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:36:57.644
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:36:57.703
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:36:57.704
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:37:53.491
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:37:53.557
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:37:53.558
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:40:39.763
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:40:39.826
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:40:39.827
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:40:43.634
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:40:43.701
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:40:43.703
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:02.257
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:02.331
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:02.332
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:05.286
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:05.344
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:05.346
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:16.875
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:16.939
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:41:16.940
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:46:58.051
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:46:58.129
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:46:58.131
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:47:00.590
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:47:00.665
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:47:00.666
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:47:49.902
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:47:49.972
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-02 18:47:49.973
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+!SESSION 2023-06-03 09:50:39.425 -----------------------------------------------
+eclipse.buildId=12.18.0.GA-v20210115-1005-B7439
+java.version=11.0.10
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+
+!ENTRY org.eclipse.ui 2 0 2023-06-03 09:52:08.277
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.add.import'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.organize.imports'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.278
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.279
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.280
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.280
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-03 09:52:08.280
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+
+!ENTRY org.eclipse.jface 2 0 2023-06-03 09:52:57.797
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-06-03 09:52:57.797
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@466d6ea5,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@52db9036,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 09:54:42.219
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 09:54:42.340
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 09:54:42.342
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.eclipse.pde.core 4 0 2023-06-03 09:55:29.881
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:114)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:125)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:87)
+	at org.eclipse.pde.internal.core.PluginModelManager.addWorkspaceBundleToState(PluginModelManager.java:760)
+	at org.eclipse.pde.internal.core.PluginModelManager.initializeTable(PluginModelManager.java:621)
+	at org.eclipse.pde.internal.core.PluginModelManager.findModel(PluginModelManager.java:1053)
+	at org.eclipse.pde.core.plugin.PluginRegistry.findModel(PluginRegistry.java:113)
+	at org.jboss.ide.eclipse.as.core.modules.OSGiModuleFactory.createModules(OSGiModuleFactory.java:70)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.cacheModules(ProjectModuleFactoryDelegate.java:62)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.getModules(ProjectModuleFactoryDelegate.java:267)
+	at org.eclipse.wst.server.core.internal.ModuleFactory.getModules(ModuleFactory.java:142)
+	at org.eclipse.wst.server.core.ServerUtil.getModules(ServerUtil.java:100)
+	at org.eclipse.wst.server.core.internal.ResourceManager.publishHandleProjectChange(ResourceManager.java:1082)
+	at org.eclipse.wst.server.core.internal.ResourceManager$ServerResourceChangeListener$1.visit(ResourceManager.java:127)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
+	at org.eclipse.wst.server.core.internal.ResourceManager$ServerResourceChangeListener.resourceChanged(ResourceManager.java:121)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
+	at org.eclipse.core.internal.resources.Workspace.broadcastBuildEvent(Workspace.java:366)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:157)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:244)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Contains: Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+!SUBENTRY 1 org.eclipse.pde.core 4 0 2023-06-03 09:55:29.882
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!SUBENTRY 2 org.eclipse.pde.core 4 0 2023-06-03 09:55:29.882
+!MESSAGE Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:01:30.213
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:01:30.345
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:01:30.347
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:05:57.030
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:05:57.113
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:05:57.115
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:10:14.204
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:10:14.283
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:10:14.284
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:11:47.948
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:11:48.024
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 10:11:48.026
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.eclipse.lsp4e 4 0 2023-06-03 12:14:19.768
+!MESSAGE 
+!STACK 0
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.CompletableFuture.timedGet(CompletableFuture.java:1886)
+	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2021)
+	at org.eclipse.lsp4e.operations.declaration.OpenDeclarationHyperlinkDetector.detectHyperlinks(OpenDeclarationHyperlinkDetector.java:90)
+	at org.eclipse.ui.texteditor.HyperlinkDetectorRegistry$HyperlinkDetectorDelegate.detectHyperlinks(HyperlinkDetectorRegistry.java:81)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.findHyperlinks(HyperlinkManager.java:289)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.findHyperlinks(HyperlinkManager.java:262)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.mouseMove(HyperlinkManager.java:457)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:216)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5745)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1427)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:5013)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4507)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:19:16.522
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:19:16.588
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:19:16.589
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:19:40.778
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:19:40.838
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:19:40.839
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:31:45.386
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:31:45.473
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:31:45.475
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:32:23.935
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:32:24.003
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:32:24.004
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:36:30.401
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:36:30.462
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:36:30.463
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:36:52.852
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:36:52.929
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:36:52.930
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:40:39.593
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:40:39.652
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:40:39.653
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:43:16.143
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:43:16.205
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:43:16.206
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:58:37.338
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:58:37.399
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:58:37.400
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:58:41.593
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:58:41.650
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 12:58:41.651
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 13:40:25.169
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 13:40:25.229
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 13:40:25.230
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 13:40:30.187
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 13:40:30.249
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 13:40:30.250
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:13:38.057
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:13:38.118
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:13:38.119
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:14:19.829
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:14:19.886
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:14:19.887
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:29.453
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:29.527
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:29.529
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:33.300
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:33.378
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:33.380
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:48.951
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:49.021
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:16:49.023
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:18:37.585
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:18:37.674
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:18:37.675
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:23:46.406
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:23:46.506
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:23:46.508
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:23:51.577
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:23:51.695
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:23:51.697
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:25:09.997
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:25:10.066
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:25:10.067
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:25:13.137
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:25:13.210
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:25:13.211
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:26:00.892
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:26:01.013
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:26:01.014
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:20.644
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:20.736
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:20.737
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:24.525
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:24.598
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:24.599
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:34.306
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:34.372
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:27:34.373
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:17.080
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:17.162
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:17.163
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:20.797
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:20.874
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:20.875
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:28.735
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:28.810
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 14:29:28.812
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:36.215
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:36.301
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:36.303
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:40.211
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:40.301
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:40.302
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:48.923
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:48.997
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:50:48.999
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:52:03.677
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:52:03.763
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 16:52:03.764
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:03:11.272
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:03:11.345
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:03:11.346
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:11:48.847
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:11:48.928
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:11:48.929
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:16:17.422
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:16:17.518
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:16:17.520
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:28:29.116
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:28:29.184
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:28:29.185
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:36:30.950
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:36:31.054
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:36:31.055
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:38:48.806
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:38:48.892
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:38:48.893
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:51:01.983
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:51:02.056
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:51:02.057
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:27.289
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:27.382
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:27.384
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:31.382
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:31.465
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:31.467
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:53.550
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:53.642
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:53.643
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:57.206
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:57.293
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 17:55:57.294
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 18:27:53.520
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 18:27:53.614
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 18:27:53.615
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:23.749
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:23.874
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:23.875
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:54.259
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:54.261
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:54.263
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:54.274
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:54.276
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:54.277
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:55.131
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:55.276
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:31:55.278
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:35:31.739
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:35:31.853
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:35:31.855
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:35:42.657
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:35:42.750
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:35:42.751
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:36:38.934
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:36:39.015
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 19:36:39.016
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:50:16.780
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:50:16.855
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:50:16.857
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:50:37.101
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:50:37.172
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:50:37.173
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:54:08.104
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:54:08.182
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:54:08.183
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:54:20.604
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:54:20.697
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-03 20:54:20.698
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+!SESSION 2023-06-04 12:42:08.835 -----------------------------------------------
+eclipse.buildId=12.18.0.GA-v20210115-1005-B7439
+java.version=11.0.10
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+
+!ENTRY org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.854
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.add.import'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.organize.imports'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.855
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.856
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.856
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.856
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.856
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.856
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.856
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-04 12:42:20.856
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+
+!ENTRY org.eclipse.jface 2 0 2023-06-04 12:42:24.581
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-06-04 12:42:24.582
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@51f91d19,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@5ce593bc,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:44:34.205
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:44:34.323
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:44:34.324
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.eclipse.pde.core 4 0 2023-06-04 12:44:41.193
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:114)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:125)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:87)
+	at org.eclipse.pde.internal.core.PluginModelManager.addWorkspaceBundleToState(PluginModelManager.java:760)
+	at org.eclipse.pde.internal.core.PluginModelManager.initializeTable(PluginModelManager.java:621)
+	at org.eclipse.pde.internal.core.PluginModelManager.findModel(PluginModelManager.java:1053)
+	at org.eclipse.pde.core.plugin.PluginRegistry.findModel(PluginRegistry.java:113)
+	at org.jboss.ide.eclipse.as.core.modules.OSGiModuleFactory.createModules(OSGiModuleFactory.java:70)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.cacheModules(ProjectModuleFactoryDelegate.java:62)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.getModules(ProjectModuleFactoryDelegate.java:267)
+	at org.eclipse.wst.server.core.internal.ModuleFactory.getModules(ModuleFactory.java:142)
+	at org.eclipse.wst.server.core.ServerUtil.getModules(ServerUtil.java:100)
+	at org.eclipse.wst.server.core.internal.ResourceManager.publishHandleProjectChange(ResourceManager.java:1082)
+	at org.eclipse.wst.server.core.internal.ResourceManager$ServerResourceChangeListener$1.visit(ResourceManager.java:127)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
+	at org.eclipse.wst.server.core.internal.ResourceManager$ServerResourceChangeListener.resourceChanged(ResourceManager.java:121)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
+	at org.eclipse.core.internal.resources.Workspace.broadcastBuildEvent(Workspace.java:366)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:157)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:244)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Contains: Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+!SUBENTRY 1 org.eclipse.pde.core 4 0 2023-06-04 12:44:41.194
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!SUBENTRY 2 org.eclipse.pde.core 4 0 2023-06-04 12:44:41.194
+!MESSAGE Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:45:09.610
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:45:09.730
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:45:09.732
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.eclipse.ui 4 0 2023-06-04 12:46:43.501
+!MESSAGE Unhandled event loop exception
+!STACK 0
+java.lang.IllegalArgumentException: Argument not valid
+	at org.eclipse.swt.SWT.error(SWT.java:4850)
+	at org.eclipse.swt.SWT.error(SWT.java:4784)
+	at org.eclipse.swt.SWT.error(SWT.java:4755)
+	at org.eclipse.swt.widgets.Widget.error(Widget.java:551)
+	at org.eclipse.swt.widgets.Widget.checkParent(Widget.java:408)
+	at org.eclipse.swt.widgets.Widget.<init>(Widget.java:284)
+	at org.eclipse.swt.widgets.Control.<init>(Control.java:160)
+	at org.eclipse.swt.widgets.Slider.<init>(Slider.java:109)
+	at org.eclipse.jface.internal.text.html.BrowserInformationControl.isAvailable(BrowserInformationControl.java:92)
+	at org.eclipse.lsp4e.operations.completion.LSIncompleteCompletionProposal$3.doCreateInformationControl(LSIncompleteCompletionProposal.java:293)
+	at org.eclipse.jface.text.AbstractReusableInformationControlCreator.createInformationControl(AbstractReusableInformationControlCreator.java:46)
+	at org.eclipse.jface.text.AbstractInformationControlManager.getInformationControl(AbstractInformationControlManager.java:829)
+	at org.eclipse.jface.text.AbstractInformationControlManager.internalShowInformationControl(AbstractInformationControlManager.java:1138)
+	at org.eclipse.jface.text.AbstractInformationControlManager.presentInformation(AbstractInformationControlManager.java:1120)
+	at org.eclipse.jface.text.AbstractInformationControlManager.setInformation(AbstractInformationControlManager.java:431)
+	at org.eclipse.jface.text.contentassist.AdditionalInfoController.computeInformation(AdditionalInfoController.java:548)
+	at org.eclipse.jface.text.AbstractInformationControlManager.doShowInformation(AbstractInformationControlManager.java:1101)
+	at org.eclipse.jface.text.AbstractInformationControlManager.showInformation(AbstractInformationControlManager.java:1091)
+	at org.eclipse.jface.text.contentassist.AdditionalInfoController.showInformation(AdditionalInfoController.java:530)
+	at org.eclipse.jface.text.contentassist.AdditionalInfoController$1.showInformation(AdditionalInfoController.java:477)
+	at org.eclipse.jface.text.contentassist.AdditionalInfoController$Timer.lambda$1(AdditionalInfoController.java:362)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4988)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4510)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:50:33.881
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:50:33.943
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:50:33.945
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:50:38.999
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:50:39.057
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:50:39.058
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:59:57.496
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:59:57.556
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 12:59:57.558
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:00:01.774
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:00:01.823
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:00:01.824
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:01:52.345
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:01:52.398
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:01:52.399
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:01:57.120
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:01:57.169
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:01:57.170
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:12:30.378
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:12:30.435
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:12:30.436
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:14:45.856
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:14:45.933
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:14:45.934
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:17:57.171
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:17:57.217
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:17:57.219
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:20:49.837
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:20:49.903
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:20:49.904
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:22:55.307
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:22:55.355
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:22:55.356
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:27.995
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:28.065
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:28.066
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:37.634
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:37.701
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:37.702
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:49.972
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:50.024
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:24:50.026
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:13.029
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:13.101
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:13.102
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:20.521
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:20.575
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:20.577
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:55.627
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:55.722
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:27:55.723
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:28:18.999
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:28:19.068
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:28:19.069
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:28:22.893
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:28:22.941
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:28:22.942
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:37:18.545
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:37:18.590
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:37:18.591
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:45:41.764
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:45:41.818
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:45:41.819
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:18.886
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:18.945
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:18.946
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:34.910
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:34.971
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:34.973
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:38.993
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:39.047
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:46:39.049
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:56:05.694
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:56:05.759
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 13:56:05.761
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 14:18:20.570
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 14:18:20.614
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-04 14:18:20.616
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+!SESSION 2023-06-05 10:50:42.659 -----------------------------------------------
+eclipse.buildId=12.18.0.GA-v20210115-1005-B7439
+java.version=11.0.10
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+
+!ENTRY org.eclipse.ui 2 0 2023-06-05 10:51:12.863
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.863
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.863
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.863
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.863
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.add.import'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.organize.imports'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.864
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-06-05 10:51:12.865
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+
+!ENTRY org.eclipse.jface 2 0 2023-06-05 10:51:16.861
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-06-05 10:51:16.861
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@4870d2e1,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@30367620,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.pde.core 4 0 2023-06-05 11:07:05.526
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:114)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:125)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:87)
+	at org.eclipse.pde.internal.core.PluginModelManager.addWorkspaceBundleToState(PluginModelManager.java:760)
+	at org.eclipse.pde.internal.core.PluginModelManager.initializeTable(PluginModelManager.java:621)
+	at org.eclipse.pde.internal.core.PluginModelManager.findModel(PluginModelManager.java:1053)
+	at org.eclipse.pde.core.plugin.PluginRegistry.findModel(PluginRegistry.java:113)
+	at org.eclipse.pde.internal.ui.correction.java.FindClassResolutionsOperation.getValidPackages(FindClassResolutionsOperation.java:221)
+	at org.eclipse.pde.internal.ui.correction.java.FindClassResolutionsOperation.run(FindClassResolutionsOperation.java:170)
+	at org.eclipse.pde.internal.ui.correction.java.QuickFixProcessor.handleImportNotFound(QuickFixProcessor.java:223)
+	at org.eclipse.pde.internal.ui.correction.java.QuickFixProcessor.getCorrections(QuickFixProcessor.java:52)
+	at org.eclipse.jdt.internal.ui.text.correction.JavaCorrectionProcessor$SafeCorrectionCollector.safeRun(JavaCorrectionProcessor.java:381)
+	at org.eclipse.jdt.internal.ui.text.correction.JavaCorrectionProcessor$SafeCorrectionProcessorAccess.run(JavaCorrectionProcessor.java:341)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.correction.JavaCorrectionProcessor$SafeCorrectionProcessorAccess.process(JavaCorrectionProcessor.java:336)
+	at org.eclipse.jdt.internal.ui.text.correction.JavaCorrectionProcessor.collectCorrections(JavaCorrectionProcessor.java:465)
+	at org.eclipse.jdt.internal.ui.text.java.hover.ProblemHover$ProblemInfo.getJavaAnnotationFixes(ProblemHover.java:105)
+	at org.eclipse.jdt.internal.ui.text.java.hover.ProblemHover$ProblemInfo.getCompletionProposals(ProblemHover.java:79)
+	at org.eclipse.jdt.internal.ui.text.java.hover.AbstractAnnotationHover$AnnotationInformationControl.deferredCreateContent(AbstractAnnotationHover.java:304)
+	at org.eclipse.jdt.internal.ui.text.java.hover.AbstractAnnotationHover$AnnotationInformationControl.setInput(AbstractAnnotationHover.java:190)
+	at org.eclipse.jface.text.AbstractInformationControlManager.internalShowInformationControl(AbstractInformationControlManager.java:1151)
+	at org.eclipse.jface.text.AbstractInformationControlManager.presentInformation(AbstractInformationControlManager.java:1120)
+	at org.eclipse.jface.text.AbstractHoverInformationControlManager.presentInformation(AbstractHoverInformationControlManager.java:884)
+	at org.eclipse.jface.text.TextViewerHoverManager.doPresentInformation(TextViewerHoverManager.java:237)
+	at org.eclipse.jface.text.TextViewerHoverManager.lambda$3(TextViewerHoverManager.java:227)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4988)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4510)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+Contains: Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+!SUBENTRY 1 org.eclipse.pde.core 4 0 2023-06-05 11:07:05.528
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!SUBENTRY 2 org.eclipse.pde.core 4 0 2023-06-05 11:07:05.528
+!MESSAGE Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:10:47.086
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:10:47.179
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:10:47.181
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:10:56.391
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:10:56.468
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:10:56.470
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:11:00.217
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:11:00.275
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:11:00.276
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:15:06.839
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:15:06.931
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:15:06.940
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:20:53.736
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:20:53.810
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:20:53.812
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:44.417
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:44.474
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:44.476
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:51.279
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:51.333
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:51.335
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:54.306
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:54.353
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:22:54.355
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:33:42.167
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:33:42.224
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:33:42.225
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:33:45.018
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:33:45.077
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:33:45.078
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:35:38.212
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:35:38.269
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:35:38.271
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.eclipse.jdt.core 4 4 2023-06-05 11:38:26.898
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class DatosLeidosRecrearDTO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7881332435346563313L;
+	@JsonProperty("key")
+	Integer key;
+	@JsonProperty("cuenta")
+	String cuenta;
+	@JsonProperty("id_gmail")
+	String idGmail;
+	@JsonProperty("nombres")
+	String nombres;
+	@JsonProperty("apellidos")
+	String apellidos;
+	@JsonProperty("spriden_id")
+	String spridenId;
+
+	private Logger logger = Logger.getLogger(getClass());
+
+	public DatosLeidosRecrearDTO(Map<String, Object> mapDatos) {
+		try {
+			this.key = (Integer.valueOf(((BigDecimal)mapDatos.get("KEY")).intValue()));
+			this.cuenta = (String)mapDatos.get("CUENTA");
+			this.idGmail = (String)mapDatos.get("ID_GMAIL");
+			this.nombres = (String)mapDatos.get("NOMBRES");
+			this.apellidos = (String)mapDatos.get("APELLIDOS");
+			this.spridenId = (String)mapDatos.get("SPRIDEN_ID");
+		} catch (Exception e) {
+			StringBuffer sb = new StringBuffer();
+			for (String key : mapDatos.keySet()) {
+				sb.append(String.format("%s = %s\n", key, mapDatos.get(key)));
+			}
+			logger.error(String.format("DatosLeidosRecrearDTO: %s\n%s", e.getCause(), sb.toString()));
+		}
+	}
+
+	public Integer getKey() {
+		return key;
+	}
+
+	public void setKey(Integer key) {
+		this.key = key;
+	}
+
+	public String getLoginName() {
+		if (this.cuenta != null) {
+			int index = cuenta.indexOf('@');
+			if (index >= 0)
+				return this.cuenta.substring(0, index);
+		}
+		return cuenta;
+	}
+
+	public String getPassword() 
+	public String getIdGmail() {
+		return idGmail;
+	}
+
+	public void setIdGmail(String idGmail) {
+		this.idGmail = idGmail;
+	}
+
+	public String getCuenta() {
+		return cuenta;
+	}
+
+	public void setCuenta(String cuenta) {
+		this.cuenta = cuenta;
+	}
+
+	public String getNombres() {
+		return nombres;
+	}
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public String getSpridenId() {
+		return spridenId;
+	}
+
+	public void setSpridenId(String spridenId) {
+		this.spridenId = spridenId;
+	}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:738)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:471)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:268)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2023-06-05 11:38:26.899
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:738)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:471)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:268)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2023-06-05 11:38:26.899
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3146)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:738)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:471)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:268)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:41:56.858
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:41:56.911
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:41:56.913
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:46:27.676
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:46:27.747
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:46:27.748
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:47:11.355
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:47:11.419
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:47:11.420
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:47:53.794
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:47:53.850
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:47:53.852
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:48:09.126
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:48:09.179
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:48:09.181
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:50:40.647
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:50:40.710
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:50:40.712
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:50:44.560
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:50:44.616
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:50:44.617
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:56:50.738
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:56:50.788
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:56:50.789
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:58:06.488
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:58:06.545
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:58:06.546
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:58:18.440
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:58:18.487
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:58:18.488
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:59:39.291
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:59:39.346
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:59:39.348
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:59:43.098
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:59:43.160
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 11:59:43.162
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:14:55.587
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:14:55.629
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:14:55.630
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:14:58.600
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:14:58.656
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:14:58.657
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:23:44.958
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:23:45.022
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:23:45.023
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:24:44.362
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:24:44.429
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:24:44.431
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:28:06.066
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:28:06.125
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:28:06.126
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:29:59.654
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:29:59.705
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:29:59.706
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:30:34.168
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:30:34.217
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:30:34.219
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:30:37.045
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:30:37.105
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:30:37.107
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:31:55.932
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:31:55.991
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:31:55.992
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:33:35.751
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:33:35.815
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:33:35.816
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:33:38.593
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:33:38.652
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:33:38.653
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:34:01.455
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:34:01.516
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:34:01.518
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:52:46.018
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:52:46.061
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:52:46.062
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:52:49.251
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:52:49.295
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 12:52:49.296
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:03:47.788
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:21:47.158
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:21:47.207
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:21:47.208
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:26:54.265
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:26:54.329
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:26:54.330
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:26:57.538
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:26:57.598
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:26:57.600
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:35:40.876
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:35:40.938
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:35:40.939
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:30.087
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:30.137
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:30.138
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:32.850
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:32.904
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:32.905
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:39.236
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:39.295
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:39.296
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:41.350
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:41.404
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:38:41.406
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:51:01.999
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:51:02.046
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:51:02.047
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:51:20.666
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:51:20.743
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:51:20.745
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:58:24.737
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:58:24.789
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:58:24.790
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:59:37.195
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:59:37.242
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 13:59:37.243
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:01:51.337
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:01:51.380
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:01:51.381
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:01:54.924
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:01:54.987
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:01:54.989
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:03:20.477
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:03:20.540
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:03:20.541
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:03:37.619
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:03:37.676
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 14:03:37.678
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:06:38.137
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:06:38.196
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:06:38.197
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:12:59.834
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:12:59.898
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:12:59.900
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:13:02.733
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:13:02.790
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:13:02.791
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:13:15.299
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:13:15.354
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:13:15.355
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:07.885
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:07.936
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:07.937
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:16.549
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:16.595
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:16.596
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:20.044
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:20.098
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:19:20.100
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:24:39.940
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:24:39.987
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:24:39.988
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:24:42.976
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:24:43.029
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:24:43.030
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:28:35.068
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:28:35.110
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:28:35.111
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:28:38.804
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:28:38.857
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:28:38.858
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:36:58.447
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:36:58.496
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:36:58.497
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:38:17.857
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:38:17.933
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:38:17.935
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:38:21.059
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:38:21.107
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:38:21.109
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:46:34.113
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:46:34.158
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:46:34.159
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:46:36.290
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:46:36.342
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:46:36.344
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:54:04.819
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:54:04.865
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:54:04.866
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:54:07.686
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:54:07.728
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 16:54:07.729
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 17:02:20.281
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 17:02:20.333
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-06-05 17:02:20.334
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued

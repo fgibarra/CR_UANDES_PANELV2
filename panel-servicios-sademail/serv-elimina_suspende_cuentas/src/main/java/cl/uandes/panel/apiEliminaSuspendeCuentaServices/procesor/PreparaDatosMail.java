@@ -3,6 +3,10 @@ package cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.PropertyInject;
+import org.apache.log4j.Logger;
+
+import cl.uandes.panel.comunes.json.cambiacuenta.EliminaSuspendeCuentaRequest;
+
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -15,11 +19,22 @@ public class PreparaDatosMail implements Processor {
     private String cc;
     @PropertyInject(value = "serv-elimina-suspende-cuentas.mail_asunto", defaultValue="Procesa Suspende-Elimina, Reactiva cuentas")
     private String asunto;
-
+    private Logger logger = Logger.getLogger(getClass());
+    
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		exchange.getIn().setHeader("To", para);
 		exchange.getIn().setHeader("Subject", toIso88591(asunto));
+		EliminaSuspendeCuentaRequest request = (EliminaSuspendeCuentaRequest)exchange.getIn().getHeader("EliminaSuspendeCuentaRequest");
+		if (request != null) {
+			String correoInforme = request.getCorreoInforme();
+			logger.info(String.format("PreparaDatosMail: correoInforme=%s", correoInforme));
+			if (correoInforme != null)
+				exchange.getIn().setHeader("To", correoInforme);
+			else
+				exchange.getIn().setHeader("To", para);
+		} else {
+			exchange.getIn().setHeader("To", para);
+		}
 	}
 
 	Charset utf8charset = Charset.forName("UTF-8");

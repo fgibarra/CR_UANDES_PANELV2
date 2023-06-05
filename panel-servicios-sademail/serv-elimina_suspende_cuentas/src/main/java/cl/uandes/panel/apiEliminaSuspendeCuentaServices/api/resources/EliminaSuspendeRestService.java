@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
@@ -27,6 +29,18 @@ public class EliminaSuspendeRestService {
 
 	Logger logger = Logger.getLogger(getClass());
 
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/help")
+	public Response getDocumentacion() {
+		String type = "application/pdf";
+		java.io.InputStream is = getClass().getClassLoader().getResourceAsStream("documentacion.pdf");		
+		Response response = Response.ok(is, type).build();
+		return response;
+		
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
@@ -43,6 +57,8 @@ public class EliminaSuspendeRestService {
 				invocaRuta("seda:reactivaCuentas", in_msg);
 			} else if ("suspende_elimina".equalsIgnoreCase(funcion)) {
 				invocaRuta("seda:procesaSuspendeElimina", in_msg);
+			} else if ("recrea_suspendidos".equalsIgnoreCase(funcion)) {
+				invocaRuta("seda:procesaRecreaSuspendidos", in_msg);
 			} else {
 				msg = String.format("Funcion %s definida en el request no esta implementada", funcion);
 				funcion = "error";

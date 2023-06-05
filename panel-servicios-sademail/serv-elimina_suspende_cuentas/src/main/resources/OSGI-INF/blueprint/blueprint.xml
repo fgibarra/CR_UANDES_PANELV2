@@ -55,6 +55,45 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Consultar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiEliminaSuspendeCuentaServices.api.restclient.ConsultaGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Undelete cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/undelete/{idGmail}"
+        id="undeleteUserGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiEliminaSuspendeCuentaServices.api.restclient.ConsultaGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Crear cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/create"
+        id="crearUserGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiEliminaSuspendeCuentaServices.api.restclient.CreateGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.api.resources.EliminaSuspendeRestService" id="restService"/>
     <bean
@@ -77,6 +116,20 @@
         class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.PreparaTemplateMail" id="preparaTemplateMail"/>
     <bean
         class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.PreparaDatosMail" id="preparaDatosMail"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.ArmaListaActIdGmail" id="armaListaActIdGmail"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.ArmaUpdateActIdGmail" id="armaDatosUpdateActIdGmail"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.PreparaDatosReactiva" id="preparaDatosReactiva"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.SetMaxUso" id="setMaxUso">
+        <property name="maxUso" value="{{serv-elimina-suspende-cuentas.maxUso}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.RecuperaDatosRecrear" id="recuperaDatosRecrear"/>
+    <bean
+        class="cl.uandes.panel.apiEliminaSuspendeCuentaServices.procesor.RecreaEnGmail" id="recreaEnGmail"/>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <http-conf:conduit name="*.http-conduit">
         <http-conf:client ReceiveTimeout="6000000"/>
@@ -97,45 +150,6 @@
         <route id="_generaResponseRoute">
             <from id="_from1" uri="seda:generaResponse"/>
             <process id="_generaRespuesta" ref="generaRespuesta"/>
-        </route>
-        <!-- ==================================================================================================== -->
-        <route id="_reactivaCuentasRoute">
-            <from id="_from2" uri="seda:reactivaCuentas?timeout=-1"/>
-            <log id="_log3" message="Reactiva cuentas: ${header.listaCuentas.size} leidos"/>
-            <!-- 
-				- Lee tabla WRK_CUENTAS_OPERAR las suspendidas
-				- arma lista con los datos que se van a procesar
-				- loop
-					- reactiva la cuenta en GMAIL
-					- fin
-				- fin loop
-				- envia correo
-			-->
-            <camel:setHeader headerName="funcion" id="_setHeader3">
-                <constant>Reactivar cuentas suspendidas</constant>
-            </camel:setHeader>
-            <to id="_qryDatosReactiva" uri="sql:select cuenta from wrk_cuentas_operar where resultado like 'suspende%' order by cuenta?dataSource=#bannerDataSource"/>
-            <process id="_armaDatosReactiva" ref="armaDatosReactiva"/>
-            <loop doWhile="true" id="_loopReactivaDatos">
-                <simple>${header.listaCuentas.size} &gt; 0</simple>
-                <process id="_reactivaEnGmail" ref="reactivaEnGmail"/>
-                <choice id="_choice1">
-                    <when id="_when3">
-                        <simple>${header.resultado} != null</simple>
-                        <setBody id="_setBody1">
-                            <simple>update wrk_cuentas_operar set resultado2 = :?resultado where cuenta = :?cuenta</simple>
-                        </setBody>
-                        <log id="_log4" message="Parametros: resultado=${header.resultado} - cuenta=${header.cuenta}"/>
-                        <log id="_log5" message="SQL: ${body}"/>
-                        <to id="_updateReactiva" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
-                        <setHeader headerName="countReactivados" id="_setHeader4">
-                            <simple>${header.countReactivados}++</simple>
-                        </setHeader>
-                        <log id="_log6" message="quedan ${header.listaCuentas.size} elementos en la lista"/>
-                    </when>
-                </choice>
-            </loop>
-            <to id="_generaMail1" uri="seda:generaMail"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_procesaSuspendeElimina">
@@ -163,7 +177,9 @@
             <camel:setHeader headerName="funcion" id="_setHeader5">
                 <constant>Procesar eliminacion/suspencion de cuentas</constant>
             </camel:setHeader>
-            <to id="_qryDatos" uri="sql:select cuenta,spriden_id,usado,estado from wrk_cuentas_operar where resultado is null order by cuenta?dataSource=#bannerDataSource"/>
+            <log id="_log9" message="Reactiva cuentas: a actualizar id_gmail archivo input"/>
+            <to id="actIgGmail1" uri="seda:actualizaIdGmail"/>
+            <to id="_qryDatos" uri="sql:select key,cuenta,spriden_id,usado,estado_academico,id_gmail from wrk_cuentas_operar where res_elim_suspender is null order by cuenta?dataSource=#bannerDataSource"/>
             <process id="_recuperaDeBanner" ref="recuperaDeBanner"/>
             <log id="_log1" message="hay ${header.listaCuentas.size} elementos en la lista"/>
             <loop doWhile="true" id="_loopProcesaDatos">
@@ -173,6 +189,12 @@
                     <when id="_when1">
                         <simple>${header.operacion} == 'elimina'</simple>
                         <process id="_eliminaEnGmail" ref="eliminaEnGmail"/>
+                        <log id="_log14" message="invoca a prd_elimina con: ${header.key},${header.operacion}"/>
+                        <to id="_updateSademail" uri="sql-stored:pck_funciones.prd_eliminacuenta('p_key' java.sql.Types.VARCHAR ${header.key},'p_operacion' java.sql.Types.VARCHAR ${header.operacion}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
+                        <log id="_log2" message="salida prd: ${header.out_resultado} quedan ${header.listaCuentas.size} elementos en la lista"/>
+                        <setHeader headerName="nuevoStatus" id="_setHeader8">
+                            <constant>Deleted</constant>
+                        </setHeader>
                         <setHeader headerName="countEliminados" id="_setHeader1">
                             <simple>${header.countEliminados}++</simple>
                         </setHeader>
@@ -180,15 +202,183 @@
                     <when id="_when2">
                         <simple>${header.operacion} == 'suspende'</simple>
                         <process id="_suspendeEnGmail" ref="suspendeEnGmail"/>
+                        <setHeader headerName="nuevoStatus" id="_setHeader9">
+                            <constant>Suspended</constant>
+                        </setHeader>
                         <setHeader headerName="countSuspendidos" id="_setHeader2">
                             <simple>${header.countSuspendidos}++</simple>
                         </setHeader>
                     </when>
                 </choice>
-                <to id="_updateSademail" uri="sql-stored:pck_funciones.prd_eliminacuenta('p_spriden_id' java.sql.Types.VARCHAR ${header.spriden_id},'p_operacion' java.sql.Types.VARCHAR ${header.operacion}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
-                <log id="_log2" message="quedan ${header.listaCuentas.size} elementos en la lista"/>
+                <setHeader headerName="resultado" id="_setHeader10">
+                    <simple>${header.operacion} ${header.horaProceso} : ${header.out_resultado}</simple>
+                </setHeader>
+                <setBody id="_setSqlUp1">
+                    <simple>update wrk_cuentas_operar set res_elim_suspender=:?resultado, status=:?nuevoStatus where key=:?key</simple>
+                </setBody>
+                <log id="_log15" message="Parametros: resultado=${header.resultado} - cuenta=${header.cuenta}"/>
+                <log id="_log16" message="SQL: ${body}"/>
+                <to id="_updateStatus" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
             </loop>
             <to id="_generaMail2" uri="seda:generaMail"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_actualizaIgGmail">
+            <from id="_from2" uri="seda:actualizaIdGmail?timeout=-1"/>
+            <onException id="_onExceptionUpdate">
+                <exception>java.sql.SQLIntegrityConstraintViolationException</exception>
+                <!-- handled o continued no ambas
+                <camel:handled>
+                    <camel:constant>true</camel:constant>
+                </camel:handled>
+				-->
+                <continued>
+                    <constant>true</constant>
+                </continued>
+                <log id="_log10" message="EXCEPTION: key: ${header.key} login_name: ${header.loginName} id_gmail: ${header.idGmail}"/>
+            </onException>
+            <to id="_cuentasPanel" uri="sql:select KEY,CUENTA from wrk_cuentas_operar WHERE ID_GMAIL IS NULL?dataSource=#bannerDataSource"/>
+            <process id="_armaListaAction" ref="armaListaActIdGmail"/>
+            <log id="_log11" message="Actualiza id gmail: ${header.listaCuentas.size} para actualizar"/>
+            <setHeader headerName="countActualizaIdGmail" id="_setHeader6">
+                <constant>0</constant>
+            </setHeader>
+            <loop doWhile="true" id="_loopCuentas">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
+                <process id="_armaDatosUpdate" ref="armaDatosUpdateActIdGmail"/>
+                <!-- to id="_updateCuenta" uri="sql:update mi_cuentas_gmail set id_gmail=:#${header.idGmail} where key=:#{header.key}?dataSource=#bannerDataSource"/ -->
+                <doTry id="_tryUpdate">
+                    <to id="_updateCuenta" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                </doTry>
+                <setHeader headerName="countActualizaIdGmail" id="_setHeader7">
+                    <simple>${header.countActualizaIdGmail}++</simple>
+                </setHeader>
+            </loop>
+            <log id="_log12" message="Actualizados ${header.countActualizaIdGmail} IDs Gmail"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_reactivaCuentasRoute">
+            <from id="_from2" uri="seda:reactivaCuentas?timeout=-1"/>
+            <log id="_log3" message="Reactiva cuentas: ${header.listaCuentas.size} leidos"/>
+            <!-- 
+				- Lee tabla WRK_CUENTAS_OPERAR las suspendidas
+				- arma lista con los datos que se van a procesar
+				- loop
+					- reactiva la cuenta en GMAIL
+					- fin
+				- fin loop
+				- envia correo
+			-->
+            <camel:setHeader headerName="funcion">
+                <constant>Reactivar cuentas suspendidas</constant>
+            </camel:setHeader>
+            <process id="_preparaDatosReactiva" ref="preparaDatosReactiva"/>
+            <to id="_qryDatosReactiva" uri="sql:select key, cuenta, status, id_gmail, id_gmail_nueva,NOMBRES, APELLIDOS, SPRIDEN_ID from wrk_cuentas_operar where spriden_id in (:#in:ruts) order by cuenta?dataSource=#bannerDataSource"/>
+            <process id="_armaDatosReactiva" ref="armaDatosReactiva"/>
+            <loop doWhile="true" id="_loopReactivaDatos">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
+                <process id="_reactivaEnGmail" ref="reactivaEnGmail"/>
+                <choice id="_choice1">
+                    <when id="_when3">
+                        <simple>${header.resultado} != null</simple>
+                        <!-- Si es un undelete hay que actualizar la BD -->
+                        <log id="_log4" message="se realizo un ${header.datos.status}"/>
+                        <choice id="_choice2">
+                            <when id="_when4">
+                                <simple>${header.datos.status} == 'Deleted'</simple>
+                                <!-- -->
+                                <to id="_undeleteSademail" uri="sql-stored:pck_funciones.prd_undeletecuenta('p_key' java.sql.Types.VARCHAR ${header.key}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
+		                        <setBody id="_setBody1">
+		                            <simple>update wrk_cuentas_operar set res_elim_suspender = null, status='Activo' where key = :?key</simple>
+		                        </setBody>
+                            </when>
+                            <when id="_when4">
+                                <simple>${header.datos.status} == 'Recreada'</simple>
+                                <!-- -->
+	                        <setBody id="_setBody1">
+	                            <simple>update wrk_cuentas_operar set res_elim_suspender = null, res_suspendidos=null, id_gmail_nueva=null, status='Activo' where key = :?key</simple>
+	                        </setBody>
+                            </when>
+							<otherwise>
+		                        <setBody id="_setBody1">
+		                            <simple>update wrk_cuentas_operar set res_elim_suspender = null, status='Activo' where key = :?key</simple>
+		                        </setBody>
+							</otherwise>
+                        </choice>
+                        <log id="_log5" message="Parametros: resultado=${header.resultado} - cuenta=${header.cuenta}"/>
+                        <log id="_log13" message="SQL: ${body}"/>
+                        <to id="_updateReactiva" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                        <setHeader headerName="countReactivados">
+                            <simple>${header.countReactivados}++</simple>
+                        </setHeader>
+                        <log id="_log6" message="quedan ${header.listaCuentas.size} elementos en la lista"/>
+                    </when>
+                </choice>
+            </loop>
+            <to id="_generaMail1" uri="seda:generaMail"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_procesaRecreaSuspendidos">
+            <from id="_from2" uri="seda:procesaRecreaSuspendidos?timeout=-1"/>
+            <log id="_log8" message="Elimina suspendidos: ${header.listaCuentas.size} leidos"/>
+            <camel:setHeader headerName="funcion">
+                <constant>Recrea cuentas suspendidas</constant>
+            </camel:setHeader>
+            <!-- 
+				-recuperar desde wrk_cuentas operar, los que esten en estado Suspended y el uso sea mayor que el permitido
+				- LOOP
+				- eliminar la cuenta
+				- crear la cuenta con el mismo nombre
+				- IF OK
+				- actualizar el id en mi_cuentas_gmail
+				- actualizar wrk_cuentas_operar: el id en id_gmail_nueva, status=recreada
+				- actualizar el resultado de la operacion en res_suspendidos
+				- END IF
+				- END LOOP
+				- generar informe correo
+			-->
+            <process id="_setMaxUso" ref="setMaxUso"/>
+            <to id="_qryDatosRecrea" uri="sql:select KEY, CUENTA, ID_GMAIL,NOMBRES, APELLIDOS, SPRIDEN_ID from wrk_cuentas_operar where status='Suspended' and usado> :#max_uso?dataSource=#bannerDataSource"/>
+            <process id="_recuperaDatosRecrear" ref="recuperaDatosRecrear"/>
+            <loop doWhile="true" id="_loopRecreaCuentas">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
+                <process id="_recreaEnGmail" ref="recreaEnGmail"/>
+                <choice id="_choice3">
+                    <when id="_when5">
+                        <simple>${header.resultado} == 'OK'</simple>
+                        <!-- actualizaciones  datosRecrear (datos leidos desde wrk_cuentas_operar) 
+							new_id_gmail (id_gmail cta creada)-->
+                        <!-- MI_CUENTAS_GMAIL -->
+                        <setBody id="_setBody2">
+                            <simple>update mi_cuentas_gmail set id_gmail = :?new_id_gmail where login_name = :?loginName</simple>
+                        </setBody>
+                        <log id="_log17" message="Parametros: id_gmail=${header.new_id_gmail} - cuenta=${header.loginName}"/>
+                        <log id="_log18" message="SQL: ${body}"/>
+                        <to id="_updateRecrearMiCuantas" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                        <!-- WRK_CUENTAS_OPERAR -->
+                        <setBody id="_setBody3">
+                            <simple>update wrk_cuentas_operar set id_gmail_nueva = :?new_id_gmail, res_suspendidos=:?msg_resultado, status='Recreada' where key = :?key</simple>
+                        </setBody>
+                        <log id="_log19" message="Parametros: id_gmail_nueva=${header.new_id_gmail} - key=${header.key}"/>
+                        <log id="_log20" message="SQL: ${body}"/>
+                        <to id="_updateRecrearWrk" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                        <setHeader headerName="countRecreados" >
+                            <simple>${header.countRecreados}++</simple>
+                        </setHeader>
+						<log message="countRecreados: ${header.countRecreados}"/>
+                    </when>
+                    <otherwise id="_otherwise1">
+                        <!-- error -->
+                        <setBody id="_setBody4">
+                            <simple>update wrk_cuentas_operar set res_suspendidos=:?msg_resultado where key = :?key</simple>
+                        </setBody>
+                        <log id="_log21" message="Parametros: msg_resultado=${header.msg_resultado} - key=${header.key}"/>
+                        <log id="_log22" message="SQL: ${body}"/>
+                        <to id="_updateRecrearWrk" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
+                    </otherwise>
+                </choice>
+            </loop>
+            <to id="_generaMail3" uri="seda:generaMail"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_generaMailRoute">

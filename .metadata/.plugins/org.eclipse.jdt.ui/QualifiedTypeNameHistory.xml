@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.panel.aeOwnersMembers.procesor.exceptions.NotFoundBannerException"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.aeOwnersMembers.procesor.dto.ReporteDTO"/>
-    <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersRequest"/>
-    <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
-    <fullyQualifiedTypeName name="org.apache.commons.codec.binary.Base64"/>
-    <fullyQualifiedTypeName name="javax.security.auth.Subject"/>
-    <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.core.HttpHeaders"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AliasesResponse"/>
-    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Aliases"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response.ResponseBuilder"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AliasRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.Alias"/>
@@ -30,9 +19,7 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MembersResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.Members"/>
     <fullyQualifiedTypeName name="org.apache.camel.Processor"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
-    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonInclude.Include"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto.DatosLeidosBannerDTO"/>
@@ -42,7 +29,6 @@
     <fullyQualifiedTypeName name="javax.ws.rs.Produces"/>
     <fullyQualifiedTypeName name="javax.ws.rs.Path"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.MediaType"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
     <fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
@@ -52,12 +38,26 @@
     <fullyQualifiedTypeName name="java.io.SequenceInputStream"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.ResultadoGmail"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.EliminaSuspendeCuentaResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.EliminaSuspendeCuentaRequest"/>
     <fullyQualifiedTypeName name="org.apache.camel.CamelContext"/>
-    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
     <fullyQualifiedTypeName name="java.util.Locale"/>
     <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
-    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto.DatosReactivarBannerDTO"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.User"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersResponse"/>
+    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Users"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.GET"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
+    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.EliminaSuspendeCuentaRequest"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto.DatosLeidosRecrearDTO"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserRequest"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.JSonUtilities"/>
 </qualifiedTypeNameHistroy>

@@ -26,8 +26,11 @@ public class SuspendeEnGmail implements Processor {
 		DatosLeidosBannerDTO datos = (DatosLeidosBannerDTO)exchange.getIn().getHeader("datosCuenta");
 		String loginName = datos.getLoginName();
 		logger.info(String.format("eliminar a %s", loginName));
-		boolean result = suspendeEnGmail(loginName);
-		logger.info(String.format("eliminar a %s resultado en gmail %b", loginName, result));
+		boolean result = false;
+		if (datos.getIdGmail() != null) {
+			result = suspendeEnGmail(loginName);
+		}
+		logger.info(String.format("suspender a %s resultado en gmail %b", loginName, result));
 	}
 
 	private boolean suspendeEnGmail(String loginName) {

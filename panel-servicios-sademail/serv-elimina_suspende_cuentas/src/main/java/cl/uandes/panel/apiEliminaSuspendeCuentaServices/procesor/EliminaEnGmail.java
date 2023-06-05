@@ -24,8 +24,11 @@ public class EliminaEnGmail implements Processor {
 	public void process(Exchange exchange) throws Exception {
 		DatosLeidosBannerDTO datos = (DatosLeidosBannerDTO)exchange.getIn().getHeader("datosCuenta");
 		String loginName = datos.getLoginName();
-		logger.info(String.format("eliminar a %s", loginName));
-		boolean result = deleteEnGmail(loginName);
+		logger.info(String.format("eliminar a %s id_gmail: %s", loginName, datos.getIdGmail()));
+		boolean result = false;
+		if (datos.getIdGmail() != null) {
+			result = deleteEnGmail(loginName);
+		}
 		logger.info(String.format("eliminar a %s resultado en gmail %b", loginName, result));
 	}
 	

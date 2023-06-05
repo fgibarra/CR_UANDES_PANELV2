@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +17,8 @@ public class DatosLeidosBannerDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8482472246465069881L;
+	@JsonProperty("key")
+	Integer key;
 	@JsonProperty("login_name")
 	String loginName;
 	@JsonProperty("spridenId")
@@ -25,31 +29,54 @@ public class DatosLeidosBannerDTO implements Serializable {
 	Integer usado;
 	@JsonProperty("funcion")
 	String funcion;
+	@JsonProperty("id_gmail")
+	String idGmail;
 
+	private Logger logger = Logger.getLogger(getClass());
+	
 	public DatosLeidosBannerDTO(Map<String, Object> mapDatos, Integer maxUsado) {
 		super();
-		this.loginName = (String)mapDatos.get("cuenta");
-		if (this.loginName != null) {
-			int index = loginName.indexOf('@');
-			if (index >= 0)
-				this.loginName = this.loginName.substring(0, index);
+		try {
+			this.loginName = (String)mapDatos.get("CUENTA");
+			if (this.loginName != null) {
+				int index = loginName.indexOf('@');
+				if (index >= 0)
+					this.loginName = this.loginName.substring(0, index);
+			}
+			this.key = (Integer.valueOf(((BigDecimal)mapDatos.get("KEY")).intValue()));
+			this.spridenId = (String)mapDatos.get("SPRIDEN_ID");
+			if (mapDatos.get("USADO") != null)
+				this.usado = Integer.valueOf(((BigDecimal)mapDatos.get("USADO")).intValue());
+			String estado = (String)mapDatos.get("ESTADO_ACADEMICO");
+			if (estado != null) {
+				if (esElimina(estado))
+					this.funcion = "elimina";
+				else if (!esIntocable(estado) && esSuspende(maxUsado))
+					this.funcion = "suspende";
+				else
+					this.funcion = null;
+			} else
+				this.funcion = "ignore";
+			this.idGmail = (String)mapDatos.get("ID_GMAIL");
+		} catch (Exception e) {
+			StringBuffer sb = new StringBuffer();
+			for (String key : mapDatos.keySet()) {
+				sb.append(String.format("%s = %s\n", key, mapDatos.get(key)));
+			}
+			logger.error(String.format("DatosLeidosBannerDTO: %s\n%s", e.getCause(), sb.toString()));
 		}
-		this.spridenId = (String)mapDatos.get("spriden_id");
-		this.usado = Integer.valueOf(((BigDecimal)mapDatos.get("usado")).intValue());
-		String estado = (String)mapDatos.get("estado");
-		if (estado != null) {
-			if (esElimina(estado))
-				this.funcion = "elimina";
-			else if (esSuspende(maxUsado))
-				this.funcion = "suspende";
-			else
-				this.funcion = null;
-		} else
-			this.funcion = null;
 	}
 	
 	private boolean esElimina(String estado) {
 		String [] estadosElimina = {"ABANDONO","ELIMINADO","DESISTIDO","FALLECIDO","RETIRADO"};
+		for (String es : estadosElimina)
+			if (estado.equals(es))
+				return true;
+		return false;
+	}
+
+	private boolean esIntocable(String estado) {
+		String [] estadosElimina = {"PROFESOR","NO EXISTE EN BANNER"};
 		for (String es : estadosElimina)
 			if (estado.equals(es))
 				return true;
@@ -117,6 +144,14 @@ public class DatosLeidosBannerDTO implements Serializable {
 
 	public void setFuncion(String funcion) {
 		this.funcion = funcion;
+	}
+
+	public Integer getKey() {
+		return key;
+	}
+
+	public String getIdGmail() {
+		return idGmail;
 	}
 
 }

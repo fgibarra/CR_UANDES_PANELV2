@@ -18,6 +18,8 @@ public class PreparaTemplateMail implements Processor {
 		if (countEliminados == null) exchange.getIn().setHeader("countEliminados", Integer.valueOf(0));
 		Integer countReactivados = (Integer) exchange.getIn().getHeader("countReactivados");
 		if (countReactivados == null) exchange.getIn().setHeader("countReactivados", Integer.valueOf(0));
+		Integer countRecreados = (Integer) exchange.getIn().getHeader("countRecreados");
+		if (countRecreados == null) exchange.getIn().setHeader("countRecreados", Integer.valueOf(0));
 	}
 
 }

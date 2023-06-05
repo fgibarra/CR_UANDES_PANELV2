@@ -35,7 +35,7 @@ public class ArmaDatosReactiva implements Processor {
 		exchange.getIn().setHeader("countEliminados", Integer.valueOf(0));
 		exchange.getIn().setHeader("countSuspendidos", Integer.valueOf(0));
 		exchange.getIn().setHeader("countReactivados", Integer.valueOf(0));
-
+		exchange.getIn().setHeader("countRecreados", Integer.valueOf(0));
 	}
 
 }

@@ -187,7 +187,8 @@ dujS9beCmNj/AM/qdJfB+4YmAAAAAElFTkSuQmCC" alt="Logo UAndes" />
 Se termino el proceso ${headers.funcion}
 <br>Suspendidas: ${headers.countSuspendidos}
 <br>Eliminadas: ${headers.countEliminados}
-<br>Activadas: ${headers.countReactivados}
+<br>Reactivadas: ${headers.countReactivados}
+<br>Recreadas: ${headers.countRecreados}
 <br><br>
 </section>
 

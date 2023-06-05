@@ -23,14 +23,22 @@ public class EliminaSuspendeCuentaRequest implements Serializable {
 	private String funcion;
 	@JsonProperty("uso")
 	private Integer uso;
+	@JsonProperty("ruts")
+	private String[] listaRuts;
+	@JsonProperty("correo-informe")
+	private String correoInforme;
 
 	@JsonCreator
 	public EliminaSuspendeCuentaRequest(
 			@JsonProperty("funcion")String funcion, 
-			@JsonProperty("uso")Integer uso) {
+			@JsonProperty("uso")Integer uso,
+			@JsonProperty("ruts")String[] listaRuts,
+			@JsonProperty("correo-informe")String correoInforme) {
 		super();
 		this.funcion = funcion;
 		this.uso = uso;
+		this.listaRuts = listaRuts;
+		this.correoInforme = correoInforme;
 	}
 
 	@Override
@@ -59,6 +67,22 @@ public class EliminaSuspendeCuentaRequest implements Serializable {
 
 	public void setUso(Integer uso) {
 		this.uso = uso;
+	}
+
+	public String[] getListaRuts() {
+		return listaRuts;
+	}
+
+	public void setListaRuts(String[] listaRuts) {
+		this.listaRuts = listaRuts;
+	}
+
+	public String getCorreoInforme() {
+		return correoInforme;
+	}
+
+	public void setCorreoInforme(String correoInforme) {
+		this.correoInforme = correoInforme;
 	}
 
 }
