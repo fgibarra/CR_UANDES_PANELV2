@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/panelToolCreaCuenta/"
+        id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Consultar nickname gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
+        id="consultaNickNameGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.ConsultaNicknameGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Consultar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.ConsultaGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Crear cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/create"
+        id="crearUserGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.CreateGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Eliminar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/delete/{username}"
+        id="deleteUserGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.DeleteUserGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.api.resources.CrearCuentaRestService" id="restService"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.GeneraRespuesta" id="generaRespuesta"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.GeneraNextLoginNameSecuence" id="generaNextLoginNameSecuence"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.ArmaDatosMiCuentasGmail" id="armaDatosMiCuentasGmail"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.ArmaDatosSpriden" id="armaDatosSpriden"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.ArmaDatosCuentaDeSpriden" id="armaDatosCuentaDeSpriden"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.BuscaNombreCuenta" id="buscaNombreCuenta"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.CrearEnGmail" id="crearEnGmail"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.ArmaDatosPrdCreaEnBD" id="armaDatosPrdCreaEnBD"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.EliminaCuentaGmail" id="eliminaCuentaGmail"/>
+    <bean
+        class="cl.uandes.panel.apiCrearCuentaServices.procesor.ArmaMiCuentasGmailFromRequest" id="armaMiCuentasGmailFromRequest"/>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <http-conf:conduit name="*.http-conduit">
+        <http-conf:client ReceiveTimeout="6000000"/>
+        <!-- 1 minuto -->
+    </http-conf:conduit>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <camelContext id="serv-crear-cuenta-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <route id="_readjson">
+            <from id="_promService" uri="direct:start?timeout=-1"/>
+            <!--
+				- si esta en banner
+					- valida que la cuenta no este creada
+					- recupera los datos basicos desde SPRIDEN
+					-Busca en mi_cuentas_gmail el siguiente nombre disponible
+					-loop
+						- mientras exista el nombre de cuenta o nickname append count+1
+					-end loop
+					-Arma request para crear cuenta
+					-Crear cuenta en gmail
+					-Crea entrada en mi_cuentas_gmail
+						- si falla, elimina la cuenta en gmail y responde error 					
+					-Actualiza goremal
+						- si falla, elimina la cuenta en gmail rollback en mi_cuentas_gmail, reponde error
+					- Active directory, si no existe la cuenta crearla.
+				- fin si
+				- si no esta en banner
+					- valida que no existe ni el nombre ni el nicname en gmail
+						- si existe responde error
+					- crea cuenta en gmail
+					-Crea entrada en mi_cuentas_gmail
+						- si falla, elimina la cuenta en gmail y responde error 					
+				- fin si
+				- prepara el template para informar
+				- manda email
+				- responde con los datos de la cuenta creada
+			-->
+            <camel:setHeader headerName="funcion" id="_setHeader5">
+                <constant>Crear cuenta</constant>
+            </camel:setHeader>
+            <choice id="_choice5">
+                <when id="_when5">
+                    <simple>${header.request.enBanner}</simple>
+                    <to id="_to5" uri="seda:enBanner"/>
+                </when>
+                <otherwise id="_otherwise4">
+                    <to id="_to6" uri="seda:noBanner"/>
+                </otherwise>
+            </choice>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_enBannerRoute">
+            <from id="_from4" uri="seda:enBanner"/>
+            <!-- validar que ya no este creada -->
+            <to id="_validaMiCuentasGmail" uri="seda:validaMiCuentasGmail"/>
+            <choice id="_choice3">
+                <when id="_when3">
+                    <simple>${header.existeEnMicuentasGmail}</simple>
+                    <setHeader headerName="tipoRespuesta" id="_setHeader6">
+                        <simple>Cuenta ${header.datosMiCuentasGmail.loginName} ya existe registrada para rut: ${header.request.rut}</simple>
+                    </setHeader>
+                    <process id="_generaRespuestaExiste" ref="generaRespuesta"/>
+                    <log id="_log10" message="TERMINA EL PROCESO"/>
+                    <to id="_terminaExisteCuenta" uri="mock:end"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log id="_log2" message="LEER desde SPRIDEN"/>
+                    <to id="_leeSpriden" uri="seda:leeSpriden"/>
+                    <choice id="_choice2">
+                        <when id="_when2">
+                            <simple>${header.existeEnSpriden}</simple>
+                            <process id="_armaDatosCuentaDeSpriden" ref="armaDatosCuentaDeSpriden"/>
+                            <to id="_to1" uri="seda:procesaEnBanner"/>
+                        </when>
+                        <otherwise id="_otherwise2">
+                            <setHeader headerName="tipoRespuesta">
+                                <constant>No existe en Banner</constant>
+                            </setHeader>
+                            <process id="_generaRespuesta" ref="generaRespuesta"/>
+                            <log message="TERMINA EL PROCESO"/>
+                            <to id="_terminaExisteCuenta" uri="mock:end"/>
+                        </otherwise>
+                    </choice>
+                </otherwise>
+            </choice>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_routeProcesaEnBanner">
+            <from id="_from1" uri="seda:procesaEnBanner"/>
+            <log id="_log5" message="select login_name from mi_cuentas_gmail where login_name like '${header.cuentaporciento}' order by login_name desc?dataSource=#bannerDataSource"/>
+            <to id="_to2" uri="sql:select login_name from mi_cuentas_gmail where login_name like :#cuentaporciento order by login_name desc?dataSource=#bannerDataSource"/>
+            <process id="_generaNextLoginNameSecuence" ref="generaNextLoginNameSecuence"/>
+            <!-- en $header.lastSecuence esta el ultimo seq usado -->
+            <log id="_log6" message="El primer secuence disponible es ${header.lastSecuence}"/>
+            <choice id="_choice4">
+                <when id="_when4">
+                    <simple>${header.lastSecuence} &gt; 0</simple>
+                    <setHeader headerName="loginName" id="_setHeader3">
+                        <simple>${header.datosSpriden.loginName}${header.lastSecuence}</simple>
+                    </setHeader>
+                </when>
+                <otherwise id="_otherwise3">
+                    <setHeader headerName="loginName" id="_setHeader4">
+                        <simple>${header.datosSpriden.loginName}</simple>
+                    </setHeader>
+                </otherwise>
+            </choice>
+            <log id="_log7" message="Nombre de cuenta para empezar: ${header.loginName}"/>
+            <!-- buscar un loginName que no exista un nickname o una cuenta con ese nombre -->
+            <process id="_buscaNombreCuenta" ref="buscaNombreCuenta"/>
+            <!-- en ${header.datosMiCuentasGmail} queda los datos para crear la cuenta -->
+            <log id="_log4" message="datos con que se creara: ${header.datosMiCuentasGmail}"/>
+            <!-- Crear en GMAIL -->
+            <process id="_crearEnGmail" ref="crearEnGmail"/>
+			<choice>
+				<when><simple>${header.cuentaCreadaGmail.codigo} == 0</simple>
+		            <!-- Crear en la base de datos -->
+					<to uri="seda:crearEnBD"/>
+					<choice>
+						<when><simple>${header.out_resultado} == 'OK'</simple>
+		            		<!-- Buscarla en el AD -->
+
+							<!-- generar la respuesta -->
+                            <process id="_generaRespuestaOK" ref="generaRespuesta"/>
+                            <log message="TERMINA EL PROCESO OK"/>
+                            <to id="_terminaOK" uri="mock:end"/>
+						</when>
+						<otherwise>
+							<!-- eliminar la cuenta en gmail y mandar respuesta de error -->
+							<process id="_eliminaCuentaGmail" ref="eliminaCuentaGmail"/>
+                            <setHeader headerName="tipoRespuesta">
+                                <simple>No pudo crear en BD: ${header.out_resultado}</simple>
+                            </setHeader>
+                            <process id="_generaRespuestaNoCreadaBD" ref="generaRespuesta"/>
+                            <log message="TERMINA EL PROCESO"/>
+                            <to id="_terminaNoCreadaBD" uri="mock:end"/>
+						</otherwise>
+					</choice>
+				</when>
+				<otherwise>
+					<!-- generar respuesta con error -->
+                            <setHeader headerName="tipoRespuesta">
+                                <simple>No pudo crear en Gmail: ${header.cuentaCreadaGmail.mensaje}</simple>
+                            </setHeader>
+                            <process id="_generaRespuestaNoCreadaGmail" ref="generaRespuesta"/>
+                            <log message="TERMINA EL PROCESO"/>
+                            <to id="_terminaNoCreadaGmail" uri="mock:end"/>
+				</otherwise>
+			</choice>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_routeValidaMiCuentasGmail">
+            <from id="_from2" uri="seda:validaMiCuentasGmail"/>
+            <!-- deja en header.existeEnMicuentasGmail: true o false y en header.datosMiCuentasGmail los datos -->
+            <to id="_to3" uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where MOODLE_ID = :#${header.request.rut}?dataSource=#bannerDataSource"/>
+            <process id="_armaDatosMiCuentasGmail" ref="armaDatosMiCuentasGmail"/>
+            <log id="_log8" message="en seda:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_routeValidaMiCuentasGmailByCuenta">
+            <from uri="seda:validaMiCuentasGmailByCuenta"/>
+            <!-- deja en header.existeEnMicuentasGmail: true o false y en header.datosMiCuentasGmail los datos -->
+            <to uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where LOGIN_NAME = :#${header.request.loginName}?dataSource=#bannerDataSource"/>
+            <process id="_armaDatosMiCuentasGmailByCuenta" ref="armaDatosMiCuentasGmail"/>
+            <log message="en seda:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
+        </route>
+        <!-- ==================================================================================================== -->
+        <route id="_routeLeeSpriden">
+            <from id="_from3" uri="seda:leeSpriden"/>
+            <to id="_to4" uri="sql:select SPRIDEN_ID, SPRIDEN_PIDM, SPRIDEN_FIRST_NAME, SPRIDEN_MI, SPRIDEN_LAST_NAME from SPRIDEN where SPRIDEN_CHANGE_IND is null and SPRIDEN_ID = :#${header.request.rut}?dataSource=#bannerDataSource"/>
+            <process id="_armaDatosSpriden" ref="armaDatosSpriden"/>
+            <log id="_log9" message="en seda:leeSpriden existeEnSpriden: ${header.existeEnSpriden} datosSpriden: ${header.datosSpriden}"/>
+        </route>
+        <!-- ==================================================================================================== -->
+		<route id="_routeCrearEnBD">
+			<from uri="seda:crearEnBD"/>
+			<process id="_armaDatosPrdCreaEnBD" ref="armaDatosPrdCreaEnBD"/>
+			<log message="sql-stored:pck_funciones.prd_procesa_cuenta_panel('p_funcion' java.sql.Types.VARCHAR ${header.funcion},'p_rut' java.sql.Types.VARCHAR ${header.moodle_id},'p_banner_pidm' java.sql.Types.INTEGER ${header.banner_pidm},'p_login_name' java.sql.Types.VARCHAR ${header.login_name},'p_nombres' java.sql.Types.VARCHAR ${header.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.apellidos},'p_id_gmail' java.sql.Types.VARCHAR ${header.id_gmail}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
+			<to uri="sql-stored:pck_funciones.prd_procesa_cuenta_panel('p_funcion' java.sql.Types.VARCHAR ${header.funcion},'p_rut' java.sql.Types.VARCHAR ${header.moodle_id},'p_banner_pidm' java.sql.Types.INTEGER ${header.banner_pidm},'p_login_name' java.sql.Types.VARCHAR ${header.login_name},'p_nombres' java.sql.Types.VARCHAR ${header.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.apellidos},'p_id_gmail' java.sql.Types.VARCHAR ${header.id_gmail}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
+			<log message="stored:pck_funciones.PRD_PROCESA_CUENTA_PANEL out_resultado: en body ${body}"/>
+			<setHeader headerName="out_resultado"><simple>${body[out_resultado]}</simple></setHeader>
+			<log message="stored:pck_funciones.PRD_PROCESA_CUENTA_PANEL out_resultado: en header:${header.out_resultado} en body ${body}"/>
+		</route>
+        <!-- ==================================================================================================== -->
+        <route id="_routeNoBanner">
+            <from id="_from5" uri="seda:noBanner"/>
+            <to id="_validaCuentaMiCuentasGmail" uri="seda:validaMiCuentasGmailByCuenta"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.existeEnMicuentasGmail}</simple>
+                    <!-- genera respuesta que la cuenta existe -->
+                    <setHeader headerName="tipoRespuesta" id="_setHeader1">
+                        <constant>Ya esta definida en el Panel</constant>
+                    </setHeader>
+                    <process id="_generaRespuesta2" ref="generaRespuesta"/>
+                    <log id="_log1" message="TERMINA EL PROCESO"/>
+                    <to id="_to7" uri="mock:end"/>
+                </when>
+				<otherwise>
+					<!-- crear la cuenta aramar datosMiCuentasGmail -->
+					<process id="_armaMiCuentasGmailFromRequest" ref="armaMiCuentasGmailFromRequest"/>
+		            <!-- Crear en GMAIL -->
+		            <process id="_crearEnGmailNoBanner" ref="crearEnGmail"/>
+					<choice>
+						<when><simple>${header.cuentaCreadaGmail.codigo} == 0</simple>
+				            <!-- Crear en la base de datos -->
+							<to uri="seda:crearEnBD"/>
+							<choice>
+								<when><simple>${header.out_resultado} == 'OK'</simple>
+				            		<!-- Buscarla en el AD -->
+		
+									<!-- generar la respuesta -->
+		                            <process id="_generaRespuestaOK2" ref="generaRespuesta"/>
+		                            <log message="TERMINA EL PROCESO OK"/>
+		                            <to id="_terminaOK2" uri="mock:end"/>
+								</when>
+								<otherwise>
+									<!-- eliminar la cuenta en gmail y mandar respuesta de error -->
+									<process id="_eliminaCuentaGmail2" ref="eliminaCuentaGmail"/>
+		                            <setHeader headerName="tipoRespuesta">
+		                                <simple>No pudo crear en BD: ${header.out_resultado}</simple>
+		                            </setHeader>
+		                            <process id="_generaRespuestaNoCreadaBD2" ref="generaRespuesta"/>
+		                            <log message="TERMINA EL PROCESO"/>
+		                            <to id="_terminaNoCreadaBD2" uri="mock:end"/>
+								</otherwise>
+							</choice>
+						</when>
+						<otherwise>
+							<!-- generar respuesta con error -->
+		                            <setHeader headerName="tipoRespuesta">
+		                                <simple>No pudo crear en Gmail: ${header.cuentaCreadaGmail.mensaje}</simple>
+		                            </setHeader>
+		                            <process id="_generaRespuestaNoCreadaGmail2" ref="generaRespuesta"/>
+		                            <log message="TERMINA EL PROCESO"/>
+		                            <to id="_terminaNoCreadaGmail2" uri="mock:end"/>
+						</otherwise>
+					</choice>
+				</otherwise>
+            </choice>
+        </route>
+    </camelContext>
+</blueprint>

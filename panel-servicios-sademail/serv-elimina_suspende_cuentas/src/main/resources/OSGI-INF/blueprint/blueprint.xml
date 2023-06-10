@@ -269,7 +269,7 @@
 				- fin loop
 				- envia correo
 			-->
-            <camel:setHeader headerName="funcion">
+            <camel:setHeader headerName="funcion" id="_setHeader3">
                 <constant>Reactivar cuentas suspendidas</constant>
             </camel:setHeader>
             <process id="_preparaDatosReactiva" ref="preparaDatosReactiva"/>
@@ -288,27 +288,27 @@
                                 <simple>${header.datos.status} == 'Deleted'</simple>
                                 <!-- -->
                                 <to id="_undeleteSademail" uri="sql-stored:pck_funciones.prd_undeletecuenta('p_key' java.sql.Types.VARCHAR ${header.key}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
-		                        <setBody id="_setBody1">
-		                            <simple>update wrk_cuentas_operar set res_elim_suspender = null, status='Activo' where key = :?key</simple>
-		                        </setBody>
+                                <setBody id="_setBody1">
+                                    <simple>update wrk_cuentas_operar set res_elim_suspender = null, status='Activo' where key = :?key</simple>
+                                </setBody>
                             </when>
                             <when id="_when4">
                                 <simple>${header.datos.status} == 'Recreada'</simple>
                                 <!-- -->
-	                        <setBody id="_setBody1">
-	                            <simple>update wrk_cuentas_operar set res_elim_suspender = null, res_suspendidos=null, id_gmail_nueva=null, status='Activo' where key = :?key</simple>
-	                        </setBody>
+                                <setBody id="_setBody1">
+                                    <simple>update wrk_cuentas_operar set res_elim_suspender = null, res_suspendidos=null, id_gmail_nueva=null, status='Activo' where key = :?key</simple>
+                                </setBody>
                             </when>
-							<otherwise>
-		                        <setBody id="_setBody1">
-		                            <simple>update wrk_cuentas_operar set res_elim_suspender = null, status='Activo' where key = :?key</simple>
-		                        </setBody>
-							</otherwise>
+                            <otherwise id="_otherwise2">
+                                <setBody id="_setBody1">
+                                    <simple>update wrk_cuentas_operar set res_elim_suspender = null, status='Activo' where key = :?key</simple>
+                                </setBody>
+                            </otherwise>
                         </choice>
                         <log id="_log5" message="Parametros: resultado=${header.resultado} - cuenta=${header.cuenta}"/>
                         <log id="_log13" message="SQL: ${body}"/>
                         <to id="_updateReactiva" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
-                        <setHeader headerName="countReactivados">
+                        <setHeader headerName="countReactivados" id="_setHeader4">
                             <simple>${header.countReactivados}++</simple>
                         </setHeader>
                         <log id="_log6" message="quedan ${header.listaCuentas.size} elementos en la lista"/>
@@ -321,7 +321,7 @@
         <route id="_procesaRecreaSuspendidos">
             <from id="_from2" uri="seda:procesaRecreaSuspendidos?timeout=-1"/>
             <log id="_log8" message="Elimina suspendidos: ${header.listaCuentas.size} leidos"/>
-            <camel:setHeader headerName="funcion">
+            <camel:setHeader headerName="funcion" id="_setHeader11">
                 <constant>Recrea cuentas suspendidas</constant>
             </camel:setHeader>
             <!-- 
@@ -362,10 +362,10 @@
                         <log id="_log19" message="Parametros: id_gmail_nueva=${header.new_id_gmail} - key=${header.key}"/>
                         <log id="_log20" message="SQL: ${body}"/>
                         <to id="_updateRecrearWrk" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
-                        <setHeader headerName="countRecreados" >
+                        <setHeader headerName="countRecreados" id="_setHeader12">
                             <simple>${header.countRecreados}++</simple>
                         </setHeader>
-						<log message="countRecreados: ${header.countRecreados}"/>
+                        <log id="_log23" message="countRecreados: ${header.countRecreados}"/>
                     </when>
                     <otherwise id="_otherwise1">
                         <!-- error -->

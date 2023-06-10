@@ -210,4 +210,136 @@ public class StringUtils {
 		String convertido = StringEscapeUtils.unescapeHtml4(data);
 		return convertido;
 	}
+	
+
+    /**
+     * Valida que sea un rut valido. 
+     * Si es mexico valida el rfc
+     * Si no viene el - de separacion entre el rut y el dv lo inserta
+     * en la penultima posicion para dejarlo en el formato ddddddddd-v
+     * @param rut
+     * @return
+     */
+    public static boolean verificaRut(String rut) {
+        int index = rut.indexOf('-');
+        String nuevoRut;
+
+        if (index < 0) {
+            nuevoRut = rut.substring(0, rut.length() - 1) + "-" +
+                rut.substring(rut.length() - 1, rut.length());
+        } else {
+            nuevoRut = rut;
+        }
+
+        return esRutValido(nuevoRut);
+    }
+    /**
+     * devuelve true si el dv corresponde
+     * @return
+     * @param rut en formato "dddddddd-v"
+     */
+    public static boolean esRutValido(String rut) {
+        // se trata de Chile o el default
+        int indx = rut.indexOf('-');
+
+        if (indx < 0) {
+            return false;
+        }
+
+        String digitos = rut.substring(0, indx);
+
+        if (!esNumerico(digitos)) {
+            return false;
+        }
+
+        if (indx == (rut.length() - 1)) {
+            return false;
+        }
+
+        if ((rut.length() - indx) > 2) {
+            return false;
+        }
+
+        char dv = rut.charAt(indx + 1);
+
+        if (!Character.isDigit(dv) && ((dv != 'K') && (dv != 'k'))) {
+            return false;
+        }
+
+        byte[] valor = digitos.getBytes();
+
+        if (valor.length == 0) {
+            return false;
+        }
+
+        int[] op = { 2, 3, 4, 5, 6, 7 };
+        int sum = 0;
+
+        for (int i = valor.length - 1, j = 0; i >= 0; i--) {
+            sum += (((int) valor[i] - 48) * op[j]);
+
+            if (++j >= op.length) {
+                j = 0;
+            }
+        }
+
+        sum = 11 - (sum % 11);
+
+        int v = (int) dv - 48;
+
+        if (v == 0) {
+            v = 11;
+        } else if (v > 9) {
+            v = 10;
+        }
+
+        return sum == v;
+    }
+
+    /**
+     * Devuelve true si el String numero esd un número
+     *
+     * @return boolean
+     */
+    public static boolean esNumerico(String numero) {
+        try {
+            @SuppressWarnings("unused")
+			Double num = new Double(numero);
+
+            return true;
+        } catch (NumberFormatException er) {
+            return false;
+        }
+    }
+
+
+    public static String formateaRut(String rut) {
+        int i = 0;
+        String nuevoRut = "";
+        String ch = "";
+
+        if ((rut != null) && !"".equals(rut)) {
+            while (i < rut.length()) {
+                ch = rut.substring(i, i + 1);
+
+                if (!ch.equals(".") && !ch.equals("-")) {
+                    nuevoRut = nuevoRut + ch;
+                }
+
+                i++;
+            }
+
+            if (!verificaRut(nuevoRut)) {
+                nuevoRut = "";
+            }
+        }
+
+        return nuevoRut;
+    }
+
+	public static String desformateaRut(String rut) {
+		if (rut != null)
+			rut = rut.trim().replaceAll("[^\\w]", "").replaceAll("[.-]", "").toUpperCase();
+		return rut;
+	}
 }

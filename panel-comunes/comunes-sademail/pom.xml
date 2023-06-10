@@ -10,6 +10,14 @@
   <name>ComunesSademail</name>
   <description>DTOs comunes para acceder a los servicios Sademail</description>
 
+  <dependencies>
+	<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-admin-directory -->
+	<dependency>
+	    <groupId>uandes.panel-v2.comunes</groupId>
+	    <artifactId>comunes-gmail</artifactId>
+	    <version>0.0.1</version>
+	</dependency>
+  </dependencies>
 
 	<build>
 		<defaultGoal>install</defaultGoal>
@@ -24,9 +32,11 @@
 						<Export-Package>
 							cl.uandes.panel.comunes.json.cambiacuenta,
 							cl.uandes.panel.comunes.json.updateidgmail,
-							cl.uandes.panel.comunes.json.aeOwnersMembers
+							cl.uandes.panel.comunes.json.aeOwnersMembers,
+							cl.uandes.panel.comunes.json.creaCuenta
 						</Export-Package>
 						<Import-Package>
+							cl.uandes.sadmemail.comunes.google.api.services,
 							org.apache.log4j;version="[1.2,2)",
 							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",
 							com.fasterxml.jackson.databind,

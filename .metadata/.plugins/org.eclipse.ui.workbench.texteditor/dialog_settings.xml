@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="${header.crearCuentas.size"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="${header.crearCuentas.size"/>
+			<item value="_generaRespuestaOK"/>
+			<item value="_generaRespuestaOK."/>
+			<item value="_routeProcesaEnBanner"/>
+			<item value="_log3"/>
+			<item value="_setHeader2"/>
+			<item value="_setHeader2."/>
+			<item value="_terminaExisteCuenta."/>
+			<item value="_generaRe"/>
+			<item value="armaDatosCuenta"/>
 			<item value="_setHeader3"/>
 			<item value="_setHeader4"/>
 			<item value="_update"/>
 			<item value="_log5"/>
 			<item value="_log4"/>
-			<item value="res_"/>
-			<item value="elementos en la lista"/>
-			<item value="_log3"/>
-			<item value="listaCuentas"/>
-			<item value="_generaRespuesta"/>
-			<item value="suspendeGMail"/>
-			<item value=" Response"/>
-			<item value="Response"/>
-			<item value="nickname-retrieve"/>
-			<item value="mock:end"/>
 		</list>
 		<list key="replacehistory">
 			<item value="logger.info"/>

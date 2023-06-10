@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1685808609165
+Bnd-LastModified: 1686409363065
 Build-Jdk: 1.8.0_291
 Built-By: fernando
 Bundle-Description: ComunesPanel
@@ -13,9 +13,12 @@ Export-Package: cl.uandes.panel.comunes.json.cambiacuenta;version="0.0.1
  ";uses:="com.fasterxml.jackson.annotation",cl.uandes.panel.comunes.json
  .updateidgmail;version="0.0.1";uses:="com.fasterxml.jackson.annotation"
  ,cl.uandes.panel.comunes.json.aeOwnersMembers;version="0.0.1";uses:="co
- m.fasterxml.jackson.annotation"
-Import-Package: com.fasterxml.jackson.databind;version="[2.6,3)",com.fas
- terxml.jackson.annotation;version="[2.6,3)",org.apache.log4j;version="[
- 1.2,2)",com.fasterxml.jackson.jaxrs.json;version="[2.6,3)"
+ m.fasterxml.jackson.annotation",cl.uandes.panel.comunes.json.creaCuenta
+ ;version="0.0.1";uses:="cl.uandes.sadmemail.comunes.google.api.services
+ ,com.fasterxml.jackson.annotation"
+Import-Package: cl.uandes.sadmemail.comunes.google.api.services;version=
+ "[0.0,1)",com.fasterxml.jackson.databind;version="[2.6,3)",com.fasterxm
+ l.jackson.annotation;version="[2.6,3)",org.apache.log4j;version="[1.2,2
+ )",com.fasterxml.jackson.jaxrs.json;version="[2.6,3)"
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
 Tool: Bnd-3.2.0.201605172007
