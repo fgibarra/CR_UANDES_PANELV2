@@ -2,14 +2,13 @@ package cl.uandes.panel.comunes.json.creaCuenta;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import cl.uandes.sadmemail.comunes.google.api.services.User;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -37,18 +36,25 @@ public class CreaCuentaResponse implements Serializable {
 	@JsonProperty("password")
 	private String password;
 	
-	public CreaCuentaResponse(Integer codigo, String mensaje, String rut, User user) {
+	@JsonCreator
+	public CreaCuentaResponse(
+			@JsonProperty("codigo")Integer codigo, 
+			@JsonProperty("mensaje")String mensaje, 
+			@JsonProperty("rut")String rut,
+			@JsonProperty("cuenta")String cuenta,
+			@JsonProperty("nombres")String nombreCuenta,
+			@JsonProperty("apellidos")String apellidos,
+			@JsonProperty("id")String id,
+			@JsonProperty("password")String password) {
 		super();
 		this.codigo = codigo;
 		this.mensaje = mensaje;
 		this.rut = rut;
-		if (user != null) {
-			this.cuenta = user.getUsername();
-			this.nombreCuenta = user.getGivenName();
-			this.apellidos = user.getFamilyName();
-			this.id = user.getId();
-			this.password = user.getPassword();
-		}
+		this.cuenta = cuenta;
+		this.nombreCuenta = nombreCuenta;
+		this.apellidos = apellidos;
+		this.id = id;
+		this.password = password;
 	}
 
 	@Override

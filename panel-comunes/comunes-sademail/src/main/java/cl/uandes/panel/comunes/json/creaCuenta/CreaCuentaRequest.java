@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import cl.uandes.sadmemail.comunes.utils.StringUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -43,7 +41,7 @@ public class CreaCuentaRequest implements Serializable {
 			@JsonProperty("password")String password) {
 		super();
 		this.enBanner = enBanner;
-		this.rut = StringUtils.desformateaRut(rut);
+		this.rut = rut.trim().replaceAll("[^\\w]", "").replaceAll("[.-]", "").toUpperCase();
 		this.cuenta = cuenta;
 		this.nombreCuenta = nombreCuenta;
 		this.apellidos = apellidos;
@@ -95,5 +93,10 @@ public class CreaCuentaRequest implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-
+/*
+	public static void main (String argv[]) {
+		String rut = "1.234.567-k";
+		CreaCuentaRequest r = new CreaCuentaRequest(Boolean.TRUE, rut, null, null, null, null);
+		System.out.println(r);
+	}*/
 }

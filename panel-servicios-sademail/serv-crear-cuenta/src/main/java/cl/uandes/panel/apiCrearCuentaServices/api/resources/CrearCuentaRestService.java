@@ -59,11 +59,11 @@ public class CrearCuentaRestService {
 	private CreaCuentaResponse valida(CreaCuentaRequest request) {
 		if (request.getEnBanner()) {
 			if (request.getRut() == null) {
-				return new CreaCuentaResponse(-1, "Debe indicar un rut", null, null);
+				return new CreaCuentaResponse(-1, "Debe indicar un rut", null, null, null, null, null, null);
 			}
 		} else {
 			if (request.getCuenta() == null || request.getNombreCuenta() == null || request.getApellidos() == null || request.getPassword() == null) {
-				return new CreaCuentaResponse(-1, "Debe indicar cuenta, nombres, apéllidos y password", null, null);
+				return new CreaCuentaResponse(-1, "Debe indicar cuenta, nombres, apéllidos y password", null, null, null, null, null, null);
 			}
 		}
 		return null;

@@ -70,10 +70,10 @@ public class InvocaCreaCuenta implements Processor {
 				return (CreaCuentaResponse)JSonUtilities.getInstance().json2java(jsonString, CreaCuentaResponse.class, false);
 			} catch (Exception e) {
 				logger.error("crearEnGmail", e);
-				return new CreaCuentaResponse(-1, e.getMessage(), null, null);
+				return new CreaCuentaResponse(-1, e.getMessage(), null, null, null, null, null, null);
 			}
 		}
-		return new CreaCuentaResponse(-1, String.format("HTTP Status: %d", responseImpl.getStatus()), null, null);
+		return new CreaCuentaResponse(-1, String.format("HTTP Status: %d", responseImpl.getStatus()), null, null, null, null, null, null);
 	}
 
 }
