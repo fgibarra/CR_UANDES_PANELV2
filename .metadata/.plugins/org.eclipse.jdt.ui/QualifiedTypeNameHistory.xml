@@ -36,7 +36,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto.DatosLeidosRecrearDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserRequest"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
-    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonCreator"/>
     <fullyQualifiedTypeName name="org.eclipse.jetty.util.log.Logger"/>
     <fullyQualifiedTypeName name="org.apache.cxf.jaxrs.impl.ResponseImpl"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserResponse"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.NoBanner"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CrearCuentasResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonCreator"/>
 </qualifiedTypeNameHistroy>

@@ -2,49 +2,57 @@ package cl.uandes.panel.apiCrearCuentasServices.dto;
 
 import java.io.Serializable;
 
+/*
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+*/
 import cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaResponse;
-import cl.uandes.sadmemail.comunes.utils.StringUtils;
+//import cl.uandes.sadmemail.comunes.utils.StringUtils;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Reporte implements Serializable {
 
 	/**
 	 * 
 	 */
-	@JsonIgnore
+//	@JsonIgnore
 	private static final long serialVersionUID = 7519263235529400212L;
-	@JsonProperty("rut")
+//	@JsonProperty("rut")
 	private String rut;
-	@JsonProperty("cuenta")
+//	@JsonProperty("cuenta")
 	private String cuenta;
-	@JsonProperty("nombres")
+//	@JsonProperty("nombres")
 	private String nombres;
-	@JsonProperty("apellidos")
+//	@JsonProperty("apellidos")
 	private String apellidos;
-	@JsonProperty("idGmail")
+//	@JsonProperty("idGmail")
 	private String idGmail;
-	@JsonProperty("password")
+//	@JsonProperty("password")
 	private String password;
-	@JsonProperty("mensaje")
+//	@JsonProperty("mensaje")
 	private String mensaje;
 
 	public Reporte(CreaCuentaResponse response) {
 		super();
-		this.rut = StringUtils.formateaRut(response.getRut());
+		this.rut = response.getRut();
+		if (this.rut == null || this.rut.length() == 0) this.rut = " ";
 		this.cuenta = response.getCuenta();
+		if (this.cuenta == null || this.cuenta.length() == 0) this.cuenta = " ";
 		this.nombres = response.getNombreCuenta();
+		if (this.nombres == null || this.nombres.length() == 0) this.nombres = " ";
 		this.apellidos = response.getApellidos();
+		if (this.apellidos == null || this.apellidos.length() == 0) this.apellidos = " ";
 		this.idGmail = response.getId();
+		if (this.idGmail == null || this.idGmail.length() == 0) this.idGmail = " ";
 		this.password = response.getPassword();
+		if (this.password == null || this.password.length() == 0) this.password = " ";
 		this.mensaje = generaMensaje(response.getMensaje());
+		if (this.mensaje == null || this.mensaje.length() == 0) this.mensaje = " ";
 	}
 
 	private String generaMensaje(String mensaje2) {
@@ -56,7 +64,7 @@ public class Reporte implements Serializable {
 		}
 		return null;
 	}
-
+/*
 	@Override
 	@JsonIgnore
 	public String toString() {
@@ -68,7 +76,7 @@ public class Reporte implements Serializable {
 			return String.format("No pudo serializar %s",this.getClass().getSimpleName());
 		}
 	}
-
+*/
 	public String getRut() {
 		return rut;
 	}

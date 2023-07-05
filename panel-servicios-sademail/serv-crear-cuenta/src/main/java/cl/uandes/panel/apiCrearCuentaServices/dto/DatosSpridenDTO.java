@@ -24,7 +24,8 @@ public class DatosSpridenDTO implements Serializable {
 	private String middleName;
 	@JsonProperty("SPRIDEN_LAST_NAME")
 	private String lastName;
-
+	private String lastNameLeido;
+	
 	public DatosSpridenDTO(Map<String, Object> datos) {
 		super();
 		this.spridenId = (String) datos.get("SPRIDEN_ID");
@@ -32,11 +33,13 @@ public class DatosSpridenDTO implements Serializable {
 		this.firstName = (String) datos.get("SPRIDEN_FIRST_NAME");
 		this.middleName = (String) datos.get("SPRIDEN_MI");
 		this.lastName = (String) datos.get("SPRIDEN_LAST_NAME");
+		this.lastNameLeido = this.lastName;
 		if (this.lastName != null && this.lastName.indexOf('/') >= 0) {
 			char chars[] = this.lastName.toCharArray();
 			for (int i=0; i<chars.length; i++)
-				if (chars[i] == '/')
+				if (chars[i] == '/') {
 					chars[i] = ' ';
+				}
 			this.lastName = new String(chars);
 		}
 	}
@@ -69,9 +72,9 @@ public class DatosSpridenDTO implements Serializable {
             return null;
 
         // dos espacios por un espacio
-        String apellidos = null;
+        String apellidos = getLastName().toLowerCase();
         do
-            apellidos = getLastName().toLowerCase().replace("  "," ");
+            apellidos = apellidos.replace("  "," ");
             while (apellidos.indexOf("  ")>=0);
 
         String nombre = null;
@@ -80,21 +83,43 @@ public class DatosSpridenDTO implements Serializable {
         else
         	nombre = getFirstName().toLowerCase();
         String apellido = null;
+
+        // determinar si es apellido compuesto
         int indx = apellidos.indexOf('/');
         if (indx < 0) {
             // puede que apellidos no vengan separados por /
             apellidos = apellidos.replace(' ','/');
-            indx = apellidos.indexOf('/');
+            int indx1 = lastNameLeido.indexOf('/');
             switch (cuantos('/', apellidos)) {
             case 0:
                 // no viene un apellido
                 break;
             case 1:
                 // paterno y materno
+            	indx1 = apellidos.indexOf('/');
+            	apellidos = apellidos.substring(0,indx1);
                 break;
             default:
                 // es un apellido compuesto
-                return null;
+            	if (indx1 >= 0) {
+            		String valor = lastNameLeido.substring(0, indx1);
+            		char chars[] = valor.toCharArray();
+            		StringBuffer sb = new StringBuffer();
+        			for (int i=0; i<chars.length; i++)
+        				if (chars[i] != ' ') {
+        					sb.append(chars[i]);
+        				}
+        			apellidos = sb.toString();
+            		
+            	} else {
+            		char chars[] = lastNameLeido.toCharArray();
+            		StringBuffer sb = new StringBuffer();
+        			for (int i=0; i<chars.length; i++)
+        				if (chars[i] != ' ') {
+        					sb.append(chars[i]);
+        				}
+        			apellidos = sb.toString();
+            	}
             }
         }
         if (indx > 0) {
@@ -203,5 +228,17 @@ public class DatosSpridenDTO implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
+/**/
+	public static void main (String []args) {
+		Map<String, Object> datos = new java.util.HashMap<String, Object>();
+		datos.put("SPRIDEN_ID", "12345");
+		datos.put("SPRIDEN_PIDM", new java.math.BigDecimal(1234));
+		datos.put("SPRIDEN_FIRST_NAME", "manuel");
+		datos.put("SPRIDEN_LAST_NAME", "de la fuente/muñoz");
+		
+		DatosSpridenDTO dto = new DatosSpridenDTO(datos);
+		String valor = dto.getLoginName();
+		System.out.println(valor);
+	}
+	/**/
 }

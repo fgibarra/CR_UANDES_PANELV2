@@ -23,7 +23,7 @@ public class GeneraRespuesta implements Processor {
 			if (existeEnMicuentasGmail != null && existeEnMicuentasGmail) {
 				DatosMiCuentasGmailDTO datos = (DatosMiCuentasGmailDTO) exchange.getIn().getHeader("datosMiCuentasGmail");
 				if (datos != null) {
-					User user = new User(null, datos.getLoginName(), datos.getNombres(), datos.getApellidos(), null);
+					//User user = new User(null, datos.getLoginName(), datos.getNombres(), datos.getApellidos(), null);
 					response = new CreaCuentaResponse(-1, tipoRespuesta, request.getRut(), datos.getLoginName(), datos.getNombres(), datos.getApellidos(), null, null);
 				}
 			} else {
@@ -42,7 +42,7 @@ public class GeneraRespuesta implements Processor {
 			DatosMiCuentasGmailDTO datos = (DatosMiCuentasGmailDTO)exchange.getIn().getHeader("datosMiCuentasGmail");
 			User user = new User(String.format("%s@miuandes.cl",datos.getLoginName()), datos.getLoginName(), datos.getNombres(), datos.getApellidos(), datos.getPassword());
 			user.setId(datos.getIdGmail());
-			response = new CreaCuentaResponse(0, "OK", datos.getMoodleId(), null, null, null, null, null); 
+			response = new CreaCuentaResponse(0, "OK", datos.getMoodleId(), datos.getLoginName(), datos.getNombres(), datos.getApellidos(), datos.getIdGmail(), datos.getPassword()); 
 		}
 		
 		logger.info(String.format("GeneraRespuesta: %s", response));

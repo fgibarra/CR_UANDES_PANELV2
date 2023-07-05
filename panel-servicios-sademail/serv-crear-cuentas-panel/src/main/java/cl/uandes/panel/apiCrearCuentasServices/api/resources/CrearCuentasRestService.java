@@ -53,8 +53,10 @@ public class CrearCuentasRestService {
 			Map<String,Object> headers = new HashMap<String,Object>();
 			List<CreaCuentaRequest> lista = new ArrayList<CreaCuentaRequest>();
 			if (request.getEnBanner() != null) {
+				logger.info("creaCuenta: ruts leidos:");
 				for (String rut : request.getEnBanner().getRuts()) {
 					CreaCuentaRequest cta = new CreaCuentaRequest(Boolean.TRUE, rut, null, null, null, null);
+					logger.info(String.format("%s", rut));
 					lista.add(cta);
 				}
 			}

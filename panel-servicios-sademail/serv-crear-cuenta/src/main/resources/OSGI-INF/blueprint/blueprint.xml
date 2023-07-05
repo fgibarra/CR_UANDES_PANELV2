@@ -171,11 +171,11 @@
                             <to id="_to1" uri="seda:procesaEnBanner"/>
                         </when>
                         <otherwise id="_otherwise2">
-                            <setHeader headerName="tipoRespuesta">
+                            <setHeader headerName="tipoRespuesta" id="_setHeader2">
                                 <constant>No existe en Banner</constant>
                             </setHeader>
                             <process id="_generaRespuesta" ref="generaRespuesta"/>
-                            <log message="TERMINA EL PROCESO"/>
+                            <log id="_log3" message="TERMINA EL PROCESO"/>
                             <to id="_terminaExisteCuenta" uri="mock:end"/>
                         </otherwise>
                     </choice>
@@ -210,41 +210,42 @@
             <log id="_log4" message="datos con que se creara: ${header.datosMiCuentasGmail}"/>
             <!-- Crear en GMAIL -->
             <process id="_crearEnGmail" ref="crearEnGmail"/>
-			<choice>
-				<when><simple>${header.cuentaCreadaGmail.codigo} == 0</simple>
-		            <!-- Crear en la base de datos -->
-					<to uri="seda:crearEnBD"/>
-					<choice>
-						<when><simple>${header.out_resultado} == 'OK'</simple>
-		            		<!-- Buscarla en el AD -->
-
-							<!-- generar la respuesta -->
+            <choice id="_choice6">
+                <when id="_when6">
+                    <simple>${header.cuentaCreadaGmail.codigo} == 0</simple>
+                    <!-- Crear en la base de datos -->
+                    <to id="_to8" uri="seda:crearEnBD"/>
+                    <choice id="_choice7">
+                        <when id="_when7">
+                            <simple>${header.out_resultado} == 'OK'</simple>
+                            <!-- Buscarla en el AD -->
+                            <!-- generar la respuesta -->
                             <process id="_generaRespuestaOK" ref="generaRespuesta"/>
-                            <log message="TERMINA EL PROCESO OK"/>
+                            <log id="_log11" message="TERMINA EL PROCESO OK"/>
                             <to id="_terminaOK" uri="mock:end"/>
-						</when>
-						<otherwise>
-							<!-- eliminar la cuenta en gmail y mandar respuesta de error -->
-							<process id="_eliminaCuentaGmail" ref="eliminaCuentaGmail"/>
-                            <setHeader headerName="tipoRespuesta">
+                        </when>
+                        <otherwise id="_otherwise5">
+                            <!-- eliminar la cuenta en gmail y mandar respuesta de error -->
+                            <process id="_eliminaCuentaGmail" ref="eliminaCuentaGmail"/>
+                            <setHeader headerName="tipoRespuesta" id="_setHeader7">
                                 <simple>No pudo crear en BD: ${header.out_resultado}</simple>
                             </setHeader>
                             <process id="_generaRespuestaNoCreadaBD" ref="generaRespuesta"/>
-                            <log message="TERMINA EL PROCESO"/>
+                            <log id="_log12" message="TERMINA EL PROCESO"/>
                             <to id="_terminaNoCreadaBD" uri="mock:end"/>
-						</otherwise>
-					</choice>
-				</when>
-				<otherwise>
-					<!-- generar respuesta con error -->
-                            <setHeader headerName="tipoRespuesta">
-                                <simple>No pudo crear en Gmail: ${header.cuentaCreadaGmail.mensaje}</simple>
-                            </setHeader>
-                            <process id="_generaRespuestaNoCreadaGmail" ref="generaRespuesta"/>
-                            <log message="TERMINA EL PROCESO"/>
-                            <to id="_terminaNoCreadaGmail" uri="mock:end"/>
-				</otherwise>
-			</choice>
+                        </otherwise>
+                    </choice>
+                </when>
+                <otherwise id="_otherwise6">
+                    <!-- generar respuesta con error -->
+                    <setHeader headerName="tipoRespuesta" id="_setHeader8">
+                        <simple>No pudo crear en Gmail: ${header.cuentaCreadaGmail.mensaje}</simple>
+                    </setHeader>
+                    <process id="_generaRespuestaNoCreadaGmail" ref="generaRespuesta"/>
+                    <log id="_log13" message="TERMINA EL PROCESO"/>
+                    <to id="_terminaNoCreadaGmail" uri="mock:end"/>
+                </otherwise>
+            </choice>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_routeValidaMiCuentasGmail">
@@ -256,11 +257,11 @@
         </route>
         <!-- ==================================================================================================== -->
         <route id="_routeValidaMiCuentasGmailByCuenta">
-            <from uri="seda:validaMiCuentasGmailByCuenta"/>
+            <from id="_from6" uri="seda:validaMiCuentasGmailByCuenta"/>
             <!-- deja en header.existeEnMicuentasGmail: true o false y en header.datosMiCuentasGmail los datos -->
-            <to uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where LOGIN_NAME = :#${header.request.loginName}?dataSource=#bannerDataSource"/>
+            <to id="_to9" uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where LOGIN_NAME = :#${header.request.loginName}?dataSource=#bannerDataSource"/>
             <process id="_armaDatosMiCuentasGmailByCuenta" ref="armaDatosMiCuentasGmail"/>
-            <log message="en seda:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
+            <log id="_log14" message="en seda:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_routeLeeSpriden">
@@ -270,15 +271,17 @@
             <log id="_log9" message="en seda:leeSpriden existeEnSpriden: ${header.existeEnSpriden} datosSpriden: ${header.datosSpriden}"/>
         </route>
         <!-- ==================================================================================================== -->
-		<route id="_routeCrearEnBD">
-			<from uri="seda:crearEnBD"/>
-			<process id="_armaDatosPrdCreaEnBD" ref="armaDatosPrdCreaEnBD"/>
-			<log message="sql-stored:pck_funciones.prd_procesa_cuenta_panel('p_funcion' java.sql.Types.VARCHAR ${header.funcion},'p_rut' java.sql.Types.VARCHAR ${header.moodle_id},'p_banner_pidm' java.sql.Types.INTEGER ${header.banner_pidm},'p_login_name' java.sql.Types.VARCHAR ${header.login_name},'p_nombres' java.sql.Types.VARCHAR ${header.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.apellidos},'p_id_gmail' java.sql.Types.VARCHAR ${header.id_gmail}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
-			<to uri="sql-stored:pck_funciones.prd_procesa_cuenta_panel('p_funcion' java.sql.Types.VARCHAR ${header.funcion},'p_rut' java.sql.Types.VARCHAR ${header.moodle_id},'p_banner_pidm' java.sql.Types.INTEGER ${header.banner_pidm},'p_login_name' java.sql.Types.VARCHAR ${header.login_name},'p_nombres' java.sql.Types.VARCHAR ${header.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.apellidos},'p_id_gmail' java.sql.Types.VARCHAR ${header.id_gmail}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
-			<log message="stored:pck_funciones.PRD_PROCESA_CUENTA_PANEL out_resultado: en body ${body}"/>
-			<setHeader headerName="out_resultado"><simple>${body[out_resultado]}</simple></setHeader>
-			<log message="stored:pck_funciones.PRD_PROCESA_CUENTA_PANEL out_resultado: en header:${header.out_resultado} en body ${body}"/>
-		</route>
+        <route id="_routeCrearEnBD">
+            <from id="_from7" uri="seda:crearEnBD"/>
+            <process id="_armaDatosPrdCreaEnBD" ref="armaDatosPrdCreaEnBD"/>
+            <log id="_log15" message="sql-stored:pck_funciones.prd_procesa_cuenta_panel('p_funcion' java.sql.Types.VARCHAR ${header.funcion},'p_rut' java.sql.Types.VARCHAR ${header.moodle_id},'p_banner_pidm' java.sql.Types.INTEGER ${header.banner_pidm},'p_login_name' java.sql.Types.VARCHAR ${header.login_name},'p_nombres' java.sql.Types.VARCHAR ${header.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.apellidos},'p_id_gmail' java.sql.Types.VARCHAR ${header.id_gmail}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
+            <to id="_to10" uri="sql-stored:pck_funciones.prd_procesa_cuenta_panel('p_funcion' java.sql.Types.VARCHAR ${header.funcion},'p_rut' java.sql.Types.VARCHAR ${header.moodle_id},'p_banner_pidm' java.sql.Types.INTEGER ${header.banner_pidm},'p_login_name' java.sql.Types.VARCHAR ${header.login_name},'p_nombres' java.sql.Types.VARCHAR ${header.nombres},'p_apellidos' java.sql.Types.VARCHAR ${header.apellidos},'p_id_gmail' java.sql.Types.VARCHAR ${header.id_gmail}, OUT java.sql.Types.VARCHAR out_resultado)?dataSource=#bannerDataSource"/>
+            <log id="_log16" message="stored:pck_funciones.PRD_PROCESA_CUENTA_PANEL out_resultado: en body ${body}"/>
+            <setHeader headerName="out_resultado" id="_setHeader9">
+                <simple>${body[out_resultado]}</simple>
+            </setHeader>
+            <log id="_log17" message="stored:pck_funciones.PRD_PROCESA_CUENTA_PANEL out_resultado: en header:${header.out_resultado} en body ${body}"/>
+        </route>
         <!-- ==================================================================================================== -->
         <route id="_routeNoBanner">
             <from id="_from5" uri="seda:noBanner"/>
@@ -294,47 +297,50 @@
                     <log id="_log1" message="TERMINA EL PROCESO"/>
                     <to id="_to7" uri="mock:end"/>
                 </when>
-				<otherwise>
-					<!-- crear la cuenta aramar datosMiCuentasGmail -->
-					<process id="_armaMiCuentasGmailFromRequest" ref="armaMiCuentasGmailFromRequest"/>
-		            <!-- Crear en GMAIL -->
-		            <process id="_crearEnGmailNoBanner" ref="crearEnGmail"/>
-					<choice>
-						<when><simple>${header.cuentaCreadaGmail.codigo} == 0</simple>
-				            <!-- Crear en la base de datos -->
-							<to uri="seda:crearEnBD"/>
-							<choice>
-								<when><simple>${header.out_resultado} == 'OK'</simple>
-				            		<!-- Buscarla en el AD -->
-		
-									<!-- generar la respuesta -->
-		                            <process id="_generaRespuestaOK2" ref="generaRespuesta"/>
-		                            <log message="TERMINA EL PROCESO OK"/>
-		                            <to id="_terminaOK2" uri="mock:end"/>
-								</when>
-								<otherwise>
-									<!-- eliminar la cuenta en gmail y mandar respuesta de error -->
-									<process id="_eliminaCuentaGmail2" ref="eliminaCuentaGmail"/>
-		                            <setHeader headerName="tipoRespuesta">
-		                                <simple>No pudo crear en BD: ${header.out_resultado}</simple>
-		                            </setHeader>
-		                            <process id="_generaRespuestaNoCreadaBD2" ref="generaRespuesta"/>
-		                            <log message="TERMINA EL PROCESO"/>
-		                            <to id="_terminaNoCreadaBD2" uri="mock:end"/>
-								</otherwise>
-							</choice>
-						</when>
-						<otherwise>
-							<!-- generar respuesta con error -->
-		                            <setHeader headerName="tipoRespuesta">
-		                                <simple>No pudo crear en Gmail: ${header.cuentaCreadaGmail.mensaje}</simple>
-		                            </setHeader>
-		                            <process id="_generaRespuestaNoCreadaGmail2" ref="generaRespuesta"/>
-		                            <log message="TERMINA EL PROCESO"/>
-		                            <to id="_terminaNoCreadaGmail2" uri="mock:end"/>
-						</otherwise>
-					</choice>
-				</otherwise>
+                <otherwise id="_otherwise7">
+                    <!-- crear la cuenta aramar datosMiCuentasGmail -->
+                    <process id="_armaMiCuentasGmailFromRequest" ref="armaMiCuentasGmailFromRequest"/>
+                    <!-- Crear en GMAIL -->
+                    <process id="_crearEnGmailNoBanner" ref="crearEnGmail"/>
+                    <choice id="_choice8">
+                        <when id="_when8">
+                            <simple>${header.cuentaCreadaGmail.codigo} == 0</simple>
+                            <!-- Crear en la base de datos -->
+                            <to id="_to11" uri="seda:crearEnBD"/>
+                            <choice id="_choice9">
+                                <when id="_when9">
+                                    <simple>${header.out_resultado} == 'OK'</simple>
+                                    <!-- Buscarla en el AD -->
+                                    <!-- generar la respuesta -->
+                                    <process id="_generaRespuestaOK2" ref="generaRespuesta"/>
+                                    <log id="_log18" message="TERMINA EL PROCESO OK"/>
+                                    <to id="_terminaOK2" uri="mock:end"/>
+                                </when>
+                                <otherwise id="_otherwise8">
+                                    <!-- eliminar la cuenta en gmail y mandar respuesta de error -->
+                                    <process id="_eliminaCuentaGmail2" ref="eliminaCuentaGmail"/>
+                                    <setHeader
+                                    headerName="tipoRespuesta" id="_setHeader10">
+                                    <simple>No pudo crear en BD: ${header.out_resultado}</simple>
+                                    </setHeader>
+                                    <process
+                                    id="_generaRespuestaNoCreadaBD2" ref="generaRespuesta"/>
+                                    <log id="_log19" message="TERMINA EL PROCESO"/>
+                                    <to id="_terminaNoCreadaBD2" uri="mock:end"/>
+                                </otherwise>
+                            </choice>
+                        </when>
+                        <otherwise id="_otherwise9">
+                            <!-- generar respuesta con error -->
+                            <setHeader headerName="tipoRespuesta" id="_setHeader11">
+                                <simple>No pudo crear en Gmail: ${header.cuentaCreadaGmail.mensaje}</simple>
+                            </setHeader>
+                            <process id="_generaRespuestaNoCreadaGmail2" ref="generaRespuesta"/>
+                            <log id="_log20" message="TERMINA EL PROCESO"/>
+                            <to id="_terminaNoCreadaGmail2" uri="mock:end"/>
+                        </otherwise>
+                    </choice>
+                </otherwise>
             </choice>
         </route>
     </camelContext>

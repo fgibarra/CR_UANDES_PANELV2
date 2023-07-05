@@ -65,12 +65,12 @@
 				-generar la respuesta 
 			-->
             <loop doWhile="true" id="_loopProcesaDatos">
-                <simple>${header.crearCuentas.size} > 0</simple>
+                <simple>${header.crearCuentas.size} &gt; 0</simple>
                 <process id="_invocaCreaCuenta" ref="invocaCreaCuenta"/>
             </loop>
             <to id="_generaMail2" uri="seda:generaMail"/>
-			<!-- generar la respuesta al servicio -->
-			<process id="_preparaResponse" ref="preparaResponse"/>
+            <!-- generar la respuesta al servicio -->
+            <process id="_preparaResponse" ref="preparaResponse"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_generaMailRoute">
