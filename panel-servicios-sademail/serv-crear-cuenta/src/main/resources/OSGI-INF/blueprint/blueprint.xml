@@ -94,7 +94,7 @@
         class="cl.uandes.panel.apiCrearCuentaServices.procesor.ArmaMiCuentasGmailFromRequest" id="armaMiCuentasGmailFromRequest"/>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <http-conf:conduit name="*.http-conduit">
-        <http-conf:client ReceiveTimeout="6000000"/>
+        <http-conf:client ReceiveTimeout="600000"/>
         <!-- 1 minuto -->
     </http-conf:conduit>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
@@ -186,7 +186,7 @@
         <route id="_routeProcesaEnBanner">
             <from id="_from1" uri="seda:procesaEnBanner"/>
             <log id="_log5" message="select login_name from mi_cuentas_gmail where login_name like '${header.cuentaporciento}' order by login_name desc?dataSource=#bannerDataSource"/>
-            <to id="_to2" uri="sql:select login_name from mi_cuentas_gmail where login_name like :#cuentaporciento order by login_name desc?dataSource=#bannerDataSource"/>
+            <to id="_to2" uri="sql:select login_name from mi_cuentas_gmail where login_name like :#cuentaporciento?dataSource=#bannerDataSource"/>
             <process id="_generaNextLoginNameSecuence" ref="generaNextLoginNameSecuence"/>
             <!-- en $header.lastSecuence esta el ultimo seq usado -->
             <log id="_log6" message="El primer secuence disponible es ${header.lastSecuence}"/>

@@ -20,12 +20,18 @@ public class GeneraNextLoginNameSecuence implements Processor {
 		List<Map<String, Object>>resultados = (List<Map<String, Object>>)exchange.getIn().getBody();
 		logger.info(String.format("GeneraNextLoginNameSecuence: resultados class: %s length: %d", resultados.getClass().getName(), resultados.size()));
 		if (resultados != null && resultados.size() > 0) {
-			Map<String,Object> lastLoginNameDS = (Map<String,Object>)resultados.get(0);
-			String lastLoginName = (String)lastLoginNameDS.get("LOGIN_NAME");
-			String cuenta = ((DatosSpridenDTO)exchange.getIn().getHeader("datosSpriden")).getLoginName();
-			logger.info(String.format("GeneraNextLoginNameSecuence: lastLoginName: %s cuenta: %s", lastLoginName, cuenta));
-			if (lastLoginName.length() > cuenta.length()) {
-				lastSecuence = Integer.valueOf(lastLoginName.substring(cuenta.length()))+1;
+			for (Map<String,Object> lastLoginNameDS : resultados) {
+				String lastLoginName = (String)lastLoginNameDS.get("LOGIN_NAME");
+				String cuenta = ((DatosSpridenDTO)exchange.getIn().getHeader("datosSpriden")).getLoginName();
+				logger.info(String.format("GeneraNextLoginNameSecuence: lastLoginName: %s cuenta: %s", lastLoginName, cuenta));
+				if (lastLoginName.length() > cuenta.length()) {
+					String valor = lastLoginName.substring(cuenta.length());
+					if (valor.matches("[0-9]*")) {
+						Integer seq =  Integer.valueOf(valor)+1;
+						if (seq > lastSecuence)
+							lastSecuence = seq;
+					}
+				}
 			}
 		}
 		exchange.getIn().setHeader("lastSecuence", lastSecuence);

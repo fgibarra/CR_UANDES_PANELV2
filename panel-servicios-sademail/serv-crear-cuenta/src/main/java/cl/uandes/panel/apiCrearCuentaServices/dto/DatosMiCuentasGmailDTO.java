@@ -55,7 +55,13 @@ public class DatosMiCuentasGmailDTO implements Serializable {
 		super();
 		this.key = (Integer.valueOf(((java.math.BigDecimal)datos.get("KEY")).intValue()));
 		this.moodleId = (String) datos.get("MOODLE_ID");
-		this.bannerPidm = (Integer.valueOf(((java.math.BigDecimal) datos.get("BANNER_PIDM")).intValue()));
+		
+		try {
+			// puede venir en null
+			this.bannerPidm = (Integer.valueOf(((java.math.BigDecimal) datos.get("BANNER_PIDM")).intValue()));
+		} catch (Exception e) {
+			;
+		}
 		this.loginName = (String) datos.get("LOGIN_NAME");
 		this.nombres = (String) datos.get("NOMBRES");
 		this.apellidos = (String) datos.get("APELLIDOS");

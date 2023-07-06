@@ -12,11 +12,11 @@ import org.apache.log4j.Logger;
 
 public class PreparaDatosMail implements Processor {
 
-    @PropertyInject(value = "serv-elimina-suspende-cuentas.mail_to", defaultValue="fibarra.fir@gmail.com")
+    @PropertyInject(value = "serv-crear-cuentas-panel.mail_to", defaultValue="fibarra.fir@gmail.com")
     private String para;
-    @PropertyInject(value = "serv-elimina-suspende-cuentas.mail_cc", defaultValue="fgibarra@miuandes.cl")
+    @PropertyInject(value = "serv-crear-cuentas-panel.mail_cc", defaultValue="fgibarra@miuandes.cl")
     private String cc;
-    @PropertyInject(value = "serv-elimina-suspende-cuentas.mail_asunto", defaultValue="Procesa Suspende-Elimina, Reactiva cuentas")
+    @PropertyInject(value = "serv-crear-cuentas-panel.mail_asunto", defaultValue="Crea cuentas Panel")
     private String asunto;
     private Logger logger = Logger.getLogger(getClass());
 
