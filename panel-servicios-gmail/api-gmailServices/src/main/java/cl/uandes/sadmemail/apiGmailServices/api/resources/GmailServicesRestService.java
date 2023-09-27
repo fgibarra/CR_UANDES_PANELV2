@@ -243,14 +243,17 @@ public class GmailServicesRestService {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/groups/retrieve/{username}")
-	public GroupResponse retrieveGroups(@PathParam("loginName")String in_msg) {
+    @Path("/groups/retrieve/{groupname}")
+	public GroupsResponse retrieveGroups(@PathParam("groupname")String in_msg) {
 		logger.info(String.format("retrieveGroups: in_msg: %s - %s", 
-				in_msg.getClass().getSimpleName(), in_msg));
+				in_msg!=null?in_msg.getClass().getSimpleName():"ES NULO", in_msg!=null?in_msg:"ES NULO"));
+		if (in_msg == null) {
+			return new GroupsResponse(-1, "No viene grupo a consultar", null);
+		}
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("Operacion", "groups-retrieve");
 		headers.put("Body", in_msg);
-		return (GroupResponse) producer.requestBodyAndHeaders(in_msg, headers);
+		return (GroupsResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 
 	@GET
@@ -381,7 +384,7 @@ public class GmailServicesRestService {
 		return (MemberResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 	
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/member/retrieve")
@@ -396,7 +399,7 @@ public class GmailServicesRestService {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/members/retreiveOwners")
+    @Path("/members/retrieveOwners")
 	public MembersResponse retreiveGroupOwners(MembersRequest in_msg) {
 		logger.info(String.format("retreiveGroupOwners: in_msg= %s - %s", in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
@@ -405,10 +408,10 @@ public class GmailServicesRestService {
 		return (MembersResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 	
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/members/retreiveMembers")
+    @Path("/members/retrieveMembers")
 	public MembersResponse retrieveAllMembers(MembersRequest in_msg) {
 		logger.info(String.format("retrieveAllMembers: in_msg= %s - %s", in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();

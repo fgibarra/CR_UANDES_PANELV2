@@ -33,7 +33,8 @@
 							cl.uandes.panel.comunes.json.cambiacuenta,
 							cl.uandes.panel.comunes.json.updateidgmail,
 							cl.uandes.panel.comunes.json.aeOwnersMembers,
-							cl.uandes.panel.comunes.json.creaCuenta
+							cl.uandes.panel.comunes.json.creaCuenta,
+							cl.uandes.panel.comunes.json.sincronizaGrupos
 						</Export-Package>
 						<Import-Package>
 							cl.uandes.sadmemail.comunes.google.api.services,

@@ -41,10 +41,12 @@ public class CreaCuentaRequest implements Serializable {
 			@JsonProperty("password")String password) {
 		super();
 		this.enBanner = enBanner;
-		if (rut.startsWith("@"))
-			this.rut=rut;
-		else
-			this.rut = rut.trim().replaceAll("[^\\w]", "").replaceAll("[.-]", "").toUpperCase();
+		if (rut != null) {
+			if (rut.startsWith("@"))
+				this.rut=rut;
+			else
+				this.rut = rut.trim().replaceAll("[^\\w]", "").replaceAll("[.-]", "").toUpperCase();
+		}
 		this.cuenta = cuenta;
 		this.nombreCuenta = nombreCuenta;
 		this.apellidos = apellidos;

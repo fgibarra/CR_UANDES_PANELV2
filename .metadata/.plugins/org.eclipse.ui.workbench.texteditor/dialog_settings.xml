@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="${header.crearCuentas.size"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="id=&quot;_to"/>
+			<item value="members-retreiveMembers"/>
 			<item value="${header.crearCuentas.size"/>
 			<item value="_generaRespuestaOK"/>
 			<item value="_generaRespuestaOK."/>
@@ -21,8 +23,6 @@
 			<item value="_setHeader3"/>
 			<item value="_setHeader4"/>
 			<item value="_update"/>
-			<item value="_log5"/>
-			<item value="_log4"/>
 		</list>
 		<list key="replacehistory">
 			<item value="logger.info"/>

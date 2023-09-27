@@ -1,3 +1,4 @@
+/home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/sincronizaGrupos/SincronizaGruposRequest.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/updateidgmail/UpdateIdGmailResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/NoBanner.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/aeOwnersMembers/AeOwnersMembersResponse.java
@@ -10,6 +11,7 @@
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/cambiacuenta/CambiaCuentaResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/CrearCuentasRequest.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/cambiacuenta/CambiaCuentaRequest.java
+/home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/sincronizaGrupos/SincronizaGruposResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/cambiacuenta/EliminaSuspendeCuentaResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/CreaCuentaResponse.java
 /home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/CrearCuentasResponse.java

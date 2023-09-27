@@ -197,6 +197,9 @@
                     <setBody id="_setBody1">
                         <simple>${header.CambiaCuentaRequest.nuevoNombreCuenta}</simple>
                     </setBody>
+					<setHeader headerName="new_login_name">
+						<simple>${header.CambiaCuentaRequest.nuevoNombreCuenta}</simple>
+					</setHeader>
                 </when>
             </choice>
             <!-- 

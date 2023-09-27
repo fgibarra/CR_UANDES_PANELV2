@@ -301,5 +301,6 @@
 		<module>serv-elimina_suspende_cuentas</module>
 		<module>serv-crear-cuenta</module>
 		<module>serv-crear-cuentas-panel</module>
+		<module>serv-sincroniza-grupos</module>
 	</modules>
 </project>

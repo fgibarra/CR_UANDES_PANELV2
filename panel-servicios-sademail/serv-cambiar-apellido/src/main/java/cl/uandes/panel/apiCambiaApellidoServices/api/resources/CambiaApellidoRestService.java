@@ -33,9 +33,9 @@ public class CambiaApellidoRestService {
 		
 		if (in_msg.getRut() == null)
 			return new CambiaCuentaResponse(Integer.valueOf(-1), "Debe ingresar RUT",null, null);
-		else if (in_msg.getNuevoNombreCuenta() != null)
+		else if (in_msg.getNuevoNombreCuenta() != null) {
 			operacion = "porCuenta";
-		else
+		} else
 			operacion = "porRUT";
 
 		Map<String,Object> headers = new HashMap<String,Object>();

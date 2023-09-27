@@ -25,13 +25,13 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
-			<item value="org.serv.crear.cuentas.panel"/>
+			<item value="org.serv.sincroniza.grupos"/>
 		</list>
 		<list key="groupId">
 			<item value="uandes.panel-v2.servicios"/>
 		</list>
 		<list key="artifactId">
-			<item value="serv-crear-cuentas-panel"/>
+			<item value="serv-sincroniza-grupos"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -50,11 +50,13 @@
 			<item value="uandes.panel-v2.servicios"/>
 		</list>
 		<list key="name">
+			<item value="serv-sincroniza-grupos"/>
 			<item value="serv-crear-cuentas-panel"/>
 		</list>
 		<list key="artifactId">
-			<item value="serv-crear-cuentas-panel"/>
+			<item value="serv-sincroniza-grupos"/>
 			<item value="panel-servicios-sademail"/>
+			<item value="serv-crear-cuentas-panel"/>
 			<item value="serv-crear-cuenta"/>
 			<item value="serv-elimina_suspende_cuentas"/>
 			<item value="serv-ae-owner-members"/>
@@ -74,6 +76,7 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="serv-sincroniza-grupos"/>
 			<item value="serv-crear-cuentas-panel"/>
 			<item value="serv-crear-cuenta"/>
 			<item value="serv-elimina_suspende_cuentas"/>

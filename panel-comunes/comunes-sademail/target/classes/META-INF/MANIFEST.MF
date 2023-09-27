@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1688489360485
+Bnd-LastModified: 1691161847354
 Build-Jdk: 1.8.0_291
 Built-By: fernando
 Bundle-Description: ComunesPanel
@@ -14,7 +14,9 @@ Export-Package: cl.uandes.panel.comunes.json.cambiacuenta;version="0.0.1
  .updateidgmail;version="0.0.1";uses:="com.fasterxml.jackson.annotation"
  ,cl.uandes.panel.comunes.json.aeOwnersMembers;version="0.0.1";uses:="co
  m.fasterxml.jackson.annotation",cl.uandes.panel.comunes.json.creaCuenta
- ;version="0.0.1";uses:="com.fasterxml.jackson.annotation"
+ ;version="0.0.1";uses:="com.fasterxml.jackson.annotation",cl.uandes.pan
+ el.comunes.json.sincronizaGrupos;version="0.0.1";uses:="com.fasterxml.j
+ ackson.annotation"
 Import-Package: com.fasterxml.jackson.databind;version="[2.6,3)",com.fas
  terxml.jackson.annotation;version="[2.6,3)",cl.uandes.sadmemail.comunes
  .google.api.services;version="[0.0,1)",org.apache.log4j;version="[1.2,2
