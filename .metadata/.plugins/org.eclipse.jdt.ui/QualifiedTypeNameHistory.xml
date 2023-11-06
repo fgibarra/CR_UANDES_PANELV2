@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="javax.ws.rs.DELETE"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.ResultadoGmail"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.EliminaSuspendeCuentaResponse"/>
-    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto.DatosReactivarBannerDTO"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.User"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersResponse"/>
     <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Users"/>
     <fullyQualifiedTypeName name="java.math.BigDecimal"/>
     <fullyQualifiedTypeName name="javax.ws.rs.GET"/>
@@ -60,4 +51,13 @@
     <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
     <fullyQualifiedTypeName name="java.util.Locale"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sincronizaGrupos.SincronizaGruposRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CommandLineParser"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.JSonUtilities"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sendmail.SendmailResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sendmail.SendmailRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.servicio.crearGrupos.api.dto.DatosMemeberDTO"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,1 @@
+update mi_grupos_azure set creado_azure=1, group_id=:#idGrupo where key=:#keyGrupo

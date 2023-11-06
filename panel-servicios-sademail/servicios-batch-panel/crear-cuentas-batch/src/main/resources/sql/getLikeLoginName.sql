@@ -1,0 +1,1 @@
+select login_name from mi_cuentas_azure where login_name like :#${body}

@@ -1,0 +1,1 @@
+delete mi_grupos_azure where key=:#keyGrupo

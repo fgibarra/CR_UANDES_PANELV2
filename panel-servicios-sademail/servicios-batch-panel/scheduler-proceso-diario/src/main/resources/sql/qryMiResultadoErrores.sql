@@ -1,0 +1,3 @@
+select ID_USUARIO, TIPO, CAUSA, KEY_GRUPO
+from MI_RESULTADO_ERRORES
+where KEY_RESULTADO=:#keyResultado

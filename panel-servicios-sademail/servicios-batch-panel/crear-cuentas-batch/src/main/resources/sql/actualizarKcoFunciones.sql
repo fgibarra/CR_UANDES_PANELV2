@@ -1,0 +1,1 @@
+update kco_funciones set ultima_ejecucion=sysdate where funcion=:#proceso
