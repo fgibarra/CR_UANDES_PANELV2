@@ -1,1 +1,1 @@
-delete mi_grupos_azure where key=:#keyGrupo
+delete mi_grupos where key=:#keyGrupo

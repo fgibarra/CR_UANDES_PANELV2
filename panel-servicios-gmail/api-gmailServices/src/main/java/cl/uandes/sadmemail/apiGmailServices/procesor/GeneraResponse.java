@@ -411,12 +411,12 @@ public class GeneraResponse implements Processor {
 			
 		} else if ("member-deleteMember".equals(operacion)) {
 			MemberRequest req = (MemberRequest)exchange.getIn().getHeader("Body");
-			GroupResponse response =  null;
+			Response response =  null;
 			try {
 				wao.deleteMemberFromGroup(req.getGroupName(), req.getEmail());
-				response = new GroupResponse(0, "OK", null);
+				response = Response.noContent().status(200).build();
 			} catch (Exception e) {
-				response = new GroupResponse(-1, e.getMessage(), null);
+				response = Response.noContent().status(500, e.getMessage()).build();
 			}
 			exchange.getIn().setBody(response);
 			

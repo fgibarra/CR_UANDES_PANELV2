@@ -23,9 +23,9 @@ import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
  */
 public class GeneraDatos {
 
-    @PropertyInject(value = "crear-cuentas-azure.proceso", defaultValue="proceso")
+    @PropertyInject(value = "crear-cuentas-gmail.proceso", defaultValue="proceso")
 	private String proceso;
-    @PropertyInject(value = "crear-cuentas-azure.kco-funcion", defaultValue="crear_cuentas")
+    @PropertyInject(value = "crear-cuentas-gmail.kco-funcion", defaultValue="crear_cuentas")
 	private String kcoFuncion;
 	private final String tiposCuenta[] = {"Alumnos"};
 	

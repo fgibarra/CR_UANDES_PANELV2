@@ -8,7 +8,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF servers -->
-    <jaxrs:server address="/ESB/panelv3/servicio/crearGrupos/"
+    <jaxrs:server address="/ESB/panel/servicioBatch/crearGrupos/"
         id="rsPanelServices" staticSubresourceResolution="true">
         <jaxrs:serviceBeans>
             <ref component-id="restService"/>
@@ -20,8 +20,8 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF clients -->
     <cxf:rsClient
-        address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/group/retrieve/{groupName}"
-        id="rsRetrieveGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panelv3.servicio.crearGrupos.api.restclient.GrupoEndpoint">
+        address="http://localhost:8181/cxf//ESB/panel/gmailServices/groups/retrieve/{groupname}"
+        id="rsRetrieveGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -33,7 +33,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/group/create"
-        id="rsCreateGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panelv3.servicio.crearGrupos.api.restclient.GrupoEndpoint">
+        id="rsCreateGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -45,7 +45,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/group/delete"
-        id="rsDeleteGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panelv3.servicio.crearGrupos.api.restclient.GrupoEndpoint">
+        id="rsDeleteGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -57,7 +57,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/member/addMember"
-        id="rsAgregarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panelv3.servicio.crearGrupos.api.restclient.GrupoEndpoint">
+        id="rsAgregarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -69,7 +69,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/member/deleteMember"
-        id="rsSacarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panelv3.servicio.crearGrupos.api.restclient.GrupoEndpoint">
+        id="rsSacarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -81,7 +81,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/idCuentaUsuario"
-        id="rsConsultarIdCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panelv3.servicio.crearGrupos.api.restclient.GrupoEndpoint">
+        id="rsConsultarIdCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -93,7 +93,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/servicio/schedulerPanel"
-        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panelv3.servicio.crearGrupos.api.restclient.SchedulerEndpoint">
+        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.SchedulerEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -105,35 +105,34 @@
     <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.api.resources.CrearGruposRestService" id="restService">
-        <property name="funcion" value="{{crear-grupos-azure.nocturno.funcion}}"/>
-        <property name="proceso" value="{{crear-grupos-azure.proceso}}"/>
+        class="cl.uandes.panel.servicio.crearGrupos.api.resources.CrearGruposRestService" id="restService">
+        <property name="funcion" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
+        <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
     </bean>
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.procesor.InicialiceCrearGrupos" id="inicialiceCrearGrupos"/>
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGrupos" id="inicialiceCrearGrupos"/>
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.procesor.GruposThread" id="gruposThread">
-        <property name="azureServices" value="{{crear-grupos-azure.uri-azureServices}}"/>
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposThread" id="gruposThread">
+        <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
         <property name="dominio" value="{{panelv3.dominio}}"/>
     </bean>
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.procesor.InicialiceCrearGruposVigentes" id="inicialiceCrearGruposVigentes"/>
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGruposVigentes" id="inicialiceCrearGruposVigentes"/>
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.procesor.GruposVigentesThread" id="gruposVigentesThread"/>
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposVigentesThread" id="gruposVigentesThread"/>
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.procesor.InicialiceCrearGruposVigentesPosgrado" id="inicialiceCrearGruposVigentesPosgrado"/>
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGruposVigentesPosgrado" id="inicialiceCrearGruposVigentesPosgrado"/>
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.procesor.GruposVigentesPosgradoThread" id="gruposVigentesPosgradoThread"/>
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposVigentesPosgradoThread" id="gruposVigentesPosgradoThread"/>
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.procesor.GruposSinMiembrosThread" id="gruposSinMiembros">
-        <property name="azureServices" value="{{crear-grupos-azure.uri-azureServices}}"/>
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposSinMiembrosThread" id="gruposSinMiembros">
+        <property name="azureServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
         <property name="delegate" ref="gruposThread"/>
     </bean>
+    <bean class="cl.uandes.panel.servicio.crearGrupos.bean.GeneraDatos" id="generaDatos"/>
     <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.bean.GeneraDatos" id="generaDatos"/>
-    <bean
-        class="cl.uandes.panelv3.servicio.crearGrupos.procesor.ActualizaMiResultados" id="actualizaMiResultados">
-        <property name="panelServices" value="{{crear-grupos-azure.uri-serviciosPanel}}"/>
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.ActualizaMiResultados" id="actualizaMiResultados">
+        <property name="panelServices" value="{{crear-grupos-gmail.uri-serviciosPanel}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -141,13 +140,13 @@
         filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
     <!-- ==================================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-    <camelContext id="crear-grupos-azure" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
-        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv3.cfg"/>
+    <camelContext id="crear-grupos-gmail" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <!-- -->
         <route id="_readjson">
             <from id="_promService" uri="direct:start"/>
-            <log id="_log2" message="(L143)queda en el body: ${body}"/>
-            <to id="_to1" uri="direct:proceso"/>
+            <log id="_log2" message="(L149)queda en el body: ${body}"/>
+            <to id="_to1" uri="mock:end"/>
         </route>
         <!--
         <route id="_fromInicio">
@@ -162,7 +161,7 @@
         <!-- ================================================================================================= -->
         <route id="_procesoRoute">
             <from id="_proceso" uri="direct:proceso"/>
-            <log id="_log6" message="(L159)En ruta _procesoRoute header.listaOperaciones.size: ${header.listaOperaciones.size}"/>
+            <log id="_log6" message="(L165)En ruta _procesoRoute header.listaOperaciones.size: ${header.listaOperaciones.size}"/>
             <loop doWhile="true" id="_loop1">
                 <simple>${header.listaOperaciones.size} &gt; 0</simple>
                 <!--
@@ -172,41 +171,41 @@
 				- generar el resultado
 				-->
                 <bean id="_bean2" method="getListaOperaciones" ref="generaDatos"/>
-                <log id="_log4" message="(L169)procesar ${header.proceso}"/>
-                <log id="_log8" message="(L170)sql:select key, funcion, min_thread, max_thread, parametro, comentario, ultima_ejecucion from kco_funciones where funcion=${header.proceso}"/>
+                <log id="_log4" message="(L175)procesar ${header.proceso}"/>
+                <log id="_log8" message="(L176)sql:select key, funcion, min_thread, max_thread, parametro, comentario, ultima_ejecucion from kco_funciones where funcion=${header.proceso}"/>
                 <to id="_to4" uri="sql:classpath:sql/getKcoFuncion.sql?dataSource=#bannerDataSource"/>
                 <process id="_recuperaDatosInicializar" ref="inicialiceCrearGrupos"/>
-                <log id="_log15" message="(L173)despues de _recuperaDatosInicializar: DatosKcoFunciones_${header.DatosKcoFunciones} ResultadoFuncion: ${header.ResultadoFuncion} key: ${header.key}"/>
+                <log id="_log15" message="(L179)despues de _recuperaDatosInicializar: DatosKcoFunciones_${header.DatosKcoFunciones} ResultadoFuncion: ${header.ResultadoFuncion} key: ${header.key}"/>
                 <choice id="_choice1">
                     <when id="_when1">
-                        <simple>${header.proceso} == 'crear_grupos_azure'</simple>
+                        <simple>${header.proceso} == 'crear_grupos'</simple>
                         <setHeader headerName="emailPermission" id="_setHeader2">
                             <constant>Anyone</constant>
                         </setHeader>
-                        <log id="_log9" message="(L180)values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
+                        <log id="_log9" message="(L186)values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
                         <to id="_to8" uri="sql-stored:classpath:sql/prd_puebla_mailgroupmembers.sql?dataSource=#bannerDataSource"/>
                         <to id="_to9" uri="direct:crearGrupos"/>
                     </when>
                     <when id="_when2">
-                        <simple>${header.proceso} == 'grupos_inprogress_azure'</simple>
+                        <simple>${header.proceso} == 'grupos_inprogress'</simple>
                         <setHeader headerName="emailPermission" id="_setHeader3">
                             <constant>Owner</constant>
                         </setHeader>
-                        <log id="_log10" message="(L190)values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
+                        <log id="_log10" message="(L195)values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
                         <to id="_to10" uri="sql-stored:classpath:sql/prd_puebla_inprogressgroup.sql?dataSource=#bannerDataSource"/>
                         <to id="_to2" uri="direct:crearGruposVigentes"/>
                     </when>
                     <when id="_when3">
-                        <simple>${header.proceso} == 'grupos_inprogress_posgrado_azure'</simple>
+                        <simple>${header.proceso} == 'grupos_inprogress_posgrado'</simple>
                         <setHeader headerName="emailPermission" id="_setHeader4">
                             <constant>Owner</constant>
                         </setHeader>
-                        <log id="_log11" message="(L200)values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
+                        <log id="_log11" message="(L205)values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
                         <to id="_to11" uri="sql-stored:classpath:sql/prd_puebla_inprogresspostgrado.sql?dataSource=#bannerDataSource"/>
                         <to id="_to3" uri="direct:crearGruposVigentesPosgrado"/>
                     </when>
                     <otherwise id="_otherwise1">
-                        <log id="_log5" message="(L206)Operacion desconocida"/>
+                        <log id="_log5" message="(L209)Operacion desconocida"/>
                         <bean id="_bean3"
                             method="setOperacionDesconocida" ref="restService"/>
                     </otherwise>
@@ -221,7 +220,7 @@
         <route id="_crearGrupos">
             <from id="_crearGruposRoute" uri="direct:crearGrupos"/>
             <!-- recuperar los grupos a procesar -->
-            <log id="_log1" message="(L220) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposRegulares.sql"/>
+            <log id="_log1" message="(L224) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposRegulares.sql"/>
             <to id="_to12" uri="sql:classpath:sql/getGruposRegulares.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean4" method="factoryGrupos" ref="generaDatos"/>
             <to id="_to13" uri="direct:procesaGrupos"/>
@@ -233,7 +232,7 @@
         <!-- ================================================================================================= -->
         <route id="_crearGruposVigentes">
             <from id="_crearGruposVigentesRoute" uri="direct:crearGruposVigentes"/>
-            <log id="_log3" message="(L229) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposVigentes.sql"/>
+            <log id="_log3" message="(L236) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposVigentes.sql"/>
             <to id="_to14" uri="sql:classpath:sql/getGruposVigentes.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean5" method="factoryGrupos" ref="generaDatos"/>
             <to id="_to15" uri="direct:procesaGrupos"/>
@@ -246,7 +245,7 @@
         <!-- ================================================================================================= -->
         <route id="_crearGruposVigentesPosgrado">
             <from id="_crearGruposVigentesPosgradoRoute" uri="direct:crearGruposVigentesPosgrado"/>
-            <log id="_log17" message="(L239) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposPosgrado.sql"/>
+            <log id="_log17" message="(L249) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposPosgrado.sql"/>
             <to id="_to16" uri="sql:classpath:sql/getGruposPosgrado.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean6" method="factoryGrupos" ref="generaDatos"/>
             <to id="_to17" uri="direct:procesaGrupos"/>
@@ -260,8 +259,8 @@
         <route id="_eliminarGruposSinMiembrosRoute">
             <from id="_from3" uri="direct:eliminarGruposSinMiembros"/>
             <log id="_log18" message="(L262)eliminar members no activos y no creados: sql/deleteNoActivosNocreados.sql"/>
-            <to id="_to21" uri="sql:classpath:sql/deleteNap-0-0.sql"/>
-            <log id="_log18" message="(L244)eliminarGruposSinMiembros: sql/getGruposSinMiembros.sql"/>
+            <to id="_to21" uri="sql:classpath:sql/deleteNoActivosNocreados.sql?dataSource=#bannerDataSource"/>
+            <log id="_log18" message="(L264)eliminarGruposSinMiembros: sql/getGruposSinMiembros.sql"/>
             <to id="_to18" uri="sql:classpath:sql/getGruposSinMiembros.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean13" method="factoryGrupos" ref="generaDatos"/>
             <process id="_process1" ref="gruposSinMiembros"/>
@@ -271,7 +270,7 @@
         <!-- ================================================================================================= -->
         <route id="_route1">
             <from id="_from4" uri="direct:termina"/>
-            <log id="_log19" message="(L251)avisa termino proceso:${header.proceso} y hay en el body: ${body}"/>
+            <log id="_log19" message="(L274)avisa termino proceso:${header.proceso} y hay en el body: ${body}"/>
             <process id="_process3" ref="actualizaMiResultados"/>
             <to id="_final" uri="mock:end"/>
         </route>
@@ -282,9 +281,9 @@
         <!-- ================================================================================================= -->
         <route id="_getKey">
             <from id="_procesoInicialiceCrearGrupos1" uri="direct:getKey"/>
-            <log id="_log12" message="(L252)antes del sequence"/>
+            <log id="_log12" message="(L285)antes del sequence"/>
             <to id="_to5" uri="sql:select HIBERNATE_SEQUENCE.nextval from dual?dataSource=#bannerDataSource"/>
-            <log id="_log7" message="(L254)despues del sql: ${body}"/>
+            <log id="_log7" message="(L287)despues del sql: ${body}"/>
             <setHeader headerName="BD_KEY" id="_setHeader1">
                 <simple>${body.get(0)[NEXTVAL]}</simple>
             </setHeader>
@@ -294,8 +293,8 @@
         <!-- ================================================================================================= -->
         <route id="_creaResult">
             <from id="_procesoInicialiceCrearGrupos2" uri="direct:creaResultado"/>
-            <log id="_log13" message="(L261)creaResult: values (${header.key},${header.funcion},${header.horaComienzo},${header.minThreads},${header.maxThreads}) "/>
-            <log id="_log14" message="(L262)creaResult: body: ${body} "/>
+            <log id="_log13" message="(L297)creaResult: values (${header.key},${header.funcion},${header.horaComienzo},${header.minThreads},${header.maxThreads}) "/>
+            <log id="_log14" message="(L298)creaResult: body: ${body} "/>
             <to id="_to6" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
         </route>
         <!-- ================================================================================================= -->
@@ -303,24 +302,24 @@
         <!-- ================================================================================================= -->
         <route id="_procesaGruposRoute">
             <from id="_procesaGruposAction" uri="direct:procesaGrupos"/>
-            <log id="_log20" message="(L267) Entrando a direct:procesaGrupos para procesar ${header.listaGrupos.size} elementos"/>
+            <log id="_log20" message="(L306) Entrando a direct:procesaGrupos para procesar ${header.listaGrupos.size} elementos"/>
             <loop doWhile="true" id="_loop2">
                 <simple>${header.listaGrupos.size} &gt; 0</simple>
                 <bean id="_bean7" method="getGrupoFromListaGrupos" ref="generaDatos"/>
-                <log id="_log16" message="(L268)el grupo a proicesar: ${header.grupoAzure}"/>
+                <log id="_log16" message="(L310)el grupo a proicesar: ${header.grupoGmail}"/>
                 <process id="_process2" ref="gruposThread"/>
             </loop>
         </route>
         <!-- ================================================================================================= -->
         <!--      PARA PRUEBAS OFFLINE -->
         <!-- ================================================================================================= -->
-        <route id="_testCreateGrupoAzureRoute">
-            <from id="_from1" uri="direct:testCreateGrupoAzure"/>
-            <bean id="_bean8" method="testCreateGrupoAzure" ref="generaDatos"/>
+        <route id="_testCreateGrupoGmailRoute">
+            <from id="_from1" uri="direct:testCreateGrupoGmail"/>
+            <bean id="_bean8" method="testCreateGrupoGmail" ref="generaDatos"/>
         </route>
-        <route id="_testRecuperaGrupoAzureRoute">
-            <from id="_from2" uri="direct:testRecuperaGrupoAzure"/>
-            <bean id="_bean9" method="testRecuperaGrupoAzure" ref="generaDatos"/>
+        <route id="_testRecuperaGrupoGmailRoute">
+            <from id="_from2" uri="direct:testRecuperaGrupoGmail"/>
+            <bean id="_bean9" method="testRecuperaGrupoGmail" ref="generaDatos"/>
         </route>
         <route id="_testtestSacarMemberRoute">
             <from id="_from2" uri="direct:testSacarMember"/>
@@ -330,9 +329,9 @@
             <from id="_from2" uri="direct:testAgregarMember"/>
             <bean id="_bean11" method="testAgregarMember" ref="generaDatos"/>
         </route>
-        <route id="_testtestDeleteGrupoAzureRoute">
-            <from id="_from2" uri="direct:testDeleteGrupoAzure"/>
-            <bean id="_bean12" method="testDeleteGrupoAzure" ref="generaDatos"/>
+        <route id="_testtestDeleteGrupoGmailRoute">
+            <from id="_from2" uri="direct:testDeleteGrupoGmail"/>
+            <bean id="_bean12" method="testDeleteGrupoGmail" ref="generaDatos"/>
         </route>
     </camelContext>
 </blueprint>

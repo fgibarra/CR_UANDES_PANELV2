@@ -1,2 +1,2 @@
-update mi_cuentas_azure set id_azure=:#idCuenta 
+update mi_cuentas set id_gmail=:#idCuenta 
 where moodle_id=:#rut

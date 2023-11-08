@@ -1947,3 +1947,1165 @@ java.lang.Exception: Resource '/scheduler-proceso-diario/src/main/resources/sql/
 
 !ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-06 17:04:40.743
 !MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+!SESSION 2023-11-07 10:16:25.073 -----------------------------------------------
+eclipse.buildId=12.18.0.GA-v20210115-1005-B7439
+java.version=11.0.10
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+
+!ENTRY org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.add.import'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.organize.imports'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.435
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.436
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.437
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-07 10:16:35.437
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+
+!ENTRY org.eclipse.jface 2 0 2023-11-07 10:16:39.067
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-11-07 10:16:39.067
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@5fc44b4b,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@1c8e4810,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.pde.core 4 0 2023-11-07 10:17:59.182
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:114)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:125)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:87)
+	at org.eclipse.pde.internal.core.PluginModelManager.addWorkspaceBundleToState(PluginModelManager.java:760)
+	at org.eclipse.pde.internal.core.PluginModelManager.initializeTable(PluginModelManager.java:621)
+	at org.eclipse.pde.internal.core.PluginModelManager.findModel(PluginModelManager.java:1053)
+	at org.eclipse.pde.core.plugin.PluginRegistry.findModel(PluginRegistry.java:113)
+	at org.jboss.ide.eclipse.as.core.modules.OSGiModuleFactory.createModules(OSGiModuleFactory.java:70)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.cacheModules(ProjectModuleFactoryDelegate.java:62)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.getModules(ProjectModuleFactoryDelegate.java:267)
+	at org.eclipse.wst.server.core.internal.ModuleFactory.getModules(ModuleFactory.java:142)
+	at org.eclipse.wst.server.core.ServerUtil.getModules(ServerUtil.java:100)
+	at org.eclipse.wst.server.core.ServerUtil.getModule(ServerUtil.java:70)
+	at org.eclipse.wst.server.ui.internal.ServerPropertyTester.checkProperty(ServerPropertyTester.java:44)
+	at org.eclipse.wst.server.ui.internal.ServerPropertyTester.test(ServerPropertyTester.java:35)
+	at org.eclipse.core.internal.expressions.Property.test(Property.java:65)
+	at org.eclipse.core.expressions.TestExpression.evaluate(TestExpression.java:107)
+	at org.eclipse.core.expressions.CompositeExpression.evaluateAnd(CompositeExpression.java:54)
+	at org.eclipse.core.expressions.AndExpression.evaluate(AndExpression.java:36)
+	at org.eclipse.ui.internal.dialogs.RegistryPageContributor.failsEnablement(RegistryPageContributor.java:284)
+	at org.eclipse.ui.internal.dialogs.RegistryPageContributor.isApplicableTo(RegistryPageContributor.java:227)
+	at org.eclipse.ui.internal.dialogs.PropertyPageContributorManager.getApplicableContributors(PropertyPageContributorManager.java:219)
+	at org.eclipse.ui.internal.dialogs.PropertyPageContributorManager.getApplicableContributors(PropertyPageContributorManager.java:237)
+	at org.eclipse.ui.dialogs.PropertyDialogAction.hasPropertyPagesFor(PropertyDialogAction.java:104)
+	at org.eclipse.ui.dialogs.PropertyDialogAction.isApplicableForSelection(PropertyDialogAction.java:145)
+	at org.eclipse.ui.dialogs.PropertyDialogAction.isApplicableForSelection(PropertyDialogAction.java:126)
+	at org.eclipse.ui.internal.navigator.resources.actions.PropertiesActionProvider.fillContextMenu(PropertiesActionProvider.java:56)
+	at org.eclipse.ui.navigator.NavigatorActionService$2.run(NavigatorActionService.java:228)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.ui.navigator.NavigatorActionService.addCommonActionProviderMenu(NavigatorActionService.java:222)
+	at org.eclipse.ui.navigator.NavigatorActionService.fillContextMenu(NavigatorActionService.java:177)
+	at org.eclipse.ui.navigator.CommonNavigatorManager.fillContextMenu(CommonNavigatorManager.java:258)
+	at org.eclipse.jface.action.MenuManager.fireAboutToShow(MenuManager.java:338)
+	at org.eclipse.jface.action.MenuManager.handleAboutToShow(MenuManager.java:468)
+	at org.eclipse.jface.action.MenuManager.access$1(MenuManager.java:463)
+	at org.eclipse.jface.action.MenuManager$2.menuShown(MenuManager.java:495)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:259)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5745)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1427)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1453)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1432)
+	at org.eclipse.swt.widgets.Menu._setVisible(Menu.java:243)
+	at org.eclipse.swt.widgets.Display.runPopups(Display.java:5055)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4497)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+Contains: Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+!SUBENTRY 1 org.eclipse.pde.core 4 0 2023-11-07 10:17:59.184
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!SUBENTRY 2 org.eclipse.pde.core 4 0 2023-11-07 10:17:59.184
+!MESSAGE Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:18:52.571
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:18:52.583
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:18:52.585
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:19:21.528
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.eclipse.lsp4e 4 0 2023-11-07 10:21:42.589
+!MESSAGE 
+!STACK 0
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.CompletableFuture.timedGet(CompletableFuture.java:1886)
+	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2021)
+	at org.eclipse.lsp4e.LanguageServerWrapper.supportsWorkspaceFolderCapability(LanguageServerWrapper.java:531)
+	at org.eclipse.lsp4e.LanguageServerWrapper.canOperate(LanguageServerWrapper.java:520)
+	at org.eclipse.lsp4e.LanguageServerWrapper.canOperate(LanguageServerWrapper.java:848)
+	at org.eclipse.lsp4e.LanguageServiceAccessor.lambda$6(LanguageServiceAccessor.java:361)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:176)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:177)
+	at java.base/java.util.HashMap$KeySpliterator.forEachRemaining(HashMap.java:1603)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:484)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:474)
+	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:913)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:578)
+	at org.eclipse.lsp4e.LanguageServiceAccessor.getLSWrappers(LanguageServiceAccessor.java:362)
+	at org.eclipse.lsp4e.LanguageServiceAccessor.getLanguageServers(LanguageServiceAccessor.java:588)
+	at org.eclipse.lsp4e.operations.codelens.CodeLensProvider.provideCodeMinings(CodeLensProvider.java:41)
+	at org.eclipse.lsp4e.operations.codelens.CodeLensProvider.provideCodeMinings(CodeLensProvider.java:73)
+	at org.eclipse.jface.internal.text.codemining.CodeMiningManager.lambda$2(CodeMiningManager.java:189)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:195)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:948)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:484)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:474)
+	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:913)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:578)
+	at org.eclipse.jface.internal.text.codemining.CodeMiningManager.getCodeMinings(CodeMiningManager.java:195)
+	at org.eclipse.jface.internal.text.codemining.CodeMiningManager.updateCodeMinings(CodeMiningManager.java:140)
+	at org.eclipse.jface.internal.text.codemining.CodeMiningManager.run(CodeMiningManager.java:129)
+	at org.eclipse.jface.text.source.SourceViewer.updateCodeMinings(SourceViewer.java:1313)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaCodeMiningReconciler.reconciled(JavaCodeMiningReconciler.java:51)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.reconciled(CompilationUnitEditor.java:1684)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconciled(JavaReconcilingStrategy.java:222)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconciled(JavaCompositeReconcilingStrategy.java:167)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:115)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:21:43.244
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:21:43.252
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:21:43.253
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:22:27.062
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:22:27.070
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:22:27.072
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:33:08.657
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:33:08.664
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:33:08.665
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:33:14.413
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:33:14.419
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:33:14.420
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:36:48.014
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:36:48.021
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:36:48.022
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:36:53.665
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:36:53.671
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 10:36:53.672
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:24:03.602
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:24:03.610
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:24:03.612
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:25:19.995
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:25:20.001
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:25:20.002
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:25:25.329
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:25:25.335
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:25:25.336
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:28:03.198
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:28:03.207
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:28:03.208
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:28:43.377
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:28:43.384
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:28:43.386
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:31:01.300
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:31:01.306
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:31:01.308
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:31:06.102
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:31:06.109
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:31:06.110
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:39:12.547
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:39:12.553
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:39:12.554
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:40:14.980
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:40:14.992
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:40:14.994
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:40:20.283
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:40:20.289
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:40:20.290
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:49:33.656
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:49:33.662
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 11:49:33.663
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.eclipse.datatools.sqltools.sqleditor 4 0 2023-11-07 12:01:07.839
+!MESSAGE Error occurred while removing markers
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/crear-cuentas-batch/src/main/resources/sql/insertCuentaAzure.sql)[368]: java.lang.Exception: Resource '/crear-cuentas-batch/src/main/resources/sql/insertCuentaAzure.sql' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Resource.deleteMarkers(Resource.java:796)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeRememberedMarkers(SQLUpdater.java:496)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.access$1(SQLUpdater.java:466)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater$2.run(SQLUpdater.java:448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2292)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:444)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:423)
+	at org.eclipse.datatools.sqltools.sqleditor.SQLEditor.doSetInput(SQLEditor.java:1024)
+	at org.eclipse.datatools.sqltools.internal.sqlscrapbook.editor.SQLScrapbookEditor.doSetInput(SQLScrapbookEditor.java:219)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInputWithNotify(AbstractTextEditor.java:4243)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInput(AbstractTextEditor.java:4263)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener$1.run(AbstractTextEditor.java:526)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.execute(AbstractTextEditor.java:587)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.elementMoved(AbstractTextEditor.java:554)
+	at org.eclipse.ui.texteditor.AbstractDocumentProvider.fireElementMoved(AbstractDocumentProvider.java:724)
+	at org.eclipse.ui.editors.text.FileDocumentProvider.handleElementMoved(FileDocumentProvider.java:833)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$FileSynchronizer$3.execute(FileDocumentProvider.java:272)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$SafeChange.run(FileDocumentProvider.java:150)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4988)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4510)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2023-11-07 12:01:07.840
+!MESSAGE Resource '/crear-cuentas-batch/src/main/resources/sql/insertCuentaAzure.sql' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/crear-cuentas-batch/src/main/resources/sql/insertCuentaAzure.sql' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Resource.deleteMarkers(Resource.java:796)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeRememberedMarkers(SQLUpdater.java:496)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.access$1(SQLUpdater.java:466)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater$2.run(SQLUpdater.java:448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2292)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:444)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:423)
+	at org.eclipse.datatools.sqltools.sqleditor.SQLEditor.doSetInput(SQLEditor.java:1024)
+	at org.eclipse.datatools.sqltools.internal.sqlscrapbook.editor.SQLScrapbookEditor.doSetInput(SQLScrapbookEditor.java:219)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInputWithNotify(AbstractTextEditor.java:4243)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInput(AbstractTextEditor.java:4263)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener$1.run(AbstractTextEditor.java:526)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.execute(AbstractTextEditor.java:587)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.elementMoved(AbstractTextEditor.java:554)
+	at org.eclipse.ui.texteditor.AbstractDocumentProvider.fireElementMoved(AbstractDocumentProvider.java:724)
+	at org.eclipse.ui.editors.text.FileDocumentProvider.handleElementMoved(FileDocumentProvider.java:833)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$FileSynchronizer$3.execute(FileDocumentProvider.java:272)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$SafeChange.run(FileDocumentProvider.java:150)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4988)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4510)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+
+!ENTRY org.eclipse.datatools.sqltools.sqleditor 4 0 2023-11-07 12:01:20.855
+!MESSAGE Error occurred while removing markers
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/crear-cuentas-batch/src/main/resources/sql/insertCuentagMAIL.sql)[368]: java.lang.Exception: Resource '/crear-cuentas-batch/src/main/resources/sql/insertCuentagMAIL.sql' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Resource.deleteMarkers(Resource.java:796)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeRememberedMarkers(SQLUpdater.java:496)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.access$1(SQLUpdater.java:466)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater$2.run(SQLUpdater.java:448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2292)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:444)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:423)
+	at org.eclipse.datatools.sqltools.sqleditor.SQLEditor.doSetInput(SQLEditor.java:1024)
+	at org.eclipse.datatools.sqltools.internal.sqlscrapbook.editor.SQLScrapbookEditor.doSetInput(SQLScrapbookEditor.java:219)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInputWithNotify(AbstractTextEditor.java:4243)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInput(AbstractTextEditor.java:4263)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener$1.run(AbstractTextEditor.java:526)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.execute(AbstractTextEditor.java:587)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.elementMoved(AbstractTextEditor.java:554)
+	at org.eclipse.ui.texteditor.AbstractDocumentProvider.fireElementMoved(AbstractDocumentProvider.java:724)
+	at org.eclipse.ui.editors.text.FileDocumentProvider.handleElementMoved(FileDocumentProvider.java:833)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$FileSynchronizer$3.execute(FileDocumentProvider.java:272)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$SafeChange.run(FileDocumentProvider.java:150)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4988)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4510)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2023-11-07 12:01:20.856
+!MESSAGE Resource '/crear-cuentas-batch/src/main/resources/sql/insertCuentagMAIL.sql' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/crear-cuentas-batch/src/main/resources/sql/insertCuentagMAIL.sql' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Resource.deleteMarkers(Resource.java:796)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeRememberedMarkers(SQLUpdater.java:496)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.access$1(SQLUpdater.java:466)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater$2.run(SQLUpdater.java:448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2292)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:444)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:423)
+	at org.eclipse.datatools.sqltools.sqleditor.SQLEditor.doSetInput(SQLEditor.java:1024)
+	at org.eclipse.datatools.sqltools.internal.sqlscrapbook.editor.SQLScrapbookEditor.doSetInput(SQLScrapbookEditor.java:219)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInputWithNotify(AbstractTextEditor.java:4243)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInput(AbstractTextEditor.java:4263)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener$1.run(AbstractTextEditor.java:526)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.execute(AbstractTextEditor.java:587)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.elementMoved(AbstractTextEditor.java:554)
+	at org.eclipse.ui.texteditor.AbstractDocumentProvider.fireElementMoved(AbstractDocumentProvider.java:724)
+	at org.eclipse.ui.editors.text.FileDocumentProvider.handleElementMoved(FileDocumentProvider.java:833)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$FileSynchronizer$3.execute(FileDocumentProvider.java:272)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$SafeChange.run(FileDocumentProvider.java:150)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4988)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4510)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:02:05.035
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:02:05.045
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:02:05.047
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:02:58.964
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:40:47.660
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:40:47.666
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:40:47.667
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:41:46.641
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:41:46.647
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:41:46.648
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:41:57.024
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:41:57.030
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 12:41:57.031
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:09.458
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:09.465
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:09.466
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:15.218
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:15.224
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:15.226
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:54.856
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:54.863
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:01:54.864
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:05:43.945
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:05:43.952
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:05:43.953
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:09:42.902
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:09:42.912
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:09:42.914
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:10:28.713
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:10:28.722
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:10:28.723
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:12:34.270
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:12:34.277
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:12:34.278
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:33:11.997
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:33:12.004
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:33:12.005
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:35:44.726
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:35:44.733
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:35:44.734
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 13:42:50.670
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:09:39.708
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:18:52.651
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:18:58.917
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:23:04.196
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:26:58.044
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:27:03.313
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:27:47.271
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:27:52.228
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:31:48.014
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:33:40.798
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:33:45.914
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:44:09.808
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 16:44:14.807
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.testng.eclipse 4 4 2023-11-07 16:46:27.544
+!MESSAGE Error
+!STACK 1
+Java Model Exception: Java Model Status [src/main/resources/sql [in crear-grupos-batch] is not on its project's build path]
+	at org.eclipse.jdt.internal.core.PackageFragmentRoot.getResolvedClasspathEntry(PackageFragmentRoot.java:630)
+	at org.testng.eclipse.ui.codemining.TestCodeMiningProvider.mineForTests(TestCodeMiningProvider.java:59)
+	at org.testng.eclipse.ui.codemining.TestCodeMiningProvider.lambda$0(TestCodeMiningProvider.java:39)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1700)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1692)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:183)
+!SUBENTRY 1 org.eclipse.jdt.core 4 1006 2023-11-07 16:46:27.544
+!MESSAGE src/main/resources/sql [in crear-grupos-batch] is not on its project's build path
+
+!ENTRY org.testng.eclipse 4 4 2023-11-07 16:46:27.557
+!MESSAGE Error
+!STACK 1
+Java Model Exception: Java Model Status [src/main/resources/sql [in crear-grupos-batch] is not on its project's build path]
+	at org.eclipse.jdt.internal.core.PackageFragmentRoot.getResolvedClasspathEntry(PackageFragmentRoot.java:630)
+	at org.testng.eclipse.ui.codemining.TestCodeMiningProvider.mineForTests(TestCodeMiningProvider.java:59)
+	at org.testng.eclipse.ui.codemining.TestCodeMiningProvider.lambda$0(TestCodeMiningProvider.java:39)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1700)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1692)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:183)
+!SUBENTRY 1 org.eclipse.jdt.core 4 1006 2023-11-07 16:46:27.557
+!MESSAGE src/main/resources/sql [in crear-grupos-batch] is not on its project's build path
+
+!ENTRY org.testng.eclipse 4 4 2023-11-07 16:46:28.070
+!MESSAGE Error
+!STACK 1
+Java Model Exception: Java Model Status [src/main/resources/sql [in crear-grupos-batch] is not on its project's build path]
+	at org.eclipse.jdt.internal.core.PackageFragmentRoot.getResolvedClasspathEntry(PackageFragmentRoot.java:630)
+	at org.testng.eclipse.ui.codemining.TestCodeMiningProvider.mineForTests(TestCodeMiningProvider.java:59)
+	at org.testng.eclipse.ui.codemining.TestCodeMiningProvider.lambda$0(TestCodeMiningProvider.java:39)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1700)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1692)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:183)
+!SUBENTRY 1 org.eclipse.jdt.core 4 1006 2023-11-07 16:46:28.071
+!MESSAGE src/main/resources/sql [in crear-grupos-batch] is not on its project's build path
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 17:19:13.213
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 17:19:18.243
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 17:25:53.373
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 17:25:58.115
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-07 17:31:01.151
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+!SESSION 2023-11-08 09:10:46.989 -----------------------------------------------
+eclipse.buildId=12.18.0.GA-v20210115-1005-B7439
+java.version=11.0.10
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+
+!ENTRY org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.add.import'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.942
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.organize.imports'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.943
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2023-11-08 09:11:18.944
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+
+!ENTRY org.eclipse.jface 2 0 2023-11-08 09:11:28.511
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-11-08 09:11:28.511
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@5fc44b4b,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@1c8e4810,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.pde.core 4 0 2023-11-08 09:17:10.234
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:114)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:125)
+	at org.eclipse.pde.internal.core.MinimalState.addBundle(MinimalState.java:87)
+	at org.eclipse.pde.internal.core.PluginModelManager.addWorkspaceBundleToState(PluginModelManager.java:760)
+	at org.eclipse.pde.internal.core.PluginModelManager.initializeTable(PluginModelManager.java:621)
+	at org.eclipse.pde.internal.core.PluginModelManager.findModel(PluginModelManager.java:1053)
+	at org.eclipse.pde.core.plugin.PluginRegistry.findModel(PluginRegistry.java:113)
+	at org.jboss.ide.eclipse.as.core.modules.OSGiModuleFactory.createModules(OSGiModuleFactory.java:70)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.cacheModules(ProjectModuleFactoryDelegate.java:62)
+	at org.eclipse.wst.server.core.util.ProjectModuleFactoryDelegate.getModules(ProjectModuleFactoryDelegate.java:267)
+	at org.eclipse.wst.server.core.internal.ModuleFactory.getModules(ModuleFactory.java:142)
+	at org.eclipse.wst.server.core.ServerUtil.getModules(ServerUtil.java:100)
+	at org.eclipse.wst.server.core.internal.ResourceManager.publishHandleProjectChange(ResourceManager.java:1082)
+	at org.eclipse.wst.server.core.internal.ResourceManager$ServerResourceChangeListener$1.visit(ResourceManager.java:127)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:67)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:77)
+	at org.eclipse.core.internal.events.ResourceDelta.accept(ResourceDelta.java:51)
+	at org.eclipse.wst.server.core.internal.ResourceManager$ServerResourceChangeListener.resourceChanged(ResourceManager.java:121)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
+	at org.eclipse.core.internal.resources.Workspace.broadcastBuildEvent(Workspace.java:366)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:157)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:244)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Contains: Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+!SUBENTRY 1 org.eclipse.pde.core 4 0 2023-11-08 09:17:10.235
+!MESSAGE Error reading manifest for /home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/api-gmailServices/target/classes
+!SUBENTRY 2 org.eclipse.pde.core 4 0 2023-11-08 09:17:10.235
+!MESSAGE Invalid manifest header DynamicImport-Package: "cl.uandes.sadmemail.comunes.*,"
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:18:18.703
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:24:43.427
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:25:34.134
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:40:52.890
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:40:59.378
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:41:06.050
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:41:40.748
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:41:45.737
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:55:56.330
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:58:49.824
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:58:49.831
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 09:58:49.832
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 10:02:54.112
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 10:02:54.119
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 10:02:54.121
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 10:03:48.665
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 10:05:01.150
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:06:15.416
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:06:15.424
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:06:15.426
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:34.329
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:34.339
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:34.340
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:40.378
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:40.385
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:40.387
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:47.432
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:47.443
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:08:47.445
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:09:44.867
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:09:48.061
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:09:52.857
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:10:19.218
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:10:23.881
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:10:32.415
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:19.717
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:19.727
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:19.728
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:24.466
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:24.473
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:24.474
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:37.376
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:37.384
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:13:37.385
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:18:27.880
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:19:40.588
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:19:45.456
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:20:03.103
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:22:03.689
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:24:53.528
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:24:58.765
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:25:23.342
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:25:27.994
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:25:37.711
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:27:09.258
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:27:25.210
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:28:41.065
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:29:02.470
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:29:07.251
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:29:20.472
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:31:25.398
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:31:30.077
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 14:31:36.272
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 16:18:41.936
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 16:18:41.949
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-11-08 16:18:41.950
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: continued

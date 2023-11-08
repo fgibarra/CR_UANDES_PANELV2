@@ -44,7 +44,7 @@
 							org.apache.commons.lang3
 						</Import-Package>
 						<DynamicImport-Package>
-							com.google.*
+							*
 						</DynamicImport-Package>
 						<Bundle-Description>ComunesGmail</Bundle-Description>
 						<Bundle-Name>Comunes Gmail v1.0</Bundle-Name>

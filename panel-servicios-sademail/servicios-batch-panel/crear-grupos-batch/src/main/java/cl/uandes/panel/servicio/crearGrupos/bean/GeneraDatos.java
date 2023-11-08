@@ -50,7 +50,7 @@ public class GeneraDatos {
 	public void getGrupoFromListaGrupos(@Header("listaGrupos") List<GruposMiUandes> listaGrupos, Exchange exchange) {
 		GruposMiUandes grupo = listaGrupos.remove(0);
 		logger.info(String.format("getGrupoFromListaGrupos:grupo %s", grupo));
-		exchange.getIn().setHeader("grupoAzure", grupo);
+		exchange.getIn().setHeader("grupoGmail", grupo);
 	}
 
 	/* ==========================================================================================================
@@ -66,7 +66,7 @@ public class GeneraDatos {
 		exchange.getIn().setHeader("listaOperaciones", new ArrayList<String>(Arrays.asList(req.getOperaciones())));
 	}
 	
-	public void testCreateGrupoAzure(Exchange exchange) {
+	public void testCreateGrupoGmail(Exchange exchange) {
 		GroupRequest body = (GroupRequest) exchange.getIn().getBody();
 		logger.info(String.format("testCreateGrupoAzure: %s clase %s", body, body!=null?body.getClass().getName():"es NULO"));
 		Map<String,Object> headers = exchange.getIn().getHeaders();
@@ -77,7 +77,7 @@ public class GeneraDatos {
 			sb.append(String.format("header.value: %s clase %s\n", valor, valor!=null?valor.getClass().getName():"es NULO"));
 		}
 		logger.info(sb.toString());
-		GruposMiUandes grupoBD = (GruposMiUandes)exchange.getIn().getHeader("grupoAzure");
+		GruposMiUandes grupoBD = (GruposMiUandes)exchange.getIn().getHeader("grupoGmail");
 		Grupo grupo = new Grupo();
 		grupo.setId(String.format("id-raro-para-al-grupo-%d",grupoBD.getKey()));
 		GroupResponse response = new GroupResponse(0, "OK", grupo);
@@ -85,7 +85,7 @@ public class GeneraDatos {
 		exchange.getIn().setBody(response);
 	}
 	
-	public void testRecuperaGrupoAzure(Exchange exchange) {
+	public void testRecuperaGrupoGmail(Exchange exchange) {
 		Object body = exchange.getIn().getBody();
 		logger.info(String.format("testRecuperaGrupoAzure: %s clase %s", body, body!=null?body.getClass().getName():"es NULO"));
 		Map<String,Object> headers = exchange.getIn().getHeaders();
@@ -111,7 +111,7 @@ public class GeneraDatos {
 		exchange.getIn().setBody(response);
 	}
 	
-	public void testDeleteGrupoAzure(Exchange exchange) {
+	public void testDeleteGrupoGmail(Exchange exchange) {
 		Response response = Response.noContent().status(200).build();
 		exchange.getIn().setBody(response);
 	}

@@ -37,15 +37,16 @@
 				<configuration>
 					<instructions>
 						<Export-Package>
-							cl.uandes.panel.comunes.json.cambiacuenta,
-							cl.uandes.panel.comunes.json.updateidgmail,
 							cl.uandes.panel.comunes.json.aeOwnersMembers,
+							cl.uandes.panel.comunes.json.batch.*,
+							cl.uandes.panel.comunes.json.cambiacuenta,
 							cl.uandes.panel.comunes.json.creaCuenta,
-							cl.uandes.panel.comunes.json.sincronizaGrupos
+							cl.uandes.panel.comunes.json.sendmail,
+							cl.uandes.panel.comunes.json.sincronizaGrupos,
+							cl.uandes.panel.comunes.json.updateidgmail,
 							cl.uandes.panel.comunes.servicios.dto,
-							cl.uandes.panel.comunes.servicios.json,
 							cl.uandes.panel.comunes.servicios.exceptions,
-							cl.uandes.panel.comunes.servicios.utils
+							cl.uandes.panel.comunes.utils
 						</Export-Package>
 						<Import-Package>
 							cl.uandes.sadmemail.comunes.google.api.services,
@@ -55,6 +56,9 @@
 							com.fasterxml.jackson.annotation,
 							org.apache.commons.lang
 						</Import-Package>
+						<DynamicImport-Package>
+							*
+						</DynamicImport-Package>
 						<Bundle-Description>ComunesPanel</Bundle-Description>
 						<Bundle-Name>Comunes Panel v1.0</Bundle-Name>
 						<Bundle-SymbolicName>comunes-panel-v1</Bundle-SymbolicName>

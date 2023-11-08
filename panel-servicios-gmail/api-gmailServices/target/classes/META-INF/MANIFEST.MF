@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1699282039723
-Build-Jdk: 11.0.10
+Bnd-LastModified: 1699458140903
+Build-Jdk: 1.8.0_291
 Built-By: fernando
 Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
 Bundle-Description: ApiGmailServices
@@ -10,10 +10,10 @@ Bundle-Name: api-gmailServices-v1
 Bundle-SymbolicName: api-gmailServices-v1
 Bundle-Version: 0.0.1
 Created-By: Apache Maven Bundle Plugin
-DynamicImport-Package: cl.uandes.sadmemail.comunes.*,
-Export-Package: cl.uandes.sadmemail.apiGmailServices.api.resources;uses:
- ="cl.uandes.sadmemail.comunes.gmail.json,javax.ws.rs,javax.ws.rs.core";
- version="0.0.1"
+DynamicImport-Package: *
+Export-Package: cl.uandes.sadmemail.apiGmailServices.api.resources;versi
+ on="0.0.1";uses:="cl.uandes.sadmemail.comunes.gmail.json,javax.ws.rs,ja
+ vax.ws.rs.core"
 Import-Package: cl.uandes.sadmemail.comunes.gmail.json;version="[0.0,1)"
  ,cl.uandes.sadmemail.comunes.google.api.services;version="[0.0,1)",com.
  google.api.client.json;version="[1.39,2)",com.google.api.client.googlea
@@ -29,12 +29,10 @@ Import-Package: cl.uandes.sadmemail.comunes.gmail.json;version="[0.0,1)"
  che.camel;version="[2.21,3)",org.apache.log4j;version="[1.2,2)",org.osg
  i.service.blueprint;version="[1.0.0,2.0.0)",cl.uandes.sadmemail.comunes
  .utils;version="[0.0,1)",cl.uandes.mail.json;version="[0.0,1)",cl.uande
- s.utils;version="[0.0,1)",org.apache.camel.builder;version="[2.21,3)",o
- rg.apache.cxf.jaxrs.impl;version="[3.1,4)"
-Include-Resource: OSGI-INF/blueprint/blueprint.xml=src/main/resources/OS
- GI-INF/blueprint/blueprint.xml
-Private-Package: cl.uandes.sadmemail.apiGmailServices.procesor,cl.uandes
- .sadmemail.apiGmailServices.wao.dto,cl.uandes.sadmemail.apiGmailService
- s.wao
+ s.utils;version="[0.0,1)",io.opencensus.trace,io.opencensus.trace.propa
+ gation,io.grpc,org.apache.camel.builder;version="[2.21,3)",org.apache.c
+ xf.jaxrs.impl;version="[3.1,4)"
+Import-Service: javax.sql.DataSource;multiple:=false;filter=(osgi.jndi.s
+ ervice.name=bannerds)
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
 Tool: Bnd-3.2.0.201605172007

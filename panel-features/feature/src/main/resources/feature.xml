@@ -21,6 +21,7 @@
 	<bundle>mvn:com.google.apis/google-api-services-admin-directory/directory_v1-rev53-1.20.0</bundle> <!-- bundle:dynamic-import -->
 	<bundle>mvn:com.google.apis/google-api-services-groupssettings/v1-rev60-1.22.0</bundle>
 	<bundle>mvn:com.google.apis/google-api-services-oauth2/v2-rev93-1.20.0</bundle>
+	<bundle>mvn:uandes.leganto/json-datatransfer/0.0.1</bundle>
   </feature>
 
   <feature name="instalador-configuracion-panel" version="${project.version}">
@@ -45,6 +46,9 @@
   	<feature prerequisite="true">servicios-api-gmail</feature>
     <bundle>mvn:uandes.panel-v2.servicios/serv-actualiza-id-gmail/0.0.1</bundle> 
     <bundle>mvn:uandes.panel-v2.servicios/scheduler-actualiza-id-gmail/0.0.1</bundle> 
-    <bundle>mvn:uandes.panel-v2.servicios/serv-cambiar-apellido/0.0.1</bundle> 
+    <bundle>mvn:uandes.panel-v2.servicios/serv-cambiar-apellido/0.0.1</bundle>
+    <bundle>mvn:uandes.panel-v2.servicios/crear-cuentas-batch/1.0.0</bundle>
+    <bundle>mvn:uandes.panel-v2.servicios/crear-grupos-batch/1.0.0</bundle>
+    <bundle>mvn:uandes.panel-v2.servicios/scheduler-proceso-diario/1.0.0</bundle>
   </feature>
 </features>

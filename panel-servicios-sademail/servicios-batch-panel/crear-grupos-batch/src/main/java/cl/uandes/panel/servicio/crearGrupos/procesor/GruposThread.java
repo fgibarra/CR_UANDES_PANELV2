@@ -35,10 +35,10 @@ import cl.uandes.panel.servicio.crearGrupos.api.dto.DatosMemeberDTO;
  */
 public class GruposThread implements Processor {
 
-    @PropertyInject(value = "crear-grupos-azure.uri-azureServices", defaultValue="http://localhost:8180/apigraph/ESB/panelV3/azureServices")
-	private String azureServices;
+    @PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
+	private String gmailServices;
 	
-    @PropertyInject(value = "panelv3.dominio", defaultValue="uandes.cl")
+    @PropertyInject(value = "panelv2.dominio", defaultValue="uandes.cl")
 	private String dominio;
 	
 	@EndpointInject(uri = "sql:classpath:sql/updateGrupoCreado.sql?dataSource=#bannerDataSource")
@@ -60,19 +60,19 @@ public class GruposThread implements Processor {
 	ProducerTemplate incrementa;
 
 	@EndpointInject(uri = "sql:classpath:sql/updateMiCuentas.sql?dataSource=#bannerDataSource")
-	ProducerTemplate updateMiCuentasAzure;
+	ProducerTemplate updateMiCuentasGmail;
 
 	@EndpointInject(uri = "sql:classpath:sql/updateMiGruposMiUandes.sql?dataSource=#bannerDataSource")
 	ProducerTemplate updateMiGruposMiUandes;
 
 		
 	@EndpointInject(uri = "cxfrs:bean:rsCreateGrupo?continuationTimeout=-1")
-	//	@EndpointInject(uri = "direct:testCreateGrupoAzure")
-	ProducerTemplate createGrupoAzure;
-	String templateCreateGrupoAzure = "%s/group/create";
+	//	@EndpointInject(uri = "direct:testCreateGrupoGmail")
+	ProducerTemplate createGrupoGmail;
+	String templateCreateGrupoGmail = "%s/group/create";
 	@EndpointInject(uri = "cxfrs:bean:rsRetrieveGrupo?continuationTimeout=-1")
-	ProducerTemplate recuperaGrupoAzure;
-	String templateRecuperaGrupoAzure = "%s/group/retrieve?groupId=%s";
+	ProducerTemplate recuperaGrupoGmail;
+	String templateRecuperaGrupoGmail = "%s/group/retrieve?groupId=%s";
 
 	@EndpointInject(uri = "cxfrs:bean:rsSacarMember?continuationTimeout=-1")
 	//	@EndpointInject(uri = "direct:testSacarMember")
@@ -101,7 +101,7 @@ public class GruposThread implements Processor {
 		DatosKcoFunciones datos = (DatosKcoFunciones)exchange.getIn().getHeader("DatosKcoFunciones");
 		logger.info(String.format("GruposThread: datos: %s", datos));
 		logger.info(String.format("GruposThread: res: %s", res));
-		GruposMiUandes grupo = (GruposMiUandes)exchange.getIn().getHeader("grupoAzure");
+		GruposMiUandes grupo = (GruposMiUandes)exchange.getIn().getHeader("grupoGmail");
 		logger.info(String.format("GruposThread: grupo |%s|", grupo));
 		contadores.incCountProcesados();
 		
@@ -111,46 +111,46 @@ public class GruposThread implements Processor {
 		}
 	}
 	/**
-	 * Si en MI_GRUPOS_AZURE indica que no esta creado en Azure, crearlo
+	 * Si en MI_GRUPOS_AZURE indica que no esta creado en Gmail, crearlo
 	 * en caso contrario
-	 * Validar que efectivamente exista creado en Azure
+	 * Validar que efectivamente exista creado en Gmail
 	 * @param grupo
 	 * @return
 	 */
 	private boolean crearGrupo(Exchange exchange, GruposMiUandes grupo, ResultadoFuncion miResultado) {
 		Map<String,Object> headers = exchange.getIn().getHeaders();
-		logger.info(String.format("crearGrupo: hay que crear? grupo.getCreadoAzure().booleanValue(): %b", grupo.getCreadoAzure().booleanValue()));
-		if (!grupo.getCreadoAzure().booleanValue()) {
+		logger.info(String.format("crearGrupo: hay que crear? grupo.getCreadoGmail().booleanValue(): %b", grupo.getCreadoGmail().booleanValue()));
+		if (!grupo.getCreadoGmail().booleanValue()) {
 			/* validar que efectivamente no este creado. 
 			 * Si lo esta solo actualizar el flag en MI_GRUPOS_AZURE
 			 * Si no crearlo
 			 */
 			try {
-				if (!existeEnAzure(grupo)) {
-					/* crearlo en Azure
+				if (!existeEnGmail(grupo)) {
+					/* crearlo en Gmail
 					 * Si resulta OK:
 					 * 		actualizar flag de creado en file en MI_GRUPOS_AZURE
 					 * 		incrementar contador de grupos greados
 					 */
 					
 					GroupRequest body = new GroupRequest(grupo.getGroupName(), grupo.getGroupDescription(), grupo.getEmailPermission(), getFechaExpiracion(grupo));
-					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoAzure,getAzureServices()));
+					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoGmail,getGmailServices()));
 					headers.put("CamelHttpMethod", "POST");
 					GroupResponse res;
 					try {
-						res = (GroupResponse)ObjectFactory.procesaResponseImpl((ResponseImpl) createGrupoAzure.requestBodyAndHeaders(body, headers), GroupResponse.class);
+						res = (GroupResponse)ObjectFactory.procesaResponseImpl((ResponseImpl) createGrupoGmail.requestBodyAndHeaders(body, headers), GroupResponse.class);
 						contadores.incCountGruposAgregadosAD();
 					} catch (Exception e) {
 						logger.error("crearGrupo", e);
 						contadores.incCountErrores();
-						registraError("createGrupoAzure", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+						registraError("createGrupoGmail", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
 						return false;
 					}
 					logger.info(String.format("Vuelve de crear crgupo con res: %s", res));
 					
 					if (res.getCodigo() == 0 || res.getMensaje().matches(".*creado.*")) {
 						grupo.setGroupId(res.getGrupo().getId());
-						grupo.setCreadoAzure(Boolean.TRUE);
+						grupo.setCreadoGmail(Boolean.TRUE);
 						headers.put("keyGrupo", BigDecimal.valueOf(grupo.getKey()));
 						headers.put("idGrupo", grupo.getGroupId());
 						logger.info(String.format("update mi_resultados: key=%d", grupo.getKey()));
@@ -164,60 +164,60 @@ public class GruposThread implements Processor {
 						incrementa.requestBodyAndHeaders(null, headers);
 					} else {
 						contadores.incCountErrores();
-						registraError("createGrupoAzure", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+						registraError("createGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
 						return false;
 					}
 				} else {
 					// !! existe. actualizar MI_GRUPOS_AZURE
 					Map<String, Object> headers2 = new HashMap<String, Object>();
-					headers2.put("creadoAzure", BigDecimal.ONE);
+					headers2.put("creadoGmail", BigDecimal.ONE);
 					headers2.put("keyGrupo", ObjectFactory.toBigDecimal(grupo.getKey()));
-					logger.info(String.format("updateMiGruposMiUandes: creadoAzure=%d, key=%d",
-							((BigDecimal)headers2.get("creadoAzure")).intValue(), 
+					logger.info(String.format("updateMiGruposMiUandes: creadoGmail=%d, key=%d",
+							((BigDecimal)headers2.get("creadoGmail")).intValue(), 
 							((BigDecimal)headers2.get("keyGrupo")).intValue()));
 					
 					updateMiGruposMiUandes.requestBodyAndHeaders(null, headers2);
 					contadores.incCountGruposAgregadosBD();
 				}
 			} catch (Exception e) {
-				logger.error("createGrupoAzure", e);
+				logger.error("createGrupoGmail", e);
 				contadores.incCountErrores();
-				registraError("createGrupoAzure", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+				registraError("createGrupoGmail", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
 				return false;
 			}
 		} else {
 			/*
-			 * validar que exista en Azure
+			 * validar que exista en Gmail
 			 * Si no existe --> crearlo
 			 * incrementar contador de grupos actualizados
 			 */
-			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateRecuperaGrupoAzure, getAzureServices(), grupo.getGroupId()));
+			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateRecuperaGrupoGmail, getGmailServices(), grupo.getGroupId()));
 			headers.put("CamelHttpMethod", "GET");
 			GroupResponse res;
 			try {
 				res = (GroupResponse) ObjectFactory.procesaResponseImpl(
-						(ResponseImpl)recuperaGrupoAzure.requestBodyAndHeaders(null, headers), GroupResponse.class);
+						(ResponseImpl)recuperaGrupoGmail.requestBodyAndHeaders(null, headers), GroupResponse.class);
 			} catch (Exception e) {
 				contadores.incCountErrores();
-				registraError("recuperaGrupoAzure", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+				registraError("recuperaGrupoGmail", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
 				return false;
 			}
 			if (res.getCodigo() != 0) {
 				if (res.getMensaje().matches(".*Invalid object identifier*")) {
 					// crearlo
 					GroupRequest body = new GroupRequest(grupo.getGroupName(), grupo.getGroupDescription(), grupo.getEmailPermission(), getFechaExpiracion(grupo));
-					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoAzure,getAzureServices()));
+					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoGmail,getGmailServices()));
 					headers.put("CamelHttpMethod", "POST");
-					res = (GroupResponse) createGrupoAzure.requestBodyAndHeaders(body, headers);
+					res = (GroupResponse) createGrupoGmail.requestBodyAndHeaders(body, headers);
 					if (res.getCodigo() != 0) {
 						contadores.incCountErrores();
-						registraError("recuperaGrupoAzure", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+						registraError("recuperaGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
 						return false;
 					}
 					contadores.incCountGruposAgregadosAD();
 				} else {
 					contadores.incCountErrores();
-					registraError("recuperaGrupoAzure", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+					registraError("recuperaGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
 					return false;
 				}
 			}
@@ -228,21 +228,21 @@ public class GruposThread implements Processor {
 		return true;
 	}
 	
-	private boolean existeEnAzure(GruposMiUandes grupo) throws Exception {
+	private boolean existeEnGmail(GruposMiUandes grupo) throws Exception {
 		if (grupo.getGroupId() == null)
 			return false;
 		Map<String, Object> headers = new HashMap<String, Object>();
-		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateRecuperaGrupoAzure, getAzureServices(), 
+		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateRecuperaGrupoGmail, getGmailServices(), 
 				ObjectFactory.escape2Html(grupo.getGroupId())));
 		headers.put("CamelHttpMethod", "GET");
 		GroupResponse res = (GroupResponse) ObjectFactory.procesaResponseImpl(
-				(ResponseImpl)recuperaGrupoAzure.requestBodyAndHeaders(null, headers), GroupResponse.class);
-		logger.info(String.format("existeEnAzure: GroupResponse: %s", res));
+				(ResponseImpl)recuperaGrupoGmail.requestBodyAndHeaders(null, headers), GroupResponse.class);
+		logger.info(String.format("existeEnGmail: GroupResponse: %s", res));
 		if (res.getCodigo() == 0)
 			return true;
 		if (res.getMensaje().matches(".*Invalid object identifier*"))
 			return false;
-		logger.info(String.format("existeEnAzure por codigo %b por msg %b",
+		logger.info(String.format("existeEnGmail por codigo %b por msg %b",
 				res.getCodigo() == 0, res.getMensaje().matches(".*Invalid object identifier*")));
 		throw new RuntimeException(res.getMensaje());
 	}
@@ -290,7 +290,7 @@ public class GruposThread implements Processor {
 		logger.info(String.format("sacarMiembrosInactivos:miembrosSacar %d elementos", miembrosSacar.size()));
 		for (DatosMemeberDTO datos : miembrosSacar) {
 			logger.info(String.format("sacarMiembrosInactivos:datos: %s", datos));
-			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateSacarMember,getAzureServices()));
+			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateSacarMember,getGmailServices()));
 			headers.put("CamelHttpMethod", "DELETE");
 			Response response = (Response) sacarMember.requestBodyAndHeaders(datos.getRequest(), headers);
 			if (response.getStatus() < 300) {
@@ -312,9 +312,9 @@ public class GruposThread implements Processor {
 		 * Recuperar lista de miembros que hay que agregar al grupo
 		 * recorrer la lista
 		 * invocar a la ruta que agrega miembro al grupo
-		 * Nota: intenta agregar a todos aunque ya esten en Azure. Azure responde con un error 
+		 * Nota: intenta agregar a todos aunque ya esten en Gmail. Gmail responde con un error 
 		 * 'One or more added object references already exist'
-		 * de esta manera se asegura que lo que este en la BD tambien este en Azure.
+		 * de esta manera se asegura que lo que este en la BD tambien este en Gmail.
 		 */
 		logger.info(String.format("agregarMiembrosActivos: de grupo %d", keyGrupo.intValue()));
 		Map<String,Object> headers = new HashMap<String,Object>();
@@ -325,7 +325,7 @@ public class GruposThread implements Processor {
 		List<DatosMemeberDTO> miembrosAgregar = factoryListaGrupoMiembro(miembrosActivos);
 		for (DatosMemeberDTO datos : miembrosAgregar) {
 			logger.info(String.format("agregarMiembrosActivos: miembro %s", datos));
-			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateAgregarMember,getAzureServices()));
+			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateAgregarMember,getGmailServices()));
 			headers.put("CamelHttpMethod", "POST");
 			//logger.info(String.format("agregarMiembrosActivos: URL=%s", (String)headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
 			MemberResponse response = (MemberResponse) ObjectFactory.procesaResponseImpl((ResponseImpl)agregarMember.requestBody(datos.getRequest()),MemberResponse.class);
@@ -348,8 +348,8 @@ public class GruposThread implements Processor {
 		List<DatosMemeberDTO> lista = new ArrayList<DatosMemeberDTO>();
 		for (Map<String, Object> map : data) {
 			DatosMemeberDTO dto = new DatosMemeberDTO(map);
-			if (!dto.hayIdAzure()) {
-				// La cuenta en MI_CUENTAS_AZURE no tiene su ID Azure
+			if (!dto.hayIdGmail()) {
+				// La cuenta en MI_CUENTAS_AZURE no tiene su ID Gmail
 				String idCuentaMail = recuperarIdCuentaMail(dto);
 				if (idCuentaMail != null) {
 					String groupId = dto.getRequest().getGroupId();
@@ -370,12 +370,12 @@ public class GruposThread implements Processor {
 	
 	private String recuperarIdCuentaMail(DatosMemeberDTO dto) {
 		/*
-		 * debe recuperar el ID desde Azure con la cuenta de correo
+		 * debe recuperar el ID desde Gmail con la cuenta de correo
 		 * actualizar tabla MI_CUENTAS_AZURE
 		 * devolver ese ID si todo sale OK
 		 */
 		String url = String.format(templateConsultarIdCuenta, 
-				getAzureServices(), String.format("%s@%s", dto.getLoginName(), getDominio()));
+				getGmailServices(), String.format("%s@%s", dto.getLoginName(), getDominio()));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put(Exchange.DESTINATION_OVERRIDE_URL, url);
 		headers.put("CamelHttpMethod", "GET");
@@ -402,7 +402,7 @@ public class GruposThread implements Processor {
 		headers.put("rut", dto.getKeyGrupoMiembro().getIdMiembro());
 		logger.info(String.format("actualizar MI_CUENTAS_AZURE: %s,%s", 
 				headers.get("idCuenta"), headers.get("rut")));
-		updateMiCuentasAzure.requestBodyAndHeaders(null, headers);
+		updateMiCuentasGmail.requestBodyAndHeaders(null, headers);
 		return response.getIdCuenta();
 	}
 	
@@ -655,11 +655,11 @@ public class GruposThread implements Processor {
 
 
  */
-	public String getAzureServices() {
-		return azureServices;
+	public String getGmailServices() {
+		return gmailServices;
 	}
-	public void setAzureServices(String azureServices) {
-		this.azureServices = azureServices;
+	public void setGmailServices(String azureServices) {
+		this.gmailServices = azureServices;
 	}
 	public String getDominio() {
 		return dominio;

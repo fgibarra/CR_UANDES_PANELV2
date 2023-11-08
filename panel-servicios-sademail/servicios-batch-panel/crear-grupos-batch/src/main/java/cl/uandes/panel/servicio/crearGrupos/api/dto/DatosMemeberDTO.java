@@ -68,7 +68,7 @@ public class DatosMemeberDTO implements Serializable {
 		this.keyGrupoMiembro = keyGrupoMiembro;
 	}
 
-	public boolean hayIdAzure() {
+	public boolean hayIdGmail() {
 		return request.getUserId() != null;
 	}
 

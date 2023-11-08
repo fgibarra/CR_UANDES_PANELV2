@@ -1,3 +1,0 @@
-insert into MI_CUENTAS_AZURE
-(KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, NOMBRES, APELLIDOS, FECHA_ACTUALIZACION, FECHA_CREACION, ORIGEN)
-values (HIBERNATE_SEQUENCE.NEXTVAL, :#rut, :#pidm, :#loginName, :#nombres, :#apellidos, sysdate, sysdate, 'BANNER')

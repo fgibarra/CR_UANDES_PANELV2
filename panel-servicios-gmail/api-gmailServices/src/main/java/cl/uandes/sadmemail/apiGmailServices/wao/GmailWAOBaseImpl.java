@@ -829,6 +829,23 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 				" email="+email);
 		try {
 			groupName = getCuenta(groupName);
+			directory.members().delete(groupName, getCuenta(email)).execute();
+			return;
+		} catch (Exception e) {
+			if (e instanceof com.google.api.client.googleapis.json.GoogleJsonResponseException) {
+				if (analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e) > 5) {
+					logger.error("deleteMemberFromGroup",e);
+					throw e;
+				}
+				GoogleJsonResponseException gje = (GoogleJsonResponseException)e;
+				logger.error("deleteMemberFromGroup:"+gje.getDetails().getMessage(), gje);
+				return ;
+			}
+			throw e;
+		}
+		/*
+		try {
+			groupName = getCuenta(groupName);
 			String pageToken = null;
 			Directory.Members.List res = directory.members().list(groupName);
 			do {
@@ -837,7 +854,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 					logger.info("deleteMemberFromGroup: grupo "+groupName+" tiene "+members.getMembers().size()+" miembros");
 					for (Member member : members.getMembers()) {
 						logger.info("deleteMemberFromGroup: miembro |"+member.getEmail()+"| role="+member.getRole()+" getCuenta(email)=|"+getCuenta(email)+"|");
-						if (member.getEmail().equals(getCuenta(email)) /*&& member.getRole().equals("MEMBER")*/) {
+						if (member.getEmail().equals(getCuenta(email)) ) {
 							logger.info("deleteMemberFromGroup: elimina cuenta |"+getCuenta(email)+"|");
 							directory.members().delete(groupName, getCuenta(email)).execute();
 							return;
@@ -864,6 +881,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			}
 			throw e;
 		}
+		*/
 	}
 
 	/* saca un owner del grupo

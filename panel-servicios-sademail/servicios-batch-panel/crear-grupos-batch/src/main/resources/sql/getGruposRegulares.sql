@@ -5,7 +5,7 @@ SELECT
     g.group_description,
     g.emailpermission,
     g.activo,
-    g.creado_azure,
+    g.creado_gmail,
     g.periodo,
     g.fecha_validacion,
     g.seleccion_especial,
@@ -17,14 +17,14 @@ FROM
         SELECT DISTINCT
             g.key
         FROM
-            mi_grupos_azure          g,
-            nap_grupo_miembro_azure  n
+            mi_grupos          g,
+            nap_grupo_miembro  n
         WHERE
                 g.key = n.key_grupo
             AND g.origen is null
-            AND n.activo <> n.creado_azure
+            AND n.activo <> n.creado_gmail
     )          x,
-    mi_grupos_azure  g
+    mi_grupos  g
 WHERE
     g.key = x.key
     and g.seleccion_especial is null

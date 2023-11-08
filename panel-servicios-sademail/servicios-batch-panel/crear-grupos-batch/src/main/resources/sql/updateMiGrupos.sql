@@ -1,2 +1,2 @@
-update mi_grupos_azure set creado_azure=:#creadoAzure
+update mi_grupos set creado_gmail=:#creadoAzure
 where key=:#keyGrupo

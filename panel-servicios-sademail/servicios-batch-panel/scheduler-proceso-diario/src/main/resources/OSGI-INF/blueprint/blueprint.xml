@@ -62,19 +62,18 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.scheduler.api.resource.SchedulerPanelRestService" id="restService">
-        <property name="procesoCrearCuentas" value="{{crear-cuentas-azure.proceso}}"/>
-        <property name="procesoCrearGrupos" value="{{crear-grupos-azure.proceso}}"/>
-        <property name="procesoCrearGruposInprogress" value="{{grupos_inprogress_azure.proceso}}"/>
-        <property name="procesoCrearGruposPosgrado" value="{{grupos_inprogress_posgrado_azure.proceso}}"/>
+        <property name="procesoCrearCuentas" value="{{crear-cuentas-gmail.proceso}}"/>
+        <property name="procesoCrearGrupos" value="{{crear-grupos-gmail.proceso}}"/>
+        <property name="procesoCrearGruposInprogress" value="{{grupos_inprogress_gmail.proceso}}"/>
+        <property name="procesoCrearGruposPosgrado" value="{{grupos_inprogress_posgrado_gmail.proceso}}"/>
     </bean>
-    <bean
-        class="cl.uandes.panel.servicio.scheduler.bean.GeneraDatos" id="generaDatos">
-        <argument index="0" value="{{crear-cuentas-azure.tiposCuenta}}"/>
-        <argument index="1" value="{{crear-grupos-azure.proceso}}"/>
-        <argument index="2" value="{{grupos_inprogress_azure.proceso}}"/>
-        <argument index="3" value="{{grupos_inprogress_posgrado_azure.proceso}}"/>
-        <argument index="4" value="{{crear-cuentas-azure.nocturno.funcion}}"/>
-        <argument index="5" value="{{crear-grupos-azure.nocturno.funcion}}"/>
+    <bean class="cl.uandes.panel.servicio.scheduler.bean.GeneraDatos" id="generaDatos">
+        <argument index="0" value="{{crear-cuentas-gmail.tiposCuenta}}"/>
+        <argument index="1" value="{{crear-grupos-gmail.proceso}}"/>
+        <argument index="2" value="{{grupos_inprogress_gmail.proceso}}"/>
+        <argument index="3" value="{{grupos_inprogress_posgrado_gmail.proceso}}"/>
+        <argument index="4" value="{{crear-cuentas-gmail.nocturno.funcion}}"/>
+        <argument index="5" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
         <property name="delegate" ref="restService"/>
     </bean>
     <bean
@@ -89,7 +88,7 @@
     <!-- ==================================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <camelContext id="scheduler-proceso-diario" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
-        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv3.cfg"/>
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <!-- ================================================================================================= -->
         <route id="_route1">
             <!-- seconds+minutes+hours+day of month+month+day of week+year-->
@@ -133,7 +132,7 @@
             <from id="_from1" uri="direct:generaMail"/>
             <choice id="_choice1">
                 <when id="_when1">
-                    <simple>${header.proceso} == '{{crear-cuentas-azure.proceso}}'</simple>
+                    <simple>${header.proceso} == '{{crear-cuentas-gmail.proceso}}'</simple>
                     <to id="creaCuerpoCuentas" uri="velocity:templateMailCrearCuentas.vm?contentCache=true"/>
                 </when>
                 <otherwise id="_otherwise1">

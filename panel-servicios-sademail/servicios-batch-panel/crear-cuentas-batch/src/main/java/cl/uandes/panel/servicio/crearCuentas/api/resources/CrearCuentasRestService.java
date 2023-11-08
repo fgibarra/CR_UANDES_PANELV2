@@ -12,6 +12,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.PropertyInject;
 import org.apache.camel.builder.ExchangeBuilder;
 import org.apache.log4j.Logger;
 
@@ -27,7 +28,12 @@ public class CrearCuentasRestService {
 
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
-
+    @PropertyInject(value = "crear-cuentas-gmail.proceso", defaultValue="crear_cuentas_gmail")
+	private String procesoCrearCuentas;
+    @PropertyInject(value = "crear-cuentas-gmail.tiposCuenta", defaultValue="Alumnos")
+	private String tiposCuenta;
+     
+    private String msgError;
 	Logger logger = Logger.getLogger(getClass());
 
 	@GET
@@ -48,7 +54,7 @@ public class CrearCuentasRestService {
     @Path("/procese")
 	public Response procese(ProcesoDiarioRequest request) {
 		if (!valida(request)) {
-			return Response.ok().status(401).entity("no indica un request valido").build();
+			return Response.ok().status(401).entity(getMsgError()).build();
 		}
 		// responder al Scheduler y partir el proceso en forma batch
 		CamelContext camelContext = producer.getCamelContext();
@@ -66,7 +72,46 @@ public class CrearCuentasRestService {
 	}
 
 	private boolean valida(ProcesoDiarioRequest request) {
-		// TODO Auto-generated method stub
+		if (!funcionesValidas(request.getFuncion()))
+			return false;
+		if (!operacionesValidas(request))
+			return false;
+		return true;
+	}
+
+	private boolean funcionesValidas(String funcion) {
+		return funcion.equalsIgnoreCase(getProcesoCrearCuentas());
+	}
+
+	private boolean operacionesValidas(ProcesoDiarioRequest request) {
+		for (String op : request.getOperaciones()) {
+			if (getTiposCuenta().equalsIgnoreCase(op))
+				return true;
+		}
 		return false;
+	}
+
+	public String getMsgError() {
+		return msgError;
+	}
+
+	public void setMsgError(String msgError) {
+		this.msgError = msgError;
+	}
+
+	public String getTiposCuenta() {
+		return tiposCuenta;
+	}
+
+	public void setTiposCuenta(String tiposCuenta) {
+		this.tiposCuenta = tiposCuenta;
+	}
+
+	public String getProcesoCrearCuentas() {
+		return procesoCrearCuentas;
+	}
+
+	public void setProcesoCrearCuentas(String procesoCrearCuentas) {
+		this.procesoCrearCuentas = procesoCrearCuentas;
 	}
 }

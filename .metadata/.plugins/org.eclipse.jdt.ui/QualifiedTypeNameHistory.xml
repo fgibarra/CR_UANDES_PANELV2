@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.Users"/>
     <fullyQualifiedTypeName name="java.math.BigDecimal"/>
     <fullyQualifiedTypeName name="javax.ws.rs.GET"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
@@ -15,8 +14,6 @@
     <fullyQualifiedTypeName name="java.io.SequenceInputStream"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCrearCuentaServices.dto.DatosSpridenDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCrearCuentaServices.dto.DatosMiCuentasGmailDTO"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.banner.reporte.dto.Reporte"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCrearCuentasServices.dto.Reporte"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.DatosCrearCuenta"/>
@@ -60,4 +57,7 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sendmail.SendmailResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sendmail.SendmailRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.servicio.crearGrupos.api.dto.DatosMemeberDTO"/>
+    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaResponse"/>
 </qualifiedTypeNameHistroy>

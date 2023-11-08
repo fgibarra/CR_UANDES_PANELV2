@@ -37,11 +37,11 @@ public class CrearGruposRestService {
 
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
-    @PropertyInject(value = "crear-grupos-azure.nocturno.funcion", defaultValue="generaGrupos")
+    @PropertyInject(value = "crear-grupos-gmail.nocturno.funcion", defaultValue="generaGrupos")
 	private String funcion;
-    @PropertyInject(value = "crear-grupos-azure.proceso", defaultValue="proceso")
+    @PropertyInject(value = "crear-grupos-gmail.proceso", defaultValue="proceso")
 	private String proceso;
-    private String procesosValidos[] = {"crear_grupos_azure", "grupos_inprogress_azure", "grupos_inprogress_posgrado_azure"};
+    private String procesosValidos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_posgrado"};
 	
 	Logger logger = Logger.getLogger(getClass());
 
