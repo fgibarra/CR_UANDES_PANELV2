@@ -7,5 +7,5 @@ git add . --all
 echo copy y paste lo siguiente
 echo git commit $msg
 echo git push -u origin rama_desarrollo main
-echo "fgibarra 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"
+echo "fgibarra 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"
 

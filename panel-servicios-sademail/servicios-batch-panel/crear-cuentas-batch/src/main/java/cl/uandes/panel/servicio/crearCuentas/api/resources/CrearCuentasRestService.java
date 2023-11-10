@@ -28,7 +28,7 @@ public class CrearCuentasRestService {
 
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
-    @PropertyInject(value = "crear-cuentas-gmail.proceso", defaultValue="crear_cuentas_gmail")
+    @PropertyInject(value = "crear-cuentas-gmail.proceso", defaultValue="crear_cuentas")
 	private String procesoCrearCuentas;
     @PropertyInject(value = "crear-cuentas-gmail.tiposCuenta", defaultValue="Alumnos")
 	private String tiposCuenta;
@@ -53,6 +53,7 @@ public class CrearCuentasRestService {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/procese")
 	public Response procese(ProcesoDiarioRequest request) {
+		logger.info(String.format("CrearCuentasRestService: request |%s|", request));
 		if (!valida(request)) {
 			return Response.ok().status(401).entity(getMsgError()).build();
 		}
@@ -84,10 +85,11 @@ public class CrearCuentasRestService {
 	}
 
 	private boolean operacionesValidas(ProcesoDiarioRequest request) {
-		for (String op : request.getOperaciones()) {
-			if (getTiposCuenta().equalsIgnoreCase(op))
-				return true;
-		}
+		if (request.getOperaciones() != null)
+			for (String op : request.getOperaciones()) {
+				if (getTiposCuenta().equalsIgnoreCase(op))
+					return true;
+			}
 		return false;
 	}
 

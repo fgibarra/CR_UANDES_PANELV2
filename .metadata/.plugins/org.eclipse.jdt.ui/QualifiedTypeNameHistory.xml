@@ -9,7 +9,6 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserRequest"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
     <fullyQualifiedTypeName name="org.eclipse.jetty.util.log.Logger"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AliasResponse"/>
     <fullyQualifiedTypeName name="java.io.SequenceInputStream"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.apiCrearCuentaServices.dto.DatosSpridenDTO"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserResponse"/>
 </qualifiedTypeNameHistroy>

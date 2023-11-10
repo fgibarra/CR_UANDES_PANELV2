@@ -1,0 +1,10 @@
+cl.uandes.comun.ad.api.resources
+cl.uandes.comun.ad.client.soap.cxf.consultaXrut
+cl.uandes.comun.ad.client.soap.cxf.consultaXrut.dto
+cl.uandes.comun.ad.client.soap.cxf.ldapService
+cl.uandes.comun.ad.client.soap.cxf.ldapService.dto
+cl.uandes.comun.ad.procesor
+com.microsoft.schemas._2003._10.serialization
+org.datacontract.schemas._2004._07.servicioldap
+org.tempuri
+wsldapuandes

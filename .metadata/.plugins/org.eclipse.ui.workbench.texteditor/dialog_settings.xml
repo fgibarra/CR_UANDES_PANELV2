@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="-gmail"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="-azure"/>
-			<item value="sevicioCrearCuenta"/>
+			<item value="CrearGr"/>
+			<item value="message="/>
 			<item value="azure"/>
+			<item value="-azure"/>
+			<item value="deleteNap"/>
+			<item value="member-deleteMember"/>
+			<item value="Azure"/>
+			<item value="sevicioCrearCuenta"/>
 			<item value="CuentasAzure"/>
 			<item value="GruposAzure"/>
 			<item value="id=&quot;_to"/>
@@ -18,13 +23,9 @@
 			<item value="${header.crearCuentas.size"/>
 			<item value="_generaRespuestaOK"/>
 			<item value="_generaRespuestaOK."/>
-			<item value="_routeProcesaEnBanner"/>
-			<item value="_log3"/>
-			<item value="_setHeader2"/>
-			<item value="_setHeader2."/>
-			<item value="_terminaExisteCuenta."/>
 		</list>
 		<list key="replacehistory">
+			<item value="Gmail"/>
 			<item value="-gmail"/>
 			<item value="gmail"/>
 			<item value="CuentasMiUandes"/>
@@ -39,7 +40,6 @@
 			<item value="InputFormCursos"/>
 			<item value="fFIni"/>
 			<item value="selInicTerm"/>
-			<item value="progProcForm"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

@@ -57,7 +57,7 @@ public abstract class RegistrosEnBD {
 		headers.put("minThreads", BigDecimal.valueOf(res.getMinThreads().longValue()));
 		headers.put("maxThreads", BigDecimal.valueOf(res.getMaxThreads().longValue()));
 		Object resCrea = creaMiResultado().requestBodyAndHeaders(null, headers);
-		logger.info(String.format("InicialiceCrearGrupos: ResultadoFuncion: %s resultado insert: %s clase: %s",
+		logger.info(String.format("inicialiceResultadoFuncion: ResultadoFuncion: %s resultado insert: %s clase: %s",
 				res.toString(), resCrea, resCrea!=null?resCrea.getClass().getName():"es NULO"));
 		
 		return res;
@@ -73,6 +73,7 @@ public abstract class RegistrosEnBD {
 	
 	public void actualizaHoraTermino(Integer keyKcoFunciones) {
 		if (actualizarKcoFunciones() == null) throw new RuntimeException ("El ProducerTemplate actualizarKcoFunciones no esta instanciado");
+		logger.info(String.format("actualizaHoraTermino: en tabla KCO_FUNCIONES key=%d", keyKcoFunciones));
 		actualizarKcoFunciones().requestBodyAndHeader(null, "key", ObjectFactory.toBigDecimal(keyKcoFunciones));
 	}
 	

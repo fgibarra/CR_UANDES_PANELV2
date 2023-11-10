@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:cxf-beans="https://cxf.apache.org/schemas/blueprint/jaxrs.xsdcxf-beans"
+    xmlns:http="http://cxf.apache.org/transports/http/configuration"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:sec="http://cxf.apache.org/configuration/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0          https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd         https://cxf.apache.org/schemas/wsdl/http-conf.xsd          http://schemas.xmlsoap.org/wsdl/2003-02-11.xsd          http://cxf.apache.org/schemas/configuration/security.xsd          http://cxf.apache.org/schemas/configuration/security.xsd          http://www.springframework.org/schema/beans          http://www.springframework.org/schema/beans/spring-beans.xsd         http://cxf.apache.org/schemas/configuration/cxf-beans.xsd   http://cxf.apache.org/schemas/configuration/parameterized-types.xsd   http://camel.apache.org/schema/blueprint    https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/serviciosAD" id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Outgoing SOAP client endpoint clienteXrut-->
+    <cxf:cxfEndpoint address="{{consultaXrut.endpointAddress}}"
+        id="cxfClientConsultaXrutEndpoint"
+        serviceClass="wsldapuandes.WS_0020Consulta_0020LDAPPortType" wsdlURL="{{consultaXrut.wsdlAddress}}">
+        <!-- The interceptors - needed to log the SOAP requests and responses -->
+        <!-- They can be removed, when no logging is needed -->
+        <cxf:inInterceptors>
+            <ref component-id="loggingInInterceptor"/>
+        </cxf:inInterceptors>
+        <cxf:outInterceptors>
+            <ref component-id="loggingOutInterceptor"/>
+            <ref component-id="headerOutInterceptorConsultaRutAD"/>
+        </cxf:outInterceptors>
+        <cxf:outFaultInterceptors>
+            <ref component-id="loggingOutInterceptor"/>
+        </cxf:outFaultInterceptors>
+        <cxf:inFaultInterceptors>
+            <ref component-id="loggingInInterceptor"/>
+        </cxf:inFaultInterceptors>
+    </cxf:cxfEndpoint>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Outgoing SOAP client endpoint serviceLDAP-->
+    <cxf:cxfEndpoint address="{{LDAPServiceb.endpointAddress}}"
+        id="cxfClientLdapServiceEndpoint"
+        serviceClass="org.tempuri.ILDAPService" wsdlURL="{{LDAPServiceb.wsdlAddress}}">
+        <!-- The interceptors - needed to log the SOAP requests and responses -->
+        <!-- They can be removed, when no logging is needed -->
+        <cxf:inInterceptors>
+            <ref component-id="loggingInInterceptor"/>
+        </cxf:inInterceptors>
+        <cxf:outInterceptors>
+            <ref component-id="loggingOutInterceptor"/>
+            <ref component-id="headerOutInterceptorLdapService"/>
+        </cxf:outInterceptors>
+        <cxf:outFaultInterceptors>
+            <ref component-id="loggingOutInterceptor"/>
+        </cxf:outFaultInterceptors>
+        <cxf:inFaultInterceptors>
+            <ref component-id="loggingInInterceptor"/>
+        </cxf:inFaultInterceptors>
+    </cxf:cxfEndpoint>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+									BEANS 
+         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.comun.ad.api.resources.ConsultasADRestService" id="restService">
+        <property name="consultaXrut" value="{{operacion.consultaXrut}}"/>
+        <property name="activarDesactivarUsuario" value="{{operacion.activarDesactivarUsuario}}"/>
+        <property name="actualizarUsuario" value="{{operacion.actualizarUsuario}}"/>
+        <property name="crearUsuario" value="{{operacion.crearUsuario}}"/>
+        <property name="desbloquearUsuario" value="{{operacion.desbloquearUsuario}}"/>
+        <property name="resetearPassword" value="{{operacion.resetearPassword}}"/>
+        <property name="validarUsuario" value="{{operacion.validarUsuario}}"/>
+    </bean>
+    <!-- Header filter strategy for not sending any Camel headers to SOAP endpoint -->
+    <!-- ========================================================================================== -->
+    <!-- BEANS para manejo del cliente SOAP -->
+    <!-- The interceptors bean definitions - used for logging SOAP requests. -->
+    <!-- They can be removed, when no logging is needed -->
+    <bean class="org.apache.cxf.interceptor.LoggingInInterceptor" id="loggingInInterceptor">
+        <property name="prettyLogging" value="true"/>
+    </bean>
+    <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" id="loggingOutInterceptor">
+        <property name="prettyLogging" value="true"/>
+    </bean>
+    <!-- ========================================================================================== -->
+    <bean
+        class="cl.uandes.comun.ad.client.soap.cxf.consultaXrut.CxfHeaderFilterStrategy" id="cxfConsultaXrutHeaderFilterStrategy"/>
+    <bean
+        class="cl.uandes.comun.ad.client.soap.cxf.consultaXrut.CxfHeaderOutInterceptor" id="headerOutInterceptorConsultaRutAD"/>
+    <bean
+        class="cl.uandes.comun.ad.client.soap.cxf.consultaXrut.CreateSoapRequest" id="soapRequestConsultaXrut">
+        <argument value="templateCR.txt"/>
+        <property name="operationName" value="{{consultaXrut.operationName}}"/>
+        <property name="soapAction" value="{{consultaXrut.soapAction}}"/>
+    </bean>
+    <!-- ========================================================================================== -->
+    <bean
+        class="cl.uandes.comun.ad.client.soap.cxf.ldapService.CxfHeaderFilterStrategy" id="cxfLdapServiceHeaderFilterStrategy"/>
+    <bean
+        class="cl.uandes.comun.ad.client.soap.cxf.ldapService.CxfHeaderOutInterceptor" id="headerOutInterceptorLdapService"/>
+    <bean
+        class="cl.uandes.comun.ad.client.soap.cxf.ldapService.CreateSoapRequest" id="soapRequestPojoLdapService">
+        <property name="activarDesactivarUsuario" value="{{operacion.activarDesactivarUsuario}}"/>
+        <property name="actualizarUsuario" value="{{operacion.actualizarUsuario}}"/>
+        <property name="crearUsuario" value="{{operacion.crearUsuario}}"/>
+        <property name="desbloquearUsuario" value="{{operacion.desbloquearUsuario}}"/>
+        <property name="resetearPassword" value="{{operacion.resetearPassword}}"/>
+        <property name="validarUsuario" value="{{operacion.validarUsuario}}"/>
+    </bean>
+    <bean class="cl.uandes.comun.ad.procesor.GeneraResponse" id="generaResponse"/>
+    <!-- fin BEANS para manejo del cliente SOAP -->
+    <!-- ========================================================================================== -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <camelContext id="servicios-ad-soap-client" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.soap-config.cfg"/>
+        <!-- -->
+        <camel:dataFormats>
+            <camel:soapjaxb
+                contextPath="cl.uandes.comun.ad.client.soap.cxf.consultaXrut.dto" id="soapConsultaXrut"/>
+            <camel:soapjaxb contextPath="org.tempuri" id="soapLdapService"/>
+        </camel:dataFormats>
+        <!-- ========================================================================================== -->
+        <!--  para pruebas 																		
+        <route id="_pruebas">
+            <from id="_from1" uri="timer://foo?repeatCount=1"/>
+            <log message="Partio"/>
+            <setHeader headerName="Operacion">
+                <constant>ValidarUsuario</constant>
+            </setHeader>
+            <bean method="createRequestValidarUsuario" ref="soapRequestPojoLdapService"/>
+            <log message="despues de createRequest body:${body}"/>
+            <!- -
+			 ===================================================================== 
+            <setHeader headerName="Operacion" id="_setHeader1">
+                <constant>ResetearPassword</constant>
+            </setHeader>
+            <bean id="_bean3" method="createRequestResetearPassword" ref="soapRequestPojoLdapService"/>
+			 ===================================================================== 
+            <setHeader headerName="Operacion" id="_setHeader1">
+                <constant>DesbloquearUsuario</constant>
+            </setHeader>
+            <bean id="_bean3" method="createRequestDesbloquearUsuario" ref="soapRequestPojoLdapService"/>
+			 ===================================================================== 
+            <setHeader headerName="Operacion" id="_setHeader1">
+                <constant>CrearUsuario</constant>
+            </setHeader>
+            <bean id="_bean3" method="createRequestCrearUsuario" ref="soapRequestPojoLdapService"/>
+			 ===================================================================== 
+            <setHeader headerName="Operacion" id="_setHeader1">
+                <constant>ActualizarUsuario</constant>
+            </setHeader>
+            <bean id="_bean3" method="createRequestActualizarUsuario" ref="soapRequestPojoLdapService"/>
+			 ===================================================================== 
+            <setHeader headerName="Operacion" id="_setHeader1">
+                <constant>ActivarDesactivarUsuario</constant>
+            </setHeader>
+            <bean id="_bean3" method="createRequestActivarDesactivarUsuario" ref="soapRequestPojoLdapService"/>
+			 ===================================================================== 
+            <setHeader headerName="Operacion" id="_setHeader1">
+                <constant>ValidarUsuario</constant>
+            </setHeader>
+            <bean id="_bean3" method="createRequestValidarUsuario" ref="soapRequestPojoLdapService"/>
+			 ===================================================================== 
+            <setHeader headerName="Operacion">
+                <constant>consultaXrut</constant>
+            </setHeader>
+            <setHeader headerName="id">
+                <constant>6794383K</constant>
+            </setHeader>
+- ->
+            <to id="_toDoWork" uri="seda:ldapService"/>
+        </route>
+-->
+        <!-- ========================================================================================== -->
+        <route id="_readjson">
+            <from id="_promService" uri="direct:start?timeout=-1"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.Operacion} == "{{operacion.consultaXrut}}"</simple>
+                    <to id="_to2" uri="seda:consultaXrut"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <to id="_to3" uri="seda:ldapService"/>
+                </otherwise>
+            </choice>
+        </route>
+        <!-- ========================================================================================== -->
+        <route id="_consultaXrut">
+            <from id="_ruta1" uri="seda:consultaXrut"/>
+            <bean id="_bean1" method="createSoapBody" ref="soapRequestConsultaXrut"/>
+            <log id="_log2" message="despues del createSoapBody body:\n${body}"/>
+            <log id="_log8" message="URL: {{consultaXrut.endpointAddress}}"/>
+            <!-- 
+            <marshal id="_marshal1" ref="soapConsultaXrut"/>
+            <log id="_log3" message="despues del marshal body:\n${body}"/>
+-->
+            <!--
+			<bean method="postProcesaBody" ref="generaResponse"/>
+            <log message="despues del postProcesaBody body:\n${body}"/>
+-->
+            <to id="_to1" uri="cxf:bean:cxfClientConsultaXrutEndpoint?dataFormat=MESSAGE&amp;headerFilterStrategy=#cxfConsultaXrutHeaderFilterStrategy"/>
+            <doTry id="_doTry1">
+                <unmarshal id="_unmarshal1">
+                    <custom ref="soapConsultaXrut"/>
+                </unmarshal>
+                <camel:doCatch id="_doCatch1">
+                    <exception>javax.xml.bind.UnmarshalException</exception>
+                    <log id="_log3" message="atrapo un javax.xml.bind.UnmarshalException"/>
+                    <bean id="_bean3" method="unmarshalError" ref="generaResponse"/>
+                    <camel:setHeader headerName="Operacion" id="_setHeader1">
+                        <constant>Error</constant>
+                    </camel:setHeader>
+                </camel:doCatch>
+            </doTry>
+            <log id="_log4" message="despues del endpoint:\n${body}"/>
+            <process id="_process1" ref="generaResponse"/>
+        </route>
+        <!-- ========================================================================================== -->
+        <route id="_ldapService">
+            <from id="_ruta1" uri="seda:ldapService"/>
+            <bean id="_bean2" method="createSoapBody" ref="soapRequestPojoLdapService"/>
+            <log id="_log1" message="despues del createSoapBody body:\n${body}"/>
+            <marshal id="_marshal2" ref="soapLdapService"/>
+            <log id="_log5" message="despues del marshal header SOAPAction: ${header.SOAPAction} body:\n${body}"/>
+            <to id="_to4" uri="cxf:bean:cxfClientLdapServiceEndpoint?dataFormat=MESSAGE&amp;headerFilterStrategy=#cxfLdapServiceHeaderFilterStrategy"/>
+            <doTry id="_doTry2">
+                <unmarshal id="_unmarshal2">
+                    <custom ref="soapLdapService"/>
+                </unmarshal>
+                <camel:doCatch id="_doCatch2">
+                    <exception>javax.xml.bind.UnmarshalException</exception>
+                    <log id="_log7" message="atrapo un javax.xml.bind.UnmarshalException"/>
+                    <bean id="_bean4" method="unmarshalError" ref="generaResponse"/>
+                    <camel:setHeader headerName="Operacion" id="_setHeader2">
+                        <constant>Error</constant>
+                    </camel:setHeader>
+                </camel:doCatch>
+            </doTry>
+            <log id="_log6" message="despues del endpoint:\n${body}"/>
+            <process id="_process2" ref="generaResponse"/>
+        </route>
+    </camelContext>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ======================================== CXF SOAP client endpoint ======================================== -->
+    <!-- Timeout configuration for CXF endpoint -->
+    <!-- Timeout value is hardcoded (to 1 minute) due to a bug in Spring or Cxf - the schema validation is done before -->
+    <!-- replacing the property's value -->
+    <http:conduit name="*.http-conduit">
+        <http:tlsClientParameters disableCNCheck="true">
+            <sec:keyManagers keyPassword="Uandes2023">
+                <sec:keyStore
+                    file="/usr/local/fuse/etc/certs/server.keystore"
+                    password="Uandes2023" type="JKS"/>
+            </sec:keyManagers>
+            <sec:trustManagers>
+                <sec:keyStore
+                    file="/usr/local/fuse/etc/certs/server.keystore"
+                    password="Uandes2023" type="JKS"/>
+            </sec:trustManagers>
+            <sec:cipherSuitesFilter>
+                <!-- these filters ensure that a ciphersuite with export-suitable or 
+					null encryption is used, but exclude anonymous Diffie-Hellman key change 
+					as this is vulnerable to man-in-the-middle attacks -->
+                <sec:include>.*_EXPORT_.*</sec:include>
+                <sec:include>.*_EXPORT1024_.*</sec:include>
+                <sec:include>.*_WITH_DES_.*</sec:include>
+                <sec:include>.*_WITH_AES_.*</sec:include>
+                <sec:include>.*_WITH_NULL_.*</sec:include>
+                <sec:exclude>.*_DH_anon_.*</sec:exclude>
+            </sec:cipherSuitesFilter>
+        </http:tlsClientParameters>
+        <http:client AutoRedirect="true" Connection="Keep-Alive"
+            ConnectionTimeout="60000" ReceiveTimeout="60000"/>
+    </http:conduit>
+</blueprint>

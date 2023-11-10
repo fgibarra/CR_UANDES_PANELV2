@@ -38,10 +38,10 @@
 						<DynamicImport-Package>
 							*
 						</DynamicImport-Package>
-						<Bundle-Description>Crear cuentas AD Azure</Bundle-Description>
-						<Bundle-Name>Crear cuentas Azure v1.0</Bundle-Name>
-						<Bundle-SymbolicName>crear-cuentas-azure-v1</Bundle-SymbolicName>
-						<Bundle-Name>Panel [crear-cuentas-azure-v1]</Bundle-Name>
+						<Bundle-Description>Crear cuentas Batch</Bundle-Description>
+						<Bundle-Name>Crear cuentas Batch v1.0</Bundle-Name>
+						<Bundle-SymbolicName>crear-cuentas-batch-v1</Bundle-SymbolicName>
+						<Bundle-Name>Panel [crear-cuentas-batch-v1]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>

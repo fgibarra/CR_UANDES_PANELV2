@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:WSLDAPUANDES" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:WSLDAPUANDES">
+<types>
+<xsd:schema targetNamespace="urn:WSLDAPUANDES"
+>
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+ <xsd:complexType name="retorno">
+  <xsd:all>
+<xsd:element name="cantidad" type="xsd:string"/>
+<xsd:element name="rut" type="xsd:string"/>
+<xsd:element name="usuario" type="xsd:string"/>
+<xsd:element name="employeeid" type="xsd:string"/>
+<xsd:element name="dn" type="xsd:string"/>
+<xsd:element name="correo" type="xsd:string"/>
+<xsd:element name="activa" type="xsd:string"/>
+<xsd:element name="bloqueada" type="xsd:string"/>
+<xsd:element name="ou" type="xsd:string"/>
+<xsd:element name="estado" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="datos">
+  <xsd:all>
+   <xsd:element name="id" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="consultaRequest">
+  <part name="datos" type="tns:datos" /></message>
+<message name="consultaResponse">
+  <part name="retorno" type="tns:retorno" /></message>
+<portType name="WS Consulta LDAPPortType">
+  <operation name="consulta">
+    <documentation>WS recibe un archivo XML para consultar LDAP</documentation>
+    <input message="tns:consultaRequest"/>
+    <output message="tns:consultaResponse"/>
+  </operation>
+</portType>
+<binding name="WS Consulta LDAPBinding" type="tns:WS Consulta LDAPPortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="consulta">
+    <soap:operation soapAction="urn:WSLDAPUANDES#consulta"/>
+    <input><soap:body use="literal" namespace="urn:WSLDAPUANDES" /></input>
+    <output><soap:body use="literal" namespace="urn:WSLDAPUANDES"/></output>
+  </operation>
+</binding>
+<service name="WS Consulta LDAP">
+  <port name="WS Consulta LDAPPort" binding="tns:WS Consulta LDAPBinding">
+    <soap:address location="https://webapp.uandes.cl:443/LDAP/src/wsLdapUandespanel.php"/>
+  </port>
+</service>
+</definitions>

@@ -1,0 +1,96 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+<xs:import schemaLocation="xsd2.xsd" namespace="http://schemas.datacontract.org/2004/07/ServicioLDAP.core"/>
+<xs:element name="CrearUsuario">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ServicioLDAP.core" minOccurs="0" name="usuario" nillable="true" type="q1:Usuario"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="CrearUsuarioResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="CrearUsuarioResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ActualizarUsuario">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Nombre" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Apellido" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Cargo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Compania" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Departamento" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Jefatura" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Telefono" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ActualizarUsuarioResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="ActualizarUsuarioResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ValidarUsuario">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ValidarUsuarioResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="ValidarUsuarioResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ResetearPassword">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="NuevaPassword" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ResetearPasswordResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="ResetearPasswordResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ActivarDesactivarUsuario">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="activar" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ActivarDesactivarUsuarioResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="ActivarDesactivarUsuarioResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="DesbloquearUsuario">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="DesbloquearUsuarioResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="DesbloquearUsuarioResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

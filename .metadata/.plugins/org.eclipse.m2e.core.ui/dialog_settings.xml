@@ -2,6 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="/home/fernando/CodeReady/UANDES/PANELV2"/>
+			<item value="/home/fernando/CodeReady/UANDES/PANELV2/panel-comunes"/>
 			<item value="/home/fernando/CodeReady/UANDES/PANELV2/panel-servicios-gmail/pom.xml"/>
 		</list>
 		<list key="projectNameTemplate">
@@ -26,13 +28,13 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
-			<item value="org.scheduler.proceso.diario"/>
+			<item value="org.consulta.ad.soap"/>
 		</list>
 		<list key="groupId">
 			<item value="uandes.panel-v2.servicios"/>
 		</list>
 		<list key="artifactId">
-			<item value="scheduler-proceso-diario"/>
+			<item value="consulta-ad-soap"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -43,35 +45,25 @@
 			<item value="[name]"/>
 		</list>
 		<list key="version">
-			<item value="0.0.1"/>
+			<item value="1.0.0"/>
 		</list>
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
 			<item value="uandes.panel-v2.servicios"/>
+			<item value="panel-servicios-ad"/>
+			<item value="uandes.panel-v2.comunes"/>
 		</list>
 		<list key="name">
-			<item value="Servicio Scheduler que activa proceso nocturno"/>
-			<item value="APIREST para crear grupos en GMAIL btach"/>
-			<item value="APIREST para crear cuentas en AD y en GMAIL"/>
-			<item value="Agregar Sacar owners o miembros de grupos"/>
-			<item value="Servicios Batch Panel"/>
-			<item value="serv-sincroniza-grupos"/>
-			<item value="serv-crear-cuentas-panel"/>
+			<item value="Servicios AD"/>
+			<item value="APIREST para invocar web services SOAP al Active Directory"/>
+			<item value="Servicios para manejar el AD"/>
 		</list>
 		<list key="artifactId">
-			<item value="scheduler-proceso-diario"/>
-			<item value="servicios-batch-panel"/>
-			<item value="crear-grupos-batch"/>
-			<item value="crear-cuentas-batch"/>
-			<item value="add-delete-owners-members"/>
-			<item value="panel-servicios-sademail"/>
-			<item value="serv-sincroniza-grupos"/>
-			<item value="serv-crear-cuentas-panel"/>
-			<item value="serv-crear-cuenta"/>
-			<item value="serv-elimina_suspende_cuentas"/>
-			<item value="serv-ae-owner-members"/>
-			<item value="serv-cambiar-apellido"/>
+			<item value="consulta-ad-soap"/>
+			<item value="panel-servicios-ad"/>
+			<item value="comunes-ad"/>
+			<item value="panel-comunes"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -82,11 +74,15 @@
 			<item value="[name]"/>
 		</list>
 		<list key="version">
+			<item value="1.0.0"/>
+			<item value="0.0.1-SNAPSHOT"/>
 			<item value="0.0.1"/>
 		</list>
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="consulta-ad-soap"/>
+			<item value="comunes-ad"/>
 			<item value="scheduler-proceso-diario"/>
 			<item value="crear-grupos-batch"/>
 			<item value="crear-cuentas-batch"/>
@@ -100,8 +96,6 @@
 			<item value="serv-cambiar-apellido"/>
 			<item value="scheduler-actualiza-id-gmail"/>
 			<item value="serv-actualiza-id-gmail"/>
-			<item value="comunes-sademail"/>
-			<item value="comunes-gmail"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -127,6 +121,20 @@
 			<item value="[groupId].[artifactId]"/>
 			<item value="[groupId].[artifactId]-[version]"/>
 			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="wizardPage">
+		<list key="groupId">
+			<item value="uandes.panel-v2.servicios"/>
+		</list>
+		<list key="name">
+			<item value="Servicios para usar el AD"/>
+		</list>
+		<list key="artifactId">
+			<item value="panel-servicios-ad"/>
+		</list>
+		<list key="version">
+			<item value="1.0.0"/>
 		</list>
 	</section>
 </section>
