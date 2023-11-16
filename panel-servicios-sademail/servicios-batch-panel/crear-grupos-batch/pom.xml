@@ -11,6 +11,15 @@
 	<version>1.0.0</version>
 	<packaging>bundle</packaging>
 	<name>APIREST para crear grupos en GMAIL btach</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>uandes.panel-v2.comunes</groupId>
+  		<artifactId>comunes-gmail</artifactId>
+  		<version>0.0.1</version>
+  		<scope>system</scope>
+  		<systemPath>/home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/target/comunes-gmail-0.0.1.jar</systemPath>
+  	</dependency>
+  </dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>uandes.panel-v2.servicios</groupId>
-		<artifactId>panel-servicios</artifactId>
+		<artifactId>panel-servicios-gmail</artifactId>
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>gmail.api-gmailServices</artifactId>

@@ -71,8 +71,12 @@ public class GeneraDatos {
 	 */
 	public void procesoDiarioResponse(Exchange exchange) {
 		Message message = exchange.getIn();
-		ProcesoDiarioResponse response = new ProcesoDiarioResponse(0, (String)message.getHeader("proceso"), 
-				String.format("OK: %s", message.getHeader("jsonResultado")), (Integer)message.getHeader("keyResultado"));
+		ProcesoDiarioResponse response = (ProcesoDiarioResponse) message.getHeader("resCrearCuenta");
+		if (response == null)
+			response = new ProcesoDiarioResponse(0, (String)message.getHeader("proceso"), 
+					String.format("OK: %s", message.getHeader("jsonResultado")), 
+					(Integer)message.getHeader("keyResultado"));
+		
 		logger.info(String.format("procesoDiarioResponse: response: %s", response));
 		message.setBody(response);
 	}

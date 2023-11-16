@@ -48,6 +48,10 @@ public class InicialiceCrearCuentas extends cl.uandes.panel.comunes.utils.Regist
 			logger.info(String.format("InicialiceCrearCuentas: data: %s", data));
 			setResultadoFuncion(inicialiceResultadoFuncion(exchange, data));
 			logger.info(String.format("Almacenado: ResultadoFuncion %s", resultadoFuncion!=null?getResultadoFuncion():"GUARDO NULO"));
+			headers.put("countProcesados", Integer.valueOf(0));
+			headers.put("countErrores", Integer.valueOf(0));
+			headers.put("countAgregadosBD", Integer.valueOf(0));
+			headers.put("countAgregadosAD", Integer.valueOf(0));
 			if (data.getParametros().getDisabled()) {
 				// El proceso esta deshabilitado
 				ProcesoDiarioResponse response = procesoDeshabilitado(data);
@@ -55,10 +59,6 @@ public class InicialiceCrearCuentas extends cl.uandes.panel.comunes.utils.Regist
 				headers.put("resCrearCuenta", response);
 			} else {
 				headers.put("estaInicializado", "true");
-				headers.put("countProcesados", Integer.valueOf(0));
-				headers.put("countErrores", Integer.valueOf(0));
-				headers.put("countAgregadosBD", Integer.valueOf(0));
-				headers.put("countAgregadosAD", Integer.valueOf(0));
 			}
 			headers.put("DatosKcoFunciones", data);
 			headers.put("keyResultado", getResultadoFuncion().getKey());

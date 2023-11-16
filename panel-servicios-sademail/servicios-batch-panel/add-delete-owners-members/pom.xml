@@ -78,11 +78,12 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>/home/fernando/.m2/repository/uandes/panelv3/azure/servicios-panelv3/${project.artifact}/${project.version}</outputDirectory>
+					<outputDirectory>/home/fernando/.m2/repository/uandes/panel-v2/servicios/add-delete-owners-members/${project.artifact}/${project.version}</outputDirectory>
 					<finalName>crear-cuentas-azure-1.0.0</finalName>
 					<attach>false</attach>
 				</configuration>
 			</plugin>
+			<!-- 
 			<plugin>
 				<groupId>cl.firsa.maven-plugin</groupId>
 				<artifactId>modifica-index</artifactId>
@@ -95,6 +96,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			 -->
 		</plugins>
 	</build>
 </project>

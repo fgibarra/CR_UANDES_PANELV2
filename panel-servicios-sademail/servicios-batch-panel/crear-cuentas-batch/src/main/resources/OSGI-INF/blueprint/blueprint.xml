@@ -19,7 +19,7 @@
     </jaxrs:server>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF clients -->
-    <cxf:rsClient address="/ESB/panel/serviciosAD/consultaXrut"
+    <cxf:rsClient address="http://localhost:8181/cxf/ESB/panel/serviciosAD/consultaXrut"
         id="rsADconsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -30,7 +30,7 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
-    <cxf:rsClient address="/ESB/panel/panelToolCreaCuenta/creaCuenta"
+    <cxf:rsClient address="http://localhost:8181/cxf/ESB/panel/panelToolCreaCuenta/creaCuenta"
         id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -41,7 +41,7 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
-    <cxf:rsClient address="/ESB/panel/serviciosAD/validarUsuario"
+    <cxf:rsClient address="http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario"
         id="rsADvalidarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -52,7 +52,7 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
-    <cxf:rsClient address="/ESB/panel/panelToolCreaCuenta/creaCuenta"
+    <cxf:rsClient address="http://localhost:8181/cxf/ESB/panel/panelToolCreaCuenta/creaCuenta"
         id="rsCrearCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ServiciosPanelEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -64,7 +64,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <!-- __________________________________________________________________________________________________ -->
-    <cxf:rsClient address="/ESB/panel/servicio/schedulerPanel"
+    <cxf:rsClient address="http://localhost:8181/cxf/ESB/panel/servicio/schedulerPanel"
         id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.SchedulerEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -142,6 +142,7 @@
                 <when id="_when1">
                     <simple>${header.estaInicializado} == 'false'</simple>
                     <log id="_log4" message="(L144) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado} keyResultado: ${header.keyResultado}"/>
+					<to uri="direct:registraFinBD"/>
                 </when>
                 <otherwise id="_otherwise1">
                     <log id="_log5" message="(L147) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado} keyResultado: ${header.keyResultado}"/>
@@ -149,7 +150,7 @@
                     <log id="_log10" message="(L149) termina con: ${header.jsonResultado} y en el body: ${body}"/>
                 </otherwise>
             </choice>
-            <to id="_avisaTerimnaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+            <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
             <to id="_to2" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
@@ -182,13 +183,18 @@
                 <bean id="_bean4" method="getCuentaFromListaCuentas" ref="generaDatos"/>
                 <process id="_cuentasThreadProcess" ref="cuentasThread"/>
             </loop>
+			<to uri="direct:registraFinBD"/>
+        </route>
+        <!-- ================================================================================================= -->
+		<route id="_registraFinBD">
+			<from uri="direct:registraFinBD"/>
+			<log message="registraFinBD: keyResultado=${header.keyResultado} countProcesados=${header.countProcesados} countErrores=${header.countErrores} countAgregadosBD=${header.countAgregadosBD} countAgregadosAD=${header.countAgregadosAD}"/>
             <!-- actualiza los resultados en la BD y prepara la respuesta del servicio -->
             <bean id="_bean5" method="resultadosABd" ref="generaDatos"/>
             <to id="_to9" uri="sql:classpath:sql/actualizarKcoFunciones.sql?dataSource=#bannerDataSource"/>
             <to id="_to10" uri="sql:classpath:sql/actualizarMiResultado.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean6" method="procesoDiarioResponse" ref="generaDatos"/>
             <log id="_log11" message="(L190) terminando el proceso"/>
-        </route>
-        <!-- ================================================================================================= -->
+		</route>
     </camelContext>
 </blueprint>

@@ -78,7 +78,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 
 	@EndpointInject(uri = "cxfrs:bean:rsCrearCuenta?continuationTimeout=-1")
 	ProducerTemplate creaCuentaGmail;
-	String templateCreaCuentaGmail = "%s/creaCuenta";
+	String templateCreaCuentaGmail = "%s";
 
 	Integer keyResultado;
 	String mensajeError;

@@ -79,6 +79,7 @@
 					<attach>false</attach>
 				</configuration>
 			</plugin>
+			<!-- 
 			<plugin>
 				<groupId>cl.firsa.maven-plugin</groupId>
 				<artifactId>modifica-index</artifactId>
@@ -91,6 +92,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			 -->
 		</plugins>
 	</build>
 </project>
