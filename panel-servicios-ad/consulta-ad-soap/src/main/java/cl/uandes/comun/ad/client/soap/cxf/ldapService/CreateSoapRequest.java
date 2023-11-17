@@ -48,6 +48,7 @@ public class CreateSoapRequest {
 			exchange.getIn().setBody(factory.createActivarResetearPasswordRequest(request));
 		else if (operacion.equals(validarUsuario))	
 			exchange.getIn().setBody(factory.createValidarUsuarioRequest(request));
+		exchange.getIn().setHeader("operacionOrigen", operacion);
 	}
 
 	public String getActivarDesactivarUsuario() {

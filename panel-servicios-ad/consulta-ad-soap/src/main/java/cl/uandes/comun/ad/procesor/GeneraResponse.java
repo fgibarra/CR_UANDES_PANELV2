@@ -65,6 +65,16 @@ public class GeneraResponse implements Processor {
 			generaResponseValidarUsuario(soapResponse, exchange);
 		else if (operacion.equals(consultaXrut))	
 			generaResponseConsultaXrut(soapResponse, exchange);
+		else if (operacion.equalsIgnoreCase("ERROR")) {
+			Throwable ex = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Throwable.class);
+			if ("consultaXrut".equals((String)exchange.getIn().getHeader("operacionOrigen"))) {
+				ConsultaXrutResponse response2 = new ConsultaXrutResponse(-1, ex.getMessage(),null,null,null,null,null,null,null,null,null,null);
+				setInHeader(response2, exchange);
+			} else {
+				ServiciosLDAPResponse response = new ServiciosLDAPResponse(-1, ex.getMessage());
+				setInHeader(response, exchange);
+			}
+		}
 	}
 
 	private void generaResponseActivarDesactivarUsuario(Object soapResponse, Exchange exchange) {

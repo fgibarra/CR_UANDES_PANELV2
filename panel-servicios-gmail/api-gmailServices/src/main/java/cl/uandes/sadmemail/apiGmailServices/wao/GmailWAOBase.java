@@ -48,4 +48,6 @@ public interface GmailWAOBase {
 	public void deleteOwnerFromGroup(String groupName, String email) throws Exception;
 	public void unDeleteUser(String userKey) throws Exception;
 	public Users getAllUsers(String pageToken, String showDeleted) throws Exception;
+	
+	public Object reportUso(String userId) throws Exception;
 }

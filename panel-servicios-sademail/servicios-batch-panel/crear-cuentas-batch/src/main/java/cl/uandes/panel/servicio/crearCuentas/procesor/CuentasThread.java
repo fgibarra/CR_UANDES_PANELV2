@@ -22,6 +22,7 @@ import cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario;
 import cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaRequest;
 import cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaResponse;
 import cl.uandes.panel.comunes.servicios.dto.DatosCuentasBanner;
+import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 
 /**
@@ -54,6 +55,10 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 	ProducerTemplate actualizarKcoFunciones;
 	@EndpointInject(uri = "sql:classpath:sql/qryCuentaGmail.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qryCuentaGmail;
+	@EndpointInject(uri = "sql:classpath:sql/verificaHayCuentaRegistradaBD.sql?dataSource=#bannerDataSource")
+	ProducerTemplate verificaHayCuentaRegistradaBD;
+	@EndpointInject(uri = "sql:classpath:sql/updateCuentaADenBD.sql?dataSource=#bannerDataSource")
+	ProducerTemplate updateCuentaADenBD;
 	/*
 	 * @EndpointInject(uri =
 	 * "sql:classpath:sql/insertCuentaGmail.sql?dataSource=#bannerDataSource")
@@ -97,6 +102,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
+		incProcesados(message);
 		keyResultado = (Integer) message.getHeader("keyResultado");
 		Map<String, Object> headers = new HashMap<String, Object>();
 
@@ -106,13 +112,39 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 		headers.put("rut", dto.getSpridenId());
 		logger.info(String.format("rut=%s", headers.get("rut")));
 
-		defineCuentaEnAD(dto, exchange);
+		DatosKcoFunciones data = (DatosKcoFunciones)message.getHeader("DatosKcoFunciones");
+		if (data.getParametros().getForceAD())
+			defineCuentaEnAD(dto, exchange);
+		else {
+			// primero verifica que no este en la BD que la cuenta AD no haya sido creada
+			boolean hayCuentaRegistrada = hayCuentaRegistradaEnBD(dto.getSpridenId(), exchange);
+			if (!hayCuentaRegistrada)
+				defineCuentaEnAD(dto, exchange, hayCuentaRegistrada);
+		}
 
 		if (crearCuentaEnGmail(dto, exchange))
 			incAgregadosBD(message);
 	}
 
+	private boolean hayCuentaRegistradaEnBD(String spridenId, Exchange exchange) {
+		Boolean hayCuenta = Boolean.FALSE;
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("rut", spridenId);
+		@SuppressWarnings("unchecked")
+		List<Map<String,Object>> res = (List<Map<String, Object>>) verificaHayCuentaRegistradaBD.requestBodyAndHeaders(null, headers);
+		if (res != null && res.size() > 0) {
+			String valor = (String)res.get(0).get("HAY_CUENTA");
+			if (valor != null)
+				hayCuenta = Boolean.valueOf(valor);
+		}
+		logger.info(String.format("hayCuentaRegistradaEnBD: cuenta %s registrada para rut: %s",
+				hayCuenta?"":"NO", spridenId));
+		return hayCuenta;
+	}
 	private boolean defineCuentaEnAD(DatosCuentasBanner dto, Exchange exchange) {
+		return defineCuentaEnAD(dto, exchange, null);
+	}
+	private boolean defineCuentaEnAD(DatosCuentasBanner dto, Exchange exchange, Boolean hayCuentaRegistrada) {
 		boolean resultado = false;
 		Message message = exchange.getIn();
 		logger.info(
@@ -123,14 +155,39 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 		if (!"OK".equals(response.getEstado())) {
 			// NO existe cuenta en AD --> crearla
 			if (crearCuentaAD(dto)) {
+				registraCuentaADenBD(dto.getSpridenId());
 				resultado = true;
 				incAgregadosAD(message);
 			}
 		} else if ("OK".equals(response.getEstado())) {
+			if (hayCuentaRegistrada != null && !hayCuentaRegistrada)
+				// si no se detecto en la BD pero si en el AD, actualizar BD
+				logger.info(String.format("defineCuentaEnAD: no se detecto %s en la BD pero si en el AD, actualizar BD", 
+						dto.getSpridenId()));
+				registraCuentaADenBD(dto.getSpridenId());
+				
 			resultado = true;
 		}
 
 		return resultado;
+	}
+
+	private void registraCuentaADenBD(String spridenId) {
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("cuentaAD", spridenId);
+		String passwdAlma = null;
+		if (spridenId.charAt(0) == '@') {
+			passwdAlma = "00000000";
+		} else {
+			if (spridenId.length() >= 8)
+				passwdAlma = spridenId.substring(0, 8);
+			else
+				passwdAlma = spridenId;
+		}
+		headers.put("passwdAlma", passwdAlma);
+		headers.put("rut", spridenId);
+		updateCuentaADenBD.requestBodyAndHeaders(null, headers);
+		logger.info(String.format("registraCuentaADenBD: registrada cuenta %s para rut %s", spridenId, spridenId));
 	}
 
 	private boolean crearCuentaAD(DatosCuentasBanner dto) {
@@ -189,8 +246,16 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 			if (response.getCodigo() == 0) {
 				// colocar en el header los datos de la cuenta creada
 				return true;
-			} else
+			} else {
+				String msg = response.getMensaje();
+				logger.info(String.format("crearCuentaEnGmail: vuelve de API con mensaje: %s", msg));
+				if (msg.matches(".*ya existe registrada para rut.*")) {
+					// la cuenta ya esta, registrarla en BD
+					registraCuentaADenBD(dto.getSpridenId());
+					incAgregadosAD(exchange.getIn());
+				}
 				setMensajeError(response.getMensaje());
+			}
 		} catch (Exception e) {
 			logger.error("crearCuentaEnGmail", e);
 			List<String> args = new ArrayList<String>();

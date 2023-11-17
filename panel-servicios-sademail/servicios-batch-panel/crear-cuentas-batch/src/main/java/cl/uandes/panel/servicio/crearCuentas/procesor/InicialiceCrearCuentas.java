@@ -65,6 +65,7 @@ public class InicialiceCrearCuentas extends cl.uandes.panel.comunes.utils.Regist
 			
 			logger.info(String.format("estaInicializado: %s keyResultado: %d", 
 					headers.get("estaInicializado"), headers.get("keyResultado")));
+			actualizaInicio(data.getKey());
 			return;
 		}
 		throw new KcoFuncionesException("No pudo recuperar datos desde tabla KCO_FUNCIONES");

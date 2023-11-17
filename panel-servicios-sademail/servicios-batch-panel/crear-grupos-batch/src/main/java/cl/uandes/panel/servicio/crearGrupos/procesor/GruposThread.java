@@ -72,7 +72,7 @@ public class GruposThread implements Processor {
 	String templateCreateGrupoGmail = "%s/group/create";
 	@EndpointInject(uri = "cxfrs:bean:rsRetrieveGrupo?continuationTimeout=-1")
 	ProducerTemplate recuperaGrupoGmail;
-	String templateRecuperaGrupoGmail = "%s/group/retrieve?groupId=%s";
+	String templateRecuperaGrupoGmail = "%s/group/retrieve/%s";
 
 	@EndpointInject(uri = "cxfrs:bean:rsSacarMember?continuationTimeout=-1")
 	//	@EndpointInject(uri = "direct:testSacarMember")
@@ -240,10 +240,10 @@ public class GruposThread implements Processor {
 		logger.info(String.format("existeEnGmail: GroupResponse: %s", res));
 		if (res.getCodigo() == 0)
 			return true;
-		if (res.getMensaje().matches(".*Invalid object identifier*"))
+		if (res.getMensaje() != null && res.getMensaje().matches(".*No se pudo recuperar.*"))
 			return false;
 		logger.info(String.format("existeEnGmail por codigo %b por msg %b",
-				res.getCodigo() == 0, res.getMensaje().matches(".*Invalid object identifier*")));
+				res.getCodigo() == 0, res.getMensaje()!=null && res.getMensaje().matches(".*Invalid object identifier*")));
 		throw new RuntimeException(res.getMensaje());
 	}
 	

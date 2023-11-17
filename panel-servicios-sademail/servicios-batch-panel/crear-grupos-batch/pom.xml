@@ -17,7 +17,7 @@
   		<artifactId>comunes-gmail</artifactId>
   		<version>0.0.1</version>
   		<scope>system</scope>
-  		<systemPath>/home/fernando/CodeReady/UANDES/PANELV2/panel-comunes/comunes-gmail/target/comunes-gmail-0.0.1.jar</systemPath>
+  		<systemPath>/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-gmail/target/comunes-gmail-0.0.1.jar</systemPath>
   	</dependency>
   </dependencies>
 	<build>
@@ -51,10 +51,10 @@
 							org.osgi.service.blueprint;version="[1.0.0,2.0.0)"
 						</Import-Package>
 						<Dynamic-Imports>*</Dynamic-Imports>
-						<Bundle-Description>Crear grupos Azure</Bundle-Description>
-						<Bundle-Name>Crear grupos Azure v1.0</Bundle-Name>
-						<Bundle-SymbolicName>crear-grupos-azure-v1</Bundle-SymbolicName>
-						<Bundle-Name>Panel [crear-grupos-azure-v1]</Bundle-Name>
+						<Bundle-Description>Crear grupos Gmail</Bundle-Description>
+						<Bundle-Name>Crear grupos Gmail v1.0</Bundle-Name>
+						<Bundle-SymbolicName>crear-grupos-gmail-v1</Bundle-SymbolicName>
+						<Bundle-Name>Panel [crear-grupos-gmail-v1]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>

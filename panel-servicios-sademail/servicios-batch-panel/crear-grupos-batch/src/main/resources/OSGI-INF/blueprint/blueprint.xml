@@ -92,7 +92,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panel/servicio/schedulerPanel"
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
         id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.SchedulerEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>

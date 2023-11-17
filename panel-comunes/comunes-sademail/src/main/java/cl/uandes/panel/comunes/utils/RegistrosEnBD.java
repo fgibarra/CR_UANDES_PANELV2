@@ -92,4 +92,10 @@ public abstract class RegistrosEnBD {
 		headers.put("KEY_RESULTADO", ObjectFactory.toBigDecimal(keyResultado));
 		insertMiResultadoErrores().requestBodyAndHeaders(null, headers);
 	}
+	
+	public void actualizaInicio(Integer keyKcoFunciones) {
+		Map<String,Object> headers = new HashMap<String,Object>();
+		headers.put("key", ObjectFactory.toBigDecimal(keyKcoFunciones));
+		actualizarKcoFunciones().requestBodyAndHeaders(null, headers);
+	}
 }

@@ -57,7 +57,7 @@ public class CreateSoapRequest {
 		String envelop = String.format(template, usr);
 		logger.info(String.format("envelop: %s", envelop));
 		exchange.getIn().setBody(envelop);
-		
+		exchange.getIn().setHeader("operacionOrigen", "consultaXrut");
 	}
 
 	public String getOperationName() {

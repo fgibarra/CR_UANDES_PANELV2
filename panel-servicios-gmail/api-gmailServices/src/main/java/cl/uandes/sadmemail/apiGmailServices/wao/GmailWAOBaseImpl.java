@@ -632,8 +632,11 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			logger.info("retrieveGroup: grupo="+(grupo != null ? "NO ":"")+"es NULO");
 			return grupo;
 		} catch (Exception e) {
+			//logger.info(String.format("error: %s : %s",e.getClass().getName(), e.getMessage()));
 			if (e instanceof com.google.api.client.googleapis.json.GoogleJsonResponseException) {
-				if (analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e) > 5) {
+				int level = analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e);
+				//logger.info(String.format("level=%d", level));
+				if (level > 5) {
 					logger.error("retrieveGroup",e);
 					throw e;
 				}
@@ -661,6 +664,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 					logger.error("retrieveGroupSettings",e);
 					throw e;
 				}
+				logger.info(String.format("error: %s", e.getMessage()));
 				return null;
 			}
 			logger.error("retrieveGroupSettings", e);
@@ -998,4 +1002,11 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			throw e;
 		}
 	}
+	
+	@Override
+	public Object reportUso(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

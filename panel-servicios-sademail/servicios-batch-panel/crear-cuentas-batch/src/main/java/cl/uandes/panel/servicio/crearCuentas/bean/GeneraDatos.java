@@ -10,11 +10,11 @@ import org.apache.camel.Message;
 import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
-import cl.uandes.panel.comunes.servicios.dto.DatosCuentasBanner;
-import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
+import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
-import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
+import cl.uandes.panel.comunes.servicios.dto.DatosCuentasBanner;
+import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 
 /**
  * Multiples metodos usados en las rutas Camel del proceso
@@ -28,7 +28,7 @@ public class GeneraDatos {
     @PropertyInject(value = "crear-cuentas-gmail.kco-funcion", defaultValue="crear_cuentas")
 	private String kcoFuncion;
 	private final String tiposCuenta[] = {"Alumnos"};
-	
+
 	private Logger logger = Logger.getLogger(getClass());
 	
 	public void getKcoFuncion(Exchange exchange) {
@@ -80,6 +80,7 @@ public class GeneraDatos {
 		logger.info(String.format("procesoDiarioResponse: response: %s", response));
 		message.setBody(response);
 	}
+	
 	/* ==========================================================================================================
 	 * Para probar offline
 	 * 

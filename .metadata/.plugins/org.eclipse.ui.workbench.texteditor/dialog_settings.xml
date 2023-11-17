@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="templateRecuperaGrupoGmail"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="templateRecuperaGrupoGmail"/>
+			<item value="rsFinProceso"/>
+			<item value="incProcesados"/>
+			<item value="actualizaHoraTermino"/>
+			<item value="actualizarKcoFunciones"/>
+			<item value="updateMiCuentasGmail"/>
+			<item value="getIdsMiembroGrupos"/>
+			<item value="creaMiResultado"/>
+			<item value="qryCuentaGmail"/>
 			<item value="CrearGr"/>
 			<item value="message="/>
 			<item value="azure"/>
 			<item value="-azure"/>
 			<item value="deleteNap"/>
 			<item value="member-deleteMember"/>
-			<item value="Azure"/>
-			<item value="sevicioCrearCuenta"/>
-			<item value="CuentasAzure"/>
-			<item value="GruposAzure"/>
-			<item value="id=&quot;_to"/>
-			<item value="members-retreiveMembers"/>
-			<item value="${header.crearCuentas.size"/>
-			<item value="_generaRespuestaOK"/>
-			<item value="_generaRespuestaOK."/>
 		</list>
 		<list key="replacehistory">
 			<item value="Gmail"/>

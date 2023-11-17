@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.camel.PropertyInject;
 import org.apache.cxf.binding.soap.Soap11;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
@@ -23,6 +24,8 @@ import org.apache.log4j.Logger;
  */
 public class CxfHeaderOutInterceptor extends AbstractSoapInterceptor {
 
+	@PropertyInject(value = "servicios-ad.debug", defaultValue = "false")
+	private String debug;
 	private Logger logger = Logger.getLogger(getClass());
 	
 	public CxfHeaderOutInterceptor() {
@@ -32,15 +35,18 @@ public class CxfHeaderOutInterceptor extends AbstractSoapInterceptor {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleMessage(SoapMessage message) throws Fault {
-		logger.info("Entrando a CxfHeaderOutInterceptor");
+		if (Boolean.valueOf(getDebug()))
+			logger.info("Entrando a CxfHeaderOutInterceptor");
 		if (message.getVersion() instanceof Soap11) {
             Map<String, List<String>> headers = CastUtils.cast((Map)message.get(Message.PROTOCOL_HEADERS));
-            dump (headers, "antes");
+            if (Boolean.valueOf(getDebug()))
+            	dump (headers, "antes");
             if (headers != null) {
             	List<String> sa = headers.get("SOAPAction");
             	if (sa == null) {
             		headers.put("SOAPAction", Arrays.asList("urn:WSLDAPUANDES#consulta"));
-                    dump (headers, "despues");
+            		if (Boolean.valueOf(getDebug()))
+            			dump (headers, "despues");
             	}
             }
 		}
@@ -59,6 +65,14 @@ public class CxfHeaderOutInterceptor extends AbstractSoapInterceptor {
 			sb.append("\n");
 			logger.info(sb.toString());
 		}		
+	}
+
+	public String getDebug() {
+		return debug;
+	}
+
+	public void setDebug(String debug) {
+		this.debug = debug;
 	}
 
 }

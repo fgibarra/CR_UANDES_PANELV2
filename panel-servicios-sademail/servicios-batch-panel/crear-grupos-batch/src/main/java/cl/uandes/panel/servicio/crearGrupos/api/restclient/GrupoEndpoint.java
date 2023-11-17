@@ -48,7 +48,7 @@ public interface GrupoEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/group/retrieve/{groupName}")
-	public GroupResponse retrieveGroup(@QueryParam("groupName")String in_msg);
+	public GroupResponse retrieveGroup(@PathParam("groupName")String in_msg);
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

@@ -28,6 +28,8 @@ public class ParametrosCrearGrupos implements Serializable {
 	private Integer periodo;
 	@JsonProperty("fuente")
 	private String fuente;
+	@JsonProperty("force_ad")
+	private Boolean forceAD;
 
 	public ParametrosCrearGrupos(String buffer) {
 		super();
@@ -42,10 +44,18 @@ public class ParametrosCrearGrupos implements Serializable {
 		valor = parser.getValue("year");
 		if (valor != null)
 			this.year = Integer.valueOf(valor);
+		
 		valor = parser.getValue("periodo");
 		if (valor != null)
 			this.periodo = Integer.valueOf(valor);
+		
 		this.fuente = parser.getValue("fuente");
+		
+		valor = parser.getValue("forceAD");
+		if (valor != null)
+			this.forceAD = Boolean.valueOf(valor);
+		else
+			this.forceAD = Boolean.FALSE;
 	}
 
 	@Override
@@ -90,6 +100,14 @@ public class ParametrosCrearGrupos implements Serializable {
 
 	public void setFuente(String fuente) {
 		this.fuente = fuente;
+	}
+
+	public Boolean getForceAD() {
+		return forceAD;
+	}
+
+	public void setForceAD(Boolean forceAD) {
+		this.forceAD = forceAD;
 	}
 
 }
