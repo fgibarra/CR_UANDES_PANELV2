@@ -9,6 +9,8 @@ import javax.ws.rs.core.Response;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
+import org.apache.camel.Message;
+import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
@@ -26,6 +28,8 @@ import cl.uandes.panel.comunes.servicios.dto.GruposMiUandes;
 public class GeneraDatos {
 
 	Logger logger = Logger.getLogger(getClass());
+    @PropertyInject(value = "crear-grupos-gmail.numero-pruebas", defaultValue="-1")
+    String propNumberPrueba;
 
 
 	public void getListaOperaciones(Exchange exchange) {
@@ -40,10 +44,15 @@ public class GeneraDatos {
 	public void factoryGrupos(Exchange exchange) {
 		@SuppressWarnings("unchecked")
 		List<Map<String,Object>> listaRecuperada = (List<Map<String,Object>>)exchange.getIn().getBody();
-		logger.info(String.format("factoryGrupos: recuperados %d grupos", listaRecuperada!=null?listaRecuperada.size():0));
+		int numberPrueba = Integer.valueOf(propNumberPrueba);
+		logger.info(String.format("factoryGrupos: recuperados %d grupos; para probar %d",
+				listaRecuperada!=null?listaRecuperada.size():0, numberPrueba));
 		List<GruposMiUandes> listaGrupos = new ArrayList<GruposMiUandes>();
-		for (Map<String,Object> map : listaRecuperada)
+		for (Map<String,Object> map : listaRecuperada) {
 			listaGrupos.add(new GruposMiUandes(map));
+			if (--numberPrueba == 0)
+				break;
+		}
 		exchange.getIn().setHeader("listaGrupos", listaGrupos);
 	}
 	
@@ -114,5 +123,13 @@ public class GeneraDatos {
 	public void testDeleteGrupoGmail(Exchange exchange) {
 		Response response = Response.noContent().status(200).build();
 		exchange.getIn().setBody(response);
+	}
+
+	public String getPropNumberPrueba() {
+		return propNumberPrueba;
+	}
+
+	public void setPropNumberPrueba(String propNumberPrueba) {
+		this.propNumberPrueba = propNumberPrueba;
 	}
 }

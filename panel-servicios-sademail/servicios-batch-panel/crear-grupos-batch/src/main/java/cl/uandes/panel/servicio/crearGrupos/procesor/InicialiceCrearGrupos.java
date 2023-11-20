@@ -81,12 +81,6 @@ public class InicialiceCrearGrupos implements Processor {
 		}
 	}
 	
-	public void actualizaResultado(Exchange exchange) {
-		
-		// actualiza los grupos y miembros solicitados
-		
-		
-	}
 /*
         try {
             Date horaPatida = new Date();

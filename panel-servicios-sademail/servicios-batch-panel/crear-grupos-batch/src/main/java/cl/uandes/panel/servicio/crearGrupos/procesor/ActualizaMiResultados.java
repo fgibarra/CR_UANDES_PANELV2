@@ -19,7 +19,7 @@ import cl.uandes.panel.comunes.utils.ObjectFactory;
 
 public class ActualizaMiResultados implements Processor {
 
-    @PropertyInject(value = "crear-grupos-azure.uri-serviciosPanel", defaultValue="http://localhost:8181/cxf/ESB/panel/servicio/")
+    @PropertyInject(value = "scheduler.uri-serviciosBatch", defaultValue="http://localhost:8181/cxf/ESB/panel/servicioBatch")
 	private String panelServices;
 	
 	@EndpointInject(uri = "sql:classpath:sql/updateMiResultado.sql?dataSource=#bannerDataSource")

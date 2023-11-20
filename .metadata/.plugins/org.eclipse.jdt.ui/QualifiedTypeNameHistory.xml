@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="javax.ws.rs.GET"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.EliminaSuspendeCuentaRequest"/>
-    <fullyQualifiedTypeName name="java.util.Arrays"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.apiEliminaSuspendeCuentaServices.dto.DatosLeidosRecrearDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserRequest"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
     <fullyQualifiedTypeName name="org.eclipse.jetty.util.log.Logger"/>
@@ -36,7 +31,6 @@
     <fullyQualifiedTypeName name="javax.ws.rs.Consumes"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sincronizaGrupos.SincronizaGruposResponse"/>
     <fullyQualifiedTypeName name="javax.ws.rs.POST"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
@@ -60,4 +54,10 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.ReportResponse"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.GroupResponse"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
+    <fullyQualifiedTypeName name="javax.ws.rs.core.Response.Status"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.servicio.crearGrupos.api.resources.CrearGruposRestService"/>
 </qualifiedTypeNameHistroy>

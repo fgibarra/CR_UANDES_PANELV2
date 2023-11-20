@@ -318,12 +318,12 @@ public class GeneraResponse implements Processor {
 
 		} else if ("group-delete".equals(operacion)) {
 			String groupName = (String)exchange.getIn().getHeader("Body");
-			GroupResponse response =  null;
+			Response response =  null;
 			try {
 				wao.deleteGroup(groupName);
-				response = new GroupResponse(0, "OK", null);
+				response = Response.status(Response.Status.OK).build();
 			} catch (Exception e) {
-				response = new GroupResponse(-1, e.getMessage(), null);
+				response = Response.noContent().status(500, e.getMessage()).build();
 			}
 			exchange.getIn().setBody(response);
 			
@@ -332,7 +332,7 @@ public class GeneraResponse implements Processor {
 			Response response = null;
 			try {
 				Boolean es = wao.isOwner(req.getGroupName(), req.getEmail());
-				Response.status(Response.Status.OK).entity(String.format("%b",es)).build();
+				response = Response.status(Response.Status.OK).entity(String.format("%b",es)).build();
 			} catch (Exception e) {
 				response = Response.status(Response.Status.BAD_REQUEST).build();
 			}
@@ -446,6 +446,7 @@ public class GeneraResponse implements Processor {
 			} catch (Exception e) {
 				response = new ReportResponse( -1, e.getMessage(), null);
 			}
+			exchange.getIn().setBody(response);
 		}
 	}
 

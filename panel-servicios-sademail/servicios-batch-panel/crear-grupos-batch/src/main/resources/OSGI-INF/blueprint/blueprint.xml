@@ -20,7 +20,7 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF clients -->
     <cxf:rsClient
-        address="http://localhost:8181/cxf//ESB/panel/gmailServices/groups/retrieve/{groupname}"
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/group/retrieve/{groupname}"
         id="rsRetrieveGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -32,7 +32,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/group/create"
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/group/create"
         id="rsCreateGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -44,7 +44,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/group/delete"
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/group/delete"
         id="rsDeleteGrupo" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -56,7 +56,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/member/addMember"
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/addMember"
         id="rsAgregarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -68,7 +68,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/member/deleteMember"
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/deleteMember"
         id="rsSacarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -80,7 +80,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8180/apigraph/ESB/panelV3/azureServices/idCuentaUsuario"
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/idCuentaUsuario"
         id="rsConsultarIdCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -126,10 +126,12 @@
         class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposVigentesPosgradoThread" id="gruposVigentesPosgradoThread"/>
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposSinMiembrosThread" id="gruposSinMiembros">
-        <property name="azureServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
+        <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
         <property name="delegate" ref="gruposThread"/>
     </bean>
-    <bean class="cl.uandes.panel.servicio.crearGrupos.bean.GeneraDatos" id="generaDatos"/>
+    <bean class="cl.uandes.panel.servicio.crearGrupos.bean.GeneraDatos" id="generaDatos">
+        <property name="propNumberPrueba" value="{{crear-grupos-gmail.numero-pruebas}}"/>
+    </bean>
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.ActualizaMiResultados" id="actualizaMiResultados">
         <property name="panelServices" value="{{crear-grupos-gmail.uri-serviciosPanel}}"/>
@@ -196,7 +198,7 @@
                         <to id="_to2" uri="direct:crearGruposVigentes"/>
                     </when>
                     <when id="_when3">
-                        <simple>${header.proceso} == 'grupos_inprogress_posgrado'</simple>
+                        <simple>${header.proceso} == 'grupos_inprogress_postgrado'</simple>
                         <setHeader headerName="emailPermission" id="_setHeader4">
                             <constant>Owner</constant>
                         </setHeader>
@@ -259,9 +261,26 @@
         <route id="_eliminarGruposSinMiembrosRoute">
             <from id="_from3" uri="direct:eliminarGruposSinMiembros"/>
             <log id="_log18" message="(L262)eliminar members no activos y no creados: sql/deleteNoActivosNocreados.sql"/>
-            <to id="_to21" uri="sql:classpath:sql/deleteNoActivosNocreados.sql?dataSource=#bannerDataSource"/>
+			<to uri="sql:classpath:sql/deleteNoActivosNocreados.sql?dataSource=#bannerDataSource"/>
             <log id="_log18" message="(L264)eliminarGruposSinMiembros: sql/getGruposSinMiembros.sql"/>
-            <to id="_to18" uri="sql:classpath:sql/getGruposSinMiembros.sql?dataSource=#bannerDataSource"/>
+                <choice>
+                    <when>
+                        <simple>${header.proceso} == 'crear_grupos'</simple>
+                        <to uri="sql:classpath:sql/getGruposSinMiembrosRegulares.sql?dataSource=#bannerDataSource"/>
+                    </when>
+                    <when>
+                        <simple>${header.proceso} == 'grupos_inprogress'</simple>
+                        <to uri="sql:classpath:sql/getGruposSinMiembrosVigentes.sql?dataSource=#bannerDataSource"/>
+                    </when>
+                    <when>
+                        <simple>${header.proceso} == 'grupos_inprogress_postgrado'</simple>
+                        <to uri="sql:classpath:sql/getGruposSinMiembrosPosgrado.sql?dataSource=#bannerDataSource"/>
+                    </when>
+                    <otherwise>
+                        <log message="(L209)Operacion desconocida"/>
+                        <bean method="setOperacionDesconocida" ref="restService"/>
+                    </otherwise>
+                </choice>
             <bean id="_bean13" method="factoryGrupos" ref="generaDatos"/>
             <process id="_process1" ref="gruposSinMiembros"/>
         </route>
@@ -306,7 +325,7 @@
             <loop doWhile="true" id="_loop2">
                 <simple>${header.listaGrupos.size} &gt; 0</simple>
                 <bean id="_bean7" method="getGrupoFromListaGrupos" ref="generaDatos"/>
-                <log id="_log16" message="(L310)el grupo a proicesar: ${header.grupoGmail}"/>
+                <log id="_log16" message="(L310)el grupo a procesar: ${header.grupoGmail}"/>
                 <process id="_process2" ref="gruposThread"/>
             </loop>
         </route>

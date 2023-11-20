@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
+import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.PropertyInject;
@@ -19,8 +20,6 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupRequest;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupResponse;
-import cl.uandes.panel.comunes.json.batch.crearGrupos.IdCuentaCorreoResponse;
-import cl.uandes.panel.comunes.json.batch.crearGrupos.MemberRequest;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.MemberResponse;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
@@ -28,6 +27,7 @@ import cl.uandes.panel.comunes.servicios.dto.GruposMiUandes;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.panel.servicio.crearGrupos.api.dto.DatosMemeberDTO;
+import cl.uandes.panel.servicio.crearGrupos.api.resources.CrearGruposRestService;
 /**
  * Ruta que procesa la lista de grupos PREGRADO recuperados desde la BD
  * @author fernando
@@ -65,7 +65,12 @@ public class GruposThread implements Processor {
 	@EndpointInject(uri = "sql:classpath:sql/updateMiGruposMiUandes.sql?dataSource=#bannerDataSource")
 	ProducerTemplate updateMiGruposMiUandes;
 
-		
+	@EndpointInject(uri = "sql:classpath:sql/updateIdGrupo.sql?dataSource=#bannerDataSource")
+	ProducerTemplate updateIdGrupo;
+	
+	@EndpointInject(uri = "sql:classpath:sql/updateIdGrupo.sql?dataSource=#bannerDataSource")
+	ProducerTemplate updateOrigenGrupo;
+	
 	@EndpointInject(uri = "cxfrs:bean:rsCreateGrupo?continuationTimeout=-1")
 	//	@EndpointInject(uri = "direct:testCreateGrupoGmail")
 	ProducerTemplate createGrupoGmail;
@@ -103,13 +108,35 @@ public class GruposThread implements Processor {
 		logger.info(String.format("GruposThread: res: %s", res));
 		GruposMiUandes grupo = (GruposMiUandes)exchange.getIn().getHeader("grupoGmail");
 		logger.info(String.format("GruposThread: grupo |%s|", grupo));
-		contadores.incCountProcesados();
-		
-		if (crearGrupo(exchange, grupo, res)) {
-			sacarMiembrosInactivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()));
-			agregarMiembrosActivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()));
+		if (grupo != null) {
+			contadores.incCountProcesados();
+			
+			actualizaOrigen(grupo, exchange);
+			
+			if (crearGrupo(exchange, grupo, res)) {
+				sacarMiembrosInactivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()));
+				agregarMiembrosActivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()));
+			}
 		}
 	}
+	
+	private void actualizaOrigen(GruposMiUandes grupo, Exchange exchange) {
+		String proceso = (String)exchange.getIn().getHeader("proceso");
+		Map<String, Object> headers = new HashMap<String, Object>();
+		if (CrearGruposRestService.procesosValidos[1].equals(proceso)) {
+			headers.put("origen", "VIGENTES");
+			if (grupo.getOrigen() != null)
+				return;
+		} else if (CrearGruposRestService.procesosValidos[2].equals(proceso)) {
+			headers.put("origen", "POSGRADO");
+			if (grupo.getOrigen() != null)
+				return;
+		} else
+			return;
+		headers.put("key", ObjectFactory.toBigDecimal(grupo.getKey()));
+		updateOrigenGrupo.requestBodyAndHeaders(null, headers);
+	}
+	
 	/**
 	 * Si en MI_GRUPOS_AZURE indica que no esta creado en Gmail, crearlo
 	 * en caso contrario
@@ -118,7 +145,8 @@ public class GruposThread implements Processor {
 	 * @return
 	 */
 	private boolean crearGrupo(Exchange exchange, GruposMiUandes grupo, ResultadoFuncion miResultado) {
-		Map<String,Object> headers = exchange.getIn().getHeaders();
+		Message message = exchange.getIn();
+		Map<String,Object> headers = message.getHeaders();
 		logger.info(String.format("crearGrupo: hay que crear? grupo.getCreadoGmail().booleanValue(): %b", grupo.getCreadoGmail().booleanValue()));
 		if (!grupo.getCreadoGmail().booleanValue()) {
 			/* validar que efectivamente no este creado. 
@@ -126,7 +154,7 @@ public class GruposThread implements Processor {
 			 * Si no crearlo
 			 */
 			try {
-				if (!existeEnGmail(grupo)) {
+				if (!existeEnGmail(grupo, message)) {
 					/* crearlo en Gmail
 					 * Si resulta OK:
 					 * 		actualizar flag de creado en file en MI_GRUPOS_AZURE
@@ -138,6 +166,8 @@ public class GruposThread implements Processor {
 					headers.put("CamelHttpMethod", "POST");
 					GroupResponse res;
 					try {
+						logger.info(String.format("crearGrupo: crear grupo %s templateCreateGrupoGmail=%s" ,
+								body, templateCreateGrupoGmail));
 						res = (GroupResponse)ObjectFactory.procesaResponseImpl((ResponseImpl) createGrupoGmail.requestBodyAndHeaders(body, headers), GroupResponse.class);
 						contadores.incCountGruposAgregadosAD();
 					} catch (Exception e) {
@@ -191,7 +221,8 @@ public class GruposThread implements Processor {
 			 * Si no existe --> crearlo
 			 * incrementar contador de grupos actualizados
 			 */
-			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateRecuperaGrupoGmail, getGmailServices(), grupo.getGroupId()));
+			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateRecuperaGrupoGmail, 
+					getGmailServices(), grupo.getGroupName()));
 			headers.put("CamelHttpMethod", "GET");
 			GroupResponse res;
 			try {
@@ -220,6 +251,14 @@ public class GruposThread implements Processor {
 					registraError("recuperaGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
 					return false;
 				}
+			} else {			
+
+				// validar que el id registrado en la BD sea el mismo que el de GMAIL
+				String groupId = res.getGrupo().getId();
+				if (!groupId.equals(grupo.getGroupId())) {
+					// en BD no esta ID de GMAIL
+					actualizaIdEnBD(groupId, grupo.getKey(), message);
+				}
 			}
 			// incrementar contador
 			incrementa.requestBodyAndHeaders(null, headers);
@@ -228,23 +267,36 @@ public class GruposThread implements Processor {
 		return true;
 	}
 	
-	private boolean existeEnGmail(GruposMiUandes grupo) throws Exception {
-		if (grupo.getGroupId() == null)
+	private boolean existeEnGmail(GruposMiUandes grupo, Message message) throws Exception {
+		if (grupo.getGroupName() == null)
 			return false;
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateRecuperaGrupoGmail, getGmailServices(), 
-				ObjectFactory.escape2Html(grupo.getGroupId())));
+				ObjectFactory.escape2Html(grupo.getGroupName())));
 		headers.put("CamelHttpMethod", "GET");
 		GroupResponse res = (GroupResponse) ObjectFactory.procesaResponseImpl(
 				(ResponseImpl)recuperaGrupoGmail.requestBodyAndHeaders(null, headers), GroupResponse.class);
 		logger.info(String.format("existeEnGmail: GroupResponse: %s", res));
-		if (res.getCodigo() == 0)
+		if (res.getCodigo() == 0) {
+			String groupId = res.getGrupo().getId();
+			if (!groupId.equals(grupo.getGroupId())) {
+				// en BD no esta ID de GMAIL
+				actualizaIdEnBD(groupId, grupo.getKey(), message);
+			}
 			return true;
+		}
 		if (res.getMensaje() != null && res.getMensaje().matches(".*No se pudo recuperar.*"))
 			return false;
 		logger.info(String.format("existeEnGmail por codigo %b por msg %b",
 				res.getCodigo() == 0, res.getMensaje()!=null && res.getMensaje().matches(".*Invalid object identifier*")));
 		throw new RuntimeException(res.getMensaje());
+	}
+	
+	private void actualizaIdEnBD(String groupId, Integer key, Message message) {
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("idGrupo", groupId);
+		headers.put("keyGrupo", ObjectFactory.toBigDecimal(key));
+		updateIdGrupo.requestBodyAndHeaders(null, headers);
 	}
 	
 	private void operaContador(String idContador, BigDecimal key) {
@@ -291,7 +343,7 @@ public class GruposThread implements Processor {
 		for (DatosMemeberDTO datos : miembrosSacar) {
 			logger.info(String.format("sacarMiembrosInactivos:datos: %s", datos));
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateSacarMember,getGmailServices()));
-			headers.put("CamelHttpMethod", "DELETE");
+			headers.put("CamelHttpMethod", "POST");
 			Response response = (Response) sacarMember.requestBodyAndHeaders(datos.getRequest(), headers);
 			if (response.getStatus() < 300) {
 				headers.put("idMiembro", datos.getKeyGrupoMiembro().getIdMiembro());
@@ -348,64 +400,11 @@ public class GruposThread implements Processor {
 		List<DatosMemeberDTO> lista = new ArrayList<DatosMemeberDTO>();
 		for (Map<String, Object> map : data) {
 			DatosMemeberDTO dto = new DatosMemeberDTO(map);
-			if (!dto.hayIdGmail()) {
-				// La cuenta en MI_CUENTAS_AZURE no tiene su ID Gmail
-				String idCuentaMail = recuperarIdCuentaMail(dto);
-				if (idCuentaMail != null) {
-					String groupId = dto.getRequest().getGroupId();
-					dto.setRequest(new MemberRequest(groupId, idCuentaMail));
-				} else {
-					/*
-					 * debe registrar en MI_RESULTADO_ERRORES los datos de la cuenta a la que no se le pudo recuperar o
-					 * actualizar el ID en MI_CUENTAS_AZURE
-					 */
-					registraError("actualiza-id-cuenta", dto.getMsgError(), new BigDecimal(res.getKey()), dto);
-					continue; // no se puede agregar este miembro
-				}
-			}
 			lista.add(dto);
 		}
 		return lista;
 	}
-	
-	private String recuperarIdCuentaMail(DatosMemeberDTO dto) {
-		/*
-		 * debe recuperar el ID desde Gmail con la cuenta de correo
-		 * actualizar tabla MI_CUENTAS_AZURE
-		 * devolver ese ID si todo sale OK
-		 */
-		String url = String.format(templateConsultarIdCuenta, 
-				getGmailServices(), String.format("%s@%s", dto.getLoginName(), getDominio()));
-		Map<String,Object> headers = new HashMap<String,Object>();
-		headers.put(Exchange.DESTINATION_OVERRIDE_URL, url);
-		headers.put("CamelHttpMethod", "GET");
-		IdCuentaCorreoResponse response = null;
-		try {
-			response = (IdCuentaCorreoResponse)consultarIdCuenta.requestBody(null);
-		} catch (Exception e) {
-			logger.error(String.format("Error al invocar url %s", url), e);
-			dto.setMsgError(String.format("Error al consultar id de cuenta a AZURE: %s", e.getMessage()));
-		}
-		if (response != null) {
-			if (response.getCodigo() != 0) {
-				dto.setMsgError(response.getMensaje());
-				return null;
-			}
-		} else {
-			if (dto.getMsgError() == null)
-				dto.setMsgError("No pudo consultar id de cuenta a AZURE");
-			return null;
-		}
-		// actualizar este id en MI_CUENTAS_AZURE
-		headers.clear();
-		headers.put("idCuenta", response.getIdCuenta());
-		headers.put("rut", dto.getKeyGrupoMiembro().getIdMiembro());
-		logger.info(String.format("actualizar MI_CUENTAS_AZURE: %s,%s", 
-				headers.get("idCuenta"), headers.get("rut")));
-		updateMiCuentasGmail.requestBodyAndHeaders(null, headers);
-		return response.getIdCuenta();
-	}
-	
+
 	public void registraError(String tipo, String mensaje, BigDecimal keyResultado, DatosMemeberDTO datos) {
 		logger.info(String.format("registraError: tipo=%s mensaje=%s keyResultado=%d DatosMemeberDTO=%s",
 				tipo, mensaje, keyResultado.intValue(), datos));

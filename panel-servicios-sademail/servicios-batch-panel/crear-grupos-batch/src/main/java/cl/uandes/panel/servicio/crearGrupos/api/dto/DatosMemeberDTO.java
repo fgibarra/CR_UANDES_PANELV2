@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import cl.uandes.panel.comunes.json.batch.crearGrupos.MemberRequest;
+import cl.uandes.sadmemail.comunes.gmail.json.MemberRequest;
 import cl.uandes.panel.comunes.servicios.dto.GrupoMiembro;
 
 /**
@@ -28,16 +28,20 @@ public class DatosMemeberDTO implements Serializable {
 	private GrupoMiembro keyGrupoMiembro;
 	@JsonProperty("loginName")
 	private String loginName;
+	@JsonProperty("ig_gmail")
+	private String idGmail;
+	@JsonProperty("MOODLE_ID")
+	private String userId;
 	@JsonProperty("msgError")
 	private String msgError;
 	
 	public DatosMemeberDTO(Map<String, Object> datos) {
 		super();
-		String groupId = (String) datos.get("GROUP_ID");
-		String userId = (String) datos.get("ID_AZURE");
-		this.request = new MemberRequest(groupId, userId);
-		this.keyGrupoMiembro = new GrupoMiembro(datos);
+		String groupId = (String) datos.get("GROUP_NAME");
+		this.userId = (String) datos.get("MOODLE_ID");
 		this.loginName = (String)datos.get("LOGIN_NAME");
+		this.request = new MemberRequest(groupId, loginName);
+		this.keyGrupoMiembro = new GrupoMiembro(datos);
 	}
 
 	@Override
@@ -68,10 +72,6 @@ public class DatosMemeberDTO implements Serializable {
 		this.keyGrupoMiembro = keyGrupoMiembro;
 	}
 
-	public boolean hayIdGmail() {
-		return request.getUserId() != null;
-	}
-
 	public String getLoginName() {
 		return loginName;
 	}
@@ -86,6 +86,22 @@ public class DatosMemeberDTO implements Serializable {
 
 	public void setMsgError(String msgError) {
 		this.msgError = msgError;
+	}
+
+	public String getIdGmail() {
+		return idGmail;
+	}
+
+	public void setIdGmail(String idGmail) {
+		this.idGmail = idGmail;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }

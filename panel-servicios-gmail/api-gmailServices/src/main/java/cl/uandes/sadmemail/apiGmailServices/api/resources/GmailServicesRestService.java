@@ -335,7 +335,7 @@ public class GmailServicesRestService {
 		return (Response) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 	
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/member/isOwner")
@@ -348,7 +348,7 @@ public class GmailServicesRestService {
 		return (Response) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 	
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/member/isMember")
@@ -421,7 +421,7 @@ public class GmailServicesRestService {
 		return (MembersResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 	
-	@DELETE
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/member/deleteMember")
@@ -434,7 +434,7 @@ public class GmailServicesRestService {
 		return (Response) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 	
-	@DELETE
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/member/deleteOwner")

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="templateRecuperaGrupoGmail"/>
+		<item key="selection" value="setOperacionDesconocida"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="setOperacionDesconocida"/>
+			<item value="gruposSinMiembros"/>
+			<item value="Response."/>
+			<item value="azure"/>
+			<item value="rsDeleteGrupo"/>
+			<item value="templateAgregarMember"/>
+			<item value="DELETE"/>
+			<item value="direct:crearGrupos"/>
+			<item value="prd_"/>
+			<item value="updateIdGrupo"/>
+			<item value="direct:procesaGrupos"/>
+			<item value="idCuentaUsuario"/>
 			<item value="templateRecuperaGrupoGmail"/>
 			<item value="rsFinProceso"/>
 			<item value="incProcesados"/>
-			<item value="actualizaHoraTermino"/>
-			<item value="actualizarKcoFunciones"/>
-			<item value="updateMiCuentasGmail"/>
-			<item value="getIdsMiembroGrupos"/>
-			<item value="creaMiResultado"/>
-			<item value="qryCuentaGmail"/>
-			<item value="CrearGr"/>
-			<item value="message="/>
-			<item value="azure"/>
-			<item value="-azure"/>
-			<item value="deleteNap"/>
-			<item value="member-deleteMember"/>
 		</list>
 		<list key="replacehistory">
 			<item value="Gmail"/>

@@ -1,0 +1,1 @@
+update mi_grupos set origen=:#origen where key=:#key

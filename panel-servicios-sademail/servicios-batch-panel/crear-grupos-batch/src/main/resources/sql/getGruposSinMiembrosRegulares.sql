@@ -13,20 +13,11 @@ SELECT
     g.origen,
     g.fecha_creacion
 FROM
-    (
-        SELECT DISTINCT
-            g.key
-        FROM
-            mi_grupos          g,
-            nap_grupo_miembro  n
-        WHERE
-                g.key = n.key_grupo
-            AND g.origen = 'POSGRADO'
-            AND n.activo <> n.creado_gmail
-    )          x,
     mi_grupos  g
 WHERE
-    g.key = x.key
+    g.activo=0 AND g.creado_gmail=1 
+    AND (select count(*) from nap_grupo_owner n where n.group_name = g.group_name) = 0
+    AND g.origen is null
 ORDER BY
     g.key_tipo,
     g.group_name

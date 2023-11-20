@@ -15,7 +15,9 @@ SELECT
 FROM
     mi_grupos  g
 WHERE
-    g.activo=0 AND g.creado_gmail=1
+    g.activo=0 AND g.creado_gmail=1 
+    AND (select count(*) from nap_grupo_owner n where n.group_name = g.group_name) = 0
+    AND g.origen = 'POSGRADO'
 ORDER BY
     g.key_tipo,
     g.group_name
