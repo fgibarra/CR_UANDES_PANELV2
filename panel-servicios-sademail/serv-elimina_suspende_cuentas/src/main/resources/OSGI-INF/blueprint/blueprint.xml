@@ -144,11 +144,11 @@
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <route id="_readjson">
             <from id="_promService" uri="direct:start?timeout=-1"/>
-            <to id="_to2" uri="seda:generaResponse"/>
+            <to id="_to2" uri="direct:generaResponse"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_generaResponseRoute">
-            <from id="_from1" uri="seda:generaResponse"/>
+            <from id="_from1" uri="direct:generaResponse"/>
             <process id="_generaRespuesta" ref="generaRespuesta"/>
         </route>
         <!-- ==================================================================================================== -->
@@ -178,7 +178,7 @@
                 <constant>Procesar eliminacion/suspencion de cuentas</constant>
             </camel:setHeader>
             <log id="_log9" message="Reactiva cuentas: a actualizar id_gmail archivo input"/>
-            <to id="actIgGmail1" uri="seda:actualizaIdGmail"/>
+            <to id="actIgGmail1" uri="direct:actualizaIdGmail"/>
             <to id="_qryDatos" uri="sql:select key,cuenta,spriden_id,usado,estado_academico,id_gmail from wrk_cuentas_operar where res_elim_suspender is null order by cuenta?dataSource=#bannerDataSource"/>
             <process id="_recuperaDeBanner" ref="recuperaDeBanner"/>
             <log id="_log1" message="hay ${header.listaCuentas.size} elementos en la lista"/>
@@ -220,11 +220,11 @@
                 <log id="_log16" message="SQL: ${body}"/>
                 <to id="_updateStatus" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
             </loop>
-            <to id="_generaMail2" uri="seda:generaMail"/>
+            <to id="_generaMail2" uri="direct:generaMail"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_actualizaIgGmail">
-            <from id="_from2" uri="seda:actualizaIdGmail?timeout=-1"/>
+            <from id="_from2" uri="direct:actualizaIdGmail?timeout=-1"/>
             <onException id="_onExceptionUpdate">
                 <exception>java.sql.SQLIntegrityConstraintViolationException</exception>
                 <!-- handled o continued no ambas
@@ -315,7 +315,7 @@
                     </when>
                 </choice>
             </loop>
-            <to id="_generaMail1" uri="seda:generaMail"/>
+            <to id="_generaMail1" uri="direct:generaMail"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_procesaRecreaSuspendidos">
@@ -378,11 +378,11 @@
                     </otherwise>
                 </choice>
             </loop>
-            <to id="_generaMail3" uri="seda:generaMail"/>
+            <to id="_generaMail3" uri="direct:generaMail"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_generaMailRoute">
-            <from id="_from3" uri="seda:generaMail"/>
+            <from id="_from3" uri="direct:generaMail"/>
             <log id="_log7" message="funcion: ${header.funcion} countReactivados: ${header.countReactivados}"/>
             <process id="_preparaTemplateMail" ref="preparaTemplateMail"/>
             <to id="creaCuerpo" uri="velocity:templateMail.vm?contentCache=true"/>

@@ -78,5 +78,6 @@
   	<module>crear-grupos-batch</module>
   	<module>scheduler-proceso-diario</module>
   	<module>actualiza-espacio-usado</module>
+  	<module>suspende-elimina-cuentas</module>
   </modules>
 </project>

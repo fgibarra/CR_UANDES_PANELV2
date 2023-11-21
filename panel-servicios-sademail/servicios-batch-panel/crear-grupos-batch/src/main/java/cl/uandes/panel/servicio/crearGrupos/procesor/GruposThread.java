@@ -374,6 +374,7 @@ public class GruposThread implements Processor {
 		headers.put("keyGrupo", keyGrupo);
 		@SuppressWarnings("unchecked")
 		List<Map<String,Object>> miembrosActivos = (List<Map<String, Object>>) getIdsMiembroGrupos.requestBodyAndHeaders(null, headers);
+		logger.info(String.format("agregarMiembrosActivos: agregar %d elementos", miembrosActivos.size()));
 		List<DatosMemeberDTO> miembrosAgregar = factoryListaGrupoMiembro(miembrosActivos);
 		for (DatosMemeberDTO datos : miembrosAgregar) {
 			logger.info(String.format("agregarMiembrosActivos: miembro %s", datos));
@@ -381,7 +382,7 @@ public class GruposThread implements Processor {
 			headers.put("CamelHttpMethod", "POST");
 			//logger.info(String.format("agregarMiembrosActivos: URL=%s", (String)headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
 			MemberResponse response = (MemberResponse) ObjectFactory.procesaResponseImpl((ResponseImpl)agregarMember.requestBody(datos.getRequest()),MemberResponse.class);
-			if (response.getCodigo() == 0 || response.getMensaje().matches(".*One or more added object references already exist.*")) {
+			if (response.getCodigo() == 0 || (response.getMensaje() != null && response.getMensaje().matches(".*One or more added object references already exist.*"))) {
 				headers.put("idMiembro", datos.getKeyGrupoMiembro().getIdMiembro());
 				headers.put("keyGrupo", new BigDecimal(datos.getKeyGrupoMiembro().getKeyGrupo()));
 				logger.info(String.format("actualizar member: %s,%d", headers.get("idMiembro"), datos.getKeyGrupoMiembro().getKeyGrupo()));

@@ -6,6 +6,7 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="suspende-elimina-cuentas"/>
 			<item value="actualiza-espacio-usado"/>
 		</list>
 		<list key="projectNameTemplate">
@@ -29,13 +30,13 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
-			<item value="org.actualiza.espacio.usado"/>
+			<item value="org.suspende.elimina.cuentas"/>
 		</list>
 		<list key="groupId">
 			<item value="uandes.panel-v2.servicios"/>
 		</list>
 		<list key="artifactId">
-			<item value="actualiza-espacio-usado"/>
+			<item value="suspende-elimina-cuentas"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -54,11 +55,13 @@
 			<item value="uandes.panel-v2.servicios"/>
 		</list>
 		<list key="name">
+			<item value="Suspende y elimina cuentas"/>
 			<item value="Actualiza espacio usado"/>
 		</list>
 		<list key="artifactId">
-			<item value="actualiza-espacio-usado"/>
+			<item value="suspende-elimina-cuentas"/>
 			<item value="servicios-batch-panel"/>
+			<item value="actualiza-espacio-usado"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>

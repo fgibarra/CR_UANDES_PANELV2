@@ -185,7 +185,7 @@
                             <constant>Anyone</constant>
                         </setHeader>
                         <log id="_log9" message="(L186)values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
-                        <to id="_to8" uri="sql-stored:classpath:sql/prd_puebla_mailgroupmembers.sql?dataSource=#bannerDataSource"/>
+                        <to id="_to8" uri="sql-stored:classpath:sql/prd_puebla_grupos_generales.sql?dataSource=#bannerDataSource"/>
                         <to id="_to9" uri="direct:crearGrupos"/>
                     </when>
                     <when id="_when2">
@@ -194,7 +194,7 @@
                             <constant>Owner</constant>
                         </setHeader>
                         <log id="_log10" message="(L195)values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
-                        <to id="_to10" uri="sql-stored:classpath:sql/prd_puebla_inprogressgroup.sql?dataSource=#bannerDataSource"/>
+                        <to id="_to10" uri="sql-stored:classpath:sql/prd_puebla_grupos_vigentes.sql?dataSource=#bannerDataSource"/>
                         <to id="_to2" uri="direct:crearGruposVigentes"/>
                     </when>
                     <when id="_when3">
@@ -203,7 +203,7 @@
                             <constant>Owner</constant>
                         </setHeader>
                         <log id="_log11" message="(L205)values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
-                        <to id="_to11" uri="sql-stored:classpath:sql/prd_puebla_inprogresspostgrado.sql?dataSource=#bannerDataSource"/>
+                        <to id="_to11" uri="sql-stored:classpath:sql/prd_puebla_grupos_posgrado.sql?dataSource=#bannerDataSource"/>
                         <to id="_to3" uri="direct:crearGruposVigentesPosgrado"/>
                     </when>
                     <otherwise id="_otherwise1">
@@ -261,26 +261,26 @@
         <route id="_eliminarGruposSinMiembrosRoute">
             <from id="_from3" uri="direct:eliminarGruposSinMiembros"/>
             <log id="_log18" message="(L262)eliminar members no activos y no creados: sql/deleteNoActivosNocreados.sql"/>
-			<to uri="sql:classpath:sql/deleteNoActivosNocreados.sql?dataSource=#bannerDataSource"/>
+            <to id="_to18" uri="sql:classpath:sql/deleteNoActivosNocreados.sql?dataSource=#bannerDataSource"/>
             <log id="_log18" message="(L264)eliminarGruposSinMiembros: sql/getGruposSinMiembros.sql"/>
-                <choice>
-                    <when>
-                        <simple>${header.proceso} == 'crear_grupos'</simple>
-                        <to uri="sql:classpath:sql/getGruposSinMiembrosRegulares.sql?dataSource=#bannerDataSource"/>
-                    </when>
-                    <when>
-                        <simple>${header.proceso} == 'grupos_inprogress'</simple>
-                        <to uri="sql:classpath:sql/getGruposSinMiembrosVigentes.sql?dataSource=#bannerDataSource"/>
-                    </when>
-                    <when>
-                        <simple>${header.proceso} == 'grupos_inprogress_postgrado'</simple>
-                        <to uri="sql:classpath:sql/getGruposSinMiembrosPosgrado.sql?dataSource=#bannerDataSource"/>
-                    </when>
-                    <otherwise>
-                        <log message="(L209)Operacion desconocida"/>
-                        <bean method="setOperacionDesconocida" ref="restService"/>
-                    </otherwise>
-                </choice>
+            <choice id="_choice2">
+                <when id="_when4">
+                    <simple>${header.proceso} == 'crear_grupos'</simple>
+                    <to id="_to21" uri="sql:classpath:sql/getGruposSinMiembrosRegulares.sql?dataSource=#bannerDataSource"/>
+                </when>
+                <when id="_when5">
+                    <simple>${header.proceso} == 'grupos_inprogress'</simple>
+                    <to id="_to22" uri="sql:classpath:sql/getGruposSinMiembrosVigentes.sql?dataSource=#bannerDataSource"/>
+                </when>
+                <when id="_when6">
+                    <simple>${header.proceso} == 'grupos_inprogress_postgrado'</simple>
+                    <to id="_to23" uri="sql:classpath:sql/getGruposSinMiembrosPosgrado.sql?dataSource=#bannerDataSource"/>
+                </when>
+                <otherwise id="_otherwise2">
+                    <log id="_log21" message="(L209)Operacion desconocida"/>
+                    <bean id="_bean1" method="setOperacionDesconocida" ref="restService"/>
+                </otherwise>
+            </choice>
             <bean id="_bean13" method="factoryGrupos" ref="generaDatos"/>
             <process id="_process1" ref="gruposSinMiembros"/>
         </route>

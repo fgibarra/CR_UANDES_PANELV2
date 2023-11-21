@@ -21,7 +21,7 @@ FROM
             nap_grupo_miembro  n
         WHERE
                 g.key = n.key_grupo
-            AND g.origen is null
+            AND g.proceso = :#proceso
             AND n.activo <> n.creado_gmail
     )          x,
     mi_grupos  g

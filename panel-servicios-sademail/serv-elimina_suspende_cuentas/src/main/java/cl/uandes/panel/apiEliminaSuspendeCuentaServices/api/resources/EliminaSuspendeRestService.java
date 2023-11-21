@@ -44,7 +44,7 @@ public class EliminaSuspendeRestService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/cambiaCuenta")
+    @Path("/procese")
 	public EliminaSuspendeCuentaResponse procese(EliminaSuspendeCuentaRequest in_msg) {
 		Map<String,Object> headers = new HashMap<String,Object>();
 		String funcion = in_msg.getFuncion();

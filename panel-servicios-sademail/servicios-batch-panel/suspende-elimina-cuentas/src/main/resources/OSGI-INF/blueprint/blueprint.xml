@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/servicioBatch/suspendeEliminaCuentas/"
+        id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF clients -->
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
+        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.SchedulerEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.resources.SuspendeEliminaCuentasRestService" id="restService">
+        <property name="funcion" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
+        <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
+    </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <camelContext id="suspende-elimina-cuentas"
+        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <!-- -->
+        <route id="_readjson">
+            <from id="_promService" uri="direct:start"/>
+            <log id="_log2" message="(L53)queda en el body: ${body}"/>
+            <to id="_to1" uri="mock:end"/>
+        </route>
+
+		<route>
+			<from uri="direct:proceso"/>
+			<log message="(L59) Proceso en header: ${header.proceso} request: ${header.request}"/>
+			<choice>
+				<when>
+					<simple>${header.proceso} == 'eliminar'</simple>
+					<log message="(L63) eliminar cuentas"/>
+				</when>
+				<otherwise>
+					<log message="(L66) suspender cuentas"/>
+				</otherwise>
+			</choice>
+		</route>
+    </camelContext>
+</blueprint>
