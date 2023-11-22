@@ -323,7 +323,7 @@ public class GeneraResponse implements Processor {
 				wao.deleteGroup(groupName);
 				response = Response.status(Response.Status.OK).build();
 			} catch (Exception e) {
-				response = Response.noContent().status(500, e.getMessage()).build();
+				response = Response.noContent().status(420, String.format("Fallo metodo: %s", e.getMessage())).build();
 			}
 			exchange.getIn().setBody(response);
 			
@@ -422,8 +422,9 @@ public class GeneraResponse implements Processor {
 				wao.deleteMemberFromGroup(req.getGroupName(), req.getEmail());
 				response = Response.noContent().status(200).build();
 			} catch (Exception e) {
-				response = Response.noContent().status(500, e.getMessage()).build();
+				response = Response.noContent().status(420, String.format("Fallo metodo: %s", e.getMessage())).build();
 			}
+			logger.info(String.format("member-deleteMember: responde con status= %d", response.getStatus()));
 			exchange.getIn().setBody(response);
 			
 		} else if ("member-deleteOwner".equals(operacion)) {

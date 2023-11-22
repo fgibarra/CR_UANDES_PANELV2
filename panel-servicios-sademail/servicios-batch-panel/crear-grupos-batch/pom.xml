@@ -37,6 +37,7 @@
 							cl.uandes.panel.comunes.json.batch.crearGrupos,
 							cl.uandes.panel.comunes.utils,
 							cl.uandes.sadmemail.comunes.gmail.json,
+							cl.uandes.sadmemail.comunes.google.api.services,
 							com.fasterxml.jackson.jaxrs.json,
 							com.fasterxml.jackson.core,
 							com.fasterxml.jackson.core.json,

@@ -26,6 +26,7 @@
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/CrearCuentasResponse.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/sendmail/SendmailRequest.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/cambiacuenta/CambiaCuentaResponse.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/ContadoresSincronizarGrupos.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/CuentasMiUandes.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/cambiacuenta/CambiaCuentaRequest.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/sendmail/SendmailResponse.java

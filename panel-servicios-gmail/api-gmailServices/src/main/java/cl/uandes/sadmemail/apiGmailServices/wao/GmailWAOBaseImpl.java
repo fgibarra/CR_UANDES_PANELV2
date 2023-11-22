@@ -8,14 +8,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError.ErrorInfo;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.admin.directory.Directory;
@@ -29,7 +26,7 @@ import com.google.api.services.admin.directory.model.Members;
 import com.google.api.services.admin.directory.model.User;
 import com.google.api.services.admin.directory.model.UserName;
 import com.google.api.services.admin.directory.model.Users;
-import com.google.api.services.groupssettings.*;
+import com.google.api.services.groupssettings.Groupssettings;
 import com.google.gson.Gson;
 
 public abstract class GmailWAOBaseImpl implements GmailWAOBase {
@@ -825,6 +822,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 				logger.error("deleteMemberFromGroup:"+gje.getDetails().getMessage(), gje);
 				return ;
 			}
+			logger.error("deleteMemberFromGroup", e);
 			throw e;
 		}
 		/*

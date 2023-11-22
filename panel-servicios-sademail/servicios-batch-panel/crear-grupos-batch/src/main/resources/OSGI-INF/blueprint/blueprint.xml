@@ -92,6 +92,30 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/members/retrieveMembers"
+        id="rsRetrieveAllMembers" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/deleteMember"
+        id="rsDeleteMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.GrupoEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
         id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.SchedulerEndpoint">
         <cxf:headers>
@@ -137,6 +161,11 @@
         class="cl.uandes.panel.servicio.crearGrupos.procesor.ActualizaMiResultados" id="actualizaMiResultados">
         <property name="panelServices" value="{{crear-grupos-gmail.uri-serviciosPanel}}"/>
     </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<bean class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.SincronizarGruposAction" id="sincronizarGruposAction">
+        <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
+    </bean>
+	<bean class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.InicialiceSincronizarGrupos" id="inicialiceSincronizarGrupos"/>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -247,7 +276,7 @@
         <!--                               direct:crearGruposVigentesPosgrado                                  -->
         <!-- ================================================================================================= -->
         <route id="_crearGruposVigentesPosgrado">
-            <from id="_crearGruposVigentesPosgradoRoute" uri="direct:crearGruposVigentesPosgrado"/>
+            <from id="_crearGruposVigentesPosgradoRoute" uri="seda:crearGruposVigentesPosgrado"/>
             <log id="_log17" message="(L249) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposPosgrado.sql"/>
             <to id="_to16" uri="sql:classpath:sql/getGruposPosgrado.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean6" method="factoryGrupos" ref="generaDatos"/>
@@ -325,17 +354,39 @@
             <log id="_log20" message="(L306) Entrando a direct:procesaGrupos para procesar ${header.listaGrupos.size} elementos"/>
             <loop doWhile="true" id="_loop2">
                 <simple>${header.listaGrupos.size} &gt; 0</simple>
-                <bean id="_bean7" method="getGrupoFromListaGrupos" ref="generaDatos"/>
-                <log id="_log16" message="(L310)el grupo a procesar: ${header.grupoGmail}"/>
-                <process id="_process2" ref="gruposThread"/>
+				<threads poolSize="10" maxPoolSize="20">
+	                <bean id="_bean7" method="getGrupoFromListaGrupos" ref="generaDatos"/>
+	                <log id="_log16" message="(L310)el grupo a procesar: ${header.grupoGmail}"/>
+	                <process id="_process2" ref="gruposThread"/>
+				</threads>
             </loop>
         </route>
         <!-- ================================================================================================= -->
         <!-- El pre proceso del requerimiento que viene desde el request	SINCRONIZA GRUPOS-->
         <!-- ================================================================================================= -->
+        <route id="_route2">
+            <from id="_from5" uri="direct:sincronizar"/>
+            <log message="(L338) sincronizar: request=${header.request}"/>
+            <loop doWhile="true">
+                <simple>${header.listaOperaciones.size} &gt; 0</simple>
+				<bean method="getListaOperaciones" ref="generaDatos"/>
+				<process ref="inicialiceSincronizarGrupos"/>
+				<log message="(L342) proceso: ${header.proceso}"/>
+				<to uri="sql:classpath:sql_s/getGruposXproceso.sql?dataSource=#bannerDataSource"/>
+				<bean method="factoryGruposSincronizar" ref="generaDatos"/>
+				<log message="(L345) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
+				<loop doWhile="true">
+					<simple>${header.listaGruposSincronizar.size} $gt; 0</simple>
+					<bean method="getGrupoSincronizar" ref="generaDatos"/>
+					<to uri="seda:sincronizaGrupo"/>
+            	</loop>
+            </loop>
+			<log message="(L384) termina"/>
+			<to uri="direct:termina"/>
+        </route>
 		<route>
-			<from uri="direct:sincronizar"/>
-			<log message="(L338) sincronizar: request=${header.request}"/>
+			<from uri="seda:sincronizaGrupo?concurrentConsumers=10"/>
+			<process ref="sincronizarGruposAction"/>
 		</route>
         <!-- ================================================================================================= -->
         <!--      PARA PRUEBAS OFFLINE -->

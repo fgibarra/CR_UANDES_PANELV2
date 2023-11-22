@@ -63,6 +63,26 @@ public class GeneraDatos {
 	}
 
 	/* ==========================================================================================================
+	 * Para sincronizar grupos
+	 * 
+	 */
+	public void factoryGruposSincronizar(Exchange exchange) {
+		Message message = exchange.getIn();
+		@SuppressWarnings("unchecked")
+		List<Map<String, Object>> datos = (List<Map<String, Object>>)message.getBody();
+		List<String> lista = new ArrayList<String>();
+		for (Map<String, Object> map : datos) {
+			lista.add((String)map.get("GROUP_NAME"));
+		}
+		message.setHeader("listaGruposSincronizar", lista);
+	}
+	
+	public void getGrupoSincronizar(@Header("listaGruposSincronizar") List<String> listaGruposSincronizar, Exchange exchange) {
+		String groupName = listaGruposSincronizar.remove(0);
+		logger.info(String.format("getGrupoSincronizar: groupName %s", groupName));
+		exchange.getIn().setHeader("grupoGmail", groupName);
+	}
+	/* ==========================================================================================================
 	 * Para probar offline
 	 * 
 	 * para probar sin tener que invocar con soapui
