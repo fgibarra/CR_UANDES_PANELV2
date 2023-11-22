@@ -3,6 +3,7 @@
 	<name>api-gmailServices</name>
 	<comment></comment>
 	<projects>
+		<project>comunes-gmail</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

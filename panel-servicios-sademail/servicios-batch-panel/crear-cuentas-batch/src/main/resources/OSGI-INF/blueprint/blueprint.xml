@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/servicioBatch/crearCuentas/"
+        id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF clients -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/consultaXrut"
+        id="rsADconsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/panelToolCreaCuenta/creaCuenta"
+        id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario"
+        id="rsADvalidarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/panelToolCreaCuenta/creaCuenta"
+        id="rsCrearCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ServiciosPanelEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
+        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.SchedulerEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.panel.servicio.crearCuentas.api.resources.CrearCuentasRestService" id="restService">
+        <property name="procesoCrearCuentas" value="{{crear-cuentas-gmail.proceso}}"/>
+        <property name="tiposCuenta" value="{{crear-cuentas-gmail.tiposCuenta}}"/>
+    </bean>
+    <bean class="cl.uandes.panel.servicio.crearCuentas.bean.GeneraDatos" id="generaDatos">
+        <property name="proceso" value="{{crear-cuentas-gmail.proceso}}"/>
+        <property name="kcoFuncion" value="{{crear-cuentas-gmail.kco-funcion}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.crearCuentas.procesor.InicialiceCrearCuentas" id="inicialiceCrearCuentas"/>
+    <bean
+        class="cl.uandes.panel.servicio.crearCuentas.procesor.CuentasThread" id="cuentasThread">
+        <property name="adServices" value="{{crear-cuentas-gmail.uri-servicios-ad}}"/>
+        <property name="sevicioCrearCuentaPanel" value="{{servicios-ad.operacion.crearUsuario}}"/>
+        <property name="validarUsuario" value="{{operacion.validarUsuario}}"/>
+        <property name="ramaAD" value="{{crear-cuentas-gmail.ramaAD}}"/>
+        <property name="sevicioCrearCuentaPanel" value="{{crear-cuentas-gmail.uri-servicio-crear-cuentas-panel}}"/>
+    </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <camelContext id="crear-cuentas-batch" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <route id="_readjson">
+            <from id="_promService" uri="direct:start"/>
+            <log id="_log1" message="(L108) queda en el body: ${body}"/>
+            <to id="_final" uri="mock:end"/>
+        </route>
+        <!--
+        <route id="_fromInicio">
+            <from id="_partida" uri="timer://foo?repeatCount=1"/>
+            <bean id="_bean1" method="setBody" ref="generaDatos"/>
+            <log id="_log3" message="queda en el body: ${body}"/>
+            <to id="_to7" uri="direct:proceso"/>
+        </route>
+-->
+        <!-- ================================================================================================= -->
+        <route id="_procesoRoute">
+            <from id="_readJsonRoute" uri="direct:proceso"/>
+            <onException id="_onExceptionKCO_FUNCIONES">
+                <exception>cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException</exception>
+                <handled>
+                    <constant>true</constant>
+                </handled>
+                <setHeader headerName="exception" id="_setHeader1">
+                    <simple>${exception}</simple>
+                </setHeader>
+                <setBody id="_setBody1">
+                    <method method="setErrorInicializacion" ref="generaDatos"/>
+                </setBody>
+                <log id="_log1" message="(L133) atrapo un exception. en el body queda: ${body}"/>
+                <to id="_to1" uri="mock:end"/>
+            </onException>
+            <!--bean id="_bean2" method="getKcoFuncion" ref="generaDatos"/-->
+            <log id="_log3" message="(L137) Proceso en header: ${header.proceso}"/>
+            <to id="_to4" uri="sql:classpath:sql/getKcoFunciones.sql?dataSource=#bannerDataSource"/>
+            <process id="_recuperaDatosKCO" ref="inicialiceCrearCuentas"/>
+            <log id="_log2" message="(L140) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado}"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.estaInicializado} == 'false'</simple>
+                    <log id="_log4" message="(L144) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado} keyResultado: ${header.keyResultado}"/>
+                    <to id="_to7" uri="direct:registraFinBD"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log id="_log5" message="(L147) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado} keyResultado: ${header.keyResultado}"/>
+                    <to id="_to3" uri="direct:recuperaCuentas"/>
+                    <log id="_log10" message="(L149) termina con: ${header.jsonResultado} y en el body: ${body}"/>
+                </otherwise>
+            </choice>
+            <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+            <to id="_to2" uri="mock:end"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_recuperaCuentasRoute">
+            <from id="_from_procesoRoute" uri="direct:recuperaCuentas"/>
+            <log id="_log6" message="(L158) Estamos en _recuperaCuentasRoute"/>
+            <setHeader headerName="periodo" id="_setHeader2">
+                <method method="getPeriodo" ref="generaDatos"/>
+            </setHeader>
+            <log id="_log7" message="(L162) periodo: ${header.periodo} keyResultado: ${header.keyResultado}"/>
+            <choice id="_choice2">
+                <when id="_when2">
+                    <simple>${header.periodo.length} == 6</simple>
+                    <to id="_to5" uri="sql:classpath:sql/getAlumnosNuevos.sql?dataSource=#bannerDataSource"/>
+                </when>
+                <otherwise id="_otherwise2">
+                    <to id="_to8" uri="sql:classpath:sql/getAlumnosNuevosPeriodos.sql?dataSource=#bannerDataSource"/>
+                </otherwise>
+            </choice>
+            <bean id="_bean3" method="factoryCuentas" ref="generaDatos"/>
+            <log id="_log8" message="(L173) recuperaCuentasRoute: keyResultado: ${header.keyResultado}"/>
+            <to id="_to6" uri="direct:procesaCuentas"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_procesaCuentasRoute">
+            <from id="_from_recuperaCuentasRoute" uri="direct:procesaCuentas"/>
+            <log id="_log9" message="(L179) _procesaCuentasRoute: keyResultado: ${header.keyResultado}"/>
+            <loop doWhile="true" id="_loop1">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
+                <bean id="_bean4" method="getCuentaFromListaCuentas" ref="generaDatos"/>
+                <process id="_cuentasThreadProcess" ref="cuentasThread"/>
+            </loop>
+            <to id="_to11" uri="direct:registraFinBD"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_registraFinBD">
+            <from id="_from1" uri="direct:registraFinBD"/>
+            <log id="_log12" message="registraFinBD: keyResultado=${header.keyResultado} countProcesados=${header.countProcesados} countErrores=${header.countErrores} countAgregadosBD=${header.countAgregadosBD} countAgregadosAD=${header.countAgregadosAD}"/>
+            <!-- actualiza los resultados en la BD y prepara la respuesta del servicio -->
+            <bean id="_bean5" method="resultadosABd" ref="generaDatos"/>
+            <to id="_to9" uri="sql:classpath:sql/actualizarKcoFunciones.sql?dataSource=#bannerDataSource"/>
+            <to id="_to10" uri="sql:classpath:sql/actualizarMiResultado.sql?dataSource=#bannerDataSource"/>
+            <bean id="_bean6" method="procesoDiarioResponse" ref="generaDatos"/>
+            <log id="_log11" message="(L190) terminando el proceso"/>
+        </route>
+    </camelContext>
+</blueprint>

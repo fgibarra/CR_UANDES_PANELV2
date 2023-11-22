@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1686412649777
-Build-Jdk: 1.8.0_291
-Built-By: fernando
+Bnd-LastModified: 1700256522874
+Build-Jdk: 15.0.1
+Built-By: sademail
 Bundle-Description: ComunesGmail
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
 Bundle-ManifestVersion: 2
@@ -9,7 +9,7 @@ Bundle-Name: Sademail [comunes-gmail-v1]
 Bundle-SymbolicName: comunes-gmail-v1
 Bundle-Version: 0.0.1
 Created-By: Apache Maven Bundle Plugin
-DynamicImport-Package: com.google.*
+DynamicImport-Package: *
 Export-Package: cl.uandes.sadmemail.comunes.gmail.json;version="0.0.1";u
  ses:="cl.uandes.sadmemail.comunes.google.api.services,com.fasterxml.jac
  kson.annotation",cl.uandes.sadmemail.comunes.google.api.services;versio

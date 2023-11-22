@@ -1,0 +1,7 @@
+cl.uandes.panel.servicio.scheduler
+cl.uandes.panel.servicio.scheduler.api
+cl.uandes.panel.servicio.scheduler.api.resource
+cl.uandes.panel.servicio.scheduler.api.restclient
+cl.uandes.panel.servicio.scheduler.bean
+cl.uandes.panel.servicio.scheduler.bean.dto
+cl.uandes.panel.servicio.scheduler.procesor

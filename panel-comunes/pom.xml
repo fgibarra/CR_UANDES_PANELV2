@@ -295,5 +295,6 @@
   <modules>
   	<module>comunes-gmail</module>
   	<module>comunes-sademail</module>
+  	<module>comunes-ad</module>
   </modules>
 </project>

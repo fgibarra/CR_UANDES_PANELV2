@@ -6,6 +6,6 @@ echo $msg
 git add . --all
 echo copy y paste lo siguiente
 echo git commit $msg
-echo git push -u origin rama_desarrollo main
-echo "fgibarra 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"
+echo git push -u origin rama_desarrollo
+echo "fgibarra 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"
 

@@ -1,0 +1,102 @@
+package cl.uandes.panel.comunes.utils;
+
+import java.io.Reader;
+
+import org.apache.log4j.Logger;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ *
+ * Metodos para conversion de Objeto a JSON y vice versa
+ * Debe instanciarse con metodo estatico:
+ * 
+ * JSonUtilities.getInstance()
+ * 
+ * @author fernando
+ */
+public class JSonUtilities {
+
+	private static JSonUtilities instance;
+	protected Logger logger = Logger.getLogger(getClass());
+	
+	public static JSonUtilities getInstance() {
+		if (instance == null) instance = new JSonUtilities();
+		return instance;
+	}
+
+	public JSonUtilities() {
+		super();
+	}
+
+	/**
+	 * @param jsonString Cadena con json
+	 * @param response   Clase que se instancia
+	 * @return Objeto
+	 * @throws Exception 
+	 */
+	public Object json2java(String jsonString, Class<?> response) throws Exception {
+		//logger.info("convertir a Class ="+response);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
+
+		try {
+			return mapper.readValue(jsonString, response);
+		} catch (Exception e) {
+			logger.error("json2java: json\n"+jsonString);
+			throw e;
+		}
+	}
+
+	/**
+	 * @param jsonString Cadena con json
+	 * @param response Clase que se instancia
+	 * @param UNWRAP_ROOT_VALUE: true=no incluye rootName ({}); false: lo incluye ("root":{})
+	 * @return Objeto
+	 * @throws Exception
+	 */
+	public Object json2java(String jsonString, Class<?> response, boolean UNWRAP_ROOT_VALUE) throws Exception {
+		//logger.debug(jsonString.substring(0, jsonString.length()>500?500:jsonString.length()));
+		logger.info("convertir Class ="+response);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, UNWRAP_ROOT_VALUE);
+
+		try {
+			return mapper.readValue(jsonString, response);
+		} catch (Exception e) {
+			logger.error(String.format("json2java:ERROR al convertir a clase %s de json\n%s",response,jsonString), e);
+			throw e;
+		}
+	}
+
+	/**
+	 * @param rd Reader a la Cadena con json
+	 * @param response Clase que se instancia
+	 * @return Objeto
+	 * @throws Exception
+	 */
+	public Object json2java(Reader rd, Class<?>response) throws Exception {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(rd, response);
+		} catch (Exception e) {
+			logger.error("json2java", e);
+			throw e;
+		}
+	}
+
+	/**
+	 * @param data Objeto a convertir
+	 * @return String
+	 * @throws Exception
+	 */
+	public String java2json (Object data) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Include.NON_NULL);
+		return mapper.writeValueAsString(data);
+	}
+}

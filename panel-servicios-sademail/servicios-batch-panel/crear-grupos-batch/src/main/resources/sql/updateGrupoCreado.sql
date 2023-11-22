@@ -1,0 +1,1 @@
+update mi_grupos set creado_gmail=1, group_id=:#idGrupo where key=:#keyGrupo

@@ -30,6 +30,8 @@ import cl.uandes.sadmemail.comunes.gmail.json.MemberRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MemberResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersResponse;
+import cl.uandes.sadmemail.comunes.gmail.json.Report;
+import cl.uandes.sadmemail.comunes.gmail.json.ReportResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.UserRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
 import cl.uandes.sadmemail.comunes.google.api.services.Member;
@@ -286,13 +288,17 @@ public class GeneraResponse implements Processor {
 			GroupResponse response =  null;
 			try {
 				com.google.api.services.admin.directory.model.Group g_group = wao.retrieveGroup(groupName);
-				response = new GroupResponse(0, "OK", new cl.uandes.sadmemail.comunes.google.api.services.Group(
-						g_group.getDescription(), g_group.getEmail(), g_group.getEtag(),
-						g_group.getId(), g_group.getKind(), g_group.getName(), g_group.getAliases(), 
-						g_group.getDirectMembersCount()));
+				if (g_group != null)
+					response = new GroupResponse(0, "OK", new cl.uandes.sadmemail.comunes.google.api.services.Group(
+							g_group.getDescription(), g_group.getEmail(), g_group.getEtag(),
+							g_group.getId(), g_group.getKind(), g_group.getName(), g_group.getAliases(), 
+							g_group.getDirectMembersCount()));
+				else
+					response = new GroupResponse(-1, "No se pudo recuperar", null);
 			} catch (Exception e) {
 				response = new GroupResponse(-1, e.getMessage(), null);
 			}
+			logger.info(String.format("group-retrieve: response |%s|", response));
 			exchange.getIn().setBody(response);
 			
 		} else if ("group-update".equals(operacion)) {
@@ -312,12 +318,12 @@ public class GeneraResponse implements Processor {
 
 		} else if ("group-delete".equals(operacion)) {
 			String groupName = (String)exchange.getIn().getHeader("Body");
-			GroupResponse response =  null;
+			Response response =  null;
 			try {
 				wao.deleteGroup(groupName);
-				response = new GroupResponse(0, "OK", null);
+				response = Response.status(Response.Status.OK).build();
 			} catch (Exception e) {
-				response = new GroupResponse(-1, e.getMessage(), null);
+				response = Response.noContent().status(500, e.getMessage()).build();
 			}
 			exchange.getIn().setBody(response);
 			
@@ -326,7 +332,7 @@ public class GeneraResponse implements Processor {
 			Response response = null;
 			try {
 				Boolean es = wao.isOwner(req.getGroupName(), req.getEmail());
-				Response.status(Response.Status.OK).entity(String.format("%b",es)).build();
+				response = Response.status(Response.Status.OK).entity(String.format("%b",es)).build();
 			} catch (Exception e) {
 				response = Response.status(Response.Status.BAD_REQUEST).build();
 			}
@@ -411,12 +417,12 @@ public class GeneraResponse implements Processor {
 			
 		} else if ("member-deleteMember".equals(operacion)) {
 			MemberRequest req = (MemberRequest)exchange.getIn().getHeader("Body");
-			GroupResponse response =  null;
+			Response response =  null;
 			try {
 				wao.deleteMemberFromGroup(req.getGroupName(), req.getEmail());
-				response = new GroupResponse(0, "OK", null);
+				response = Response.noContent().status(200).build();
 			} catch (Exception e) {
-				response = new GroupResponse(-1, e.getMessage(), null);
+				response = Response.noContent().status(500, e.getMessage()).build();
 			}
 			exchange.getIn().setBody(response);
 			
@@ -431,7 +437,23 @@ public class GeneraResponse implements Processor {
 			}
 			exchange.getIn().setBody(response);
 			
+		} else if ("report-uso".equalsIgnoreCase(operacion)) {
+			String userId = (String)exchange.getIn().getHeader("Body");
+			ReportResponse response = null;
+			try {
+				Object datos = wao.reportUso(userId);
+				response = new ReportResponse(0, "OK", factoryReport(datos));
+			} catch (Exception e) {
+				response = new ReportResponse( -1, e.getMessage(), null);
+			}
+			exchange.getIn().setBody(response);
 		}
+	}
+
+	private Report factoryReport(Object datos) {
+		Report report = null;
+		// TODO
+		return report;
 	}
 
 	protected String getCuenta(String loginName) {

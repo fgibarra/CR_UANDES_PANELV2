@@ -8,11 +8,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError.ErrorInfo;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.admin.directory.Directory;
@@ -170,29 +173,6 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 		}
 	}
 
-/*
-	private Reports getReportsService(String userEmail) throws Exception {
-        
-		try {
-			if (credential == null)
-				credential = new GoogleCredential.Builder()
-						.setTransport(httpTransport)
-						.setJsonFactory(JSON_FACTORY)
-						.setServiceAccountId(SERVICE_ACCOUNT_EMAIL)
-						.setServiceAccountScopes(SCOPES)
-						.setServiceAccountUser(userEmail)
-						.setServiceAccountPrivateKeyFromP12File(
-								SERVICE_ACCOUNT_PKCS12_FILE_PATH).build();
-			return new Reports.Builder(
-					httpTransport, JSON_FACTORY, credential)
-			        .setApplicationName(APPLICATION_NAME)
-			        .build();
-		} catch (Exception e) {
-			logger.error("getReportsService", e);
-			throw e;
-		}
-    }
-*/	
 	protected Directory getDirectory() {
 		return directory;
 	}
@@ -632,8 +612,11 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			logger.info("retrieveGroup: grupo="+(grupo != null ? "NO ":"")+"es NULO");
 			return grupo;
 		} catch (Exception e) {
+			//logger.info(String.format("error: %s : %s",e.getClass().getName(), e.getMessage()));
 			if (e instanceof com.google.api.client.googleapis.json.GoogleJsonResponseException) {
-				if (analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e) > 5) {
+				int level = analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e);
+				//logger.info(String.format("level=%d", level));
+				if (level > 5) {
 					logger.error("retrieveGroup",e);
 					throw e;
 				}
@@ -661,6 +644,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 					logger.error("retrieveGroupSettings",e);
 					throw e;
 				}
+				logger.info(String.format("error: %s", e.getMessage()));
 				return null;
 			}
 			logger.error("retrieveGroupSettings", e);
@@ -829,6 +813,23 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 				" email="+email);
 		try {
 			groupName = getCuenta(groupName);
+			directory.members().delete(groupName, getCuenta(email)).execute();
+			return;
+		} catch (Exception e) {
+			if (e instanceof com.google.api.client.googleapis.json.GoogleJsonResponseException) {
+				if (analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e) > 5) {
+					logger.error("deleteMemberFromGroup",e);
+					throw e;
+				}
+				GoogleJsonResponseException gje = (GoogleJsonResponseException)e;
+				logger.error("deleteMemberFromGroup:"+gje.getDetails().getMessage(), gje);
+				return ;
+			}
+			throw e;
+		}
+		/*
+		try {
+			groupName = getCuenta(groupName);
 			String pageToken = null;
 			Directory.Members.List res = directory.members().list(groupName);
 			do {
@@ -837,7 +838,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 					logger.info("deleteMemberFromGroup: grupo "+groupName+" tiene "+members.getMembers().size()+" miembros");
 					for (Member member : members.getMembers()) {
 						logger.info("deleteMemberFromGroup: miembro |"+member.getEmail()+"| role="+member.getRole()+" getCuenta(email)=|"+getCuenta(email)+"|");
-						if (member.getEmail().equals(getCuenta(email)) /*&& member.getRole().equals("MEMBER")*/) {
+						if (member.getEmail().equals(getCuenta(email)) ) {
 							logger.info("deleteMemberFromGroup: elimina cuenta |"+getCuenta(email)+"|");
 							directory.members().delete(groupName, getCuenta(email)).execute();
 							return;
@@ -864,6 +865,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			}
 			throw e;
 		}
+		*/
 	}
 
 	/* saca un owner del grupo
@@ -980,4 +982,11 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			throw e;
 		}
 	}
+	
+	@Override
+	public Object reportUso(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

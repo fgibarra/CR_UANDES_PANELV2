@@ -1,0 +1,30 @@
+Buenos días Fernando
+
+Según lo conversando adjunto archivos con información de cuentas que se deben eliminar o suspender según nombre del archivo, los casos considerados son los siguientes:
+
+CASO 1 - ELIMINAR alumnos
+-----------------------------
+-Que tengan pidm
+-No profesor
+-NEVER LOGGED IN
+-Postgrado
+-Sin importar estado académico
+-Más de 2 años sin uso
+-No olvidar limpiar goremal
+
+CASO 2 - SUSPENDER alumnos
+-----------------------------
+-Que tengan pidm
+-No profesor
+-TODO LOS NIVELES
+-Superar 20 GB
+-Sin importar estado académico
+
+CASO 3 - SUSPENDER profesores
+-----------------------------
+-Que tengan pidm
+-Profesor
+-TODO LOS NIVELES
+-Supera los 30 GB
+
+

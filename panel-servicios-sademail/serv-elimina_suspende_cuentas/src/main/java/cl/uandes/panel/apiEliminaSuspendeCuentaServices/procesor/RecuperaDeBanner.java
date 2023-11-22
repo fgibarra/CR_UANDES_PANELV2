@@ -39,6 +39,8 @@ public class RecuperaDeBanner implements Processor {
 		List<DatosLeidosBannerDTO> lista = new ArrayList<DatosLeidosBannerDTO>();
 		for (int i=0; i<resultados.size(); i++) {
 			DatosLeidosBannerDTO dto = new DatosLeidosBannerDTO(resultados.get(i), Integer.valueOf(getMaxUso()));
+			/*logger.info(String.format("RecuperaDeBanner: esProcesable=%b uso=%d leido: %s", 
+					dto.esProcesable(), dto.getUsado(), dto));*/
 			if (dto.esProcesable())
 				lista.add(dto);
 			/*

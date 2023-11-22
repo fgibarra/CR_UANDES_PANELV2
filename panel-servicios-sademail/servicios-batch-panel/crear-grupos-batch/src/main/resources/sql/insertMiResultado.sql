@@ -1,0 +1,3 @@
+INSERT INTO MI_RESULTADO 
+(KEY, FUNCION, HORA_COMIENZO, MIN_THREAD, MAX_THREAD, THREADS_ENGENDRADAS) 
+VALUES (:#key,:#funcion,:#horaComienzo,:#minThreads,:#maxThreads, 1)

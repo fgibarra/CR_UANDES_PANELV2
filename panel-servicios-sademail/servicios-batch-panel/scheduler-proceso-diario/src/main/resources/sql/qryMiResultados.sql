@@ -1,0 +1,3 @@
+select HORA_COMIENZO, HORA_TERMINO, COMENTARIO
+from MI_RESULTADO
+where KEY=:#keyResultado

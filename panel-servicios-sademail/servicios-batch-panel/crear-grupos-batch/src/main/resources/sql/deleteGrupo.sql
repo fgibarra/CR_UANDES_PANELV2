@@ -1,0 +1,1 @@
+delete mi_grupos where key=:#keyGrupo
