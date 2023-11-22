@@ -106,7 +106,8 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.api.resources.CrearGruposRestService" id="restService">
-        <property name="funcion" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
+        <property name="funcionCrear" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
+        <property name="funcionSincroniza" value="{{sincroniza-grupos-gmail.nocturno.funcion}}"/>
         <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
     </bean>
     <bean
@@ -159,7 +160,7 @@
         </route>
 -->
         <!-- ================================================================================================= -->
-        <!-- El pre proceso del requerimiento que viene desde el request	-->
+        <!-- El pre proceso del requerimiento que viene desde el request	CREAR GRUPOS-->
         <!-- ================================================================================================= -->
         <route id="_procesoRoute">
             <from id="_proceso" uri="direct:proceso"/>
@@ -329,6 +330,13 @@
                 <process id="_process2" ref="gruposThread"/>
             </loop>
         </route>
+        <!-- ================================================================================================= -->
+        <!-- El pre proceso del requerimiento que viene desde el request	SINCRONIZA GRUPOS-->
+        <!-- ================================================================================================= -->
+		<route>
+			<from uri="direct:sincronizar"/>
+			<log message="(L338) sincronizar: request=${header.request}"/>
+		</route>
         <!-- ================================================================================================= -->
         <!--      PARA PRUEBAS OFFLINE -->
         <!-- ================================================================================================= -->

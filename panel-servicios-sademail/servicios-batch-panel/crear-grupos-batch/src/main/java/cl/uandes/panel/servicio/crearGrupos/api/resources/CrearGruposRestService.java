@@ -38,7 +38,9 @@ public class CrearGruposRestService {
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
     @PropertyInject(value = "crear-grupos-gmail.nocturno.funcion", defaultValue="generaGrupos")
-	private String funcion;
+	private String funcionCrear;
+    @PropertyInject(value = "sincroniza-grupos-gmail.nocturno.funcion", defaultValue="sincronizaGrupos")
+	private String funcionSincroniza;
     @PropertyInject(value = "crear-grupos-gmail.proceso", defaultValue="proceso")
 	private String proceso;
     public static String procesosValidos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_postgrado"};
@@ -75,7 +77,14 @@ public class CrearGruposRestService {
 		
 		logger.info(String.format("CrearCuentasRestService.procese: activa direct:proceso con header.request = %s", 
 				exchange.getIn().getHeader("request")));
-		procesoBatch.asyncSend("direct:proceso", exchange);
+		
+		String uri = "";
+		if (request.getFuncion().equals(getFuncionCrear()))
+			uri = "direct:proceso";
+		else
+			uri = "direct:sincronizar";
+		
+		procesoBatch.asyncSend(uri, exchange);
 		
 		Response response = Response.ok().status(200).entity("Partio crear_grupos").build();
 		return response;
@@ -83,8 +92,9 @@ public class CrearGruposRestService {
 	
 	private boolean valida(ProcesoDiarioRequest req) {
 		boolean valida = false;
-		if (!req.getFuncion().equals(getFuncion()))
+		if (!(req.getFuncion().equals(getFuncionCrear()) || req.getFuncion().equals(getFuncionSincroniza())))
 			return valida;
+		
 		for (String operacion : req.getOperaciones()) {
 			logger.info(String.format("valida operacion: %s", operacion));
 			boolean found = false;
@@ -112,10 +122,16 @@ public class CrearGruposRestService {
 	public void setProceso(String proceso) {
 		this.proceso = proceso;
 	}
-	public String getFuncion() {
-		return funcion;
+	public String getFuncionCrear() {
+		return funcionCrear;
 	}
-	public void setFuncion(String funcion) {
-		this.funcion = funcion;
+	public void setFuncionCrear(String funcion) {
+		this.funcionCrear = funcion;
+	}
+	public String getFuncionSincroniza() {
+		return funcionSincroniza;
+	}
+	public void setFuncionSincroniza(String funcionSincroniza) {
+		this.funcionSincroniza = funcionSincroniza;
 	}
 }

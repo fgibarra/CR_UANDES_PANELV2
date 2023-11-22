@@ -119,7 +119,6 @@
   <path value="/home/sademail/.m2/repository/org/ops4j/base/ops4j-base-io/1.5.0/ops4j-base-io-1.5.0.jar"/>
  </paths>
  <validation>
-  <core validator-id="jboss.cdi.core"/>
   <el>
    <linked-el length="46" name="%0" offset="2274" path="%1"/>
    <linked-el length="30" name="%2" offset="1944" path="%3"/>

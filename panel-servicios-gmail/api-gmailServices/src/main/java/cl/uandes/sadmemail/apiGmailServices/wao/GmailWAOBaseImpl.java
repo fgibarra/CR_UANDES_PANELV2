@@ -8,11 +8,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError.ErrorInfo;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.admin.directory.Directory;
@@ -170,29 +173,6 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 		}
 	}
 
-/*
-	private Reports getReportsService(String userEmail) throws Exception {
-        
-		try {
-			if (credential == null)
-				credential = new GoogleCredential.Builder()
-						.setTransport(httpTransport)
-						.setJsonFactory(JSON_FACTORY)
-						.setServiceAccountId(SERVICE_ACCOUNT_EMAIL)
-						.setServiceAccountScopes(SCOPES)
-						.setServiceAccountUser(userEmail)
-						.setServiceAccountPrivateKeyFromP12File(
-								SERVICE_ACCOUNT_PKCS12_FILE_PATH).build();
-			return new Reports.Builder(
-					httpTransport, JSON_FACTORY, credential)
-			        .setApplicationName(APPLICATION_NAME)
-			        .build();
-		} catch (Exception e) {
-			logger.error("getReportsService", e);
-			throw e;
-		}
-    }
-*/	
 	protected Directory getDirectory() {
 		return directory;
 	}
