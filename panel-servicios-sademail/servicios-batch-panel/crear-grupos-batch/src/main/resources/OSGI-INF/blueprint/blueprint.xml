@@ -162,10 +162,12 @@
         <property name="panelServices" value="{{crear-grupos-gmail.uri-serviciosPanel}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-	<bean class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.SincronizarGruposAction" id="sincronizarGruposAction">
+    <bean
+        class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.SincronizarGruposAction" id="sincronizarGruposAction">
         <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
     </bean>
-	<bean class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.InicialiceSincronizarGrupos" id="inicialiceSincronizarGrupos"/>
+    <bean
+        class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.InicialiceSincronizarGrupos" id="inicialiceSincronizarGrupos"/>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -214,7 +216,7 @@
                         <setHeader headerName="emailPermission" id="_setHeader2">
                             <constant>Anyone</constant>
                         </setHeader>
-                        <log id="_log9" message="(L186)values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
+                        <log id="_log9" message="(L186)invoca prd_puebla_grupos_generales - values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
                         <to id="_to8" uri="sql-stored:classpath:sql/prd_puebla_grupos_generales.sql?dataSource=#bannerDataSource"/>
                         <to id="_to9" uri="direct:crearGrupos"/>
                     </when>
@@ -223,7 +225,7 @@
                         <setHeader headerName="emailPermission" id="_setHeader3">
                             <constant>Owner</constant>
                         </setHeader>
-                        <log id="_log10" message="(L195)values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
+                        <log id="_log10" message="(L195)invoca prd_puebla_grupos_vigentes - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
                         <to id="_to10" uri="sql-stored:classpath:sql/prd_puebla_grupos_vigentes.sql?dataSource=#bannerDataSource"/>
                         <to id="_to2" uri="direct:crearGruposVigentes"/>
                     </when>
@@ -232,7 +234,7 @@
                         <setHeader headerName="emailPermission" id="_setHeader4">
                             <constant>Owner</constant>
                         </setHeader>
-                        <log id="_log11" message="(L205)values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
+                        <log id="_log11" message="(L205)invoca prd_puebla_grupos_posgrado - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
                         <to id="_to11" uri="sql-stored:classpath:sql/prd_puebla_grupos_posgrado.sql?dataSource=#bannerDataSource"/>
                         <to id="_to3" uri="direct:crearGruposVigentesPosgrado"/>
                     </when>
@@ -276,7 +278,7 @@
         <!--                               direct:crearGruposVigentesPosgrado                                  -->
         <!-- ================================================================================================= -->
         <route id="_crearGruposVigentesPosgrado">
-            <from id="_crearGruposVigentesPosgradoRoute" uri="seda:crearGruposVigentesPosgrado"/>
+            <from id="_crearGruposVigentesPosgradoRoute" uri="direct:crearGruposVigentesPosgrado"/>
             <log id="_log17" message="(L249) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposPosgrado.sql"/>
             <to id="_to16" uri="sql:classpath:sql/getGruposPosgrado.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean6" method="factoryGrupos" ref="generaDatos"/>
@@ -354,40 +356,88 @@
             <log id="_log20" message="(L306) Entrando a direct:procesaGrupos para procesar ${header.listaGrupos.size} elementos"/>
             <loop doWhile="true" id="_loop2">
                 <simple>${header.listaGrupos.size} &gt; 0</simple>
-				<threads poolSize="10" maxPoolSize="20">
-	                <bean id="_bean7" method="getGrupoFromListaGrupos" ref="generaDatos"/>
-	                <log id="_log16" message="(L310)el grupo a procesar: ${header.grupoGmail}"/>
-	                <process id="_process2" ref="gruposThread"/>
-				</threads>
+                <threads id="_threads1" maxPoolSize="3" poolSize="3">
+                    <bean id="_bean7" method="getGrupoFromListaGrupos" ref="generaDatos"/>
+                    <log id="_log16" message="(L310)el grupo a procesar: ${header.grupoGmail}"/>
+                    <process id="_process2" ref="gruposThread"/>
+                </threads>
             </loop>
         </route>
         <!-- ================================================================================================= -->
-        <!-- El pre proceso del requerimiento que viene desde el request	SINCRONIZA GRUPOS-->
+        <!--                               seda:sacaMiembroAction                                                -->
+        <!-- ================================================================================================= -->
+        <route id="_procesaSacarMiembrosRoute">
+            <from id="_procesaGruposThreadSaca" uri="seda:sacaMiembroAction?concurrentConsumers=5"/>
+			<onException>
+				<exception>cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException</exception>
+                <handled>
+                    <constant>true</constant>
+                </handled>
+                <setHeader headerName="exception" id="_setHeader1">
+                    <simple>${exception}</simple>
+                </setHeader>
+                <setBody id="_setBody1">
+                    <method method="setErrorProcesoMiembro" ref="gruposThread"/>
+                </setBody>
+                <log message="(L382-${threadName}) atrapo un exception. en el body queda: ${body}"/>
+				<bean method="errorProcesoMiembro" ref="gruposThread"/>
+			</onException>
+			<log message="(L385-${threadName}) sacarMiembro ${header.DatosMemeberDTO.request} "/>
+			<bean method="sacarMiembroAction" ref="gruposThread"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <!--                               seda:agregaMiembroAction                                                -->
+        <!-- ================================================================================================= -->
+        <route id="_procesaAgregarRoute">
+            <from id="_procesaGruposThreadAgrega" uri="seda:agregaMiembroAction?concurrentConsumers=5"/>
+			<onException>
+				<exception>cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException</exception>
+                <handled>
+                    <constant>true</constant>
+                </handled>
+                <setHeader headerName="exception" id="_setHeader1">
+                    <simple>${exception}</simple>
+                </setHeader>
+                <setBody id="_setBody1">
+                    <method method="setErrorProcesoMiembro" ref="gruposThread"/>
+                </setBody>
+                <log message="(L403) atrapo un exception. en el body queda: ${body}"/>
+				<bean method="errorProcesoMiembro" ref="gruposThread"/>
+			</onException>
+			<log message="(L407-${threadName}) agregarMiembro ${header.DatosMemeberDTO.request} "/>
+			<bean method="agregarMiembroAction" ref="gruposThread"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <!-- El proceso del requerimiento que viene desde el request	SINCRONIZA GRUPOS-->
         <!-- ================================================================================================= -->
         <route id="_route2">
             <from id="_from5" uri="direct:sincronizar"/>
-            <log message="(L338) sincronizar: request=${header.request}"/>
-            <loop doWhile="true">
+            <log id="_log22" message="(L338) sincronizar: request=${header.request}"/>
+            <loop doWhile="true" id="_loop3">
                 <simple>${header.listaOperaciones.size} &gt; 0</simple>
-				<bean method="getListaOperaciones" ref="generaDatos"/>
-				<process ref="inicialiceSincronizarGrupos"/>
-				<log message="(L342) proceso: ${header.proceso}"/>
-				<to uri="sql:classpath:sql_s/getGruposXproceso.sql?dataSource=#bannerDataSource"/>
-				<bean method="factoryGruposSincronizar" ref="generaDatos"/>
-				<log message="(L345) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
-				<loop doWhile="true">
-					<simple>${header.listaGruposSincronizar.size} $gt; 0</simple>
-					<bean method="getGrupoSincronizar" ref="generaDatos"/>
-					<to uri="seda:sincronizaGrupo"/>
-            	</loop>
+                <bean id="_bean14" method="getListaOperaciones" ref="generaDatos"/>
+                <process id="_process5" ref="inicialiceSincronizarGrupos"/>
+                <log id="_log23" message="(L342) proceso: ${header.proceso}"/>
+                <to id="_to24" uri="sql:classpath:sql_s/getGruposXproceso.sql?dataSource=#bannerDataSource"/>
+                <bean id="_bean15" method="factoryGruposSincronizar" ref="generaDatos"/>
+                <log id="_log24" message="(L345) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
+                <loop doWhile="true" id="_loop4">
+                    <simple>${header.listaGruposSincronizar.size} $gt; 0</simple>
+                    <bean id="_bean16" method="getGrupoSincronizar" ref="generaDatos"/>
+                    <to id="_to25" uri="seda:sincronizaGrupo"/>
+                </loop>
             </loop>
-			<log message="(L384) termina"/>
-			<to uri="direct:termina"/>
+            <log id="_log25" message="(L384) termina"/>
+            <to id="_to26" uri="direct:termina"/>
         </route>
-		<route>
-			<from uri="seda:sincronizaGrupo?concurrentConsumers=10"/>
-			<process ref="sincronizarGruposAction"/>
-		</route>
+        <!-- ================================================================================================= -->
+        <!--                               seda:sincronizaGrupo                                                -->
+        <!-- ================================================================================================= -->
+        <route id="_route3">
+            <from id="_from6" uri="seda:sincronizaGrupo?concurrentConsumers=10"/>
+			<log message="(L408-${threadName}) grupo a procesar: ${header.grupoGmail}"/>
+            <process id="_process7" ref="sincronizarGruposAction"/>
+        </route>
         <!-- ================================================================================================= -->
         <!--      PARA PRUEBAS OFFLINE -->
         <!-- ================================================================================================= -->

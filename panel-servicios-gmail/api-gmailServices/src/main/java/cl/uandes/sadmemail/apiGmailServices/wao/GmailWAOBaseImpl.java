@@ -26,6 +26,7 @@ import com.google.api.services.admin.directory.model.Members;
 import com.google.api.services.admin.directory.model.User;
 import com.google.api.services.admin.directory.model.UserName;
 import com.google.api.services.admin.directory.model.Users;
+import com.google.api.services.admin.reports.ReportsScopes;
 import com.google.api.services.groupssettings.Groupssettings;
 import com.google.gson.Gson;
 
@@ -51,8 +52,8 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			DirectoryScopes.ADMIN_DIRECTORY_GROUP,
 			DirectoryScopes.ADMIN_DIRECTORY_USER_SECURITY,
 			"https://www.googleapis.com/auth/userinfo.profile",
-			"https://www.googleapis.com/auth/userinfo.email" /*,
-			ReportsScopes.ADMIN_REPORTS_AUDIT_READONLY*/);
+			"https://www.googleapis.com/auth/userinfo.email",
+			ReportsScopes.ADMIN_REPORTS_AUDIT_READONLY);
 	
 	// usar para uandes
 	// usar en forma local local

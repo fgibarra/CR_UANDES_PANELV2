@@ -45,6 +45,18 @@
 			<version>2.8.8</version>
 		</dependency>
 
+  	<dependency>
+  		<groupId>com.google.api-client</groupId>
+  		<artifactId>google-api-client</artifactId>
+  		<version>2.0.0</version>
+  	</dependency>
+<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-admin-reports -->
+<dependency>
+    <groupId>com.google.apis</groupId>
+    <artifactId>google-api-services-admin-reports</artifactId>
+    <version>reports_v1-rev89-1.25.0</version>
+</dependency>
+
 	</dependencies>
 
 	<build>
