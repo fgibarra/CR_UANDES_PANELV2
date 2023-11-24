@@ -368,8 +368,8 @@
         <!-- ================================================================================================= -->
         <route id="_procesaSacarMiembrosRoute">
             <from id="_procesaGruposThreadSaca" uri="seda:sacaMiembroAction?concurrentConsumers=5"/>
-			<onException>
-				<exception>cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException</exception>
+            <onException id="_onException1">
+                <exception>cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException</exception>
                 <handled>
                     <constant>true</constant>
                 </handled>
@@ -379,19 +379,19 @@
                 <setBody id="_setBody1">
                     <method method="setErrorProcesoMiembro" ref="gruposThread"/>
                 </setBody>
-                <log message="(L382-${threadName}) atrapo un exception. en el body queda: ${body}"/>
-				<bean method="errorProcesoMiembro" ref="gruposThread"/>
-			</onException>
-			<log message="(L385-${threadName}) sacarMiembro ${header.DatosMemeberDTO.request} "/>
-			<bean method="sacarMiembroAction" ref="gruposThread"/>
+                <log id="_log26" message="(L382-${threadName}) atrapo un exception. en el body queda: ${body}"/>
+                <bean id="_bean17" method="errorProcesoMiembro" ref="gruposThread"/>
+            </onException>
+            <log id="_log27" message="(L385-${threadName}) sacarMiembro ${header.DatosMemeberDTO.request} "/>
+            <bean id="_bean18" method="sacarMiembroAction" ref="gruposThread"/>
         </route>
         <!-- ================================================================================================= -->
         <!--                               seda:agregaMiembroAction                                                -->
         <!-- ================================================================================================= -->
         <route id="_procesaAgregarRoute">
             <from id="_procesaGruposThreadAgrega" uri="seda:agregaMiembroAction?concurrentConsumers=5"/>
-			<onException>
-				<exception>cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException</exception>
+            <onException id="_onException2">
+                <exception>cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException</exception>
                 <handled>
                     <constant>true</constant>
                 </handled>
@@ -401,12 +401,20 @@
                 <setBody id="_setBody1">
                     <method method="setErrorProcesoMiembro" ref="gruposThread"/>
                 </setBody>
-                <log message="(L403) atrapo un exception. en el body queda: ${body}"/>
-				<bean method="errorProcesoMiembro" ref="gruposThread"/>
-			</onException>
-			<log message="(L407-${threadName}) agregarMiembro ${header.DatosMemeberDTO.request} "/>
-			<bean method="agregarMiembroAction" ref="gruposThread"/>
+                <log id="_log28" message="(L403) atrapo un exception. en el body queda: ${body}"/>
+                <bean id="_bean19" method="errorProcesoMiembro" ref="gruposThread"/>
+            </onException>
+            <log id="_log29" message="(L407-${threadName}) agregarMiembro ${header.DatosMemeberDTO.request} "/>
+            <bean id="_bean20" method="agregarMiembroAction" ref="gruposThread"/>
         </route>
+        <!-- ================================================================================================= -->
+        <!-- direct:incrementaResultado  -->
+        <!-- ================================================================================================= -->
+		<route>
+			<from uri="direct:incrementaResultado"/>
+			<log message="(L412) incrementar keyResultado: ${header.keyResultado} idContador: ${header.idContador} p_operacion: ${header.operacion}"/>
+			<to uri="sql-stored:classpath:sql/prd_operaContadorMiResultados.sql?dataSource=#bannerDataSource"/>
+		</route>
         <!-- ================================================================================================= -->
         <!-- El proceso del requerimiento que viene desde el request	SINCRONIZA GRUPOS-->
         <!-- ================================================================================================= -->
@@ -435,7 +443,7 @@
         <!-- ================================================================================================= -->
         <route id="_route3">
             <from id="_from6" uri="seda:sincronizaGrupo?concurrentConsumers=10"/>
-			<log message="(L408-${threadName}) grupo a procesar: ${header.grupoGmail}"/>
+            <log id="_log30" message="(L408-${threadName}) grupo a procesar: ${header.grupoGmail}"/>
             <process id="_process7" ref="sincronizarGruposAction"/>
         </route>
         <!-- ================================================================================================= -->

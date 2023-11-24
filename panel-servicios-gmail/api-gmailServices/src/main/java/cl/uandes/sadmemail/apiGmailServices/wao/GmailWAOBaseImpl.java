@@ -26,7 +26,6 @@ import com.google.api.services.admin.directory.model.Members;
 import com.google.api.services.admin.directory.model.User;
 import com.google.api.services.admin.directory.model.UserName;
 import com.google.api.services.admin.directory.model.Users;
-import com.google.api.services.admin.reports.ReportsScopes;
 import com.google.api.services.groupssettings.Groupssettings;
 import com.google.gson.Gson;
 
@@ -52,8 +51,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			DirectoryScopes.ADMIN_DIRECTORY_GROUP,
 			DirectoryScopes.ADMIN_DIRECTORY_USER_SECURITY,
 			"https://www.googleapis.com/auth/userinfo.profile",
-			"https://www.googleapis.com/auth/userinfo.email",
-			ReportsScopes.ADMIN_REPORTS_AUDIT_READONLY);
+			"https://www.googleapis.com/auth/userinfo.email");
 	
 	// usar para uandes
 	// usar en forma local local
@@ -95,7 +93,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			"913462879831-avq9g03d9vif9ojv3lln2033ks34b7vf@developer.gserviceaccount.com",
 			System.getProperty("karaf.etc") != null ?
 			(new File(String.format("%s/auth/%s",System.getProperty("karaf.etc"), "panel.p12")) ):
-			(new File(String.format("%s/%s","/home/fernando/datosUAndes/KeysGoogle_panel/", "panel.p12" ))),
+			(new File(String.format("%s/%s","/home/appServers/fuse-7.11-UANDES/etc/auth/", "panel.p12" ))),
 					"panel"),
 	};
 	static String APPLICATION_NAME = datos[indexDatosAccount].getApplicationName(); // "panel";

@@ -8,6 +8,7 @@
   <description>Servicios que se conecta an GMAIL</description>
   <modules>
   	<module>api-gmailServices</module>
+  	<module>api-gmailReports</module>
   </modules>
 	<licenses>
 		<license>

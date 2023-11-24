@@ -155,8 +155,9 @@ public class GruposThread implements Processor {
 	 */
 	private boolean crearGrupo(Exchange exchange, GruposMiUandes grupo, ResultadoFuncion miResultado) {
 		Message message = exchange.getIn();
-		Map<String,Object> headers = message.getHeaders();
-		logger.info(String.format("crearGrupo: hay que crear? grupo.getCreadoGmail().booleanValue(): %b", grupo.getCreadoGmail().booleanValue()));
+		Map<String,Object> headers = new HashMap<String,Object>();
+		logger.info(String.format("crearGrupo: hay que crear? grupo.getCreadoGmail().booleanValue(): %b miResultado=%s",
+				grupo.getCreadoGmail().booleanValue(), miResultado));
 		if (!grupo.getCreadoGmail().booleanValue()) {
 			/* validar que efectivamente no este creado. 
 			 * Si lo esta solo actualizar el flag en MI_GRUPOS_AZURE
@@ -171,6 +172,7 @@ public class GruposThread implements Processor {
 					 */
 					
 					GroupRequest body = new GroupRequest(grupo.getGroupName(), grupo.getGroupDescription(), grupo.getEmailPermission(), getFechaExpiracion(grupo));
+					
 					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoGmail,getGmailServices()));
 					headers.put("CamelHttpMethod", "POST");
 					GroupResponse res;
@@ -190,17 +192,22 @@ public class GruposThread implements Processor {
 					if (res.getCodigo() == 0 || res.getMensaje().matches(".*creado.*")) {
 						grupo.setGroupId(res.getGrupo().getId());
 						grupo.setCreadoGmail(Boolean.TRUE);
+						headers.clear();
 						headers.put("keyGrupo", BigDecimal.valueOf(grupo.getKey()));
 						headers.put("idGrupo", grupo.getGroupId());
 						logger.info(String.format("update mi_resultados: key=%d", grupo.getKey()));
 						saveGrupo.requestBodyAndHeaders(null, headers);
 						contadores.incCountGruposAgregadosBD();
+						headers.clear();
+						operaContador("GRUPOS_CREADOS", new BigDecimal(miResultado.getKey()));
+						/*
 						headers.put("idContador", "GRUPOS_CREADOS");
 						headers.put("p_operacion", "INCREMENTA");
 						headers.put("key", new BigDecimal(miResultado.getKey()));
 						logger.info(String.format("incrementar resultado: %d idContador: %s p_operacion: %s", 
 								miResultado.getKey(), headers.get("idContador"), headers.get("p_operacion")));
 						incrementa.requestBodyAndHeaders(null, headers);
+						*/
 					} else {
 						contadores.incCountErrores();
 						registraError("createGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
@@ -247,6 +254,7 @@ public class GruposThread implements Processor {
 			if (res.getCodigo() != 0) {
 				if (res.getMensaje().matches(".*Invalid object identifier*")) {
 					// crearlo
+					headers.clear();
 					GroupRequest body = new GroupRequest(grupo.getGroupName(), grupo.getGroupDescription(), grupo.getEmailPermission(), getFechaExpiracion(grupo));
 					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoGmail,getGmailServices()));
 					headers.put("CamelHttpMethod", "POST");
@@ -272,7 +280,6 @@ public class GruposThread implements Processor {
 				}
 			}
 			// incrementar contador
-			incrementa.requestBodyAndHeaders(null, headers);
 			operaContador("GRUPOS_CREADOS", new BigDecimal(miResultado.getKey()));
 		}
 		return true;
@@ -311,12 +318,14 @@ public class GruposThread implements Processor {
 	}
 	
 	private void operaContador(String idContador, BigDecimal key) {
-		logger.info(String.format("operaContador: idContador=%s key=%d", idContador, key.intValue()));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("idContador", idContador);
-		headers.put("p_operacion", "INCREMENTA");
-		headers.put("key", key);
-		incrementa.requestBodyAndHeaders(null, headers);
+		headers.put("operacion", "INCREMENTA");
+		headers.put("keyResultado", key);
+		logger.info(String.format("incrementar resultado: %d idContador: %s p_operacion: %s incrementa es %s nulo", 
+				((BigDecimal)headers.get("keyResultado")).intValue(), headers.get("idContador"), headers.get("operacion"), incrementa==null?"":"NO"));
+		//incrementa.requestBodyAndHeaders(null, headers);
+		incrementa.asyncRequestBodyAndHeaders("direct:incrementaResultado", null, headers);
 	}
 	
 	private String getFechaExpiracion(GruposMiUandes grupo) {
@@ -418,7 +427,8 @@ public class GruposThread implements Processor {
 			for (DatosMemeberDTO datos : miembrosAgregar) {
 				// hacerlo en un multithread
 				//agregarMiembrosPT.requestBodyAndHeaders(datos, headers);
-				agregarMiembrosPT.asyncRequestBodyAndHeaders("seda:agregaMiembroAction", datos, headers);
+				if (!datos.getKeyGrupoMiembro().getActivo()) // solo si aparece registrado en NAP_GRUPO_MIEMBRO.activo=0
+					agregarMiembrosPT.asyncRequestBodyAndHeaders("seda:agregaMiembroAction", datos, headers);
 			}
 		}
 	}

@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="direct:termina"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="direct:termina"/>
+			<item value="rsFinProceso"/>
+			<item value="incrementa"/>
+			<item value="updateIdGrupo"/>
+			<item value="Azure"/>
 			<item value="direct:crearGruposVigentesPosgrado"/>
 			<item value="direct:proceso"/>
 			<item value="sincronizarGruposAction"/>
 			<item value="sincronizaGruposAction"/>
-			<item value="direct:termina"/>
 			<item value="direct:procesaGrupos"/>
 			<item value="420"/>
 			<item value="500"/>
 			<item value="creaResultado"/>
 			<item value="response.getMensaje()."/>
 			<item value="procesaRecreaSuspendidos"/>
-			<item value="reactivaCuentas"/>
-			<item value="seda:"/>
-			<item value="CrearCuentasRestService"/>
-			<item value="getGruposRegulares"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
+			<item value="Gmail"/>
 			<item value="direct:"/>
 			<item value="SuspendeEliminaCuentasRestService"/>
-			<item value="Gmail"/>
 			<item value="-gmail"/>
 			<item value="gmail"/>
 			<item value="CuentasMiUandes"/>
@@ -39,7 +40,6 @@
 			<item value="GeneraRespuestaGetArchivo"/>
 			<item value="ProcesaFiltro"/>
 			<item value="ProgramarProcesoCarga"/>
-			<item value="InputFormCursos"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

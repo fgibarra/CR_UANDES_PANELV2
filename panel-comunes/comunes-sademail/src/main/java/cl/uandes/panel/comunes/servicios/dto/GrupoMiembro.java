@@ -27,8 +27,8 @@ public class GrupoMiembro implements Serializable {
 	String idMiembro;
 	@JsonProperty("ACTIVO")
 	Boolean activo;
-	@JsonProperty("CREADO_AZURE")
-	Boolean creadoAzure;
+	@JsonProperty("CREADO_GMAIL")
+	Boolean creadoGmail;
 	@JsonProperty("FECHA_VALIDACION")
 	Timestamp fechaValidacion;
 
@@ -40,9 +40,9 @@ public class GrupoMiembro implements Serializable {
 			Integer valor = Integer.valueOf(((BigDecimal)datos.get("ACTIVO")).intValue());
 			this.activo = valor == 1 ? Boolean.TRUE : Boolean.FALSE;
 		}
-		if (datos.get("CREADO_AZURE") != null) {
-			Integer valor = Integer.valueOf(((BigDecimal)datos.get("CREADO_AZURE")).intValue());
-			this.creadoAzure = valor == 1 ? Boolean.TRUE : Boolean.FALSE;
+		if (datos.get("CREADO_GMAIL") != null) {
+			Integer valor = Integer.valueOf(((BigDecimal)datos.get("CREADO_GMAIL")).intValue());
+			this.creadoGmail = valor == 1 ? Boolean.TRUE : Boolean.FALSE;
 		}
 		this.fechaValidacion = (Timestamp)datos.get("FECHA_VALIDACION");
 	}
@@ -83,12 +83,12 @@ public class GrupoMiembro implements Serializable {
 		this.activo = activo;
 	}
 
-	public Boolean getCreadoAzure() {
-		return creadoAzure;
+	public Boolean getCreadoGmail() {
+		return creadoGmail;
 	}
 
-	public void setCreadoAzure(Boolean creadoAzure) {
-		this.creadoAzure = creadoAzure;
+	public void setCreadoGmail(Boolean creadoGmail) {
+		this.creadoGmail = creadoGmail;
 	}
 
 	public Timestamp getFechaValidacion() {
