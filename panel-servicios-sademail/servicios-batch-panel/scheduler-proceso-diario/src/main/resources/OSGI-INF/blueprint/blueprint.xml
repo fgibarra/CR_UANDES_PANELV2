@@ -20,7 +20,7 @@
     </jaxrs:server>
     <!-- Ejecutar proceso crear cuentas-->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panelv3/servicio/crearCuentas/procese"
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/crearCuentas/procese"
         id="servCreaCuentas" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioCrearCuentasEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -33,7 +33,7 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- Ejecutar proceso crear grupos-->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panelv3/servicio/crearGrupos/procese"
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/crearGrupos/procese"
         id="servCreaGrupos" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioCrearGruposEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -68,12 +68,12 @@
         <property name="procesoCrearGruposPosgrado" value="{{grupos_inprogress_posgrado_gmail.proceso}}"/>
     </bean>
     <bean class="cl.uandes.panel.servicio.scheduler.bean.GeneraDatos" id="generaDatos">
-        <argument index="0" value="{{crear-cuentas-gmail.tiposCuenta}}"/>
-        <argument index="1" value="{{crear-grupos-gmail.proceso}}"/>
-        <argument index="2" value="{{grupos_inprogress_gmail.proceso}}"/>
-        <argument index="3" value="{{grupos_inprogress_posgrado_gmail.proceso}}"/>
-        <argument index="4" value="{{crear-cuentas-gmail.nocturno.funcion}}"/>
-        <argument index="5" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
+        <argument index="0" value="Alumnos"/>
+        <argument index="1" value="crear_grupos"/>
+        <argument index="2" value="grupos_inprogress"/>
+        <argument index="3" value="grupos_inprogress_posgrado"/>
+        <argument index="4" value="crear_cuentas"/>
+        <argument index="5" value="generaGrupos"/>
         <property name="delegate" ref="restService"/>
     </bean>
     <bean

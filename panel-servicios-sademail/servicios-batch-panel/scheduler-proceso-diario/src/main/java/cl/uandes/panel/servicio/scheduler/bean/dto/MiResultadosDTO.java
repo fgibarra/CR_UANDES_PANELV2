@@ -33,12 +33,16 @@ public class MiResultadosDTO implements Serializable {
 		date = (java.sql.Timestamp)datos.get("HORA_TERMINO");
 		this.horaTermino = StringUtilities.getInstance().toString(date);
 		String valor = (String)datos.get("COMENTARIO");
-		int index = valor.indexOf(':');
-		if (index >= 0) {
-			this.comentario = valor.substring(0, index);
-			this.jsonContadores = valor.substring(index+1);
+		if (valor.startsWith("OK")) {
+			int index = valor.indexOf(':');
+			if (index >= 0) {
+				this.comentario = valor.substring(0, index);
+				this.jsonContadores = valor.substring(index+1);
+			} else {
+				this.comentario = valor;
+			}
 		} else {
-			this.comentario = valor;
+			this.jsonContadores = valor;
 		}
 	}
 

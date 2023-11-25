@@ -43,7 +43,7 @@ public class CrearGruposRestService {
 	private String funcionSincroniza;
     @PropertyInject(value = "crear-grupos-gmail.proceso", defaultValue="proceso")
 	private String proceso;
-    public static String procesosValidos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_postgrado"};
+    public static String procesosValidos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_posgrado"};
 	
 	Logger logger = Logger.getLogger(getClass());
 

@@ -29,7 +29,7 @@ import cl.uandes.panel.servicio.scheduler.bean.dto.MiResultadosDTO;
 public class GeneraDatos {
 	private SchedulerPanelRestService delegate;
 	private String tiposCuenta[] = {"Alumnos"};
-	private String tiposGrupos[] = {"crear_grupos_azure", "grupos_inprogress_azure", "grupos_inprogress_posgrado_azure"};
+	private String tiposGrupos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_posgrado"};
 	private String funcionNocturnoCrearCuentas;
 	private String funcionNocturnoCrearGrupos;
 	

@@ -199,6 +199,26 @@ El proceso se ha ejecutado por &uacute;ltima vez a las ${headers.ultimaEjecucion
 <ul>Cuentas agregadas al Active Directory: ${headers.countAgregadosAD}</ul>
 </li>
 <br><br>
+#if(${headers.reporteErrores.size} > 0)
+	<table style="border: 1px solid black;width=100%">
+	<caption style="padding-bottom: 30px;text-decoration: underline;">Res&uacute;men de problemas encontrados en el proceso</caption>
+	<tr>
+	<th>RUT</th>
+	<th>Tipo</th>
+	<th colspan="2">causa</th>
+	<th>key Grupo</th>
+	</tr>
+	#foreach($reporte in ${headers.reporteErrores})
+		<tr>
+		<td>$reporte.idUsuario</td>
+		<td>$reporte.tipo</td>
+		<td colspan="2">$reporte.causa</td>
+		<td>$reporte.keyGrupo</td>
+		</tr>
+	#end
+	</table>
+
+#end
 </section>
 
 <footer style="padding-top: 100px;">

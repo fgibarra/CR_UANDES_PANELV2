@@ -28,13 +28,13 @@ public class SchedulerPanelRestService {
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
 
-    @PropertyInject(value = "crear-cuentas-azure.proceso", defaultValue="crear_cuentas_azure")
+    @PropertyInject(value = "crear-cuentas-gmail.proceso", defaultValue="crear_cuentas")
 	private String procesoCrearCuentas;
-    @PropertyInject(value = "crear-grupos-azure.proceso", defaultValue="crear_grupos_azure")
+    @PropertyInject(value = "crear-grupos-gmail.proceso", defaultValue="crear_grupos")
 	private String procesoCrearGrupos;
-    @PropertyInject(value = "grupos_inprogress_azure.proceso", defaultValue="grupos_inprogress_azure")
+    @PropertyInject(value = "grupos_inprogress_gmail.proceso", defaultValue="grupos_inprogress")
 	private String procesoCrearGruposInprogress;
-    @PropertyInject(value = "grupos_inprogress_posgrado_azure.proceso", defaultValue="grupos_inprogress_posgrado_azure")
+    @PropertyInject(value = "grupos_inprogress_posgrado_gmail.proceso", defaultValue="grupos_inprogress_posgrado")
 	private String procesoCrearGruposPosgrado;
 
     Logger logger = Logger.getLogger(getClass());
