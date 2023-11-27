@@ -132,11 +132,11 @@ public class GruposThread implements Processor {
 	private void actualizaOrigen(GruposMiUandes grupo, Exchange exchange) {
 		String proceso = (String)exchange.getIn().getHeader("proceso");
 		Map<String, Object> headers = new HashMap<String, Object>();
-		if (CrearGruposRestService.procesosValidos[1].equals(proceso)) {
+		if (CrearGruposRestService.procesosValidosCrear[1].equals(proceso)) {
 			headers.put("origen", "VIGENTES");
 			if (grupo.getOrigen() != null)
 				return;
-		} else if (CrearGruposRestService.procesosValidos[2].equals(proceso)) {
+		} else if (CrearGruposRestService.procesosValidosCrear[2].equals(proceso)) {
 			headers.put("origen", "POSGRADO");
 			if (grupo.getOrigen() != null)
 				return;

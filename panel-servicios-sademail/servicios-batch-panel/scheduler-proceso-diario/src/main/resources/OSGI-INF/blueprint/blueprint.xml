@@ -65,13 +65,13 @@
         <property name="procesoCrearCuentas" value="{{crear-cuentas-gmail.proceso}}"/>
         <property name="procesoCrearGrupos" value="{{crear-grupos-gmail.proceso}}"/>
         <property name="procesoCrearGruposInprogress" value="{{grupos_inprogress_gmail.proceso}}"/>
-        <property name="procesoCrearGruposPosgrado" value="{{grupos_inprogress_posgrado_gmail.proceso}}"/>
+        <property name="procesoCrearGruposPosgrado" value="{{grupos_inprogress_postgrado_gmail.proceso}}"/>
     </bean>
     <bean class="cl.uandes.panel.servicio.scheduler.bean.GeneraDatos" id="generaDatos">
         <argument index="0" value="Alumnos"/>
         <argument index="1" value="crear_grupos"/>
         <argument index="2" value="grupos_inprogress"/>
-        <argument index="3" value="grupos_inprogress_posgrado"/>
+        <argument index="3" value="grupos_inprogress_postgrado"/>
         <argument index="4" value="crear_cuentas"/>
         <argument index="5" value="generaGrupos"/>
         <property name="delegate" ref="restService"/>

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>uandes.panel-v2.servicios</groupId>
+		<groupId>uandes.panel-v2.servicios.batch</groupId>
 		<artifactId>servicios-batch-panel</artifactId>
 		<version>0.0.1</version>
 	</parent>
@@ -17,7 +17,7 @@
   		<artifactId>comunes-gmail</artifactId>
   		<version>0.0.1</version>
   		<scope>system</scope>
-  		<systemPath>/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-gmail/target/comunes-gmail-0.0.1.jar</systemPath>
+  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-gmail/target/comunes-gmail-0.0.1.jar</systemPath>
   	</dependency>
   </dependencies>
 	<build>

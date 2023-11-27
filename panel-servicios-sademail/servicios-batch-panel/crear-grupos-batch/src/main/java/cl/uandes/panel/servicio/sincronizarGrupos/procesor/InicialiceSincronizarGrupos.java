@@ -37,6 +37,7 @@ public class InicialiceSincronizarGrupos implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
+		
 		String proceso = (String) message.getHeader("proceso");
 		
 		// actualizar la partida

@@ -3,11 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>uandes.panel-v2.servicios</groupId>
+		<groupId>uandes.panel-v2.servicios.gmail</groupId>
 		<artifactId>panel-servicios-gmail</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>gmail.api-gmailServices</artifactId>
+
+	<artifactId>api-gmailServices</artifactId>
 	<packaging>bundle</packaging>
 	<name>api-gmail-services</name>
 	<description>REST Api para el uso de los servicios GMAIL</description>
@@ -70,11 +71,11 @@
 							cl.uandes.sadmemail.comunes.google.api.services,
 							cl.uandes.mail.json;version="[0.0,1)",cl.uandes.utils;version="[0.0,1)",
 							com.google.api.client.json;version="[1.39,2)",
-							com.google.api.client.googleapis.auth.oauth2,
-							com.google.api.client.googleapis.javanet,
+							com.google.api.client.googleapis.auth.oauth2;version="[1.32,2)",
+							com.google.api.client.googleapis.javanet;version="[1.32,2)",
 							com.google.api.client.googleapis.json;version="[1.32,2)",
-							com.google.api.client.http,
-							com.google.api.client.http.javanet,
+							com.google.api.client.http;version="[1.39,2)",
+							com.google.api.client.http.javanet;version="[1.32,2)",
 							com.google.api.client.json.jackson2;version="[5.0,6)",
 							com.google.api.services.admin.directory,
 							com.google.api.services.admin.directory.model,

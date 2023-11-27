@@ -37,6 +37,7 @@ public class ActualizaMiResultados implements Processor {
 		Message message = exchange.getIn();
 		DatosKcoFunciones datos = (DatosKcoFunciones)exchange.getIn().getHeader("DatosKcoFunciones");
 		String operacion = datos.getFuncion();
+		logger.info(String.format("ActualizaMiResultados: DatosKcoFunciones datos=%s", datos));
 		ResultadoFuncion res = (ResultadoFuncion)exchange.getIn().getHeader("ResultadoFuncion");
 		String resultado = null;
 		Map<String, Object> headers = new HashMap<String, Object>();

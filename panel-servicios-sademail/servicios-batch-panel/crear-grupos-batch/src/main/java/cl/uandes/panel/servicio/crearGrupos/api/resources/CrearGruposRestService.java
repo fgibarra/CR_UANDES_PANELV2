@@ -43,7 +43,8 @@ public class CrearGruposRestService {
 	private String funcionSincroniza;
     @PropertyInject(value = "crear-grupos-gmail.proceso", defaultValue="proceso")
 	private String proceso;
-    public static String procesosValidos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_posgrado"};
+    public static String procesosValidosCrear[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_postgrado"};
+    public static String procesosValidosSinc[] = {"sinc_grupos_generales", "sinc_grupos_vigentes", "sinc_grupos_postgrado"};
 	
 	Logger logger = Logger.getLogger(getClass());
 
@@ -95,6 +96,12 @@ public class CrearGruposRestService {
 		if (!(req.getFuncion().equals(getFuncionCrear()) || req.getFuncion().equals(getFuncionSincroniza())))
 			return valida;
 		
+		String procesosValidos[] = null;
+		if (req.getFuncion().equals(getFuncionCrear()))
+			procesosValidos = procesosValidosCrear;
+		else if (req.getFuncion().equals(getFuncionSincroniza()))
+			procesosValidos = procesosValidosSinc;
+
 		for (String operacion : req.getOperaciones()) {
 			logger.info(String.format("valida operacion: %s", operacion));
 			boolean found = false;
