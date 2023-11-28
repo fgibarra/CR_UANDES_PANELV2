@@ -30,6 +30,8 @@ public class ParametrosCrearGrupos implements Serializable {
 	private String fuente;
 	@JsonProperty("force_ad")
 	private Boolean forceAD;
+	@JsonProperty("tipo_grupo")
+	private String tipoGrupo;
 
 	public ParametrosCrearGrupos(String buffer) {
 		super();
@@ -56,6 +58,8 @@ public class ParametrosCrearGrupos implements Serializable {
 			this.forceAD = Boolean.valueOf(valor);
 		else
 			this.forceAD = Boolean.FALSE;
+		
+		this.tipoGrupo = parser.getValue("tipo_grupo");
 	}
 
 	@Override
@@ -108,6 +112,10 @@ public class ParametrosCrearGrupos implements Serializable {
 
 	public void setForceAD(Boolean forceAD) {
 		this.forceAD = forceAD;
+	}
+
+	public synchronized String getTipoGrupo() {
+		return tipoGrupo;
 	}
 
 }

@@ -67,6 +67,7 @@ public class InicialiceSincronizarGrupos implements Processor {
 		insertMiResultado.requestBodyAndHeaders(null, headers);
 
 		message.setHeader("keyResultado", valor);
+		message.setHeader("tipoGrupo", data.getParametros().getTipoGrupo());
 		message.setHeader("DatosKcoFunciones", data);
 		message.setHeader("ResultadoFuncion", res);
 		message.setHeader("contadoresSincronizarGrupos", new ContadoresSincronizarGrupos(proceso,0,0,0));

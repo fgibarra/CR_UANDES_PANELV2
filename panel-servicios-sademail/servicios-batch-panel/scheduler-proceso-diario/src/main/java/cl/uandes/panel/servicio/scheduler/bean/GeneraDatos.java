@@ -1,5 +1,6 @@
 package cl.uandes.panel.servicio.scheduler.bean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
+import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest;
 import cl.uandes.panel.comunes.utils.JSonUtilities;
@@ -83,6 +85,13 @@ public class GeneraDatos {
 		exchange.getIn().setHeaders(generaHeaders(exchange));
 	}
 
+	public void preparaMailResultadoSincronizarGrupos(Exchange exchange) {
+		 // en el request viene sinc_grupos_*, convertirlo a sincronizar_grupos
+		Message message = exchange.getIn();
+		message.setBody("sincronizaGrupos");
+		message.setHeaders(generaHeaders(exchange));
+	}
+	
 	private Map<String,Object> generaHeaders(Exchange exchange) {
 		Map<String,Object> headers = new HashMap<String,Object>();
 		Message message = exchange.getIn();
@@ -106,10 +115,17 @@ public class GeneraDatos {
 	
 	@SuppressWarnings("unchecked")
 	private String getUltimaEjecucion(String proceso) {
+		logger.info(String.format("getUltimaEjecucion: busca funcion |%s| en KCO_FUNCIONES", proceso));
 		List<Map<String, Object>> datos = (List<Map<String, Object>>) qryKcoFunciones.requestBodyAndHeader(null, "proceso", proceso);
-		Map<String, Object> map = (Map<String, Object>)datos.get(0);
-		
-		return StringUtilities.getInstance().toString((java.sql.Timestamp)map.get("ULTIMA_EJECUCION"), "E, dd MMM yyyy HH:mm:ss z");
+		if (datos != null && datos.size() > 0) {
+			Map<String, Object> map = (Map<String, Object>)datos.get(0);
+			
+			return StringUtilities.getInstance().toString((java.sql.Timestamp)map.get("ULTIMA_EJECUCION"), "E, dd MMM yyyy HH:mm:ss z");
+		} else {
+			SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z", new java.util.Locale("es", "CL"));
+			
+			return sdf.format(new java.util.Date());
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -156,6 +172,16 @@ public class GeneraDatos {
 				headers.put("countMiembrosSacadosAD", contadores.getCountMiembrosSacadosAD());
 			} catch (Exception e) {
 				logger.error(String.format("ContadoresCrearGrupos: json malo |%s|", jsonContadores), e);
+			}
+		} else if (delegate.esSincronizarGrupos(operacion)) {
+			try {
+				ContadoresSincronizarGrupos contadores = (ContadoresSincronizarGrupos)JSonUtilities.getInstance().
+						json2java(jsonContadores, ContadoresSincronizarGrupos.class, false);
+				headers.put("countProcesados", contadores.getCountProcesados());
+				headers.put("countErrores", contadores.getCountErrores());
+				headers.put("countMiembrosSacadosBD", contadores.getCountSacados());
+			} catch (Exception e) {
+				logger.error(String.format("ContadoresSincronizarGrupos: json malo |%s|", jsonContadores), e);
 			}
 		}
 	}

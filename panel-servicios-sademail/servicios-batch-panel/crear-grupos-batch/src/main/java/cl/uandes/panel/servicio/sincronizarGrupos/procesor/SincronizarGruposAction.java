@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
+import cl.uandes.panel.servicio.sincronizarGrupos.bean.CountThreads;
 import cl.uandes.sadmemail.comunes.gmail.json.MemberRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersResponse;
@@ -46,6 +47,7 @@ public class SincronizarGruposAction implements Processor {
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
 		String groupName = (String) message.getHeader("grupoGmail");
+		
 		contadores = (ContadoresSincronizarGrupos)message.getHeader("contadoresSincronizarGrupos");
 		contadores.incProcesados();
 		logger.info(String.format("SincronizarGruposAction: groupName %s", groupName));
@@ -56,7 +58,8 @@ public class SincronizarGruposAction implements Processor {
 				procesaMember(member, groupName, exchange);
 			}
 		} while (getNextPageToken() != null);
-		
+		Integer valor = ((CountThreads)message.getHeader("countThread")).decCounter();
+		logger.info(String.format("SincronizarGruposAction: countThread=%d",valor));
 	}
 
 	private void procesaMember(Member member, String groupName, Exchange exchange) {

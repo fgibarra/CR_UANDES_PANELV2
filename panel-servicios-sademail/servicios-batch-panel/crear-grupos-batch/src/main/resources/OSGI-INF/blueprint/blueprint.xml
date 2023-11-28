@@ -416,34 +416,53 @@
             <to id="_to27" uri="sql-stored:classpath:sql/prd_operaContadorMiResultados.sql?dataSource=#bannerDataSource"/>
         </route>
         <!-- ================================================================================================= -->
-        <!-- El proceso del requerimiento que viene desde el request	SINCRONIZA GRUPOS-->
+        <!-- 	SINCRONIZA GRUPOS-->
+        <!-- El proceso del requerimiento que viene desde el request	-->
         <!-- ================================================================================================= -->
         <route id="_route2">
             <from id="_from5" uri="direct:sincronizar"/>
-            <log id="_log22" message="(L423) sincronizar: request=${header.request}"/>
+            <log id="_log22" message="(L424) sincronizar: request=${header.request}"/>
             <loop doWhile="true" id="_loop3">
                 <simple>${header.listaOperaciones.size} &gt; 0</simple>
                 <bean id="_bean14" method="getListaOperaciones" ref="generaDatos"/>
                 <process id="_process5" ref="inicialiceSincronizarGrupos"/>
-                <log id="_log23" message="(L428) proceso: ${header.proceso}"/>
+                <log id="_log23" message="(L429) proceso: ${header.tipoGrupo}"/>
                 <to id="_to24" uri="sql:classpath:sql_s/getGruposXproceso.sql?dataSource=#bannerDataSource"/>
                 <bean id="_bean15" method="factoryGruposSincronizar" ref="generaDatos"/>
-                <log id="_log24" message="(L431) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
+                <log id="_log24" message="(L432) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
                 <loop doWhile="true" id="_loop4">
                     <simple>${header.listaGruposSincronizar.size} &gt; 0</simple>
-                    <bean id="_bean16" method="getGrupoSincronizar" ref="generaDatos"/>
-                    <to id="_to25" uri="seda:sincronizaGrupo"/>
+                    <choice id="_choice3">
+                        <when id="_when7">
+                            <simple>${header.countThread.getCounter} &gt; 14</simple>
+                            <delay id="_delay1">
+                                <constant>1000</constant>
+                            </delay>
+                        </when>
+                        <otherwise id="_otherwise3">
+                            <bean id="_bean16"
+                                method="getGrupoSincronizar" ref="generaDatos"/>
+                            <to id="_to25" uri="seda:sincronizaGrupo"/>
+                        </otherwise>
+                    </choice>
                 </loop>
             </loop>
-            <log id="_log25" message="(L438) termina"/>
+            <loop doWhile="true" id="_loop4">
+                <simple>${header.countThread.getCounter} &gt; 0</simple>
+                <delay id="_delay2">
+                    <constant>1000</constant>
+                </delay>
+                <log id="_log32" message="(L451) Esperando counterThread valor=${header.countThread.getCounter}"/>
+            </loop>
+            <log id="_log25" message="(L453) termina"/>
             <to id="_to26" uri="direct:termina"/>
         </route>
         <!-- ================================================================================================= -->
         <!--                               seda:sincronizaGrupo                                                -->
         <!-- ================================================================================================= -->
         <route id="_route3">
-            <from id="_from6" uri="seda:sincronizaGrupo?concurrentConsumers=10"/>
-            <log id="_log30" message="(L446-${threadName}) grupo a procesar: ${header.grupoGmail}"/>
+            <from id="_from6" uri="seda:sincronizaGrupo?concurrentConsumers=15"/>
+            <log id="_log30" message="(L461-${threadName}) grupo a procesar: ${header.grupoGmail} countThread=${header.countThread}"/>
             <process id="_process7" ref="sincronizarGruposAction"/>
         </route>
         <!-- ================================================================================================= -->

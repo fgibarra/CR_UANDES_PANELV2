@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="getKcoFuncion"/>
+		<item key="selection" value="_bean16"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="_bean16"/>
 			<item value="getKcoFuncion"/>
 			<item value="direct:termina"/>
 			<item value="direct:sincronizar"/>
@@ -22,7 +23,6 @@
 			<item value="rsFinProceso"/>
 			<item value="incrementa"/>
 			<item value="updateIdGrupo"/>
-			<item value="Azure"/>
 		</list>
 		<list key="replacehistory">
 			<item value="_postgrado"/>

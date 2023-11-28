@@ -45,7 +45,6 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MembersResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MembersRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException"/>
     <fullyQualifiedTypeName name="org.apache.camel.Header"/>
     <fullyQualifiedTypeName name="java.io.File"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="java.util.Set"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.JSonUtilities"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos"/>
 </qualifiedTypeNameHistroy>
