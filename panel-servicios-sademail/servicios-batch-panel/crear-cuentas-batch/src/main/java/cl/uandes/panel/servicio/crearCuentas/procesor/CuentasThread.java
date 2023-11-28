@@ -138,7 +138,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 				hayCuenta = Boolean.valueOf(valor);
 		}
 		logger.info(String.format("hayCuentaRegistradaEnBD: cuenta %s registrada para rut: %s",
-				hayCuenta?"":"NO", spridenId));
+				hayCuenta?"SI":"NO", spridenId));
 		return hayCuenta;
 	}
 	private boolean defineCuentaEnAD(DatosCuentasBanner dto, Exchange exchange) {

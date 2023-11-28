@@ -8,14 +8,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError.ErrorInfo;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.admin.directory.Directory;
@@ -29,7 +26,7 @@ import com.google.api.services.admin.directory.model.Members;
 import com.google.api.services.admin.directory.model.User;
 import com.google.api.services.admin.directory.model.UserName;
 import com.google.api.services.admin.directory.model.Users;
-import com.google.api.services.groupssettings.*;
+import com.google.api.services.groupssettings.Groupssettings;
 import com.google.gson.Gson;
 
 public abstract class GmailWAOBaseImpl implements GmailWAOBase {
@@ -54,8 +51,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			DirectoryScopes.ADMIN_DIRECTORY_GROUP,
 			DirectoryScopes.ADMIN_DIRECTORY_USER_SECURITY,
 			"https://www.googleapis.com/auth/userinfo.profile",
-			"https://www.googleapis.com/auth/userinfo.email" /*,
-			ReportsScopes.ADMIN_REPORTS_AUDIT_READONLY*/);
+			"https://www.googleapis.com/auth/userinfo.email");
 	
 	// usar para uandes
 	// usar en forma local local
@@ -97,7 +93,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			"913462879831-avq9g03d9vif9ojv3lln2033ks34b7vf@developer.gserviceaccount.com",
 			System.getProperty("karaf.etc") != null ?
 			(new File(String.format("%s/auth/%s",System.getProperty("karaf.etc"), "panel.p12")) ):
-			(new File(String.format("%s/%s","/home/fernando/datosUAndes/KeysGoogle_panel/", "panel.p12" ))),
+			(new File(String.format("%s/%s","/home/appServers/fuse-7.11-UANDES/etc/auth/", "panel.p12" ))),
 					"panel"),
 	};
 	static String APPLICATION_NAME = datos[indexDatosAccount].getApplicationName(); // "panel";
@@ -825,6 +821,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 				logger.error("deleteMemberFromGroup:"+gje.getDetails().getMessage(), gje);
 				return ;
 			}
+			logger.error("deleteMemberFromGroup", e);
 			throw e;
 		}
 		/*

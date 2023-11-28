@@ -20,7 +20,7 @@
     </jaxrs:server>
     <!-- Ejecutar proceso crear cuentas-->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panelv3/servicio/crearCuentas/procese"
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/crearCuentas/procese"
         id="servCreaCuentas" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioCrearCuentasEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -33,7 +33,7 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- Ejecutar proceso crear grupos-->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panelv3/servicio/crearGrupos/procese"
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/crearGrupos/procese"
         id="servCreaGrupos" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioCrearGruposEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -46,7 +46,7 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- Envio de correos-->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panelv3/servicio/sendmail/send"
+        address="http://localhost:8181/cxf/ESB/panelv2/servicio/sendmail/send"
         id="servSendmail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioSendmailEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -65,15 +65,18 @@
         <property name="procesoCrearCuentas" value="{{crear-cuentas-gmail.proceso}}"/>
         <property name="procesoCrearGrupos" value="{{crear-grupos-gmail.proceso}}"/>
         <property name="procesoCrearGruposInprogress" value="{{grupos_inprogress_gmail.proceso}}"/>
-        <property name="procesoCrearGruposPosgrado" value="{{grupos_inprogress_posgrado_gmail.proceso}}"/>
+        <property name="procesoCrearGruposPosgrado" value="{{grupos_inprogress_postgrado_gmail.proceso}}"/>
+		<property name="procesoSyncGruposGenerales" value="{{sinc_grupos_generales.operacion}}"/>
+		<property name="procesoSyncGruposVigentes" value="{{sinc_grupos_vigentes.operacion}}"/>
+		<property name="procesoSyncGruposPostgrado" value="{{sinc_grupos_postgrado.operacion}}"/>
     </bean>
     <bean class="cl.uandes.panel.servicio.scheduler.bean.GeneraDatos" id="generaDatos">
-        <argument index="0" value="{{crear-cuentas-gmail.tiposCuenta}}"/>
-        <argument index="1" value="{{crear-grupos-gmail.proceso}}"/>
-        <argument index="2" value="{{grupos_inprogress_gmail.proceso}}"/>
-        <argument index="3" value="{{grupos_inprogress_posgrado_gmail.proceso}}"/>
-        <argument index="4" value="{{crear-cuentas-gmail.nocturno.funcion}}"/>
-        <argument index="5" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
+        <argument index="0" value="Alumnos"/>
+        <argument index="1" value="crear_grupos"/>
+        <argument index="2" value="grupos_inprogress"/>
+        <argument index="3" value="grupos_inprogress_postgrado"/>
+        <argument index="4" value="crear_cuentas"/>
+        <argument index="5" value="generaGrupos"/>
         <property name="delegate" ref="restService"/>
     </bean>
     <bean
@@ -128,6 +131,16 @@
             <to id="mailResultado" uri="direct:generaMail"/>
         </route>
         <!-- ================================================================================================= -->
+        <route id="_terminaSincronizarGruposRoute">
+            <from id="_from3" uri="direct:terminaSincronizarGrupos"/>
+            <setHeader headerName="resSincronizarGrupos">
+                <simple>${body}</simple>
+            </setHeader>
+            <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
+            <bean method="preparaMailResultadoSincronizarGrupos" ref="generaDatos"/>
+            <to uri="direct:generaMail"/>
+        </route>
+        <!-- ================================================================================================= -->
         <route id="_generaMailRoute">
             <from id="_from1" uri="direct:generaMail"/>
             <choice id="_choice1">
@@ -135,8 +148,16 @@
                     <simple>${header.proceso} == '{{crear-cuentas-gmail.proceso}}'</simple>
                     <to id="creaCuerpoCuentas" uri="velocity:templateMailCrearCuentas.vm?contentCache=true"/>
                 </when>
-                <otherwise id="_otherwise1">
+                <when >
+                    <simple>${header.proceso} == '{{crear-grupos-gmail.proceso}}'</simple>
                     <to id="creaCuerpoGrupos" uri="velocity:templateMailCrearGrupos.vm?contentCache=true"/>
+                </when>
+                <when >
+                    <simple>${header.proceso} == '{{sinc_grupos-gmail.nocturno.funcion}}'</simple>
+                    <to id="creaCuerpoSync" uri="velocity:templateMailSincronizaGrupos.vm?contentCache=true"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log message="NO HAY PROCESO PARA (${header.proceso})"/>
                 </otherwise>
             </choice>
             <process id="_preparaDatosMail" ref="preparaDatosMail"/>

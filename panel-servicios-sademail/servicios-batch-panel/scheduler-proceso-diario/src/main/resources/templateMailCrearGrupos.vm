@@ -195,13 +195,13 @@ El proceso se ha ejecutado por &uacute;ltima vez a las ${headers.ultimaEjecucion
 <li>Estad&iacute;sticas del proceso:
 <ul>Se leyeron ${headers.countProcesados} registros desde Banner</ul>
 <ul>Se detectaron ${headers.countErrores} errores en el proceso</ul>
-<ul>Grupos agregados a la tabla MI_GRUPOS_AZURE: ${headers.countGruposAgregadosBD}</ul>
+<ul>Grupos agregados a la tabla MI_GRUPOS: ${headers.countGruposAgregadosBD}</ul>
 <ul>Grupos agregadas al AZURE: ${headers.countGruposAgregadosAD}</ul>
-<ul>Grupos sacados de la tabla MI_GRUPOS_AZURE: ${headers.countGruposSacadosBD}</ul>
+<ul>Grupos sacados de la tabla MI_GRUPOS: ${headers.countGruposSacadosBD}</ul>
 <ul>Grupos sacados del AZURE: ${headers.countGruposSacadosAD}</ul>
-<ul>Miembros agregados a la tabla NAP_GRUPO_MIEMBRO_AZURE: ${headers.countMiembrosAgregadosBD}</ul>
+<ul>Miembros agregados a la tabla NAP_GRUPO_MIEMBRO: ${headers.countMiembrosAgregadosBD}</ul>
 <ul>Miembros agregados al AZURE: ${headers.countMiembrosAgregadosAD}</ul>
-<ul>Miembros sacados de la tabla NAP_GRUPO_MIEMBRO_AZURE: ${headers.countMiembrosSacadosBD}</ul>
+<ul>Miembros sacados de la tabla NAP_GRUPO_MIEMBRO: ${headers.countMiembrosSacadosBD}</ul>
 <ul>Miembros sacados del AZURE: ${headers.countMiembrosSacadosAD}</ul>
 </li>
 <br><br>

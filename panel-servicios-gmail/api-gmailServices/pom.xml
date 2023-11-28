@@ -3,11 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>uandes.panel-v2.servicios</groupId>
+		<groupId>uandes.panel-v2.servicios.gmail</groupId>
 		<artifactId>panel-servicios-gmail</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>gmail.api-gmailServices</artifactId>
+
+	<artifactId>api-gmailServices</artifactId>
 	<packaging>bundle</packaging>
 	<name>api-gmail-services</name>
 	<description>REST Api para el uso de los servicios GMAIL</description>
@@ -45,6 +46,12 @@
 			<version>2.8.8</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -64,11 +71,11 @@
 							cl.uandes.sadmemail.comunes.google.api.services,
 							cl.uandes.mail.json;version="[0.0,1)",cl.uandes.utils;version="[0.0,1)",
 							com.google.api.client.json;version="[1.39,2)",
-							com.google.api.client.googleapis.auth.oauth2,
-							com.google.api.client.googleapis.javanet,
+							com.google.api.client.googleapis.auth.oauth2;version="[1.32,2)",
+							com.google.api.client.googleapis.javanet;version="[1.32,2)",
 							com.google.api.client.googleapis.json;version="[1.32,2)",
-							com.google.api.client.http,
-							com.google.api.client.http.javanet,
+							com.google.api.client.http;version="[1.39,2)",
+							com.google.api.client.http.javanet;version="[1.32,2)",
 							com.google.api.client.json.jackson2;version="[5.0,6)",
 							com.google.api.services.admin.directory,
 							com.google.api.services.admin.directory.model,
@@ -88,7 +95,7 @@
 						<DynamicImport-Package>
 							*
 						</DynamicImport-Package>
-						<!-- <_removeheaders>Import-Service,Export-Service</_removeheaders>  -->
+						<!-- <_removeheaders>Import-Service,Export-Service</_removeheaders> -->
 						<Bundle-Description>ApiGmailServices</Bundle-Description>
 						<Bundle-Name>API Gmail Services v1.0</Bundle-Name>
 						<Bundle-SymbolicName>api-gmailServices-v1</Bundle-SymbolicName>

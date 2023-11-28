@@ -58,35 +58,35 @@ public class ContadoresCrearCuentas implements Serializable {
 		}
 	}
 
-	public void incCountProcesados() {
+	public synchronized void incCountProcesados() {
 		countProcesados++;
 	}
 
-	public void incCountErrores() {
+	public synchronized void incCountErrores() {
 		countErrores++;
 	}
 
-	public void incCountAgregadosBD() {
+	public synchronized void incCountAgregadosBD() {
 		countAgregadosBD++;
 	}
 
-	public void incCountAgregadosAD() {
+	public synchronized void incCountAgregadosAD() {
 		countAgregadosAD++;
 	}
 
-	public Integer getCountProcesados() {
+	public synchronized Integer getCountProcesados() {
 		return countProcesados;
 	}
 
-	public Integer getCountErrores() {
+	public synchronized Integer getCountErrores() {
 		return countErrores;
 	}
 
-	public Integer getCountAgregadosBD() {
+	public synchronized Integer getCountAgregadosBD() {
 		return countAgregadosBD;
 	}
 
-	public Integer getCountAgregadosAD() {
+	public synchronized Integer getCountAgregadosAD() {
 		return countAgregadosAD;
 	}
 

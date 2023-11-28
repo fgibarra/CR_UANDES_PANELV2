@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
+import cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest;
 import cl.uandes.panel.comunes.servicios.dto.DatosCuentasBanner;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 
@@ -73,12 +74,13 @@ public class GeneraDatos {
 		Message message = exchange.getIn();
 		ProcesoDiarioResponse response = (ProcesoDiarioResponse) message.getHeader("resCrearCuenta");
 		if (response == null)
-			response = new ProcesoDiarioResponse(0, (String)message.getHeader("proceso"), 
+			response = new ProcesoDiarioResponse(0, proceso, 
 					String.format("OK: %s", message.getHeader("jsonResultado")), 
 					(Integer)message.getHeader("keyResultado"));
 		
 		logger.info(String.format("procesoDiarioResponse: response: %s", response));
-		message.setBody(response);
+		SchedulerPanelRequest sr = new SchedulerPanelRequest(proceso, (Integer)message.getHeader("keyResultado"));
+		message.setBody(sr);
 	}
 	
 	/* ==========================================================================================================

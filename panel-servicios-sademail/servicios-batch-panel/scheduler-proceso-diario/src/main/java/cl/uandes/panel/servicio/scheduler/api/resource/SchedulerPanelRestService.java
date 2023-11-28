@@ -28,15 +28,21 @@ public class SchedulerPanelRestService {
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
 
-    @PropertyInject(value = "crear-cuentas-azure.proceso", defaultValue="crear_cuentas_azure")
+    @PropertyInject(value = "crear-cuentas-gmail.proceso", defaultValue="crear_cuentas")
 	private String procesoCrearCuentas;
-    @PropertyInject(value = "crear-grupos-azure.proceso", defaultValue="crear_grupos_azure")
+    @PropertyInject(value = "crear-grupos-gmail.proceso", defaultValue="crear_grupos")
 	private String procesoCrearGrupos;
-    @PropertyInject(value = "grupos_inprogress_azure.proceso", defaultValue="grupos_inprogress_azure")
+    @PropertyInject(value = "grupos_inprogress_gmail.proceso", defaultValue="grupos_inprogress")
 	private String procesoCrearGruposInprogress;
-    @PropertyInject(value = "grupos_inprogress_posgrado_azure.proceso", defaultValue="grupos_inprogress_posgrado_azure")
+    @PropertyInject(value = "grupos_inprogress_posgrado_gmail.proceso", defaultValue="grupos_inprogress_posgrado")
 	private String procesoCrearGruposPosgrado;
-
+    @PropertyInject(value = "sinc_grupos_generales.operacion", defaultValue="sinc_grupos_generales")
+	private String procesoSyncGruposGenerales;
+    @PropertyInject(value = "sinc_grupos_vigentes.operacion", defaultValue="sinc_grupos_vigentes")
+	private String procesoSyncGruposVigentes;
+    @PropertyInject(value = "sinc_grupos_postgrado.operacion", defaultValue="sinc_grupos_postgrado")
+	private String procesoSyncGruposPostgrado;
+    
     Logger logger = Logger.getLogger(getClass());
 
 	@POST
@@ -47,12 +53,16 @@ public class SchedulerPanelRestService {
 		Exchange exchange = ExchangeBuilder.anExchange(producer.getCamelContext()).withHeader("request", request)
 				.withBody(request.getOperacion()).build();
 		logger.info(String.format(" %s", request));
-		logger.info(String.format("esCrearCuentas: %b esCrearGrupos: %b",
-				esCrearCuentas(request.getOperacion()), esCrearGrupos(request.getOperacion())));
+		logger.info(String.format("esCrearCuentas: %b esCrearGrupos: %b esSincronizarGrupos: %b",
+				esCrearCuentas(request.getOperacion()), esCrearGrupos(request.getOperacion()),
+				esSincronizarGrupos(request.getOperacion())));
 		if (esCrearCuentas(request.getOperacion()))
 			producer.asyncSend("direct:terminaCrearCuentas", exchange);
 		else if (esCrearGrupos(request.getOperacion()))
 			producer.asyncSend("direct:terminaCrearGrupos", exchange);
+		else if (esSincronizarGrupos(request.getOperacion()))
+			producer.asyncSend("direct:terminaSincronizarGrupos", exchange);
+		
 		logger.info("va a crear Response");
 		Response response = Response.ok().status(200).entity("{ \"respuesta\": \"ACK\"}").build();
 		return response;
@@ -75,6 +85,17 @@ public class SchedulerPanelRestService {
 			return true;
 		return false;
 	}
+
+	public boolean esSincronizarGrupos(String operacion) {
+		if (getProcesoSyncGruposGenerales().equalsIgnoreCase(operacion))
+			return true;
+		if (getProcesoSyncGruposVigentes().equalsIgnoreCase(operacion))
+			return true;
+		if (getProcesoSyncGruposPostgrado().equalsIgnoreCase(operacion))
+			return true;
+		return false;
+	}
+
 
 	public String getProcesoCrearCuentas() {
 		return procesoCrearCuentas;
@@ -106,5 +127,29 @@ public class SchedulerPanelRestService {
 
 	public void setProcesoCrearGruposPosgrado(String procesoCrearGruposPosgrado) {
 		this.procesoCrearGruposPosgrado = procesoCrearGruposPosgrado;
+	}
+
+	public synchronized String getProcesoSyncGruposGenerales() {
+		return procesoSyncGruposGenerales;
+	}
+
+	public synchronized void setProcesoSyncGruposGenerales(String procesoSyncGruposGenerales) {
+		this.procesoSyncGruposGenerales = procesoSyncGruposGenerales;
+	}
+
+	public synchronized String getProcesoSyncGruposVigentes() {
+		return procesoSyncGruposVigentes;
+	}
+
+	public synchronized void setProcesoSyncGruposVigentes(String procesoSyncGruposVigentes) {
+		this.procesoSyncGruposVigentes = procesoSyncGruposVigentes;
+	}
+
+	public synchronized String getProcesoSyncGruposPostgrado() {
+		return procesoSyncGruposPostgrado;
+	}
+
+	public synchronized void setProcesoSyncGruposPostgrado(String procesoSyncGruposPostgrado) {
+		this.procesoSyncGruposPostgrado = procesoSyncGruposPostgrado;
 	}
 }

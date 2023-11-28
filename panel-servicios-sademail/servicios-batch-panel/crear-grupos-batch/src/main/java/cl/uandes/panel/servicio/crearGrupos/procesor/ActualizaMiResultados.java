@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
+import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos;
 import cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 
@@ -36,17 +37,27 @@ public class ActualizaMiResultados implements Processor {
 		Message message = exchange.getIn();
 		DatosKcoFunciones datos = (DatosKcoFunciones)exchange.getIn().getHeader("DatosKcoFunciones");
 		String operacion = datos.getFuncion();
+		logger.info(String.format("ActualizaMiResultados: DatosKcoFunciones datos=%s", datos));
 		ResultadoFuncion res = (ResultadoFuncion)exchange.getIn().getHeader("ResultadoFuncion");
-		ContadoresCrearGrupos contadoresCrearGrupos = (ContadoresCrearGrupos)message.getHeader("contadoresCrearGrupos");
-		logger.info(String.format("Contadores: %s", message.getHeader("contadoresCrearGrupos")));
-		
-		// actualizar MI_RESULTADOS
-		String resultado = String.format("OK:%s", contadoresCrearGrupos.toString());
+		String resultado = null;
 		Map<String, Object> headers = new HashMap<String, Object>();
+		if (operacionEsCreacion(operacion)) {
+			ContadoresCrearGrupos contadoresCrearGrupos = (ContadoresCrearGrupos)message.getHeader("contadoresCrearGrupos");
+			logger.info(String.format("Contadores: %s", message.getHeader("contadoresCrearGrupos")));
+			
+			// actualizar MI_RESULTADOS
+			resultado = String.format("OK:%s", contadoresCrearGrupos.toString());
+			headers.put("countGruposAgregadosBD",  ObjectFactory.toBigDecimal(contadoresCrearGrupos.getCountGruposAgregadosBD()));
+			headers.put("countMiembrosAgregadosBD",  ObjectFactory.toBigDecimal(contadoresCrearGrupos.getCountMiembrosAgregadosBD()));
+			headers.put("countProcesados",  ObjectFactory.toBigDecimal(contadoresCrearGrupos.getCountProcesados()));
+		} else {
+			ContadoresSincronizarGrupos contadores = (ContadoresSincronizarGrupos)message.getHeader("contadoresSincronizarGrupos");
+			resultado = String.format("OK:%s", contadores.toString());
+			headers.put("countGruposAgregadosBD",  ObjectFactory.toBigDecimal(contadores.getCountProcesados()));
+			headers.put("countMiembrosAgregadosBD",  ObjectFactory.toBigDecimal(contadores.getCountSacados()));
+			headers.put("countProcesados",  ObjectFactory.toBigDecimal(contadores.getCountProcesados()));
+		}
 		headers.put("keyResultado", ObjectFactory.toBigDecimal(res.getKey()));
-		headers.put("countGruposAgregadosBD",  ObjectFactory.toBigDecimal(contadoresCrearGrupos.getCountGruposAgregadosBD()));
-		headers.put("countMiembrosAgregadosBD",  ObjectFactory.toBigDecimal(contadoresCrearGrupos.getCountMiembrosAgregadosBD()));
-		headers.put("countProcesados",  ObjectFactory.toBigDecimal(contadoresCrearGrupos.getCountProcesados()));
 		headers.put("resultado", resultado);
 		
 		updateMiResultado.requestBodyAndHeaders(null, headers);
@@ -59,6 +70,10 @@ public class ActualizaMiResultados implements Processor {
 		
 		logger.info(String.format("deje en el body:|%s|", request));
 		finProceso.requestBodyAndHeaders(request, headers);
+	}
+
+	private boolean operacionEsCreacion(String operacion) {
+		return !operacion.startsWith("sinc_grupos");
 	}
 
 	public String getPanelServices() {

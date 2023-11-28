@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="response.getMensaje()."/>
+		<item key="selection" value="_bean16"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="response.getMensaje()."/>
-			<item value="procesaRecreaSuspendidos"/>
-			<item value="reactivaCuentas"/>
-			<item value="direct:proceso"/>
-			<item value="seda:"/>
-			<item value="CrearCuentasRestService"/>
-			<item value="getGruposRegulares"/>
-			<item value="get"/>
-			<item value="prd_"/>
-			<item value="setOperacionDesconocida"/>
-			<item value="gruposSinMiembros"/>
-			<item value="Response."/>
-			<item value="azure"/>
-			<item value="rsDeleteGrupo"/>
-			<item value="templateAgregarMember"/>
+			<item value="_bean16"/>
+			<item value="getKcoFuncion"/>
+			<item value="direct:termina"/>
+			<item value="direct:sincronizar"/>
+			<item value="(L431) grupos a sincronizar"/>
+			<item value="grupos a sincronizar"/>
+			<item value="L438"/>
+			<item value="message=&quot;("/>
+			<item value="L338"/>
+			<item value="GoogleCredential"/>
+			<item value="_posgrado"/>
+			<item value="postgrado"/>
+			<item value="rsFinProceso"/>
+			<item value="incrementa"/>
+			<item value="updateIdGrupo"/>
 		</list>
 		<list key="replacehistory">
+			<item value="_postgrado"/>
+			<item value=""/>
+			<item value="Gmail"/>
 			<item value="direct:"/>
 			<item value="SuspendeEliminaCuentasRestService"/>
-			<item value="Gmail"/>
 			<item value="-gmail"/>
 			<item value="gmail"/>
 			<item value="CuentasMiUandes"/>
@@ -38,8 +40,6 @@
 			<item value="(1)"/>
 			<item value="GeneraRespuestaGetArchivo"/>
 			<item value="ProcesaFiltro"/>
-			<item value="ProgramarProcesoCarga"/>
-			<item value="InputFormCursos"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

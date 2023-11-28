@@ -5,6 +5,7 @@
     <artifactId>panel-servicios-sademail</artifactId>
     <version>0.0.1</version>
   </parent>
+    <groupId>uandes.panel-v2.servicios.batch</groupId>
   <artifactId>servicios-batch-panel</artifactId>
   <packaging>pom</packaging>
   <name>Servicios Batch Panel</name>
@@ -14,7 +15,7 @@
   		<artifactId>comunes-sademail</artifactId>
   		<version>0.0.1</version>
   		<scope>system</scope>
-  		<systemPath>/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/target/comunes-sademail-0.0.1.jar</systemPath>
+  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/target/comunes-sademail-0.0.1.jar</systemPath>
   	</dependency>
   </dependencies>
 	<profiles>

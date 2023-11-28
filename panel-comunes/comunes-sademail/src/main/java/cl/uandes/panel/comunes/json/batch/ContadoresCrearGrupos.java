@@ -83,123 +83,123 @@ public class ContadoresCrearGrupos implements Serializable {
 		}
 	}
 
-	public void incCountProcesados() {
+	public synchronized void incCountProcesados() {
 		countProcesados++;
 	}
 
-	public void incCountErrores() {
+	public synchronized void incCountErrores() {
 		countErrores++;
 	}
 
-	public void incCountGruposAgregadosBD() {
+	public synchronized void incCountGruposAgregadosBD() {
 		countGruposAgregadosBD++;
 	}
 
-	public void incCountGruposAgregadosAD() {
+	public synchronized void incCountGruposAgregadosAD() {
 		countGruposAgregadosAD++;
 	}
 
-	public void incCountGruposSacadosBD() {
+	public synchronized void incCountGruposSacadosBD() {
 		countGruposSacadosBD++;
 	}
 
-	public void incCountGruposSacadosAD() {
+	public synchronized void incCountGruposSacadosAD() {
 		countGruposSacadosAD++;
 	}
 
-	public void incCountMiembrosAgregadosBD() {
+	public synchronized void incCountMiembrosAgregadosBD() {
 		countMiembrosAgregadosBD++;
 	}
 
-	public void incCountMiembrosAgregadosAD() {
+	public synchronized void incCountMiembrosAgregadosAD() {
 		countMiembrosAgregadosAD++;
 	}
 
-	public void incCountMiembrosSacadosBD() {
+	public synchronized void incCountMiembrosSacadosBD() {
 		countMiembrosSacadosBD++;
 	}
 
-	public void incCountMiembrosSacadosAD() {
+	public synchronized void incCountMiembrosSacadosAD() {
 		countMiembrosSacadosAD++;
 	}
 
-	public Integer getCountProcesados() {
+	public synchronized Integer getCountProcesados() {
 		return countProcesados;
 	}
 
-	public void setCountProcesados(Integer countProcesados) {
+	public synchronized void setCountProcesados(Integer countProcesados) {
 		this.countProcesados = countProcesados;
 	}
 
-	public Integer getCountErrores() {
+	public synchronized Integer getCountErrores() {
 		return countErrores;
 	}
 
-	public void setCountErrores(Integer countErrores) {
+	public synchronized void setCountErrores(Integer countErrores) {
 		this.countErrores = countErrores;
 	}
 
-	public Integer getCountGruposAgregadosBD() {
+	public synchronized Integer getCountGruposAgregadosBD() {
 		return countGruposAgregadosBD;
 	}
 
-	public void setCountGruposAgregadosBD(Integer countGruposAgregadosBD) {
+	public synchronized void setCountGruposAgregadosBD(Integer countGruposAgregadosBD) {
 		this.countGruposAgregadosBD = countGruposAgregadosBD;
 	}
 
-	public Integer getCountGruposAgregadosAD() {
+	public synchronized Integer getCountGruposAgregadosAD() {
 		return countGruposAgregadosAD;
 	}
 
-	public void setCountGruposAgregadosAD(Integer countGruposAgregadosAD) {
+	public synchronized void setCountGruposAgregadosAD(Integer countGruposAgregadosAD) {
 		this.countGruposAgregadosAD = countGruposAgregadosAD;
 	}
 
-	public Integer getCountMiembrosAgregadosBD() {
+	public synchronized Integer getCountMiembrosAgregadosBD() {
 		return countMiembrosAgregadosBD;
 	}
 
-	public void setCountMiembrosAgregadosBD(Integer countMiembrosAgregadosBD) {
+	public synchronized void setCountMiembrosAgregadosBD(Integer countMiembrosAgregadosBD) {
 		this.countMiembrosAgregadosBD = countMiembrosAgregadosBD;
 	}
 
-	public Integer getCountMiembrosAgregadosAD() {
+	public synchronized Integer getCountMiembrosAgregadosAD() {
 		return countMiembrosAgregadosAD;
 	}
 
-	public void setCountMiembrosAgregadosAD(Integer countMiembrosAgregadosAD) {
+	public synchronized void setCountMiembrosAgregadosAD(Integer countMiembrosAgregadosAD) {
 		this.countMiembrosAgregadosAD = countMiembrosAgregadosAD;
 	}
 
-	public Integer getCountMiembrosSacadosBD() {
+	public synchronized Integer getCountMiembrosSacadosBD() {
 		return countMiembrosSacadosBD;
 	}
 
-	public void setCountMiembrosSacadosBD(Integer countMiembrosSacadosBD) {
+	public synchronized void setCountMiembrosSacadosBD(Integer countMiembrosSacadosBD) {
 		this.countMiembrosSacadosBD = countMiembrosSacadosBD;
 	}
 
-	public Integer getCountMiembrosSacadosAD() {
+	public synchronized Integer getCountMiembrosSacadosAD() {
 		return countMiembrosSacadosAD;
 	}
 
-	public void setCountMiembrosSacadosAD(Integer countMiembrosSacadosAD) {
+	public synchronized void setCountMiembrosSacadosAD(Integer countMiembrosSacadosAD) {
 		this.countMiembrosSacadosAD = countMiembrosSacadosAD;
 	}
 
-	public Integer getCountGruposSacadosBD() {
+	public synchronized Integer getCountGruposSacadosBD() {
 		return countGruposSacadosBD;
 	}
 
-	public void setCountGruposSacadosBD(Integer countGruposSacadosBD) {
+	public synchronized void setCountGruposSacadosBD(Integer countGruposSacadosBD) {
 		this.countGruposSacadosBD = countGruposSacadosBD;
 	}
 
-	public Integer getCountGruposSacadosAD() {
+	public synchronized Integer getCountGruposSacadosAD() {
 		return countGruposSacadosAD;
 	}
 
-	public void setCountGruposSacadosAD(Integer countGruposSacadosAD) {
+	public synchronized void setCountGruposSacadosAD(Integer countGruposSacadosAD) {
 		this.countGruposSacadosAD = countGruposSacadosAD;
 	}
 

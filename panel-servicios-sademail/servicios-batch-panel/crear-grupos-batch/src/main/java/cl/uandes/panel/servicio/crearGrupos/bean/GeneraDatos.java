@@ -19,6 +19,7 @@ import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupResponse;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.Grupo;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.MemberResponse;
 import cl.uandes.panel.comunes.servicios.dto.GruposMiUandes;
+import cl.uandes.panel.servicio.sincronizarGrupos.bean.CountThreads;
 
 /**
  * Multiples metodos usados en las rutas Camel del proceso
@@ -62,6 +63,30 @@ public class GeneraDatos {
 		exchange.getIn().setHeader("grupoGmail", grupo);
 	}
 
+	/* ==========================================================================================================
+	 * Para sincronizar grupos
+	 * 
+	 */
+	public void factoryGruposSincronizar(Exchange exchange) {
+		Message message = exchange.getIn();
+		@SuppressWarnings("unchecked")
+		List<Map<String, Object>> datos = (List<Map<String, Object>>)message.getBody();
+		List<String> lista = new ArrayList<String>();
+		for (Map<String, Object> map : datos) {
+			lista.add((String)map.get("GROUP_NAME"));
+		}
+		message.setHeader("listaGruposSincronizar", lista);
+		message.setHeader("countThread", new CountThreads());
+	}
+	
+	public void getGrupoSincronizar(@Header("listaGruposSincronizar") List<String> listaGruposSincronizar, Exchange exchange) {
+		String groupName = listaGruposSincronizar.remove(0);
+		Message message = exchange.getIn();
+		logger.info(String.format("getGrupoSincronizar: groupName %s", groupName));
+		message.setHeader("grupoGmail", groupName);
+		Integer valor = ((CountThreads)message.getHeader("countThread")).incCounter();
+		logger.info(String.format("getGrupoSincronizar: countThread=%d",valor));
+	}
 	/* ==========================================================================================================
 	 * Para probar offline
 	 * 

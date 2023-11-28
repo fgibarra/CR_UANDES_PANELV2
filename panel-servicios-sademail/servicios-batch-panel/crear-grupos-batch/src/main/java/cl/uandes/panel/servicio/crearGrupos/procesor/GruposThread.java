@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
+import org.apache.camel.Header;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
@@ -18,13 +19,14 @@ import org.apache.camel.PropertyInject;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupRequest;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupResponse;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.MemberResponse;
-import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.GruposMiUandes;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
+import cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.panel.servicio.crearGrupos.api.dto.DatosMemeberDTO;
 import cl.uandes.panel.servicio.crearGrupos.api.resources.CrearGruposRestService;
@@ -93,6 +95,13 @@ public class GruposThread implements Processor {
 	//	@EndpointInject(uri = "direct:testConsultarIdCuenta")
 	ProducerTemplate consultarIdCuenta;
 	String templateConsultarIdCuenta = "%s/idCuentaUsuario?email=%s";
+	
+	@EndpointInject(uri = "seda:sacaMiembroAction")
+	ProducerTemplate sacarMiembrosPT;
+	
+	@EndpointInject(uri = "seda:agregaMiembroAction")
+	ProducerTemplate agregarMiembrosPT;
+	
 	private ResultadoFuncion res;
 	private ContadoresCrearGrupos contadores;
 	
@@ -123,11 +132,11 @@ public class GruposThread implements Processor {
 	private void actualizaOrigen(GruposMiUandes grupo, Exchange exchange) {
 		String proceso = (String)exchange.getIn().getHeader("proceso");
 		Map<String, Object> headers = new HashMap<String, Object>();
-		if (CrearGruposRestService.procesosValidos[1].equals(proceso)) {
+		if (CrearGruposRestService.procesosValidosCrear[1].equals(proceso)) {
 			headers.put("origen", "VIGENTES");
 			if (grupo.getOrigen() != null)
 				return;
-		} else if (CrearGruposRestService.procesosValidos[2].equals(proceso)) {
+		} else if (CrearGruposRestService.procesosValidosCrear[2].equals(proceso)) {
 			headers.put("origen", "POSGRADO");
 			if (grupo.getOrigen() != null)
 				return;
@@ -146,8 +155,9 @@ public class GruposThread implements Processor {
 	 */
 	private boolean crearGrupo(Exchange exchange, GruposMiUandes grupo, ResultadoFuncion miResultado) {
 		Message message = exchange.getIn();
-		Map<String,Object> headers = message.getHeaders();
-		logger.info(String.format("crearGrupo: hay que crear? grupo.getCreadoGmail().booleanValue(): %b", grupo.getCreadoGmail().booleanValue()));
+		Map<String,Object> headers = new HashMap<String,Object>();
+		logger.info(String.format("crearGrupo: hay que crear? grupo.getCreadoGmail().booleanValue(): %b miResultado=%s",
+				grupo.getCreadoGmail().booleanValue(), miResultado));
 		if (!grupo.getCreadoGmail().booleanValue()) {
 			/* validar que efectivamente no este creado. 
 			 * Si lo esta solo actualizar el flag en MI_GRUPOS_AZURE
@@ -162,6 +172,7 @@ public class GruposThread implements Processor {
 					 */
 					
 					GroupRequest body = new GroupRequest(grupo.getGroupName(), grupo.getGroupDescription(), grupo.getEmailPermission(), getFechaExpiracion(grupo));
+					
 					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoGmail,getGmailServices()));
 					headers.put("CamelHttpMethod", "POST");
 					GroupResponse res;
@@ -181,17 +192,22 @@ public class GruposThread implements Processor {
 					if (res.getCodigo() == 0 || res.getMensaje().matches(".*creado.*")) {
 						grupo.setGroupId(res.getGrupo().getId());
 						grupo.setCreadoGmail(Boolean.TRUE);
+						headers.clear();
 						headers.put("keyGrupo", BigDecimal.valueOf(grupo.getKey()));
 						headers.put("idGrupo", grupo.getGroupId());
 						logger.info(String.format("update mi_resultados: key=%d", grupo.getKey()));
 						saveGrupo.requestBodyAndHeaders(null, headers);
 						contadores.incCountGruposAgregadosBD();
+						headers.clear();
+						operaContador("GRUPOS_CREADOS", new BigDecimal(miResultado.getKey()));
+						/*
 						headers.put("idContador", "GRUPOS_CREADOS");
 						headers.put("p_operacion", "INCREMENTA");
 						headers.put("key", new BigDecimal(miResultado.getKey()));
 						logger.info(String.format("incrementar resultado: %d idContador: %s p_operacion: %s", 
 								miResultado.getKey(), headers.get("idContador"), headers.get("p_operacion")));
 						incrementa.requestBodyAndHeaders(null, headers);
+						*/
 					} else {
 						contadores.incCountErrores();
 						registraError("createGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
@@ -221,8 +237,10 @@ public class GruposThread implements Processor {
 			 * Si no existe --> crearlo
 			 * incrementar contador de grupos actualizados
 			 */
-			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateRecuperaGrupoGmail, 
-					getGmailServices(), grupo.getGroupName()));
+			String url = String.format(templateRecuperaGrupoGmail, 
+					getGmailServices(), grupo.getGroupName());
+			logger.info(String.format("GruposThread: existe segun MI_GRUPOS. url %s", url));
+			headers.put(Exchange.DESTINATION_OVERRIDE_URL, url);
 			headers.put("CamelHttpMethod", "GET");
 			GroupResponse res;
 			try {
@@ -236,6 +254,7 @@ public class GruposThread implements Processor {
 			if (res.getCodigo() != 0) {
 				if (res.getMensaje().matches(".*Invalid object identifier*")) {
 					// crearlo
+					headers.clear();
 					GroupRequest body = new GroupRequest(grupo.getGroupName(), grupo.getGroupDescription(), grupo.getEmailPermission(), getFechaExpiracion(grupo));
 					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoGmail,getGmailServices()));
 					headers.put("CamelHttpMethod", "POST");
@@ -261,7 +280,6 @@ public class GruposThread implements Processor {
 				}
 			}
 			// incrementar contador
-			incrementa.requestBodyAndHeaders(null, headers);
 			operaContador("GRUPOS_CREADOS", new BigDecimal(miResultado.getKey()));
 		}
 		return true;
@@ -302,9 +320,12 @@ public class GruposThread implements Processor {
 	private void operaContador(String idContador, BigDecimal key) {
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("idContador", idContador);
-		headers.put("p_operacion", "INCREMENTA");
-		headers.put("key", key);
-		incrementa.requestBodyAndHeaders(null, headers);
+		headers.put("operacion", "INCREMENTA");
+		headers.put("keyResultado", key);
+		logger.info(String.format("incrementar resultado: %d idContador: %s p_operacion: %s incrementa es %s nulo", 
+				((BigDecimal)headers.get("keyResultado")).intValue(), headers.get("idContador"), headers.get("operacion"), incrementa==null?"":"NO"));
+		//incrementa.requestBodyAndHeaders(null, headers);
+		incrementa.asyncRequestBodyAndHeaders("direct:incrementaResultado", null, headers);
 	}
 	
 	private String getFechaExpiracion(GruposMiUandes grupo) {
@@ -324,7 +345,7 @@ public class GruposThread implements Processor {
 			return "20500201";
 		}
 	}
-	private void sacarMiembrosInactivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado) {
+	private void sacarMiembrosInactivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado) throws ProcesaMiembroException {
 		/*
 		 * Recuperar lista de miembros que ya no estan en el grupo
 		 * recorrer la lista
@@ -334,17 +355,38 @@ public class GruposThread implements Processor {
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("tipoOperacion", BigDecimal.ZERO);
 		headers.put("keyGrupo", keyGrupo);
+		headers.put("keyResultado", keyResultado);
 		logger.info(String.format("sacarMiembrosInactivos: tipoOperacion %d", ((BigDecimal)headers.get("tipoOperacion")).intValue()));
 		@SuppressWarnings("unchecked")
 		List<Map<String,Object>> miembrosNoActivos = (List<Map<String, Object>>) getIdsMiembroGrupos.requestBodyAndHeaders(null, headers);
 		logger.info(String.format("sacarMiembrosInactivos:miembrosNoActivos %d elementos", miembrosNoActivos.size()));
+		if (miembrosNoActivos.size() > 0) {
 		List<DatosMemeberDTO> miembrosSacar = factoryListaGrupoMiembro(miembrosNoActivos);
-		logger.info(String.format("sacarMiembrosInactivos:miembrosSacar %d elementos", miembrosSacar.size()));
-		for (DatosMemeberDTO datos : miembrosSacar) {
-			logger.info(String.format("sacarMiembrosInactivos:datos: %s", datos));
+			logger.info(String.format("sacarMiembrosInactivos:miembrosSacar %d elementos", miembrosSacar.size()));
+			for (DatosMemeberDTO datos : miembrosSacar) {
+				// hacerlo en un multithread
+				//sacarMiembrosPT.requestBodyAndHeaders(datos, headers);
+				sacarMiembrosPT.asyncRequestBodyAndHeaders("seda:sacaMiembroAction", datos, headers);
+			}
+		}
+	}
+	
+	/**
+	 * Usado por multithread para procesar en paralelo la eliminacion de miembros inactivos
+	 * @param exchange
+	 * @throws Exception
+	 */
+	public void sacarMiembroAction (Exchange exchange) {
+		try {
+			Map<String,Object> headers = exchange.getIn().getHeaders();
+			DatosMemeberDTO datos = (DatosMemeberDTO) exchange.getIn().getBody();
+			headers.put("DatosMemeberDTO", datos);
+			BigDecimal keyResultado = (BigDecimal)headers.get("keyResultado");
+			logger.info(String.format("sacarMiembroAction: %s", datos));
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateSacarMember,getGmailServices()));
 			headers.put("CamelHttpMethod", "POST");
 			Response response = (Response) sacarMember.requestBodyAndHeaders(datos.getRequest(), headers);
+			logger.info(String.format("sacarMiembroAction: response.status=%d", response.getStatus()));
 			if (response.getStatus() < 300) {
 				headers.put("idMiembro", datos.getKeyGrupoMiembro().getIdMiembro());
 				headers.put("keyGrupo", new BigDecimal(datos.getKeyGrupoMiembro().getKeyGrupo()));
@@ -356,10 +398,14 @@ public class GruposThread implements Processor {
 				registraError("sacarMember", response.getStatusInfo().toString(), keyResultado, datos);
 			}
 			operaContador("MIEMBROS_CREADOS", keyResultado);
+		} catch (Exception e) {
+			logger.error("sacarMiembroAction", e);
+			throw new ProcesaMiembroException(e);
 		}
 	}
 	
-	private void agregarMiembrosActivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado) throws Exception {
+	//------------------------------------------------------------------------------------------------------------//
+	private void agregarMiembrosActivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado) throws ProcesaMiembroException {
 		/*
 		 * Recuperar lista de miembros que hay que agregar al grupo
 		 * recorrer la lista
@@ -372,17 +418,41 @@ public class GruposThread implements Processor {
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("tipoOperacion", BigDecimal.ONE);
 		headers.put("keyGrupo", keyGrupo);
+		headers.put("keyResultado", keyResultado);
 		@SuppressWarnings("unchecked")
 		List<Map<String,Object>> miembrosActivos = (List<Map<String, Object>>) getIdsMiembroGrupos.requestBodyAndHeaders(null, headers);
 		logger.info(String.format("agregarMiembrosActivos: agregar %d elementos", miembrosActivos.size()));
-		List<DatosMemeberDTO> miembrosAgregar = factoryListaGrupoMiembro(miembrosActivos);
-		for (DatosMemeberDTO datos : miembrosAgregar) {
+		if (miembrosActivos.size() > 0) {
+			List<DatosMemeberDTO> miembrosAgregar = factoryListaGrupoMiembro(miembrosActivos);
+			for (DatosMemeberDTO datos : miembrosAgregar) {
+				// hacerlo en un multithread
+				//agregarMiembrosPT.requestBodyAndHeaders(datos, headers);
+				if (!datos.getKeyGrupoMiembro().getActivo()) // solo si aparece registrado en NAP_GRUPO_MIEMBRO.activo=0
+					agregarMiembrosPT.asyncRequestBodyAndHeaders("seda:agregaMiembroAction", datos, headers);
+			}
+		}
+	}
+
+	/**
+	 * Usado por multithread para procesar en paralelo para agregar miembros
+	 * @param exchange
+	 * @throws Exception
+	 */
+	public void agregarMiembroAction(Exchange exchange) {
+		try {
+			Map<String,Object> headers = exchange.getIn().getHeaders();
+			DatosMemeberDTO datos = (DatosMemeberDTO) exchange.getIn().getBody();
+			headers.put("DatosMemeberDTO", datos);
+			BigDecimal keyResultado = (BigDecimal)headers.get("keyResultado");
 			logger.info(String.format("agregarMiembrosActivos: miembro %s", datos));
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateAgregarMember,getGmailServices()));
 			headers.put("CamelHttpMethod", "POST");
 			//logger.info(String.format("agregarMiembrosActivos: URL=%s", (String)headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
 			MemberResponse response = (MemberResponse) ObjectFactory.procesaResponseImpl((ResponseImpl)agregarMember.requestBody(datos.getRequest()),MemberResponse.class);
-			if (response.getCodigo() == 0 || (response.getMensaje() != null && response.getMensaje().matches(".*One or more added object references already exist.*"))) {
+			if (response.getCodigo() == 0 || (response.getMensaje() != null && (
+					response.getMensaje().matches(".*already exist.*")) ||
+					response.getMensaje().matches(".*409 Conflict.*"))
+				) {
 				headers.put("idMiembro", datos.getKeyGrupoMiembro().getIdMiembro());
 				headers.put("keyGrupo", new BigDecimal(datos.getKeyGrupoMiembro().getKeyGrupo()));
 				logger.info(String.format("actualizar member: %s,%d", headers.get("idMiembro"), datos.getKeyGrupoMiembro().getKeyGrupo()));
@@ -394,8 +464,27 @@ public class GruposThread implements Processor {
 				registraError("agregarMember", response.getMensaje(), keyResultado, datos);
 			}
 			operaContador("MIEMBROS_CREADOS", keyResultado);
+		} catch (Exception e) {
+			logger.error("agregarMiembroAction", e);
+			throw new ProcesaMiembroException(e);
 		}
 	}
+	
+	//------------------------------------------------------------------------------------------------------------//
+	public String setErrorProcesoMiembro(@Header(value = "exception")Throwable exception) {
+		String mensaje = exception.getMessage();
+		logger.error(String.format("setErrorProcesoMiembro: %s", mensaje), exception);
+		return mensaje;
+	}
+	public void errorProcesoMiembro(Exchange exchange) {
+		Message message = exchange.getMessage();
+		String mensaje = (String) message.getBody();
+		registraError("errorProcesoMiembro", mensaje, 
+				(BigDecimal)message.getHeader("keyResultado"), 
+				(DatosMemeberDTO)message.getHeader("DatosMemeberDTO"));
+	}
+
+	//------------------------------------------------------------------------------------------------------------//
 
 	private List<DatosMemeberDTO> factoryListaGrupoMiembro(List<Map<String, Object>> data) {
 		List<DatosMemeberDTO> lista = new ArrayList<DatosMemeberDTO>();

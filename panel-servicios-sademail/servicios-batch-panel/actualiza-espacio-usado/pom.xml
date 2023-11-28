@@ -1,13 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>uandes.panel-v2.servicios</groupId>
+    <groupId>uandes.panel-v2.servicios.batch</groupId>
     <artifactId>servicios-batch-panel</artifactId>
     <version>0.0.1</version>
   </parent>
   <artifactId>actualiza-espacio-usado</artifactId>
   <packaging>bundle</packaging>
   <name>Actualiza espacio usado</name>
+
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>

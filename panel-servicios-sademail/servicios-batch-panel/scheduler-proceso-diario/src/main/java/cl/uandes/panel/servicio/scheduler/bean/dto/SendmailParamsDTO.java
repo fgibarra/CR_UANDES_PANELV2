@@ -20,12 +20,12 @@ public class SendmailParamsDTO implements Serializable {
 	private String emailWebMaster;
 	@JsonProperty("EMAIL_SUPPORT")
 	private String[] emailsSoporte;
-	@JsonProperty("AZURE_DOMINIO")
+	@JsonProperty("GMAIL_DOMINIO")
 	private String dominioAzure;
 	
 	public SendmailParamsDTO(Map<String, Object> datos) {
 		this.emailWebMaster = (String)datos.get("EMAIL_WEBMASTER");
-		this.dominioAzure = (String)datos.get("AZURE_DOMINIO");
+		this.dominioAzure = (String)datos.get("GMAIL_DOMINIO");
 		String valor = (String)datos.get("EMAIL_SUPPORT");
 		if (valor != null)
 			this.emailsSoporte = valor.split(";");

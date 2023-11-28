@@ -15,6 +15,8 @@ import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupRequest;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupResponse;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.MemberRequest;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.MemberResponse;
+import cl.uandes.sadmemail.comunes.gmail.json.MembersRequest;
+import cl.uandes.sadmemail.comunes.gmail.json.MembersResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
 
 /**
@@ -103,4 +105,10 @@ public interface GrupoEndpoint {
     @Path("/member/deleteOwner")
 	public Response deleteOwnerFromGroup(MemberRequest in_msg);
 
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/members/retrieveMembers")
+	public MembersResponse retrieveAllMembers(MembersRequest in_msg);
+	
 }
