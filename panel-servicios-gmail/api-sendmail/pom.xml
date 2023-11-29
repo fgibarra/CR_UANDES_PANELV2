@@ -104,8 +104,8 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>/home/fernando/.m2/repository/uandes/panel-v2/servicios/${project.artifact}/${project.version}</outputDirectory>
-					<finalName>api-sendmail-1.0.0</finalName>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/gmail/api-sendmail/0.0.1</outputDirectory>
+					<finalName>api-sendmail-0.0.1</finalName>
 					<attach>false</attach>
 				</configuration>
 			</plugin>

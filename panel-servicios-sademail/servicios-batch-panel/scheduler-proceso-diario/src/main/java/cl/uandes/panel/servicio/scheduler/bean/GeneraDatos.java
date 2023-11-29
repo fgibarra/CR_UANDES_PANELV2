@@ -10,6 +10,7 @@ import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
@@ -29,12 +30,20 @@ import cl.uandes.panel.servicio.scheduler.bean.dto.MiResultadosDTO;
  *
  */
 public class GeneraDatos {
+
 	private SchedulerPanelRestService delegate;
 	private String tiposCuenta[] = {"Alumnos"};
 	private String tiposGrupos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_postgrado"};
+	private String tiposSincronizar[] = {"sinc_grupos_generales", "sinc_grupos_vigentes", "sinc_grupos_postgrado"};
 	private String funcionNocturnoCrearCuentas;
 	private String funcionNocturnoCrearGrupos;
-	
+	private String funcionSincronizaGrupos;
+	@PropertyInject(value = "crearCuentasLeyenda", defaultValue="actualizacion de cuentas nocturno")
+	private String crearCuentasLeyenda;
+	@PropertyInject(value = "crearGruposLeyenda", defaultValue="actualizacion de grupos nocturno")
+	private String crearGruposLeyenda;
+	@PropertyInject(value = "sincGruposLeyenda", defaultValue="sincronizacion de grupos nocturno")
+	private String sincGruposLeyenda;
 	
 	@EndpointInject(uri = "sql:classpath:sql/qryKcoFunciones.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qryKcoFunciones;
@@ -44,12 +53,14 @@ public class GeneraDatos {
 	ProducerTemplate qryMiResultados;
 	private Logger logger = Logger.getLogger(getClass());
 	
-	public GeneraDatos(String tiposCuenta, String crearGrupo0, String crarGrupo1, String crearGrupo3, String funcion1, String funcion2) {
+	public GeneraDatos(String tiposCuenta, String crearGrupo0, String crarGrupo1, String crearGrupo3, 
+			String funcion1, String funcion2, String funcion3) {
 		super();
 		this.tiposCuenta = new String[] {tiposCuenta };
 		this.tiposGrupos = new String[] {crearGrupo0, crarGrupo1, crearGrupo3 };
 		this.funcionNocturnoCrearCuentas = funcion1;
 		this.funcionNocturnoCrearGrupos = funcion2;
+		this.funcionSincronizaGrupos = funcion3;
 		logger.info(String.format("Constructor GeneraDatos: tipoCuenta=%s delegate es %s NULO"+
 				" tiposGrupos=[%s, %s, %s]", 
 				tiposCuenta, delegate!=null?"NO":"",
@@ -68,6 +79,11 @@ public class GeneraDatos {
 		exchange.getIn().setBody(req);
 	}
 
+	public void generaRequestSincronizaGrupos(Exchange exchange) throws Exception {
+		ProcesoDiarioRequest req = new ProcesoDiarioRequest(getFuncionSincronizaGrupos(), tiposSincronizar);
+		logger.info(String.format("generaRequestSincronizaGrupos: req:%s", req));
+		exchange.getIn().setBody(req);
+	}
 	/**
 	 * Recupera datos de KCO_FUNCIONES, MI_RESULTADO y MI_RESULTADO_ERRORES
 	 * Deja datos en el header para que se pueda llenar el template del mail a enviar
@@ -85,11 +101,14 @@ public class GeneraDatos {
 		exchange.getIn().setHeaders(generaHeaders(exchange));
 	}
 
+	/**
+	 * Recupera datos de KCO_FUNCIONES, MI_RESULTADO y MI_RESULTADO_ERRORES
+	 * Deja datos en el header para que se pueda llenar el template del mail a enviar
+	 * En header.resOperacion viene la funcion para recuperar datos desde KCO_FUNCIONES e instanciar Contadores
+	 * @param exchange
+	 */
 	public void preparaMailResultadoSincronizarGrupos(Exchange exchange) {
-		 // en el request viene sinc_grupos_*, convertirlo a sincronizar_grupos
-		Message message = exchange.getIn();
-		message.setBody("sincronizaGrupos");
-		message.setHeaders(generaHeaders(exchange));
+		exchange.getIn().setHeaders(generaHeaders(exchange));
 	}
 	
 	private Map<String,Object> generaHeaders(Exchange exchange) {
@@ -98,25 +117,33 @@ public class GeneraDatos {
 		SchedulerPanelRequest request = (SchedulerPanelRequest) message.getHeader("request");
 		String proceso = (String)message.getBody();
 		Integer keyResultado = request.getKeyResultado();
+		String operacion = (String)message.getHeader("operacion");
 		
+		logger.info(String.format("generaHeaders: proceso/funcion=%s keyResultado=%d operacion=%s", 
+				proceso, keyResultado, operacion));
+		
+		headers.put("operacion", operacion);
+		headers.put("proceso", getTexto(proceso));
 		headers.put("fechaProceso", StringUtilities.getInstance().toString(new java.util.Date(), "E, dd MMM yyyy HH:mm:ss z"));
-		headers.put("proceso", proceso);
 
+		headers.put("funcion", proceso);
 		String ultimaEjecucion = getUltimaEjecucion(proceso);
 		headers.put("ultimaEjecucion", ultimaEjecucion);
+		
 		MiResultadosDTO miResultadosDTO = getMiResultadosDTO(keyResultado);
 		headers.put("horaComienzo", miResultadosDTO.getHoraComienzo());
 		headers.put("horaTermino", miResultadosDTO.getHoraTermino());
 		setContadores(headers, proceso, miResultadosDTO.getJsonContadores());
+		
 		List<MiResultadoErroresDTO> listaErrores = getListaErrores(keyResultado);
 		headers.put("reporteErrores",  listaErrores);
 		return headers;
 	}
 	
 	@SuppressWarnings("unchecked")
-	private String getUltimaEjecucion(String proceso) {
-		logger.info(String.format("getUltimaEjecucion: busca funcion |%s| en KCO_FUNCIONES", proceso));
-		List<Map<String, Object>> datos = (List<Map<String, Object>>) qryKcoFunciones.requestBodyAndHeader(null, "proceso", proceso);
+	private String getUltimaEjecucion(String funcion) {
+		logger.info(String.format("getUltimaEjecucion: busca funcion |%s| en KCO_FUNCIONES", funcion));
+		List<Map<String, Object>> datos = (List<Map<String, Object>>) qryKcoFunciones.requestBodyAndHeader(null, "funcion", funcion);
 		if (datos != null && datos.size() > 0) {
 			Map<String, Object> map = (Map<String, Object>)datos.get(0);
 			
@@ -198,6 +225,16 @@ public class GeneraDatos {
 		return lista;
 	}
 
+	private Object getTexto(String operacion) {
+		if (delegate.esSincronizarGrupos(operacion))
+			return String.format("%s (%s)",getSincGruposLeyenda(), operacion);
+		if (delegate.esCrearCuentas(operacion))
+			return getCrearCuentasLeyenda();
+		if (delegate.esCrearGrupos(operacion))
+			return String.format("%s (%s)",getCrearGruposLeyenda(), operacion);
+		return String.format("operacion %s", operacion);
+	}
+
 	public SchedulerPanelRestService getDelegate() {
 		return delegate;
 	}
@@ -212,5 +249,33 @@ public class GeneraDatos {
 
 	public String getFuncionNocturnoCrearGrupos() {
 		return funcionNocturnoCrearGrupos;
+	}
+
+	public synchronized String getCrearCuentasLeyenda() {
+		return crearCuentasLeyenda;
+	}
+
+	public synchronized void setCrearCuentasLeyenda(String crearCuentasLeyenda) {
+		this.crearCuentasLeyenda = crearCuentasLeyenda;
+	}
+
+	public synchronized String getCrearGruposLeyenda() {
+		return crearGruposLeyenda;
+	}
+
+	public synchronized void setCrearGruposLeyenda(String crearGruposLeyenda) {
+		this.crearGruposLeyenda = crearGruposLeyenda;
+	}
+
+	public synchronized String getSincGruposLeyenda() {
+		return sincGruposLeyenda;
+	}
+
+	public synchronized void setSincGruposLeyenda(String sincGruposLeyenda) {
+		this.sincGruposLeyenda = sincGruposLeyenda;
+	}
+
+	public synchronized String getFuncionSincronizaGrupos() {
+		return funcionSincronizaGrupos;
 	}
 }

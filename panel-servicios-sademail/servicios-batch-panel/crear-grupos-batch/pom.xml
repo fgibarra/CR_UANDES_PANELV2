@@ -89,7 +89,7 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>/home/fernando/.m2/repository/uandes/panel-v2/servicios/${project.artifact}/${project.version}</outputDirectory>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/batch/crear-grupos-batch/1.0.0</outputDirectory>
 					<finalName>crear-grupos-azure-1.0.0</finalName>
 					<attach>false</attach>
 				</configuration>
