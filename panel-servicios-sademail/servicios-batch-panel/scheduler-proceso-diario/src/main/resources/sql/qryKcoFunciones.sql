@@ -1,3 +1,3 @@
 select ULTIMA_EJECUCION 
 from KCO_FUNCIONES
-where FUNCION=:#proceso
+where FUNCION=:#funcion

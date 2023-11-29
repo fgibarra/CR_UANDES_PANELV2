@@ -52,8 +52,8 @@ public class SchedulerPanelRestService {
 	public Response getFinProceso(SchedulerPanelRequest request) {
 		Exchange exchange = ExchangeBuilder.anExchange(producer.getCamelContext()).withHeader("request", request)
 				.withBody(request.getOperacion()).build();
-		logger.info(String.format(" %s", request));
-		logger.info(String.format("esCrearCuentas: %b esCrearGrupos: %b esSincronizarGrupos: %b",
+		logger.info(String.format("SchedulerPanelRestService: %s", request));
+		logger.info(String.format("SchedulerPanelRestService: esCrearCuentas: %b esCrearGrupos: %b esSincronizarGrupos: %b",
 				esCrearCuentas(request.getOperacion()), esCrearGrupos(request.getOperacion()),
 				esSincronizarGrupos(request.getOperacion())));
 		if (esCrearCuentas(request.getOperacion()))

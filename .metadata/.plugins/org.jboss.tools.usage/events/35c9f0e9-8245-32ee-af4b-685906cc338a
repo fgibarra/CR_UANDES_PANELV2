@@ -1,9 +1,9 @@
-#Tue Nov 28 12:35:27 CLST 2023
+#Wed Nov 29 11:00:20 CLST 2023
 ct=jbt
 a=finishWizard
 c=0
-s=1
-d=1701185727260
+s=0
+d=1701266420715
 v=2.2.300
 vl=How many times the 'Finish' button pressed during the day
 cmp=usage

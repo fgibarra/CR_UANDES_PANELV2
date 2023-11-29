@@ -25,7 +25,7 @@
 			<artifactId>json-datatransfer</artifactId>
 			<version>0.0.2</version>
 			<scope>system</scope>
-			<systemPath>/home/sademail/CodereadyProjects/UANDES/INTEGRACION_LEGANTO/comunes-leganto/json-datatransfer/target/json-datatransfer-0.0.2.jar</systemPath>
+			<systemPath>${user.home}/CodereadyProjects/UANDES/INTEGRACION_LEGANTO/comunes-leganto/json-datatransfer/target/json-datatransfer-0.0.2.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
@@ -85,6 +85,16 @@
 				<version>3.1.0</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/serv-crear-cuentas-panel/0.0.1</outputDirectory>
+					<finalName>serv-crear-cuentas-panel-0.0.1</finalName>
+					<attach>false</attach>
 				</configuration>
 			</plugin>
 		</plugins>

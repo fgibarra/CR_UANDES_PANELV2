@@ -135,9 +135,11 @@
    <linked-el length="46" name="%0" offset="2274" path="%1"/>
    <linked-el length="30" name="%2" offset="2095" path="%3"/>
    <linked-el length="46" name="%4" offset="2274" path="%1"/>
-   <linked-el length="30" name="%5" offset="2095" path="%3"/>
+   <linked-el length="83" name="%5" offset="4721" path="%3"/>
    <linked-el length="30" name="%6" offset="2095" path="%3"/>
    <linked-el length="30" name="%7" offset="2095" path="%3"/>
+   <linked-el length="30" name="%8" offset="2095" path="%3"/>
+   <linked-el length="83" name="%9" offset="4721" path="%3"/>
   </el>
  </validation>
  <aliases>
@@ -146,10 +148,12 @@
    path="/api-gmailServices/src/main/resources/OSGI-INF/blueprint/blueprint.xml" value="%1"/>
   <alias path="plugin" value="%2"/>
   <alias path="karaf.home" value="%4"/>
+  <alias path="user.home" value="%5"/>
   <alias path="/api-gmailServices/pom.xml" value="%3"/>
-  <alias path="version.maven" value="%5"/>
-  <alias path="version" value="%6"/>
-  <alias path="bundle" value="%7"/>
+  <alias path="version.maven" value="%6"/>
+  <alias path="version" value="%7"/>
+  <alias path="bundle" value="%8"/>
+  <alias path="user" value="%9"/>
  </aliases>
  <includes/>
  <uris/>
