@@ -1,4 +1,4 @@
-package cl.uandes.sadmemail.comunes.gmail.json;
+package cl.uandes.sadmemail.comunes.report.json;
 
 import java.io.Serializable;
 

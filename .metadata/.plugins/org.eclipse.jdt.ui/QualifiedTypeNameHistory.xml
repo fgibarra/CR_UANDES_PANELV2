@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MemberResponse"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.core.MediaType"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.Produces"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.Consumes"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sincronizaGrupos.SincronizaGruposResponse"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.POST"/>
-    <fullyQualifiedTypeName name="org.apache.camel.CamelContext"/>
-    <fullyQualifiedTypeName name="org.apache.camel.builder.ExchangeBuilder"/>
     <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
     <fullyQualifiedTypeName name="java.util.Locale"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sincronizaGrupos.SincronizaGruposRequest"/>
@@ -31,13 +23,9 @@
     <fullyQualifiedTypeName name="com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest"/>
     <fullyQualifiedTypeName name="com.google.api.client.http.javanet.NetHttpTransport"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.servicio.crearGrupos.api.dto.DatosGruposDTO"/>
-    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
-    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
-    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
     <fullyQualifiedTypeName name="org.apache.cxf.jaxrs.impl.ResponseImpl"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
@@ -54,10 +42,22 @@
     <fullyQualifiedTypeName name="com.google.api.client.googleapis.auth.oauth2.GoogleCredential"/>
     <fullyQualifiedTypeName name="com.google.api.services.admin.reports.model.UsageReports"/>
     <fullyQualifiedTypeName name="com.google.api.services.admin.reports.model.UsageReport"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Map.Entry"/>
     <fullyQualifiedTypeName name="java.util.Set"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.JSonUtilities"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos"/>
+    <fullyQualifiedTypeName name="java.util.Properties"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.PropertyConfigurator"/>
+    <fullyQualifiedTypeName name="com.google.api.services.admin.reports.model.UsageReport.Parameters"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.apiReportServices.wao.ReportGmailWAOesb"/>
+    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.ReportResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.Report"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
 </qualifiedTypeNameHistroy>

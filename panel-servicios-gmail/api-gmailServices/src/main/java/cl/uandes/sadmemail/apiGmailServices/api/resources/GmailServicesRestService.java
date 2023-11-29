@@ -31,9 +31,9 @@ import cl.uandes.sadmemail.comunes.gmail.json.MemberRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MemberResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersResponse;
-import cl.uandes.sadmemail.comunes.gmail.json.ReportResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.UserRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
+import cl.uandes.sadmemail.comunes.report.json.ReportResponse;
 
 /**
  * URI : cxf/ESB/panel/gmailServices/

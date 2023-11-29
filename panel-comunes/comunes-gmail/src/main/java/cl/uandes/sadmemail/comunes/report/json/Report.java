@@ -1,4 +1,4 @@
-package cl.uandes.sadmemail.comunes.gmail.json;
+package cl.uandes.sadmemail.comunes.report.json;
 
 import java.io.Serializable;
 
@@ -18,6 +18,14 @@ public class Report implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4434195896562110534L;
+	@JsonProperty("userEmail")
+	private String userEmail;
+	@JsonProperty("last_login_time")
+	private String lastLoginTime;
+	@JsonProperty("creation_time")
+	private String creationTime;
+	@JsonProperty("is_disabled")
+	private Boolean isDisabled;
 	@JsonProperty("gmail_used_quota_in_mb")
 	private Integer gmailUsedQuotaInMb;
 	@JsonProperty("drive_used_quota_in_mb")
@@ -35,6 +43,10 @@ public class Report implements Serializable {
 
 	@JsonCreator
 	public Report(
+			@JsonProperty("userEmail")String userEmail,
+			@JsonProperty("last_login_time")String lastLoginTime,
+			@JsonProperty("creation_time")String creationTime,
+			@JsonProperty("is_disabled")Boolean isDisabled,
 			@JsonProperty("gmail_used_quota_in_mb")Integer gmailUsedQuotaInMb, 
 			@JsonProperty("drive_used_quota_in_mb")Integer driveUsedQuotaInMb, 
 			@JsonProperty("gplus_photos_used_quota_in_mb")Integer gplusPhotosUsedQuotaInMb,
@@ -43,6 +55,10 @@ public class Report implements Serializable {
 			@JsonProperty("used_quota_in_mb")Integer usedQuotaInMb, 
 			@JsonProperty("used_quota_in_percentage")Integer usedQuotaInPercentage) {
 		super();
+		this.userEmail = userEmail;
+		this.lastLoginTime = lastLoginTime;
+		this.creationTime = creationTime;
+		this.isDisabled = isDisabled;
 		this.gmailUsedQuotaInMb = gmailUsedQuotaInMb;
 		this.driveUsedQuotaInMb = driveUsedQuotaInMb;
 		this.gplusPhotosUsedQuotaInMb = gplusPhotosUsedQuotaInMb;
@@ -116,6 +132,38 @@ public class Report implements Serializable {
 
 	public void setUsedQuotaInPercentage(Integer usedQuotaInPercentage) {
 		this.usedQuotaInPercentage = usedQuotaInPercentage;
+	}
+
+	public synchronized String getUserEmail() {
+		return userEmail;
+	}
+
+	public synchronized void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public synchronized String getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public synchronized void setLastLoginTime(String lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
+	public synchronized String getCreationTime() {
+		return creationTime;
+	}
+
+	public synchronized void setCreationTime(String creationTime) {
+		this.creationTime = creationTime;
+	}
+
+	public synchronized Boolean getIsDisabled() {
+		return isDisabled;
+	}
+
+	public synchronized void setIsDisabled(Boolean isDisabled) {
+		this.isDisabled = isDisabled;
 	}
 
 }
