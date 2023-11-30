@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="delegate"/>
+		<item key="selection" value="Long"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="Integer"/>
+			<item value="google-api-services-oauth2"/>
 			<item value="delegate"/>
 			<item value="sinc_grupos-gmail.nocturno.funcion"/>
 			<item value="direct:terminaSincronizarGrupos"/>
@@ -21,10 +23,9 @@
 			<item value="message=&quot;("/>
 			<item value="L338"/>
 			<item value="GoogleCredential"/>
-			<item value="_posgrado"/>
-			<item value="postgrado"/>
 		</list>
 		<list key="replacehistory">
+			<item value="Long"/>
 			<item value="_postgrado"/>
 			<item value=""/>
 			<item value="Gmail"/>
@@ -39,7 +40,6 @@
 			<item value="(2)"/>
 			<item value="(1)"/>
 			<item value="GeneraRespuestaGetArchivo"/>
-			<item value="ProcesaFiltro"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

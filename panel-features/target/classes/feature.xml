@@ -22,6 +22,7 @@
 	<bundle>mvn:com.google.apis/google-api-services-groupssettings/v1-rev60-1.22.0</bundle>
 	<bundle>mvn:com.google.apis/google-api-services-oauth2/v2-rev93-1.20.0</bundle>
 	<bundle>mvn:uandes.leganto/json-datatransfer/0.0.1</bundle>
+	<bundle>wrap:mvn:com.google.apis/google-api-services-admin-reports/reports_v1-rev89-1.25.0</bundle>
   </feature>
 
   <feature name="instalador-configuracion-panel" version="${project.version}">
@@ -34,12 +35,13 @@
   <feature name="panel-basic">
   	<feature prerequisite="true">instalador-configuracion-panel</feature>
     <bundle>mvn:uandes.panel-v2.comunes/comunes-gmail/0.0.1</bundle> <!-- bundle:dynamic-import -->
-    <bundle>mvn:uandes.panel-v2.comunes/comunes-sademail/0.0.1</bundle> <!-- bundle:dynamic-import -->
   </feature>
 
   <feature name="servicios-api-gmail">
   	<feature prerequisite="true">panel-basic</feature>
-    <bundle>mvn:uandes.panel-v2.servicios/gmail.api-gmailServices/0.0.1</bundle> 
+    <bundle>mvn:uandes.panel-v2.servicios.gmail/api-sendmail/0.0.1</bundle> <!-- bundle:dynamic-import -->
+    <bundle>mvn:uandes.panel-v2.servicios.gmail/api-gmailServices/0.0.1</bundle> 
+    <bundle>mvn:uandes.panel-v2.servicios.gmail/api-gmailReports/0.0.1</bundle> 
   </feature>
 
   <feature name="servicios-panel">

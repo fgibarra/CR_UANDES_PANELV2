@@ -1,8 +1,13 @@
-package cl.uandes.sadmemail.apiGmailServices.wao;
+package cl.uandes.sadmemail.apiReportServices.wao;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,6 +24,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.admin.reports.Reports;
 import com.google.api.services.admin.reports.Reports.UserUsageReport;
 import com.google.api.services.admin.reports.model.UsageReport;
+import com.google.api.services.admin.reports.model.UsageReport.Entity;
+import com.google.api.services.admin.reports.model.UsageReport.Parameters;
 import com.google.api.services.admin.reports.model.UsageReports;
 
 import com.google.api.services.admin.reports.ReportsScopes;
@@ -38,7 +45,9 @@ public abstract class ReportGmailWAOImpl {
 
 	/** OAuth 2.0 scopes. */
 	protected static final List<String> SCOPES = Arrays.asList(
-			ReportsScopes.ADMIN_REPORTS_AUDIT_READONLY);
+			ReportsScopes.ADMIN_REPORTS_AUDIT_READONLY,
+			ReportsScopes.ADMIN_REPORTS_USAGE_READONLY
+			);
 	
 	// usar para uandes
 	// usar en forma local local
@@ -127,16 +136,6 @@ public abstract class ReportGmailWAOImpl {
     protected abstract String getGmailDominio();
 
 	
-	public ReportGmailWAOImpl(Map<String, Object> map) {
-		try {
-			reports = getReportsService(ADMIN_EMAIL);
-		} catch (IOException e) {
-			logger.error("main", e);
-		} catch (Throwable t) {
-			logger.error("main", t);
-		}
-	}
-
 	private Reports getReportsService(String userEmail) throws Exception {
         
 		try {
@@ -159,24 +158,38 @@ public abstract class ReportGmailWAOImpl {
 		}
     }
 
-	public void getReportUsuario(String idUsuario) {
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> getReportUsuario(String idUsuario) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		LocalDate today =  LocalDate.now();
+		LocalDate threeDaysAgo = today.minusDays(3);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
 		try {
-			UserUsageReport.Get r = getReportsService(ADMIN_EMAIL).userUsageReport().get(idUsuario, "2023-11-23");
+			UserUsageReport.Get r = reports.userUsageReport().get(idUsuario, sdf.format(Date.from(threeDaysAgo.atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			UsageReports report = r.execute();
 			List<UsageReport> lista = report.getUsageReports();
+			
+			UsageReport.Entity entity = null;
+			List<UsageReport.Parameters> listaParametros = null;
+			
 			for (UsageReport re : lista) {
 				Set<Entry<String, Object>> set = re.entrySet();
-				StringBuffer sb = new StringBuffer();
+				
 				for (Entry<String, Object> entry : set) {
-					sb.append(String.format("%s = %s", entry.getKey(), entry.getValue())).append('\n');
+					//logger.info(String.format("UsageReport: %s=%s", entry.getKey(), entry.getValue()));
+					if ("entity".equals(entry.getKey()))
+						entity = (Entity) entry.getValue();
+					if ("parameters".equals(entry.getKey()))
+						listaParametros = (List<Parameters>) entry.getValue();
 				}
-				System.out.println(sb.toString());
 			}
+			map.put("entity", entity);
+			map.put("parameters", listaParametros);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("getReportUsuario", e);
 		}
-		
+		return map;
 	}
 	
 }

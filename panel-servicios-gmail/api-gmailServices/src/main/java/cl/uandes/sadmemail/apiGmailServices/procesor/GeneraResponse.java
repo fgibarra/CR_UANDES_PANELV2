@@ -30,8 +30,6 @@ import cl.uandes.sadmemail.comunes.gmail.json.MemberRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MemberResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersResponse;
-import cl.uandes.sadmemail.comunes.gmail.json.Report;
-import cl.uandes.sadmemail.comunes.gmail.json.ReportResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.UserRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
 import cl.uandes.sadmemail.comunes.google.api.services.Member;
@@ -438,23 +436,7 @@ public class GeneraResponse implements Processor {
 			}
 			exchange.getIn().setBody(response);
 			
-		} else if ("report-uso".equalsIgnoreCase(operacion)) {
-			String userId = (String)exchange.getIn().getHeader("Body");
-			ReportResponse response = null;
-			try {
-				Object datos = wao.reportUso(userId);
-				response = new ReportResponse(0, "OK", factoryReport(datos));
-			} catch (Exception e) {
-				response = new ReportResponse( -1, e.getMessage(), null);
-			}
-			exchange.getIn().setBody(response);
 		}
-	}
-
-	private Report factoryReport(Object datos) {
-		Report report = null;
-		// TODO
-		return report;
 	}
 
 	protected String getCuenta(String loginName) {

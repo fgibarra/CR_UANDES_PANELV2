@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/reportServices/"
+        id="rsApiReportServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.sadmemail.apiReportServices.api.resources.ReportServicesRestService" id="restService"/>
+    <bean
+        class="cl.uandes.sadmemail.apiReportServices.procesor.GeneraResponse" id="generaResponse">
+        <property name="dominio" value="{{panelv2.dominio}}"/>
+    </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <!-- ==================================================================================================== -->
+    <camelContext id="api-gmailReports-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <route id="_readJson">
+            <from id="_promService" uri="direct:start"/>
+            <bean id="_bean1" method="inicialiceParametrosMail" ref="restService"/>
+            <process id="_process1" ref="generaResponse"/>
+            <to id="_final" uri="mock:end"/>
+        </route>
+    </camelContext>
+</blueprint>
