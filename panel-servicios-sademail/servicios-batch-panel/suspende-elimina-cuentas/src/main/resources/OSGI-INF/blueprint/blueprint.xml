@@ -8,7 +8,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF servers -->
-    <jaxrs:server address="/ESB/panel/servicioBatch/suspendeEliminaCuentas/"
+    <jaxrs:server
+        address="/ESB/panel/servicioBatch/suspendeEliminaCuentas/"
         id="rsPanelServices" staticSubresourceResolution="true">
         <jaxrs:serviceBeans>
             <ref component-id="restService"/>
@@ -32,11 +33,41 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/reportServices/report/usage/{userId}"
+        id="rsReporteUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.ReporteEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieveAllUsers"
+        id="rsRetrieveAllUsers" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.resources.SuspendeEliminaCuentasRestService" id="restService">
         <property name="funcion" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
         <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
+    </bean>
+    <bean class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos">
+        <property name="propNumberPrueba" value="{{crear-grupos-gmail.numero-pruebas}}"/>
+    </bean>
+    <bean class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.SincronizaUsuario" id="sincronizaUsuario">
+        <property name="propNumberPrueba" value="{{crear-grupos-gmail.numero-pruebas}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -44,8 +75,7 @@
         filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
     <!-- ==================================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-    <camelContext id="suspende-elimina-cuentas"
-        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="suspende-elimina-cuentas" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <!-- -->
         <route id="_readjson">
@@ -54,18 +84,48 @@
             <to id="_to1" uri="mock:end"/>
         </route>
 
+        <!-- ================================================================================================= -->
+        <!-- 	SINCRONIZA CUENTAS-->
+        <!-- El proceso del requerimiento que viene desde el request	-->
+        <!-- ================================================================================================= -->
 		<route>
-			<from uri="direct:proceso"/>
-			<log message="(L59) Proceso en header: ${header.proceso} request: ${header.request}"/>
-			<choice>
-				<when>
-					<simple>${header.proceso} == 'eliminar'</simple>
-					<log message="(L63) eliminar cuentas"/>
-				</when>
-				<otherwise>
-					<log message="(L66) suspender cuentas"/>
-				</otherwise>
-			</choice>
+			<from uri="direct:sincronizar"/>
+			<loop doWhile="true">
+				<simple>${header.hayToken}</simple>
+				<bean method="recuperaUsuariosGmail" ref="generaDatos"/>
+				<loop doWhile="true">
+					<simple>${header.listaUsuariosSincronizar.size} &gt; 0</simple>
+					<choice>
+						<when>
+							<simple>${header.countThread.getCounter} &gt; 14</simple>
+							<delay><constant>1000</constant></delay>
+						</when>
+						<otherwise>
+							<bean method="recuperaUsuario" ref="generaDatos"/>
+							<to uri="seda:procesaUsuario"/>
+						</otherwise>
+					</choice>
+				</loop>
+			</loop>
 		</route>
+        <!-- ================================================================================================= -->
+		<route>
+			<from uri="seda:procesaUsuario?concurrentConsumers=15"/>
+			<process ref="sincronizaUsuario"/>
+		</route>
+        <!-- ================================================================================================= -->
+        <route id="_route1">
+            <from id="_from1" uri="direct:proceso"/>
+            <log id="_log1" message="(L59) Proceso en header: ${header.proceso} request: ${header.request}"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.proceso} == 'eliminar'</simple>
+                    <log id="_log3" message="(L63) eliminar cuentas"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log id="_log4" message="(L66) suspender cuentas"/>
+                </otherwise>
+            </choice>
+        </route>
     </camelContext>
 </blueprint>

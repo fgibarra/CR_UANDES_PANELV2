@@ -28,9 +28,9 @@ public class SuspendeEliminaCuentasRestService {
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
 
-    @PropertyInject(value = "se-cuentas-gmail.nocturno.funciones", defaultValue="eliminar,suspender")
+    @PropertyInject(value = "se-cuentas-gmail.nocturno.funciones", defaultValue="sincronizar,eliminar,suspender")
 	private String funciones;
-    @PropertyInject(value = "se-cuentas-gmail.tiposCuenta", defaultValue="Alumnos,Profesores")
+    @PropertyInject(value = "se-cuentas-gmail.tiposCuenta", defaultValue="Alumnos,Profesores,Otros")
 	private String tiposCuenta;
 
     private String msgError;
@@ -61,14 +61,20 @@ public class SuspendeEliminaCuentasRestService {
 		CamelContext camelContext = producer.getCamelContext();
 		// partir el proceso batch
 		ProducerTemplate procesoBatch = camelContext.createProducerTemplate();
-		Exchange exchange = ExchangeBuilder.anExchange(camelContext).withHeader("request", request).
-				withHeader("proceso", request.getFuncion())
+		Exchange exchange = ExchangeBuilder.anExchange(camelContext).withHeader("request", request)
+				.withHeader("hayToken", Boolean.TRUE)
+				.withHeader("proceso", request.getFuncion())
 				.withBody(request).build();
-		logger.info(String.format("SuspendeEliminaCuentasRestService.procese: activa direct:proceso con header.request = %s", 
+		logger.info(String.format("SuspendeEliminaCuentasRestService.procese: activa direct:proceso/direct:sincronizar con header.request = %s", 
 				exchange.getIn().getHeader("request")));
-		procesoBatch.asyncSend("seda:procesaSuspendeElimina", exchange);
+		if ("suspender".equals(request.getFuncion()))
+			procesoBatch.asyncSend("direct:proceso", exchange);
+		else if ("eliminar".equals(request.getFuncion()))
+			procesoBatch.asyncSend("direct:proceso", exchange);
+		else if ("sincronizar".equals(request.getFuncion()))
+			procesoBatch.asyncSend("direct:sincronizar", exchange);
 		
-		Response response = Response.ok().status(200).entity("Partio crear_cuentas").build();
+		Response response = Response.ok().status(200).entity(String.format("Partio %s",request.getFuncion())).build();
 		return response;
 	}
 
