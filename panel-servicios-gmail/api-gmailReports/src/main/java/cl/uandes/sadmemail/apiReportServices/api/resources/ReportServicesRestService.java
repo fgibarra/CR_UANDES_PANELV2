@@ -18,7 +18,6 @@ import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
 import org.apache.log4j.Logger;
 
-import cl.uandes.sadmemail.apiReportServices.wao.ReportGmailWAOesb;
 import cl.uandes.sadmemail.comunes.report.json.ReportResponse;
 
 @Path("/")
@@ -27,7 +26,7 @@ public class ReportServicesRestService {
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
 
-	@EndpointInject(uri = "sql:classpath:sql/qrySendMailParams.sql?dataSource=#bannerDataSource")
+	@EndpointInject(uri = "sql:classpath:sql/qrySendmailParams.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qrySendMailParams;
 
 	Logger logger = Logger.getLogger(getClass());
@@ -44,6 +43,7 @@ public class ReportServicesRestService {
 		return (ReportResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void inicialiceParametrosMail(Exchange exchange) {
 		Message message = exchange.getIn();
 		Map<String, Object> headers = (Map<String, Object>)message.getHeaders();

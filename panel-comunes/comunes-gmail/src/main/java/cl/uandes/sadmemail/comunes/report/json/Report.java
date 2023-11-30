@@ -27,19 +27,19 @@ public class Report implements Serializable {
 	@JsonProperty("is_disabled")
 	private Boolean isDisabled;
 	@JsonProperty("gmail_used_quota_in_mb")
-	private Integer gmailUsedQuotaInMb;
+	private Long gmailUsedQuotaInMb;
 	@JsonProperty("drive_used_quota_in_mb")
-	private Integer driveUsedQuotaInMb;
+	private Long driveUsedQuotaInMb;
 	@JsonProperty("gplus_photos_used_quota_in_mb")
-	private Integer gplusPhotosUsedQuotaInMb;
+	private Long gplusPhotosUsedQuotaInMb;
 	@JsonProperty("is_suspended")
 	private Boolean isSuspended;
 	@JsonProperty("total_quota_in_mb")
-	private Integer totalQuotaInMb;
+	private Long totalQuotaInMb;
 	@JsonProperty("used_quota_in_mb")
-	private Integer usedQuotaInMb;
+	private Long usedQuotaInMb;
 	@JsonProperty("used_quota_in_percentage")
-	private Integer usedQuotaInPercentage;
+	private Long usedQuotaInPercentage;
 
 	@JsonCreator
 	public Report(
@@ -47,13 +47,13 @@ public class Report implements Serializable {
 			@JsonProperty("last_login_time")String lastLoginTime,
 			@JsonProperty("creation_time")String creationTime,
 			@JsonProperty("is_disabled")Boolean isDisabled,
-			@JsonProperty("gmail_used_quota_in_mb")Integer gmailUsedQuotaInMb, 
-			@JsonProperty("drive_used_quota_in_mb")Integer driveUsedQuotaInMb, 
-			@JsonProperty("gplus_photos_used_quota_in_mb")Integer gplusPhotosUsedQuotaInMb,
+			@JsonProperty("gmail_used_quota_in_mb")Long gmailUsedQuotaInMb, 
+			@JsonProperty("drive_used_quota_in_mb")Long driveUsedQuotaInMb, 
+			@JsonProperty("gplus_photos_used_quota_in_mb")Long gplusPhotosUsedQuotaInMb,
 			@JsonProperty("is_suspended")Boolean isSuspended, 
-			@JsonProperty("total_quota_in_mb")Integer totalQuotaInMb, 
-			@JsonProperty("used_quota_in_mb")Integer usedQuotaInMb, 
-			@JsonProperty("used_quota_in_percentage")Integer usedQuotaInPercentage) {
+			@JsonProperty("total_quota_in_mb")Long totalQuotaInMb, 
+			@JsonProperty("used_quota_in_mb")Long usedQuotaInMb, 
+			@JsonProperty("used_quota_in_percentage")Long usedQuotaInPercentage) {
 		super();
 		this.userEmail = userEmail;
 		this.lastLoginTime = lastLoginTime;
@@ -78,27 +78,27 @@ public class Report implements Serializable {
 		}
 	}
 
-	public Integer getGmailUsedQuotaInMb() {
+	public Long getGmailUsedQuotaInMb() {
 		return gmailUsedQuotaInMb;
 	}
 
-	public void setGmailUsedQuotaInMb(Integer gmailUsedQuotaInMb) {
+	public void setGmailUsedQuotaInMb(Long gmailUsedQuotaInMb) {
 		this.gmailUsedQuotaInMb = gmailUsedQuotaInMb;
 	}
 
-	public Integer getDriveUsedQuotaInMb() {
+	public Long getDriveUsedQuotaInMb() {
 		return driveUsedQuotaInMb;
 	}
 
-	public void setDriveUsedQuotaInMb(Integer driveUsedQuotaInMb) {
+	public void setDriveUsedQuotaInMb(Long driveUsedQuotaInMb) {
 		this.driveUsedQuotaInMb = driveUsedQuotaInMb;
 	}
 
-	public Integer getGplusPhotosUsedQuotaInMb() {
+	public Long getGplusPhotosUsedQuotaInMb() {
 		return gplusPhotosUsedQuotaInMb;
 	}
 
-	public void setGplusPhotosUsedQuotaInMb(Integer gplusPhotosUsedQuotaInMb) {
+	public void setGplusPhotosUsedQuotaInMb(Long gplusPhotosUsedQuotaInMb) {
 		this.gplusPhotosUsedQuotaInMb = gplusPhotosUsedQuotaInMb;
 	}
 
@@ -110,27 +110,27 @@ public class Report implements Serializable {
 		this.isSuspended = isSuspended;
 	}
 
-	public Integer getTotalQuotaInMb() {
+	public Long getTotalQuotaInMb() {
 		return totalQuotaInMb;
 	}
 
-	public void setTotalQuotaInMb(Integer totalQuotaInMb) {
+	public void setTotalQuotaInMb(Long totalQuotaInMb) {
 		this.totalQuotaInMb = totalQuotaInMb;
 	}
 
-	public Integer getUsedQuotaInMb() {
+	public Long getUsedQuotaInMb() {
 		return usedQuotaInMb;
 	}
 
-	public void setUsedQuotaInMb(Integer usedQuotaInMb) {
+	public void setUsedQuotaInMb(Long usedQuotaInMb) {
 		this.usedQuotaInMb = usedQuotaInMb;
 	}
 
-	public Integer getUsedQuotaInPercentage() {
+	public Long getUsedQuotaInPercentage() {
 		return usedQuotaInPercentage;
 	}
 
-	public void setUsedQuotaInPercentage(Integer usedQuotaInPercentage) {
+	public void setUsedQuotaInPercentage(Long usedQuotaInPercentage) {
 		this.usedQuotaInPercentage = usedQuotaInPercentage;
 	}
 

@@ -34,7 +34,8 @@
 							cl.uandes.sadmemail.comunes, 
 							cl.uandes.sadmemail.comunes.gmail.json,
 							cl.uandes.sadmemail.comunes.google.api.services,
-							cl.uandes.sadmemail.comunes.utils
+							cl.uandes.sadmemail.comunes.utils,
+							cl.uandes.sadmemail.comunes.report.json
 						</Export-Package>
 						<Import-Package>
 							org.apache.log4j;version="[1.2,2)",

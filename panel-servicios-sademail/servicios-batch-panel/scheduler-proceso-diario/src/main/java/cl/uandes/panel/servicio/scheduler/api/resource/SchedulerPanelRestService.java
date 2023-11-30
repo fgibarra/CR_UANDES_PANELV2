@@ -34,7 +34,7 @@ public class SchedulerPanelRestService {
 	private String procesoCrearGrupos;
     @PropertyInject(value = "grupos_inprogress_gmail.proceso", defaultValue="grupos_inprogress")
 	private String procesoCrearGruposInprogress;
-    @PropertyInject(value = "grupos_inprogress_posgrado_gmail.proceso", defaultValue="grupos_inprogress_posgrado")
+    @PropertyInject(value = "grupos_inprogress_posgrado_gmail.proceso", defaultValue="grupos_inprogress_postgrado")
 	private String procesoCrearGruposPosgrado;
     @PropertyInject(value = "sinc_grupos_generales.operacion", defaultValue="sinc_grupos_generales")
 	private String procesoSyncGruposGenerales;

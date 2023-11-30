@@ -19,8 +19,9 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.sadmemail.apiReportServices.api.resources.ReportServicesRestService" id="restService"/>
-    <bean class="cl.uandes.sadmemail.apiReportServices.procesor.GeneraResponse" id="generaResponse">
-		<property name="dominio" value="{{panelv2.dominio}}"/>
+    <bean
+        class="cl.uandes.sadmemail.apiReportServices.procesor.GeneraResponse" id="generaResponse">
+        <property name="dominio" value="{{panelv2.dominio}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -28,14 +29,13 @@
         filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
     <!-- ==================================================================================================== -->
     <!-- ==================================================================================================== -->
-    <camelContext id="api-gmailReports-v1"
-        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="api-gmailReports-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <route id="_readJson">
-			<from id="_promService" uri="direct:start"/>
-			<bean method="inicialiceParametrosMail" ref="restService"/>
-			<process ref="generaResponse"/>
-			<to id="_final" uri="mock:end"/>
+            <from id="_promService" uri="direct:start"/>
+            <bean id="_bean1" method="inicialiceParametrosMail" ref="restService"/>
+            <process id="_process1" ref="generaResponse"/>
+            <to id="_final" uri="mock:end"/>
         </route>
     </camelContext>
 </blueprint>

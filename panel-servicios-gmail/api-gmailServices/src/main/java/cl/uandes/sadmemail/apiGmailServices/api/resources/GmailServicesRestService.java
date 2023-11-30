@@ -33,7 +33,6 @@ import cl.uandes.sadmemail.comunes.gmail.json.MembersRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.MembersResponse;
 import cl.uandes.sadmemail.comunes.gmail.json.UserRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
-import cl.uandes.sadmemail.comunes.report.json.ReportResponse;
 
 /**
  * URI : cxf/ESB/panel/gmailServices/
@@ -445,18 +444,5 @@ public class GmailServicesRestService {
 		headers.put("Operacion", "member-deleteOwner");
 		headers.put("Body", in_msg);
 		return (Response) producer.requestBodyAndHeaders(in_msg, headers);
-	}
-	
-	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/report/{userId}")
-	public ReportResponse getReporteUso(@PathParam("userId")String in_msg) {
-		logger.info(String.format("deleteOwnerFromGroup: in_msg: %s - %s", 
-				in_msg.getClass().getSimpleName(), in_msg));
-		Map<String,Object> headers = new HashMap<String,Object>();
-		headers.put("Operacion", "report-uso");
-		headers.put("Body", in_msg);
-		return (ReportResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 }

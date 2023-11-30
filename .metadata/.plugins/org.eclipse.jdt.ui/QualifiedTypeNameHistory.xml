@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-    <fullyQualifiedTypeName name="java.util.Locale"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.sincronizaGrupos.SincronizaGruposRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CommandLineParser"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse"/>
@@ -60,4 +56,8 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.Report"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.time.ZoneId"/>
 </qualifiedTypeNameHistroy>

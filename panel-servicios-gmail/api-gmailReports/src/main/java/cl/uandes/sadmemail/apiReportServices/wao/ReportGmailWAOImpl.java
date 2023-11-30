@@ -2,7 +2,11 @@ package cl.uandes.sadmemail.apiReportServices.wao;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,8 +161,12 @@ public abstract class ReportGmailWAOImpl {
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getReportUsuario(String idUsuario) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		LocalDate today =  LocalDate.now();
+		LocalDate threeDaysAgo = today.minusDays(3);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
 		try {
-			UserUsageReport.Get r = reports.userUsageReport().get(idUsuario, "2023-11-23");
+			UserUsageReport.Get r = reports.userUsageReport().get(idUsuario, sdf.format(Date.from(threeDaysAgo.atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			UsageReports report = r.execute();
 			List<UsageReport> lista = report.getUsageReports();
 			
@@ -169,6 +177,7 @@ public abstract class ReportGmailWAOImpl {
 				Set<Entry<String, Object>> set = re.entrySet();
 				
 				for (Entry<String, Object> entry : set) {
+					//logger.info(String.format("UsageReport: %s=%s", entry.getKey(), entry.getValue()));
 					if ("entity".equals(entry.getKey()))
 						entity = (Entity) entry.getValue();
 					if ("parameters".equals(entry.getKey()))
@@ -176,7 +185,7 @@ public abstract class ReportGmailWAOImpl {
 				}
 			}
 			map.put("entity", entity);
-			map.put("parametros", listaParametros);
+			map.put("parameters", listaParametros);
 		} catch (Exception e) {
 			logger.error("getReportUsuario", e);
 		}
