@@ -63,11 +63,13 @@
         <property name="funcion" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
         <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
     </bean>
-    <bean class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos">
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos">
         <property name="propNumberPrueba" value="{{crear-grupos-gmail.numero-pruebas}}"/>
     </bean>
-    <bean class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.SincronizaUsuario" id="sincronizaUsuario">
-        <property name="propNumberPrueba" value="{{crear-grupos-gmail.numero-pruebas}}"/>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.SincronizaUsuario" id="sincronizaUsuario">
+        <property name="uriReportServices" value="{{uri.reportServices}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -83,49 +85,52 @@
             <log id="_log2" message="(L53)queda en el body: ${body}"/>
             <to id="_to1" uri="mock:end"/>
         </route>
-
         <!-- ================================================================================================= -->
         <!-- 	SINCRONIZA CUENTAS-->
         <!-- El proceso del requerimiento que viene desde el request	-->
         <!-- ================================================================================================= -->
-		<route>
-			<from uri="direct:sincronizar"/>
-			<loop doWhile="true">
-				<simple>${header.hayToken}</simple>
-				<bean method="recuperaUsuariosGmail" ref="generaDatos"/>
-				<loop doWhile="true">
-					<simple>${header.listaUsuariosSincronizar.size} &gt; 0</simple>
-					<choice>
-						<when>
-							<simple>${header.countThread.getCounter} &gt; 14</simple>
-							<delay><constant>1000</constant></delay>
-						</when>
-						<otherwise>
-							<bean method="recuperaUsuario" ref="generaDatos"/>
-							<to uri="seda:procesaUsuario"/>
-						</otherwise>
-					</choice>
-				</loop>
-			</loop>
-		</route>
-        <!-- ================================================================================================= -->
-		<route>
-			<from uri="seda:procesaUsuario?concurrentConsumers=15"/>
-			<process ref="sincronizaUsuario"/>
-		</route>
-        <!-- ================================================================================================= -->
-        <route id="_route1">
-            <from id="_from1" uri="direct:proceso"/>
-            <log id="_log1" message="(L59) Proceso en header: ${header.proceso} request: ${header.request}"/>
-            <choice id="_choice1">
-                <when id="_when1">
-                    <simple>${header.proceso} == 'eliminar'</simple>
-                    <log id="_log3" message="(L63) eliminar cuentas"/>
-                </when>
-                <otherwise id="_otherwise1">
-                    <log id="_log4" message="(L66) suspender cuentas"/>
-                </otherwise>
-            </choice>
+        <route id="_route2">
+            <from id="_from2" uri="direct:sincronizar"/>
+            <onException id="_onExceptionKCO_FUNCIONES">
+                <exception>cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException</exception>
+                <handled>
+                    <constant>true</constant>
+                </handled>
+                <setHeader headerName="exception" id="_setHeader1">
+                    <simple>${exception}</simple>
+                </setHeader>
+                <setBody id="_setBody1">
+                    <method method="setErrorInicializacion" ref="generaDatos"/>
+                </setBody>
+                <log id="_log1" message="(L133) atrapo un exception. en el body queda: ${body}"/>
+                <to id="_to1" uri="mock:end"/>
+            </onException>
+			<process ref="inicialiceProceso"/>
+            <loop doWhile="true" id="_loop1">
+                <simple>${header.hayToken}</simple>
+                <bean id="_bean1" method="recuperaUsuariosGmail" ref="generaDatos"/>
+                <loop doWhile="true" id="_loop2">
+                    <simple>${header.listaUsuariosSincronizar.size} &gt; 0</simple>
+                    <choice id="_choice2">
+                        <when id="_when2">
+                            <simple>${header.countThread.getCounter} &gt; 14</simple>
+                            <delay id="_delay1">
+                                <constant>1000</constant>
+                            </delay>
+                        </when>
+                        <otherwise id="_otherwise2">
+                            <bean id="_bean2" method="recuperaUsuario" ref="generaDatos"/>
+                            <to id="_to2" uri="seda:procesaUsuario"/>
+                        </otherwise>
+                    </choice>
+                </loop>
+            </loop>
         </route>
+        <!-- ================================================================================================= -->
+        <route id="_route3">
+            <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=15"/>
+            <process id="_process1" ref="sincronizaUsuario"/>
+        </route>
+        <!-- ================================================================================================= -->
     </camelContext>
 </blueprint>

@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cl.uandes.panel.comunes.utils.CommandLineParser;
 
 /**
- * Parametros incluidos en la entrada crear_grupo de la tabla KCO_FUNCIONES columna prametro.
+ * Parametros incluidos en la entrada crear_grupo de la tabla KCO_FUNCIONES
+ * columna prametro.
+ * 
  * @author fernando
  *
  */
@@ -32,6 +34,12 @@ public class ParametrosCrearGrupos implements Serializable {
 	private Boolean forceAD;
 	@JsonProperty("tipo_grupo")
 	private String tipoGrupo;
+	@JsonProperty("uso_alumnos")
+	private Long usoAlumnos;
+	@JsonProperty("uso_profesores")
+	private Long usoProfesores;
+	@JsonProperty("uso_generales")
+	private Long usoGenerales;
 
 	public ParametrosCrearGrupos(String buffer) {
 		super();
@@ -42,24 +50,36 @@ public class ParametrosCrearGrupos implements Serializable {
 			this.disabled = Boolean.valueOf(valor);
 		else
 			this.disabled = Boolean.FALSE;
-		
+
 		valor = parser.getValue("year");
 		if (valor != null)
 			this.year = Integer.valueOf(valor);
-		
+
 		valor = parser.getValue("periodo");
 		if (valor != null)
 			this.periodo = Integer.valueOf(valor);
-		
+
 		this.fuente = parser.getValue("fuente");
-		
+
 		valor = parser.getValue("forceAD");
 		if (valor != null)
 			this.forceAD = Boolean.valueOf(valor);
 		else
 			this.forceAD = Boolean.FALSE;
-		
+
 		this.tipoGrupo = parser.getValue("tipo_grupo");
+
+		valor = parser.getValue("uso_alumnos");
+		if (valor != null)
+			this.usoAlumnos = Long.valueOf(valor);
+		
+		valor = parser.getValue("uso_profesores");
+		if (valor != null)
+			this.usoProfesores = Long.valueOf(valor);
+		
+		valor = parser.getValue("uso_generales");
+		if (valor != null)
+			this.usoGenerales = Long.valueOf(valor);
 	}
 
 	@Override
@@ -116,6 +136,30 @@ public class ParametrosCrearGrupos implements Serializable {
 
 	public synchronized String getTipoGrupo() {
 		return tipoGrupo;
+	}
+
+	public synchronized Long getUsoAlumnos() {
+		return usoAlumnos;
+	}
+
+	public synchronized void setUsoAlumnos(Long usoAlumnos) {
+		this.usoAlumnos = usoAlumnos;
+	}
+
+	public synchronized Long getUsoProfesores() {
+		return usoProfesores;
+	}
+
+	public synchronized void setUsoProfesores(Long usoProfesores) {
+		this.usoProfesores = usoProfesores;
+	}
+
+	public synchronized Long getUsoGenerales() {
+		return usoGenerales;
+	}
+
+	public synchronized void setUsoGenerales(Long usoGenerales) {
+		this.usoGenerales = usoGenerales;
 	}
 
 }

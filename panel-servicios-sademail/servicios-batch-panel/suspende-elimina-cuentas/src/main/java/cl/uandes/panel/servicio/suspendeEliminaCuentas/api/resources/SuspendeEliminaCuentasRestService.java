@@ -68,9 +68,9 @@ public class SuspendeEliminaCuentasRestService {
 		logger.info(String.format("SuspendeEliminaCuentasRestService.procese: activa direct:proceso/direct:sincronizar con header.request = %s", 
 				exchange.getIn().getHeader("request")));
 		if ("suspender".equals(request.getFuncion()))
-			procesoBatch.asyncSend("direct:proceso", exchange);
+			procesoBatch.asyncSend("direct:sincronizar", exchange);
 		else if ("eliminar".equals(request.getFuncion()))
-			procesoBatch.asyncSend("direct:proceso", exchange);
+			procesoBatch.asyncSend("direct:sincronizar", exchange);
 		else if ("sincronizar".equals(request.getFuncion()))
 			procesoBatch.asyncSend("direct:sincronizar", exchange);
 		

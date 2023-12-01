@@ -6,12 +6,14 @@ import java.util.Map;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
+import org.apache.camel.Header;
 import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.PropertyInject;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
 import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest;
@@ -20,7 +22,10 @@ import cl.uandes.sadmemail.comunes.google.api.services.User;
 
 public class GeneraDatos {
 
-    @PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
+    @PropertyInject(value = "se-cuentas-gmail.nocturno.funcionBD", defaultValue="suspender_eliminar_cuentas")
+	private String funcionBD;
+
+	@PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
 	private String gmailServices;
 
 	@EndpointInject(uri = "cxfrs:bean:rsRetrieveAllUserscontinuationTimeout=-1")
@@ -28,6 +33,7 @@ public class GeneraDatos {
 	String templateRecuperaGrupoGmail = "%s/user/retrieveAllUsers";
 
 	private Logger logger = Logger.getLogger(getClass());
+	
 	/**
 	 * Invoca al api rsRetrieveAllUsers para recuperar todos los usuario
 	 * Deja en el header el token devuelto
@@ -47,6 +53,11 @@ public class GeneraDatos {
 		}
 	}
 	
+	/**
+	 * Invoca al API de serviciosGmail para recuperar todos los usuarios
+	 * @param token
+	 * @return
+	 */
 	private AllUsersResponse retrieveAllUsers(String token) {
 		AllUsersResponse response = null;
 		Map<String,Object> headers = new HashMap<String,Object>();
@@ -76,6 +87,17 @@ public class GeneraDatos {
 		}
 	}
 
+	public ProcesoDiarioResponse setErrorInicializacion(@Header(value = "exception")Throwable exception, Exchange exchange) {
+		String mensaje = exception.getMessage();
+		return new ProcesoDiarioResponse(-1, getProceso(), mensaje, (Integer)exchange.getIn().getHeader("keyResultado") );
+	}
+	
+	
+	//==========================================================================================================
+	// Getters
+	//==========================================================================================================
+
+	
 	public synchronized String getGmailServices() {
 		return gmailServices;
 	}
@@ -86,5 +108,23 @@ public class GeneraDatos {
 
 	public synchronized String getTemplateRecuperaGrupoGmail() {
 		return templateRecuperaGrupoGmail;
+	}
+
+
+	public synchronized String getFuncionBD() {
+		return funcionBD;
+	}
+
+
+	public synchronized void setFuncionBD(String funcionBD) {
+		this.funcionBD = funcionBD;
+	}
+
+	public String getProceso() {
+		return funcionBD;
+	}
+
+	public void setProceso(String proceso) {
+		this.funcionBD = proceso;
 	}
 }

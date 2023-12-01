@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+@SuppressWarnings("deprecation")
 public class StringUtils {
 
 	public final static String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
@@ -105,6 +106,18 @@ public class StringUtils {
 			return null;
 		}
 	}
+	
+	public static Timestamp toTimeStamp(String fecha, String pattern) {
+		if (fecha == null) return null;
+		try {
+			DateFormat formatter = new SimpleDateFormat(pattern);
+			Date date  = formatter.parse(fecha);
+			return new Timestamp(date.getTime());
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+	
 	public static String obj2String(Object obj) {
 		if (obj == null) return null;
 		if (obj instanceof String) return (String)obj;
@@ -342,4 +355,17 @@ public class StringUtils {
 			rut = rut.trim().replaceAll("[^\\w]", "").replaceAll("[.-]", "").toUpperCase();
 		return rut;
 	}
+	
+	public static String getNombreCuenta(String email) {
+		String nombreCuenta = null;
+		if (email != null)
+			try {
+				nombreCuenta = email.substring(0, email.indexOf('@'));
+			} catch (Exception e) {
+				nombreCuenta = email;
+			}
+		return nombreCuenta;
+	}
+
+
 }

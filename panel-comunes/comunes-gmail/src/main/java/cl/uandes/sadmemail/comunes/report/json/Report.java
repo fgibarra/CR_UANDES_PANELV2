@@ -41,6 +41,8 @@ public class Report implements Serializable {
 	@JsonProperty("used_quota_in_percentage")
 	private Long usedQuotaInPercentage;
 
+	public static String REPORT_DATE_PATTERN = "yyyy-MM-ddThh:mm:ss.SSSZ";
+	
 	@JsonCreator
 	public Report(
 			@JsonProperty("userEmail")String userEmail,

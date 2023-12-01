@@ -162,7 +162,9 @@ public abstract class ReportGmailWAOImpl {
 	public Map<String, Object> getReportUsuario(String idUsuario) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		LocalDate today =  LocalDate.now();
-		LocalDate threeDaysAgo = today.minusDays(3);
+		// jueves = 3
+		// viernes = 4
+		LocalDate threeDaysAgo = today.minusDays(4);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
