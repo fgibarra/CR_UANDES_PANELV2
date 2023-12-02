@@ -73,8 +73,12 @@ public class SincronizaUsuario implements Processor {
 		}
 		// tenemos los datos para actualizar BD
 		Map<String, Object> datos = actualizaBD(user, reporte);
+		String estadoAcademico = (String) datos.get("estado_academico");
+		// se pueden eliminar cuentas en base al estado academico
+		if (hayQueEliminar(estadoAcademico))
+			eliminarCuenta(user.getId());
 		if (hayExcesoUso(reporte)) {
-			java.sql.Date fechaAviso = (Date) datos.get("fechaAviso");
+			java.sql.Date fechaAviso = (Date) datos.get("fecha_aviso");
 			if (fechaAviso != null) {
 				if (hayQueSuspender(fechaAviso)) {
 					suspenderCuenta(user.getId());
@@ -128,7 +132,7 @@ public class SincronizaUsuario implements Processor {
 		headers.put("fecha_suspension", reporte.getIsDisabled()?new java.sql.Date(new java.util.Date().getTime()):null);
 		headers.put("id_gmail", user.getId());
 		headers.put("last_login", StringUtils.toTimeStamp(reporte.getLastLoginTime(), Report.REPORT_DATE_PATTERN));
-		headers.put("fecha-creacion", StringUtils.toTimeStamp(reporte.getCreationTime(), Report.REPORT_DATE_PATTERN));
+		headers.put("fecha_creacion", StringUtils.toTimeStamp(reporte.getCreationTime(), Report.REPORT_DATE_PATTERN));
 		headers.put("gmail_used_quota", reporte.getGmailUsedQuotaInMb());
 		headers.put("drive_used_quota", reporte.getDriveUsedQuotaInMb());
 		headers.put("photos_used_quota", reporte.getGplusPhotosUsedQuotaInMb());
@@ -175,6 +179,19 @@ public class SincronizaUsuario implements Processor {
 	}
 
 
+
+	private boolean hayQueEliminar(String estadoAcademico) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+
+	private void eliminarCuenta(String id) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 
