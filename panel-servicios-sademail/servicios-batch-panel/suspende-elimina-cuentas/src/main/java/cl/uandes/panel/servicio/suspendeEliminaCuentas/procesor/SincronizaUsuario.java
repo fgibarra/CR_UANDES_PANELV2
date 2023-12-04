@@ -15,7 +15,9 @@ import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
+import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
+import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.sadmemail.comunes.google.api.services.User;
 import cl.uandes.sadmemail.comunes.report.json.Report;
 import cl.uandes.sadmemail.comunes.report.json.ReportResponse;
@@ -26,7 +28,6 @@ public class SincronizaUsuario implements Processor {
     @PropertyInject(value = "uri.reportServices", defaultValue="http://localhost:8181/cxf/ESB/panel/reportServices")
 	private String uriReportServices;
 
-	@EndpointInject(uri = "sql-stored:classpath:sql/prd_actualiza_cuenta.sql?dataSource=#bannerDataSource")
 	ProducerTemplate prd_actualiza_cuenta;
 
 	@EndpointInject(uri = "sql:classpath:sql/insertMiResultadoErrores.sql?dataSource=#bannerDataSource")
@@ -40,6 +41,7 @@ public class SincronizaUsuario implements Processor {
 	ContadoresSincronizarCuentas contadores = null;
 	Integer keyResultado;
 	String proceso;
+	String operaciones[];
 	
 	Logger logger = Logger.getLogger(getClass());
 	
@@ -57,36 +59,46 @@ public class SincronizaUsuario implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
+		CountThreads countThread = (CountThreads)message.getHeader("countThread");
 		user = (User) message.getBody();
 		contadores = (ContadoresSincronizarCuentas) message.getHeader("contadoresSincronizarCuentas");
 		contadores.incProcesados();
 		keyResultado = (Integer)message.getHeader("keyResultado");
 		proceso = (String)message.getHeader("proceso");
+		operaciones = ((ProcesoDiarioRequest)message.getHeader("request")).getOperaciones();
 		
+		logger.info(String.format("SincronizaUsuario: contadores=%d user.id=%s user.email=%s",
+				contadores.getCountProcesados(), user.getId(), user.getEmail()));
 		Report reporte = getReporte(user.getId());
 		if (reporte == null) {
 			// no se pudo recuperar el reporte de uso, Abortar
 			registraError(proceso, String.format("No se pudo recuperar reporte para cuenta %s de %s %s", 
 					user.getEmail(), user.getGivenName(), user.getFamilyName()),
 					new BigDecimal(keyResultado),user.getEmail());
-			return;
-		}
-		// tenemos los datos para actualizar BD
-		Map<String, Object> datos = actualizaBD(user, reporte);
-		String estadoAcademico = (String) datos.get("estado_academico");
-		// se pueden eliminar cuentas en base al estado academico
-		if (hayQueEliminar(estadoAcademico))
-			eliminarCuenta(user.getId());
-		if (hayExcesoUso(reporte)) {
-			java.sql.Date fechaAviso = (Date) datos.get("fecha_aviso");
-			if (fechaAviso != null) {
-				if (hayQueSuspender(fechaAviso)) {
-					suspenderCuenta(user.getId());
+		} else {
+			// tenemos los datos para actualizar BD
+			Map<String, Object> datos = actualizaBD(user, reporte);
+			String estadoAcademico = (String) datos.get("estado_academico");
+			
+			logger.info(String.format("SincronizaUsuario: user.id=%s user.email=%s estadoAcademico=%s fecha_aviso=%s", 
+					user.getId(), user.getEmail(), estadoAcademico, StringUtils.toString((Date) datos.get("fecha_aviso"))));
+			
+			// se pueden eliminar cuentas en base al estado academico
+			if (hayQueEliminar(estadoAcademico))
+				eliminarCuenta(user.getId());
+			if (hayExcesoUso(reporte)) {
+				java.sql.Date fechaAviso = (Date) datos.get("fecha_aviso");
+				if (fechaAviso != null) {
+					if (hayQueSuspender(fechaAviso)) {
+						suspenderCuenta(user.getId());
+					}
+				} else {
+					avisarSuspencion(user, reporte);
 				}
-			} else {
-				avisarSuspencion(user, reporte);
 			}
 		}
+		countThread.decCounter();
+		logger.info(String.format("SincronizaUsuario: libera thread countThread=%d", countThread.getCounter()));
 	}
 
 
@@ -109,10 +121,11 @@ public class SincronizaUsuario implements Processor {
 					(ResponseImpl)consultarUsageCuenta.requestBodyAndHeaders(null, headers), ReportResponse.class);
 		} catch (Exception e) {
 			contadores.incErrores();
+			logger.error(String.format("ERROR: getReporte id=%s causa %s", id, e.getMessage()));
 			registraError(proceso, e.getMessage(), new BigDecimal(keyResultado),user.getEmail());
 			return null;
 		}
-		if (res.getCodigo() != 0)
+		if (res.getCodigo() == 0)
 			reporte  = res.getReporte();
 		
 		return reporte;
@@ -131,8 +144,8 @@ public class SincronizaUsuario implements Processor {
 		headers.put("apellidos", user.getFamilyName());
 		headers.put("fecha_suspension", reporte.getIsDisabled()?new java.sql.Date(new java.util.Date().getTime()):null);
 		headers.put("id_gmail", user.getId());
-		headers.put("last_login", StringUtils.toTimeStamp(reporte.getLastLoginTime(), Report.REPORT_DATE_PATTERN));
-		headers.put("fecha_creacion", StringUtils.toTimeStamp(reporte.getCreationTime(), Report.REPORT_DATE_PATTERN));
+		headers.put("last_login", StringUtils.toTimeStamp(reporte.getLastLoginTime().replace('T', ' '), Report.REPORT_DATE_PATTERN));
+		headers.put("fecha_creacion", StringUtils.toTimeStamp(reporte.getCreationTime().replace('T', ' '), Report.REPORT_DATE_PATTERN));
 		headers.put("gmail_used_quota", reporte.getGmailUsedQuotaInMb());
 		headers.put("drive_used_quota", reporte.getDriveUsedQuotaInMb());
 		headers.put("photos_used_quota", reporte.getGplusPhotosUsedQuotaInMb());
@@ -175,13 +188,24 @@ public class SincronizaUsuario implements Processor {
 	 */
 	private boolean hayExcesoUso(Report reporte) {
 		// TODO Auto-generated method stub
+		if (StringUtils.estaContenido("suspender", operaciones)) {
+			;
+		}
 		return false;
 	}
 
 
 
+	/**
+	 * Dependiendo del estado academico se decide si se elimna la cuenta (ELIMINADO, ABANDONO ???)
+	 * @param estadoAcademico
+	 * @return
+	 */
 	private boolean hayQueEliminar(String estadoAcademico) {
 		// TODO Auto-generated method stub
+		if (StringUtils.estaContenido("eliminar", operaciones)) {
+			;
+		}
 		return false;
 	}
 
@@ -244,4 +268,8 @@ public class SincronizaUsuario implements Processor {
 	public synchronized void setUriReportServices(String uriReportServices) {
 		this.uriReportServices = uriReportServices;
 	}
+
+
+
+
 }

@@ -17,6 +17,7 @@ import org.apache.camel.builder.ExchangeBuilder;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
+import cl.uandes.sadmemail.comunes.utils.StringUtils;
 
 /**
  * Recibe el JSON y comienza el proceso
@@ -28,10 +29,10 @@ public class SuspendeEliminaCuentasRestService {
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
 
-    @PropertyInject(value = "se-cuentas-gmail.nocturno.funciones", defaultValue="sincronizar,eliminar,suspender")
-	private String funciones;
-    @PropertyInject(value = "se-cuentas-gmail.tiposCuenta", defaultValue="Alumnos,Profesores,Otros")
-	private String tiposCuenta;
+    @PropertyInject(value = "se-cuentas-gmail.nocturno.funciones", defaultValue="suspender_eliminar_cuentas")
+	private String funcion;
+    @PropertyInject(value = "se-cuentas-gmail.operaciones", defaultValue="sincronizar,suspender,eliminar")
+	private String operaciones;
 
     private String msgError;
 	Logger logger = Logger.getLogger(getClass());
@@ -67,11 +68,11 @@ public class SuspendeEliminaCuentasRestService {
 				.withBody(request).build();
 		logger.info(String.format("SuspendeEliminaCuentasRestService.procese: activa direct:proceso/direct:sincronizar con header.request = %s", 
 				exchange.getIn().getHeader("request")));
-		if ("suspender".equals(request.getFuncion()))
+		if (StringUtils.estaContenido("suspender",request.getOperaciones()))
 			procesoBatch.asyncSend("direct:sincronizar", exchange);
-		else if ("eliminar".equals(request.getFuncion()))
+		else if (StringUtils.estaContenido("eliminar",request.getOperaciones()))
 			procesoBatch.asyncSend("direct:sincronizar", exchange);
-		else if ("sincronizar".equals(request.getFuncion()))
+		else if (StringUtils.estaContenido("sincronizar",request.getOperaciones()))
 			procesoBatch.asyncSend("direct:sincronizar", exchange);
 		
 		Response response = Response.ok().status(200).entity(String.format("Partio %s",request.getFuncion())).build();
@@ -79,11 +80,11 @@ public class SuspendeEliminaCuentasRestService {
 	}
 
 	private boolean valida(ProcesoDiarioRequest req) {
-		String funcionesValidas[] = getFunciones().split(",");
-		String procesosValidos[] = getTiposCuenta().split(",");
+		String funcionesValidas[] = getFuncion().split(",");
+		String procesosValidos[] = getOperaciones().split(",");
 		boolean valida = false;
 		for (String valor : funcionesValidas) {
-			if (!req.getFuncion().equals(valor)) {
+			if (req.getFuncion().equals(valor)) {
 				valida = true;
 				break;
 			}
@@ -131,20 +132,20 @@ public class SuspendeEliminaCuentasRestService {
 		this.msgError = msgError;
 	}
 
-	public String getTiposCuenta() {
-		return tiposCuenta;
+	public synchronized String getFuncion() {
+		return funcion;
 	}
 
-	public void setTiposCuenta(String tiposCuenta) {
-		this.tiposCuenta = tiposCuenta;
+	public synchronized void setFuncion(String funcion) {
+		this.funcion = funcion;
 	}
 
-	public String getFunciones() {
-		return funciones;
+	public synchronized String getOperaciones() {
+		return operaciones;
 	}
 
-	public void setFunciones(String funciones) {
-		this.funciones = funciones;
+	public synchronized void setOperaciones(String operaciones) {
+		this.operaciones = operaciones;
 	}
 
 }

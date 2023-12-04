@@ -60,12 +60,14 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.resources.SuspendeEliminaCuentasRestService" id="restService">
-        <property name="funcion" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
-        <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
+        <property name="funcion" value="{{se-cuentas-gmail.nocturno.funcion}}"/>
+        <property name="operaciones" value="{{se-cuentas-gmail.nocturno.operaciones}}"/>
     </bean>
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos">
-        <property name="propNumberPrueba" value="{{crear-grupos-gmail.numero-pruebas}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.InicialiceProceso" id="inicialiceProceso">
     </bean>
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.SincronizaUsuario" id="sincronizaUsuario">
@@ -102,10 +104,10 @@
                 <setBody id="_setBody1">
                     <method method="setErrorInicializacion" ref="generaDatos"/>
                 </setBody>
-                <log id="_log1" message="(L133) atrapo un exception. en el body queda: ${body}"/>
+                <log id="_log1" message="(L07) atrapo un exception. en el body queda: ${body}"/>
                 <to id="_to1" uri="mock:end"/>
             </onException>
-			<process ref="inicialiceProceso"/>
+            <process id="_process2" ref="inicialiceProceso"/>
             <loop doWhile="true" id="_loop1">
                 <simple>${header.hayToken}</simple>
                 <bean id="_bean1" method="recuperaUsuariosGmail" ref="generaDatos"/>
@@ -113,10 +115,11 @@
                     <simple>${header.listaUsuariosSincronizar.size} &gt; 0</simple>
                     <choice id="_choice2">
                         <when id="_when2">
-                            <simple>${header.countThread.getCounter} &gt; 14</simple>
+                            <simple>${header.countThread.getCounter} &gt; 4</simple>
                             <delay id="_delay1">
                                 <constant>1000</constant>
                             </delay>
+							<log message="(L122)Esperando se desocupe thread"/>
                         </when>
                         <otherwise id="_otherwise2">
                             <bean id="_bean2" method="recuperaUsuario" ref="generaDatos"/>
@@ -128,7 +131,7 @@
         </route>
         <!-- ================================================================================================= -->
         <route id="_route3">
-            <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=15"/>
+            <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=5"/>
             <process id="_process1" ref="sincronizaUsuario"/>
         </route>
         <!-- ================================================================================================= -->

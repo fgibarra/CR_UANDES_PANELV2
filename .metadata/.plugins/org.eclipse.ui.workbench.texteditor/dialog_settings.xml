@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="InicialiceProceso"/>
+		<item key="selection" value="inicialiceProceso"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="inicialiceProceso"/>
+			<item value="rsRetrieveAllUsers"/>
+			<item value="proceso"/>
+			<item value="getProceso"/>
+			<item value="propNumberPrueba"/>
 			<item value="InicialiceCrearCuentas"/>
 			<item value="Integer"/>
 			<item value="google-api-services-oauth2"/>
@@ -18,11 +23,6 @@
 			<item value="getKcoFuncion"/>
 			<item value="direct:termina"/>
 			<item value="direct:sincronizar"/>
-			<item value="(L431) grupos a sincronizar"/>
-			<item value="grupos a sincronizar"/>
-			<item value="L438"/>
-			<item value="message=&quot;("/>
-			<item value="L338"/>
 		</list>
 		<list key="replacehistory">
 			<item value="InicialiceProceso"/>

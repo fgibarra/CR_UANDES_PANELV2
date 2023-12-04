@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import cl.uandes.sadmemail.comunes.report.json.Report;
+
 @SuppressWarnings("deprecation")
 public class StringUtils {
 
@@ -367,5 +369,20 @@ public class StringUtils {
 		return nombreCuenta;
 	}
 
-
+	public static boolean estaContenido(String valor, String[] patterns) {
+		boolean result = false;
+		if (valor != null && valor.length() > 0)
+			for (String regex : patterns) {
+				if (valor.matches(regex))
+					return true;
+			}
+		
+		return result;
+	}
+	
+	public static void main(String args[]) {
+		String REPORT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
+		Timestamp t = StringUtils.toTimeStamp("2023-12-04 22:20:33.123Z", REPORT_DATE_PATTERN);
+		System.out.println(t);
+	}
 }

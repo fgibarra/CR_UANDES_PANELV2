@@ -45,6 +45,7 @@ public class InicialiceProceso extends RegistrosEnBD implements Processor {
 		Message message = exchange.getIn();
 		Map<String,Object> headers = exchange.getIn().getHeaders();
 		String proceso = (String)message.getHeader("proceso");
+		logger.info(String.format("InicialiceProceso: proceso=%s", proceso));
 		
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>>datos = (List<Map<String, Object>>)getKcoFunciones.requestBodyAndHeader(null, "proceso", proceso);

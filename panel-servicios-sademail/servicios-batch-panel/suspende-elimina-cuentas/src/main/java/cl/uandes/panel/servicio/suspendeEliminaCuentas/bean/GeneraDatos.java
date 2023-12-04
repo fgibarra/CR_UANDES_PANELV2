@@ -22,13 +22,13 @@ import cl.uandes.sadmemail.comunes.google.api.services.User;
 
 public class GeneraDatos {
 
-    @PropertyInject(value = "se-cuentas-gmail.nocturno.funcionBD", defaultValue="suspender_eliminar_cuentas")
-	private String funcionBD;
+    @PropertyInject(value = "se-cuentas-gmail.nocturno.funcion", defaultValue="suspender_eliminar_cuentas")
+	private String funcion;
 
 	@PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
 	private String gmailServices;
 
-	@EndpointInject(uri = "cxfrs:bean:rsRetrieveAllUserscontinuationTimeout=-1")
+	@EndpointInject(uri = "cxfrs:bean:rsRetrieveAllUsers?continuationTimeout=-1")
 	ProducerTemplate rsRetrieveAllUsers;
 	String templateRecuperaGrupoGmail = "%s/user/retrieveAllUsers";
 
@@ -80,16 +80,21 @@ public class GeneraDatos {
 		Message message = exchange.getIn();
 		@SuppressWarnings("unchecked")
 		List<User> listaUsuarios = (List<User>) message.getHeader("listaUsuariosSincronizar");
+		logger.info(String.format("recuperaUsuario: cantidad de usuarios en la lista=%d antes", listaUsuarios.size()));
 		if (listaUsuarios.size() > 0) {
-			User user = listaUsuarios.get(0);
-			logger.info(String.format("recuperaUsuario: procesa usuario: %s", user));
+			User user = listaUsuarios.remove(0);
+			logger.info(String.format("recuperaUsuario: procesa usuario: %s cantidad de usuarios en la lista=%d despues",
+					user, listaUsuarios.size()));
 			message.setBody(user);
+			CountThreads countThread = (CountThreads)message.getHeader("countThread");
+			countThread.incCounter();
 		}
+		
 	}
 
 	public ProcesoDiarioResponse setErrorInicializacion(@Header(value = "exception")Throwable exception, Exchange exchange) {
 		String mensaje = exception.getMessage();
-		return new ProcesoDiarioResponse(-1, getProceso(), mensaje, (Integer)exchange.getIn().getHeader("keyResultado") );
+		return new ProcesoDiarioResponse(-1, getFuncion(), mensaje, (Integer)exchange.getIn().getHeader("keyResultado") );
 	}
 	
 	
@@ -111,20 +116,13 @@ public class GeneraDatos {
 	}
 
 
-	public synchronized String getFuncionBD() {
-		return funcionBD;
+	public synchronized String getFuncion() {
+		return funcion;
 	}
 
 
-	public synchronized void setFuncionBD(String funcionBD) {
-		this.funcionBD = funcionBD;
+	public synchronized void setFuncion(String funcionBD) {
+		this.funcion = funcionBD;
 	}
 
-	public String getProceso() {
-		return funcionBD;
-	}
-
-	public void setProceso(String proceso) {
-		this.funcionBD = proceso;
-	}
 }
