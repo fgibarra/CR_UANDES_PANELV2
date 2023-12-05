@@ -20,4 +20,4 @@ select pidm SPRIDEN_PIDM, rut SPRIDEN_ID, apellido SPRIDEN_LAST_NAME, spriden_fi
     mi_cuentas_gmail cg
     where cg.moodle_id(+) = a.rut 
     ) where moodle_id is null
-    order by rut;
+    order by rut
