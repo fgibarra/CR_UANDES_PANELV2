@@ -64,11 +64,9 @@
         <property name="operaciones" value="{{se-cuentas-gmail.nocturno.operaciones}}"/>
     </bean>
     <bean
-        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos">
-    </bean>
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos"/>
     <bean
-        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.InicialiceProceso" id="inicialiceProceso">
-    </bean>
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.InicialiceProceso" id="inicialiceProceso"/>
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.SincronizaUsuario" id="sincronizaUsuario">
         <property name="uriReportServices" value="{{uri.reportServices}}"/>
@@ -119,7 +117,7 @@
                             <delay id="_delay1">
                                 <constant>1000</constant>
                             </delay>
-							<log message="(L122)Esperando se desocupe thread"/>
+                            <log id="_log3" message="(L122)Esperando se desocupe thread"/>
                         </when>
                         <otherwise id="_otherwise2">
                             <bean id="_bean2" method="recuperaUsuario" ref="generaDatos"/>

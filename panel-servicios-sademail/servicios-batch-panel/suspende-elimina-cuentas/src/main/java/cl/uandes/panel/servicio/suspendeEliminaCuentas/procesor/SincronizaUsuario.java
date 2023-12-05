@@ -28,6 +28,7 @@ public class SincronizaUsuario implements Processor {
     @PropertyInject(value = "uri.reportServices", defaultValue="http://localhost:8181/cxf/ESB/panel/reportServices")
 	private String uriReportServices;
 
+	@EndpointInject(uri = "sql-stored:classpath:sql/prd_actualiza_cuenta.sql?dataSource=#bannerDataSource")
 	ProducerTemplate prd_actualiza_cuenta;
 
 	@EndpointInject(uri = "sql:classpath:sql/insertMiResultadoErrores.sql?dataSource=#bannerDataSource")
@@ -138,14 +139,15 @@ public class SincronizaUsuario implements Processor {
 	 * @return
 	 */
 	private Map<String, Object> actualizaBD(User user, Report reporte) {
+		String REPORT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put("login_name", StringUtils.getNombreCuenta(user.getEmail()));
 		headers.put("nombres", user.getGivenName());
 		headers.put("apellidos", user.getFamilyName());
 		headers.put("fecha_suspension", reporte.getIsDisabled()?new java.sql.Date(new java.util.Date().getTime()):null);
 		headers.put("id_gmail", user.getId());
-		headers.put("last_login", StringUtils.toTimeStamp(reporte.getLastLoginTime().replace('T', ' '), Report.REPORT_DATE_PATTERN));
-		headers.put("fecha_creacion", StringUtils.toTimeStamp(reporte.getCreationTime().replace('T', ' '), Report.REPORT_DATE_PATTERN));
+		headers.put("last_login", StringUtils.toTimeStamp(ajustaDate(reporte.getLastLoginTime()), REPORT_DATE_PATTERN));
+		headers.put("fecha_creacion", StringUtils.toTimeStamp(ajustaDate(reporte.getCreationTime()), REPORT_DATE_PATTERN));
 		headers.put("gmail_used_quota", reporte.getGmailUsedQuotaInMb());
 		headers.put("drive_used_quota", reporte.getDriveUsedQuotaInMb());
 		headers.put("photos_used_quota", reporte.getGplusPhotosUsedQuotaInMb());
@@ -156,6 +158,18 @@ public class SincronizaUsuario implements Processor {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> headersOut = (Map<String, Object>) prd_actualiza_cuenta.requestBodyAndHeaders(null, headers);
 		return headersOut;
+	}
+
+
+
+
+	private String ajustaDate(String lastLoginTime) {
+		String valor = null;
+		if (lastLoginTime != null) {
+			valor = lastLoginTime.replace('T', ' ');
+			logger.info(String.format("ajustaDate: desde %s a %s", lastLoginTime, valor));
+		}
+		return valor;
 	}
 
 

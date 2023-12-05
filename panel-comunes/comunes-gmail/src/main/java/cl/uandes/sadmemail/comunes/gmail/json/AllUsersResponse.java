@@ -45,7 +45,13 @@ public class AllUsersResponse implements Serializable {
 		List<User> listaOut = new ArrayList<User>();
 		if (listaIn != null && listaIn.size() > 0)
 			for (com.google.api.services.admin.directory.model.User us : listaIn) {
-				User usuario = new User(us.getPrimaryEmail(), us.getCustomerId(), us.getName().getGivenName(), us.getName().getFamilyName(), us.getPassword()); 
+				String givenName = null;
+				String familyName = null;
+				if (us.getName() != null) {
+					givenName = us.getName().getGivenName();
+					familyName = us.getName().getFamilyName();
+				}
+				User usuario = new User(us.getPrimaryEmail(), us.getCustomerId(), givenName, familyName, us.getPassword()); 
 				usuario.setId(us.getId());
 				listaOut.add(usuario);
 			}

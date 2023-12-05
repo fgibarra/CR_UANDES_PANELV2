@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1701723632337
+Bnd-LastModified: 1701792922956
 Build-Jdk: 15.0.1
 Built-By: sademail
 Bundle-Description: ComunesGmail
