@@ -15,9 +15,9 @@ import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
+import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
-import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.sadmemail.comunes.google.api.services.User;
 import cl.uandes.sadmemail.comunes.report.json.Report;
 import cl.uandes.sadmemail.comunes.report.json.ReportResponse;
@@ -79,22 +79,24 @@ public class SincronizaUsuario implements Processor {
 		} else {
 			// tenemos los datos para actualizar BD
 			Map<String, Object> datos = actualizaBD(user, reporte);
-			String estadoAcademico = (String) datos.get("estado_academico");
-			
-			logger.info(String.format("SincronizaUsuario: user.id=%s user.email=%s estadoAcademico=%s fecha_aviso=%s", 
-					user.getId(), user.getEmail(), estadoAcademico, StringUtils.toString((Date) datos.get("fecha_aviso"))));
-			
-			// se pueden eliminar cuentas en base al estado academico
-			if (hayQueEliminar(estadoAcademico))
-				eliminarCuenta(user.getId());
-			if (hayExcesoUso(reporte)) {
-				java.sql.Date fechaAviso = (Date) datos.get("fecha_aviso");
-				if (fechaAviso != null) {
-					if (hayQueSuspender(fechaAviso)) {
-						suspenderCuenta(user.getId());
+			if (datos != null) {
+				String estadoAcademico = (String) datos.get("estado_academico");
+				
+				logger.info(String.format("SincronizaUsuario: user.id=%s user.email=%s estadoAcademico=%s fecha_aviso=%s", 
+						user.getId(), user.getEmail(), estadoAcademico, StringUtils.toString((Date) datos.get("fecha_aviso"))));
+				
+				// se pueden eliminar cuentas en base al estado academico
+				if (hayQueEliminar(estadoAcademico))
+					eliminarCuenta(user.getId());
+				if (hayExcesoUso(reporte)) {
+					java.sql.Date fechaAviso = (Date) datos.get("fecha_aviso");
+					if (fechaAviso != null) {
+						if (hayQueSuspender(fechaAviso)) {
+							suspenderCuenta(user.getId());
+						}
+					} else {
+						avisarSuspencion(user, reporte);
 					}
-				} else {
-					avisarSuspencion(user, reporte);
 				}
 			}
 		}
@@ -138,7 +140,9 @@ public class SincronizaUsuario implements Processor {
 	 * @param reporte
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private Map<String, Object> actualizaBD(User user, Report reporte) {
+		logger.info(String.format("actualizaBD: login_name=%s", StringUtils.getNombreCuenta(user.getEmail())));
 		String REPORT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put("login_name", StringUtils.getNombreCuenta(user.getEmail()));
@@ -155,8 +159,12 @@ public class SincronizaUsuario implements Processor {
 		headers.put("used_quota", reporte.getUsedQuotaInMb());
 		headers.put("used_quota_percentage", reporte.getUsedQuotaInPercentage());
 		
-		@SuppressWarnings("unchecked")
-		Map<String, Object> headersOut = (Map<String, Object>) prd_actualiza_cuenta.requestBodyAndHeaders(null, headers);
+		Map<String, Object> headersOut = null;
+		try {
+			headersOut = (Map<String, Object>) prd_actualiza_cuenta.requestBodyAndHeaders(null, headers);
+		} catch (Exception e) {
+			logger.error("Al invocar SP", e);
+		}
 		return headersOut;
 	}
 

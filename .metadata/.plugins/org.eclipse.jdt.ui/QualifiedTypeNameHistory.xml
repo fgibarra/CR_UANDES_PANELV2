@@ -44,7 +44,6 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.User"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
     <fullyQualifiedTypeName name="org.apache.camel.Message"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="java.sql.Date"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

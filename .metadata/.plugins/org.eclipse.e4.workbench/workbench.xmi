@@ -550,7 +550,7 @@
       <tags>categoryTag:Help</tags>
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_PXhB2YSCEe6pnI2rOyt7oQ" elementId="org.eclipse.ui.editorss" selectedElement="_PXhB2oSCEe6pnI2rOyt7oQ">
-      <children xsi:type="basic:PartStack" xmi:id="_PXhB2oSCEe6pnI2rOyt7oQ" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_FKelMJNyEe6Y6MQtNZTHYw">
+      <children xsi:type="basic:PartStack" xmi:id="_PXhB2oSCEe6pnI2rOyt7oQ" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_aJVjEI-0Ee6eK8LeoPRzbQ">
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
         <children xsi:type="basic:Part" xmi:id="_SOcjYI-kEe6eK8LeoPRzbQ" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="blueprint.xml" iconURI="platform:/plugin/org.fusesource.ide.camel.editor/icons/editor/camel_project_16x16.png" closeable="true">
@@ -572,7 +572,7 @@
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_aJVjEI-0Ee6eK8LeoPRzbQ" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="SincronizaUsuario.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;SincronizaUsuario.java&quot; partName=&quot;SincronizaUsuario.java&quot; title=&quot;SincronizaUsuario.java&quot; tooltip=&quot;suspende-elimina-cuentas/src/main/java/cl/uandes/panel/servicio/suspendeEliminaCuentas/procesor/SincronizaUsuario.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/suspende-elimina-cuentas/src/main/java/cl/uandes/panel/servicio/suspendeEliminaCuentas/procesor/SincronizaUsuario.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;3191&quot; selectionTopPixel=&quot;597&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;SincronizaUsuario.java&quot; partName=&quot;SincronizaUsuario.java&quot; title=&quot;SincronizaUsuario.java&quot; tooltip=&quot;suspende-elimina-cuentas/src/main/java/cl/uandes/panel/servicio/suspendeEliminaCuentas/procesor/SincronizaUsuario.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/suspende-elimina-cuentas/src/main/java/cl/uandes/panel/servicio/suspendeEliminaCuentas/procesor/SincronizaUsuario.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;7026&quot; selectionTopPixel=&quot;1121&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
@@ -972,7 +972,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PXhouYSCEe6pnI2rOyt7oQ" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_RgjyEJNnEe6Y6MQtNZTHYw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_PXnJEISCEe6pnI2rOyt7oQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_BI1C8JOZEe6xF-ABeGX19g" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_PXnJEISCEe6pnI2rOyt7oQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PXhoxoSCEe6pnI2rOyt7oQ" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -1015,7 +1015,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PXiO-4SCEe6pnI2rOyt7oQ" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_RgnccJNnEe6Y6MQtNZTHYw" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_PXnItYSCEe6pnI2rOyt7oQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_BI5UYJOZEe6xF-ABeGX19g" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_PXnItYSCEe6pnI2rOyt7oQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_PXiPB4SCEe6pnI2rOyt7oQ" elementId="org.eclipse.jdt.ui.ClassFileEditorNoSource" visible="false">
         <tags>Draggable</tags>
