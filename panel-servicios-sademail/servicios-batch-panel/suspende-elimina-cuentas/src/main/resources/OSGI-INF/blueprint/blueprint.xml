@@ -113,7 +113,7 @@
                     <simple>${header.listaUsuariosSincronizar.size} &gt; 0</simple>
                     <choice id="_choice2">
                         <when id="_when2">
-                            <simple>${header.countThread.getCounter} &gt; 4</simple>
+                            <simple>${header.countThread.getCounter} &gt; 9</simple>
                             <delay id="_delay1">
                                 <constant>1000</constant>
                             </delay>
@@ -129,7 +129,7 @@
         </route>
         <!-- ================================================================================================= -->
         <route id="_route3">
-            <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=5"/>
+            <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=10"/>
             <process id="_process1" ref="sincronizaUsuario"/>
         </route>
         <!-- ================================================================================================= -->

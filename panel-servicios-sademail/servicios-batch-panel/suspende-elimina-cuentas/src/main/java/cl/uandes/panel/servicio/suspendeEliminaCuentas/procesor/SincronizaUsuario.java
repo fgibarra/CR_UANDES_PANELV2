@@ -98,7 +98,8 @@ public class SincronizaUsuario implements Processor {
 						avisarSuspencion(user, reporte);
 					}
 				}
-			}
+			} else
+				logger.error(String.format("No pudo actualizar BD para %s", user.getEmail()));
 		}
 		countThread.decCounter();
 		logger.info(String.format("SincronizaUsuario: libera thread countThread=%d", countThread.getCounter()));
