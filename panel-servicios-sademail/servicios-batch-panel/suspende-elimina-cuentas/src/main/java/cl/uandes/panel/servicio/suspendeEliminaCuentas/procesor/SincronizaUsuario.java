@@ -2,8 +2,12 @@ package cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.ws.rs.core.Response;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
@@ -16,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
+import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.sadmemail.comunes.google.api.services.User;
@@ -28,6 +33,9 @@ public class SincronizaUsuario implements Processor {
     @PropertyInject(value = "uri.reportServices", defaultValue="http://localhost:8181/cxf/ESB/panel/reportServices")
 	private String uriReportServices;
 
+	@PropertyInject(value = "uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
+	private String gmailServices;
+
 	@EndpointInject(uri = "sql-stored:classpath:sql/prd_actualiza_cuenta.sql?dataSource=#bannerDataSource")
 	ProducerTemplate prd_actualiza_cuenta;
 
@@ -38,11 +46,23 @@ public class SincronizaUsuario implements Processor {
 	ProducerTemplate consultarUsageCuenta;
 	String templateConsultarUsageCuenta = "%s/report/usage/%s";
 
+	@EndpointInject(uri = "cxfrs:bean:rsSuspendeCuenta?continuationTimeout=-1")
+	ProducerTemplate suspendeCuenta;
+	String templateSuspendeCuenta = "%s/user/suspend/%s";
+
+	@EndpointInject(uri = "cxfrs:bean:rsEliminaCuenta?continuationTimeout=-1")
+	ProducerTemplate eliminaCuenta;
+	String templateEliminaCuenta = "%s/user/delete/%s";
+
 	User user = null;
 	ContadoresSincronizarCuentas contadores = null;
 	Integer keyResultado;
 	String proceso;
 	String operaciones[];
+	Long usoAlumnos;
+	Long usoGenerales;
+	Long usoProfesores;
+	Long periodoGracia;
 	
 	Logger logger = Logger.getLogger(getClass());
 	
@@ -67,6 +87,11 @@ public class SincronizaUsuario implements Processor {
 		keyResultado = (Integer)message.getHeader("keyResultado");
 		proceso = (String)message.getHeader("proceso");
 		operaciones = ((ProcesoDiarioRequest)message.getHeader("request")).getOperaciones();
+		DatosKcoFunciones datosKcoFunciones = (DatosKcoFunciones)message.getHeader("DatosKcoFunciones");
+		usoAlumnos = datosKcoFunciones.getParametros().getUsoAlumnos();
+		usoGenerales = datosKcoFunciones.getParametros().getUsoGenerales();
+		usoProfesores = datosKcoFunciones.getParametros().getUsoProfesores();
+		periodoGracia = datosKcoFunciones.getParametros().getPeriodo().longValue();
 		
 		logger.info(String.format("SincronizaUsuario: contadores=%d user.id=%s user.email=%s",
 				contadores.getCountProcesados(), user.getId(), user.getEmail()));
@@ -88,7 +113,7 @@ public class SincronizaUsuario implements Processor {
 				// se pueden eliminar cuentas en base al estado academico
 				if (hayQueEliminar(estadoAcademico))
 					eliminarCuenta(user.getId());
-				if (hayExcesoUso(reporte)) {
+				if (hayExcesoUso(getMaxPermitido(estadoAcademico), reporte)) {
 					java.sql.Date fechaAviso = (Date) datos.get("fecha_aviso");
 					if (fechaAviso != null) {
 						if (hayQueSuspender(fechaAviso)) {
@@ -103,6 +128,23 @@ public class SincronizaUsuario implements Processor {
 		}
 		countThread.decCounter();
 		logger.info(String.format("SincronizaUsuario: libera thread countThread=%d", countThread.getCounter()));
+	}
+
+
+
+
+	/**
+	 * Los maximos se definen en los parametros de KCO_FUNCIONES
+	 * @param estadoAcademico
+	 * @return
+	 */
+	private Long getMaxPermitido(String estadoAcademico) {
+		if (estadoAcademico.toUpperCase().equals("PROFESOR"))
+			return usoProfesores;
+		else if (estadoAcademico.toUpperCase().equals("NO_REGISTRA"))
+			return usoGenerales;
+		
+		return usoAlumnos;
 	}
 
 
@@ -209,10 +251,10 @@ public class SincronizaUsuario implements Processor {
 	 * @param reporte
 	 * @return
 	 */
-	private boolean hayExcesoUso(Report reporte) {
-		// TODO Auto-generated method stub
+	private boolean hayExcesoUso(Long maxPermitido, Report reporte) {
 		if (StringUtils.estaContenido("suspender", operaciones)) {
-			;
+			if (reporte.getUsedQuotaInMb() > maxPermitido)
+				return true;
 		}
 		return false;
 	}
@@ -236,6 +278,30 @@ public class SincronizaUsuario implements Processor {
 
 
 	private void eliminarCuenta(String id) {
+		Map<String,Object> headers = new HashMap<String,Object>();
+		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(getTemplateEliminaCuenta(),getGmailServices(), id));
+		headers.put("CamelHttpMethod", "DELETE");
+		Response response = null;
+		try {
+			response = (Response)eliminaCuenta.requestBody(null);
+			if (response.getStatus() > 300) {
+				registraError("eliminaCuenta", response.getStatusInfo().getReasonPhrase(), ObjectFactory.toBigDecimal(keyResultado), id);
+				contadores.incErrores();
+			} else {
+				contadores.incEliminadas();
+				marcarCuentaEliminadaEnBD(id);
+			}
+		} catch (Exception e) {
+			logger.error("eliminaCuenta", e);
+			registraError("eliminaCuenta", e.getMessage(), ObjectFactory.toBigDecimal(keyResultado), id);
+			contadores.incErrores();
+		}
+	}
+
+
+
+
+	private void marcarCuentaEliminadaEnBD(String id) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -244,13 +310,16 @@ public class SincronizaUsuario implements Processor {
 
 
 	/**
-	 * Si la fecha de aviso es superior al parametro retorna TRUE
+	 * Si la fecha de aviso es superior a la fecha actual mas los dias indicados en el parametro periodo retorna TRUE
 	 * @param fechaAviso
 	 * @return
 	 */
 	private boolean hayQueSuspender(Date fechaAviso) {
-		// TODO Auto-generated method stub
-		return false;
+		// calcular la LocalDate correspondiente a la fecha tope
+		// agregar los dias
+		LocalDate fechaTope = new Date(fechaAviso.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(periodoGracia);
+		logger.info(String.format("hayQueSuspender: fechaTope=%s, now=%s", fechaTope, LocalDate.now()));
+		return LocalDate.now().isAfter(fechaTope);
 	}
 
 
@@ -260,9 +329,33 @@ public class SincronizaUsuario implements Processor {
 	 * @param id
 	 */
 	private void suspenderCuenta(String id) {
+		Map<String,Object> headers = new HashMap<String,Object>();
+		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(getTemplateSuspendeCuenta(),getGmailServices(), id));
+		headers.put("CamelHttpMethod", "PUT");
+		Response response = null;
+		try {
+			response = (Response)suspendeCuenta.requestBody(null);
+			if (response.getStatus() > 300) {
+				registraError("suspenderCuenta", response.getStatusInfo().getReasonPhrase(), ObjectFactory.toBigDecimal(keyResultado), id);
+				contadores.incErrores();
+			} else {
+				contadores.incSuspendidas();
+				marcarCuentaSuspendidaEnBD(id);
+			}
+		} catch (Exception e) {
+			logger.error("suspenderCuenta", e);
+			registraError("suspenderCuenta", e.getMessage(), ObjectFactory.toBigDecimal(keyResultado), id);
+			contadores.incErrores();
+		}
+	}
+
+
+
+	private void marcarCuentaSuspendidaEnBD(String id) {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 
 
@@ -290,6 +383,41 @@ public class SincronizaUsuario implements Processor {
 
 	public synchronized void setUriReportServices(String uriReportServices) {
 		this.uriReportServices = uriReportServices;
+	}
+
+
+
+
+	public synchronized String getGmailServices() {
+		return gmailServices;
+	}
+
+
+
+
+	public synchronized void setGmailServices(String gmailServices) {
+		this.gmailServices = gmailServices;
+	}
+
+
+
+
+	public synchronized String getTemplateConsultarUsageCuenta() {
+		return templateConsultarUsageCuenta;
+	}
+
+
+
+
+	public synchronized String getTemplateSuspendeCuenta() {
+		return templateSuspendeCuenta;
+	}
+
+
+
+
+	public synchronized String getTemplateEliminaCuenta() {
+		return templateEliminaCuenta;
 	}
 
 

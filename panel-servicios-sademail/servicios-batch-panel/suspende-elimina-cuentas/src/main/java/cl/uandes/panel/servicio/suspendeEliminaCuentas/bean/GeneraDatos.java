@@ -25,7 +25,7 @@ public class GeneraDatos {
     @PropertyInject(value = "se-cuentas-gmail.nocturno.funcion", defaultValue="suspender_eliminar_cuentas")
 	private String funcion;
 
-	@PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
+	@PropertyInject(value = "uri.gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
 	private String gmailServices;
 
 	@EndpointInject(uri = "cxfrs:bean:rsRetrieveAllUsers?continuationTimeout=-1")

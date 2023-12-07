@@ -57,6 +57,30 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/suspend/{username}"
+        id="rsSuspendeCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/delete/{username}"
+        id="rsEliminaCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.resources.SuspendeEliminaCuentasRestService" id="restService">
@@ -64,12 +88,15 @@
         <property name="operaciones" value="{{se-cuentas-gmail.nocturno.operaciones}}"/>
     </bean>
     <bean
-        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos"/>
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos">
+        <property name="gmailServices" value="{{uri.gmailServices}}"/>
+    </bean>
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.InicialiceProceso" id="inicialiceProceso"/>
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.SincronizaUsuario" id="sincronizaUsuario">
         <property name="uriReportServices" value="{{uri.reportServices}}"/>
+        <property name="gmailServices" value="{{uri.gmailServices}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->

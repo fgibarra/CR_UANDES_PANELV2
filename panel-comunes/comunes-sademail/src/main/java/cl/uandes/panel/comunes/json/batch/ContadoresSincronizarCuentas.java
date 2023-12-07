@@ -28,6 +28,10 @@ public class ContadoresSincronizarCuentas implements Serializable {
 	private Integer countRegistrados;
 	@JsonProperty("cuentas-no-registradas")
 	private Integer countNoRegistrados;
+	@JsonProperty("cuentas-suspendidas")
+	private Integer countSuspendidas;
+	@JsonProperty("cuentas-eliminadas")
+	private Integer countEliminadas;
 
 	public ContadoresSincronizarCuentas(String proceso) {
 		super();
@@ -36,6 +40,8 @@ public class ContadoresSincronizarCuentas implements Serializable {
 		this.countErrores = 0;
 		this.countRegistrados = 0;
 		this.countNoRegistrados = 0;
+		this.countSuspendidas = 0;
+		this.countEliminadas = 0;
 	}
 
 	@JsonCreator
@@ -44,13 +50,17 @@ public class ContadoresSincronizarCuentas implements Serializable {
 			@JsonProperty("cuentas-leidos")Integer countProcesados, 
 			@JsonProperty("errores")Integer countErrores,
 			@JsonProperty("cuentas-registradas")Integer countRegistrados, 
-			@JsonProperty("cuentas-no-registradas")Integer countNoRegistrados) {
+			@JsonProperty("cuentas-no-registradas")Integer countNoRegistrados,
+			@JsonProperty("cuentas-suspendidas")Integer countSuspendidas, 
+			@JsonProperty("cuentas-eliminadas")Integer countEliminadas) {
 		super();
 		this.proceso = proceso;
 		this.countProcesados = countProcesados;
 		this.countErrores = countErrores;
 		this.countRegistrados = countRegistrados;
 		this.countNoRegistrados = countNoRegistrados;
+		this.countSuspendidas = countSuspendidas;
+		this.countEliminadas = countEliminadas;
 	}
 
 	@Override
@@ -81,6 +91,14 @@ public class ContadoresSincronizarCuentas implements Serializable {
 		countNoRegistrados++;
 	}
 
+	public synchronized void incSuspendidas() {
+		countSuspendidas++;
+	}
+
+	public synchronized void incEliminadas() {
+		countEliminadas++;
+	}
+
 	public synchronized String getProceso() {
 		return proceso;
 	}
@@ -99,6 +117,14 @@ public class ContadoresSincronizarCuentas implements Serializable {
 
 	public synchronized Integer getCountNoRegistrados() {
 		return countNoRegistrados;
+	}
+
+	public synchronized Integer getCountSuspendidas() {
+		return countSuspendidas;
+	}
+
+	public synchronized Integer getCountEliminadas() {
+		return countEliminadas;
 	}
 
 }
