@@ -42,6 +42,8 @@ public class SchedulerPanelRestService {
 	private String procesoSyncGruposVigentes;
     @PropertyInject(value = "sinc_grupos_postgrado.operacion", defaultValue="sinc_grupos_postgrado")
 	private String procesoSyncGruposPostgrado;
+    @PropertyInject(value = "se-cuentas-gmail.nocturno.funcion", defaultValue="suspender_eliminar_cuentas")
+	private String procesoSincronizarSuspenderEliminar;
     
     Logger logger = Logger.getLogger(getClass());
 
@@ -62,6 +64,8 @@ public class SchedulerPanelRestService {
 			producer.asyncSend("direct:terminaCrearGrupos", exchange);
 		else if (esSincronizarGrupos(request.getOperacion()))
 			producer.asyncSend("direct:terminaSincronizarGrupos", exchange);
+		else if (esSincronizarSuspenderEliminar(request.getOperacion()))
+			producer.asyncSend("direct:terminaSincronizarSuspenderEliminar", exchange);
 		
 		logger.info("va a crear Response");
 		Response response = Response.ok().status(200).entity("{ \"respuesta\": \"ACK\"}").build();
@@ -96,7 +100,12 @@ public class SchedulerPanelRestService {
 		return false;
 	}
 
-
+	public boolean esSincronizarSuspenderEliminar(String operacion) {
+		if (getProcesoSincronizarSuspenderEliminar().equalsIgnoreCase(operacion))
+			return true;
+		return false;
+	}
+	
 	public String getProcesoCrearCuentas() {
 		return procesoCrearCuentas;
 	}
@@ -151,5 +160,13 @@ public class SchedulerPanelRestService {
 
 	public synchronized void setProcesoSyncGruposPostgrado(String procesoSyncGruposPostgrado) {
 		this.procesoSyncGruposPostgrado = procesoSyncGruposPostgrado;
+	}
+
+	public synchronized String getProcesoSincronizarSuspenderEliminar() {
+		return procesoSincronizarSuspenderEliminar;
+	}
+
+	public synchronized void setProcesoSincronizarSuspenderEliminar(String procesoSincronizarSuspenderEliminar) {
+		this.procesoSincronizarSuspenderEliminar = procesoSincronizarSuspenderEliminar;
 	}
 }

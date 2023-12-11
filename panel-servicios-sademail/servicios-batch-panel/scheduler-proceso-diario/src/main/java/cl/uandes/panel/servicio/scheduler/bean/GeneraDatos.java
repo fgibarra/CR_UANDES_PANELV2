@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
+import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest;
@@ -34,16 +35,28 @@ public class GeneraDatos {
 	private SchedulerPanelRestService delegate;
 	private String tiposCuenta[] = {"Alumnos"};
 	private String tiposGrupos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_postgrado"};
-	private String tiposSincronizar[] = {"sinc_grupos_generales", "sinc_grupos_vigentes", "sinc_grupos_postgrado"};
+	private String tiposSincronizarGrupos[] = {"sinc_grupos_generales", "sinc_grupos_generales", "sinc_grupos_postgrado"};
+	private String tiposSincronizarSuspenderEliminar[] = {"sincronizar", "suspender", "eliminar"};
+	
 	private String funcionNocturnoCrearCuentas;
 	private String funcionNocturnoCrearGrupos;
 	private String funcionSincronizaGrupos;
-	@PropertyInject(value = "crearCuentasLeyenda", defaultValue="actualizacion de cuentas nocturno")
+	private String funcionSincronizaCuentas;
+	@PropertyInject(value = "crear-cuentas-gmail.nocturno.leyenda", defaultValue="actualizacion de cuentas nocturno")
 	private String crearCuentasLeyenda;
-	@PropertyInject(value = "crearGruposLeyenda", defaultValue="actualizacion de grupos nocturno")
+	@PropertyInject(value = "crear-grupos-gmail.nocturno.leyenda", defaultValue="actualizacion de grupos nocturno")
 	private String crearGruposLeyenda;
-	@PropertyInject(value = "sincGruposLeyenda", defaultValue="sincronizacion de grupos nocturno")
+	@PropertyInject(value = "sinc_grupos-gmail.nocturno.leyenda", defaultValue="sincronizacion de grupos nocturno")
 	private String sincGruposLeyenda;
+	
+	@PropertyInject(value = "scheduler.tiposCuenta.nocturno.operaciones", defaultValue="sincronizar,eliminar,suspender")
+	private String schedulerTiposCuenta;
+	@PropertyInject(value = "scheduler.tiposGrupos.nocturno.operaciones", defaultValue="sincronizar,eliminar,suspender")
+	private String schedulerTiposGrupos;
+	@PropertyInject(value = "scheduler.tiposSincronizarGrupos.nocturno.operaciones", defaultValue="sincronizar,eliminar,suspender")
+	private String schedulerTiposSincronizarGrupos;
+	@PropertyInject(value = "scheduler.sincronizarSuspenderEliminar.nocturno.operaciones", defaultValue="sincronizar,eliminar,suspender")
+	private String sincronizarSuspenderEliminar;
 	
 	@EndpointInject(uri = "sql:classpath:sql/qryKcoFunciones.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qryKcoFunciones;
@@ -53,37 +66,42 @@ public class GeneraDatos {
 	ProducerTemplate qryMiResultados;
 	private Logger logger = Logger.getLogger(getClass());
 	
-	public GeneraDatos(String tiposCuenta, String crearGrupo0, String crarGrupo1, String crearGrupo3, 
-			String funcion1, String funcion2, String funcion3) {
+	public GeneraDatos(String funcion1, String funcion2, String funcion3, String funcion4) {
 		super();
-		this.tiposCuenta = new String[] {tiposCuenta };
-		this.tiposGrupos = new String[] {crearGrupo0, crarGrupo1, crearGrupo3 };
 		this.funcionNocturnoCrearCuentas = funcion1;
 		this.funcionNocturnoCrearGrupos = funcion2;
 		this.funcionSincronizaGrupos = funcion3;
-		logger.info(String.format("Constructor GeneraDatos: tipoCuenta=%s delegate es %s NULO"+
-				" tiposGrupos=[%s, %s, %s]", 
-				tiposCuenta, delegate!=null?"NO":"",
-						crearGrupo0,crarGrupo1,crearGrupo3));
+		this.funcionSincronizaCuentas = funcion4;		
 	}
 
 	public void generaRequestCrearCuentas(Exchange exchange) throws Exception {
+		tiposCuenta = getSchedulerTiposCuenta().split(",");
 		ProcesoDiarioRequest req = new ProcesoDiarioRequest(getFuncionNocturnoCrearCuentas(), tiposCuenta);
 		logger.info(String.format("generaRequestCrearCuentas: req:%s", req));
 		exchange.getIn().setBody(req);
 	}
 
 	public void generaRequestCrearGupos(Exchange exchange) throws Exception {
+		tiposGrupos = getSchedulerTiposGrupos().split(",");
 		ProcesoDiarioRequest req = new ProcesoDiarioRequest(getFuncionNocturnoCrearGrupos(), tiposGrupos);
 		logger.info(String.format("generaRequestCrearGupos: req:%s", req));
 		exchange.getIn().setBody(req);
 	}
 
 	public void generaRequestSincronizaGrupos(Exchange exchange) throws Exception {
-		ProcesoDiarioRequest req = new ProcesoDiarioRequest(getFuncionSincronizaGrupos(), tiposSincronizar);
+		tiposSincronizarGrupos = getSchedulerTiposSincronizarGrupos().split(",");
+		ProcesoDiarioRequest req = new ProcesoDiarioRequest(getFuncionSincronizaGrupos(), tiposSincronizarGrupos);
 		logger.info(String.format("generaRequestSincronizaGrupos: req:%s", req));
 		exchange.getIn().setBody(req);
 	}
+
+	public void generaRequestSincronizaCuentas(Exchange exchange) throws Exception {
+		tiposSincronizarSuspenderEliminar = getSincronizarSuspenderEliminar().split(",");
+		ProcesoDiarioRequest req = new ProcesoDiarioRequest(getFuncionSincronizaCuentas(), tiposSincronizarSuspenderEliminar);
+		logger.info(String.format("generaRequestSincronizaCuentas: req:%s", req));
+		exchange.getIn().setBody(req);
+	}
+
 	/**
 	 * Recupera datos de KCO_FUNCIONES, MI_RESULTADO y MI_RESULTADO_ERRORES
 	 * Deja datos en el header para que se pueda llenar el template del mail a enviar
@@ -110,6 +128,14 @@ public class GeneraDatos {
 	public void preparaMailResultadoSincronizarGrupos(Exchange exchange) {
 		exchange.getIn().setHeaders(generaHeaders(exchange));
 	}
+	
+	/**
+	 * @param exchange
+	 */
+	public void preparaMailResultadoSincronizarSuspenderEliminar(Exchange exchange) {
+		exchange.getIn().setHeaders(generaHeaders(exchange));
+	}
+	
 	
 	private Map<String,Object> generaHeaders(Exchange exchange) {
 		Map<String,Object> headers = new HashMap<String,Object>();
@@ -210,6 +236,20 @@ public class GeneraDatos {
 			} catch (Exception e) {
 				logger.error(String.format("ContadoresSincronizarGrupos: json malo |%s|", jsonContadores), e);
 			}
+		} else if (delegate.esSincronizarSuspenderEliminar(operacion)) {
+			try {
+				ContadoresSincronizarCuentas contadores = (ContadoresSincronizarCuentas)JSonUtilities.getInstance().
+						json2java(jsonContadores, ContadoresSincronizarCuentas.class, false);
+				logger.info(String.format("ContadoresSincronizarCuentas: %s", contadores));
+				headers.put("countProcesados", contadores.getCountProcesados());
+				headers.put("countErrores", contadores.getCountErrores());
+				headers.put("countRegistradas", contadores.getCountRegistrados());
+				headers.put("countNoRegistradas", contadores.getCountNoRegistrados());
+				headers.put("countSuspendidas", contadores.getCountSuspendidas());
+				headers.put("countEliminadas", contadores.getCountEliminadas());
+			} catch (Exception e) {
+				logger.error(String.format("ContadoresSincronizarSuspenderEliminar: json malo |%s|", jsonContadores), e);
+			}
 		}
 	}
 
@@ -278,4 +318,41 @@ public class GeneraDatos {
 	public synchronized String getFuncionSincronizaGrupos() {
 		return funcionSincronizaGrupos;
 	}
+
+	public synchronized String getFuncionSincronizaCuentas() {
+		return funcionSincronizaCuentas;
+	}
+
+	public synchronized String getSchedulerTiposCuenta() {
+		return schedulerTiposCuenta;
+	}
+
+	public synchronized void setSchedulerTiposCuenta(String schedulerTiposCuenta) {
+		this.schedulerTiposCuenta = schedulerTiposCuenta;
+	}
+
+	public synchronized String getSchedulerTiposGrupos() {
+		return schedulerTiposGrupos;
+	}
+
+	public synchronized void setSchedulerTiposGrupos(String schedulerTiposGrupos) {
+		this.schedulerTiposGrupos = schedulerTiposGrupos;
+	}
+
+	public synchronized String getSchedulerTiposSincronizarGrupos() {
+		return schedulerTiposSincronizarGrupos;
+	}
+
+	public synchronized void setSchedulerTiposSincronizarGrupos(String schedulerTiposSincronizarGrupos) {
+		this.schedulerTiposSincronizarGrupos = schedulerTiposSincronizarGrupos;
+	}
+
+	public synchronized String getSincronizarSuspenderEliminar() {
+		return sincronizarSuspenderEliminar;
+	}
+
+	public synchronized void setSincronizarSuspenderEliminar(String sincronizarSuspenderEliminar) {
+		this.sincronizarSuspenderEliminar = sincronizarSuspenderEliminar;
+	}
+
 }

@@ -193,11 +193,34 @@ dujS9beCmNj/AM/qdJfB+4YmAAAAAElFTkSuQmCC" alt="Logo UAndes" />
 El proceso se ha ejecutado por &uacute;ltima vez a las ${headers.ultimaEjecucion}. Empez&oacute; a las ${headers.horaComienzo} y termin&oacute; a las ${headers.horaTermino}.
 </p>
 <li>Estad&iacute;sticas del proceso:
-<ul>Se leyeron ${headers.countProcesados} registros desde Banner</ul>
+<ul>Se leyeron ${headers.countProcesados} cuentas desde GMAIL</ul>
 <ul>Se detectaron ${headers.countErrores} errores en el proceso</ul>
-<ul>Cuentas agregadas a la tabla MI_CUENTAS_GMAIL: ${headers.countAgregadosBD}</ul>
-<ul>Cuentas agregadas al Active Directory: ${headers.countAgregadosAD}</ul>
+<ul>Cuentas actualizadas la tabla MI_CUENTAS_GMAIL: ${headers.countRegistradas}</ul>
+<ul>Cuentas actualizadas la tabla MI_CUENTAS_EXTERNAS: ${headers.countNoRegistradas}</ul>
+<ul>Cuentas suspendidas: ${headers.countSuspendidas}</ul>
+<ul>Cuentas eliminadas: ${headers.countEliminadas}</ul>
 </li>
+<br><br>
+#if(${headers.reporteErrores.size} > 0)
+	<table style="border: 1px solid black;width=100%">
+	<caption style="padding-bottom: 30px;text-decoration: underline;">Res&uacute;men de problemas encontrados en el proceso</caption>
+	<tr>
+	<th>RUT</th>
+	<th>Tipo</th>
+	<th colspan="2">causa</th>
+	<th>key Grupo</th>
+	</tr>
+	#foreach($reporte in ${headers.reporteErrores})
+		<tr>
+		<td>$reporte.idUsuario</td>
+		<td>$reporte.tipo</td>
+		<td colspan="2">$reporte.causa</td>
+		<td>$reporte.keyGrupo</td>
+		</tr>
+	#end
+	</table>
+
+#end
 <br><br>
 </section>
 
@@ -208,4 +231,4 @@ Este correo ha sido generado en forma autom&aacute;tica por el Sistema PANEL de 
 
 </body>
 </html>
-
+	

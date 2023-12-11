@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="registraError"/>
+		<item key="selection" value="_to3"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="_to3"/>
+			<item value="_to4"/>
+			<item value="_bean6"/>
+			<item value="_log5"/>
+			<item value="seda:agregaMiembroAction"/>
 			<item value="registraError"/>
 			<item value="inicialiceProceso"/>
 			<item value="rsRetrieveAllUsers"/>
@@ -18,11 +23,6 @@
 			<item value="Integer"/>
 			<item value="google-api-services-oauth2"/>
 			<item value="delegate"/>
-			<item value="sinc_grupos-gmail.nocturno.funcion"/>
-			<item value="direct:terminaSincronizarGrupos"/>
-			<item value="_bean16"/>
-			<item value="getKcoFuncion"/>
-			<item value="direct:termina"/>
 		</list>
 		<list key="replacehistory">
 			<item value="InicialiceProceso"/>

@@ -97,7 +97,6 @@ public class GeneraDatos {
 		return new ProcesoDiarioResponse(-1, getFuncion(), mensaje, (Integer)exchange.getIn().getHeader("keyResultado") );
 	}
 	
-	
 	//==========================================================================================================
 	// Getters
 	//==========================================================================================================

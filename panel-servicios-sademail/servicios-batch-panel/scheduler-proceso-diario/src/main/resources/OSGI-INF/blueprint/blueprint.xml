@@ -69,19 +69,21 @@
         <property name="procesoSyncGruposGenerales" value="{{sinc_grupos_generales.operacion}}"/>
         <property name="procesoSyncGruposVigentes" value="{{sinc_grupos_vigentes.operacion}}"/>
         <property name="procesoSyncGruposPostgrado" value="{{sinc_grupos_postgrado.operacion}}"/>
+        <property name="procesoSincronizarSuspenderEliminar" value="{{se-cuentas-gmail.nocturno.funcion}}"/>
     </bean>
     <bean class="cl.uandes.panel.servicio.scheduler.bean.GeneraDatos" id="generaDatos">
-        <argument index="0" value="Alumnos"/>
-        <argument index="1" value="crear_grupos"/>
-        <argument index="2" value="grupos_inprogress"/>
-        <argument index="3" value="grupos_inprogress_postgrado"/>
-        <argument index="4" value="crear_cuentas"/>
-        <argument index="5" value="generaGrupos"/>
-        <argument index="6" value="sincronizaGrupos"/>
+        <argument index="0" value="crear_cuentas"/>
+        <argument index="1" value="generaGrupos"/>
+        <argument index="2" value="sincronizaGrupos"/>
+        <argument index="3" value="suspender_eliminar_cuentas"/>
         <property name="delegate" ref="restService"/>
         <property name="crearCuentasLeyenda" value="{{crear-cuentas-gmail.nocturno.leyenda}}"/>
         <property name="crearGruposLeyenda" value="{{crear-grupos-gmail.nocturno.leyenda}}"/>
         <property name="sincGruposLeyenda" value="{{sinc_grupos-gmail.nocturno.leyenda}}"/>
+        <property name="schedulerTiposCuenta" value="{{scheduler.schedulerTiposCuenta.nocturno.operaciones}}"/>
+        <property name="schedulerTiposGrupos" value="{{scheduler.schedulerTiposGrupos.nocturno.operaciones}}"/>
+        <property name="schedulerTiposSincronizarGrupos" value="{{scheduler.schedulerTiposSincronizarGrupos.nocturno.operaciones}}"/>
+        <property name="sincronizarSuspenderEliminar" value="{{scheduler.sincronizarSuspenderEliminar.nocturno.operaciones}}"/>
     </bean>
     <bean
         class="cl.uandes.panel.servicio.scheduler.procesor.PreparaDatosMail" id="preparaDatosMail">
@@ -107,12 +109,22 @@
             <log id="_log2" message="Crear cuenta avisa que partio: ${body}"/>
         </route>
         <!-- ================================================================================================= -->
-        <route id="_sincroniza">
+        <route id="_sincronizaGrupos">
             <!-- seconds+minutes+hours+day of month+month+day of week+year-->
             <!--  http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html -->
-            <from id="_partiendoSincroniza" uri="quartz2://horaProcesoSincronizaGrupos?cron={{scheduler.procesoSincronizacion.cronexpr}}"/>
-            <log message="partiendo un nuevo ciclo de sincronizacion"/>
+            <from id="_partiendoSincronizaGrupos" uri="quartz2://horaProcesoSincronizaGrupos?cron={{scheduler.procesoSincronizacionGrupos.cronexpr}}"/>
+            <log message="partiendo un nuevo ciclo de sincronizacion de grupos"/>
             <bean method="generaRequestSincronizaGrupos" ref="generaDatos"/>
+            <to uri="cxfrs:bean:servCreaGrupos?timeout=-1"/>
+            <log message="Sincroniza grupos avisa que partio: ${body}"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_sincronizaCuentas">
+            <!-- seconds+minutes+hours+day of month+month+day of week+year-->
+            <!--  http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html -->
+            <from id="_partiendoSincroniza" uri="quartz2://horaProcesoSincronizaCuentas?cron={{scheduler.procesoSincronizacionCuentas.cronexpr}}"/>
+            <log message="partiendo un nuevo ciclo de sincronizacion de cuentas"/>
+            <bean method="generaRequestSincronizaCuentas" ref="generaDatos"/>
             <to uri="cxfrs:bean:servCreaGrupos?timeout=-1"/>
             <log message="Sincroniza grupos avisa que partio: ${body}"/>
         </route>
@@ -153,7 +165,18 @@
             <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
             <bean id="_bean5"
                 method="preparaMailResultadoSincronizarGrupos" ref="generaDatos"/>
-            <to id="_to3" uri="direct:generaMail"/>
+            <to uri="direct:generaMail"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_terminaSincronizarSuspenderEliminarRoute">
+            <from id="_from3" uri="direct:terminaSincronizarSuspenderEliminar"/>
+            <setHeader headerName="operacion">
+                <constant>suspender_eliminar_cuentas</constant>
+            </setHeader>
+            <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
+            <bean
+                method="preparaMailResultadoSincronizarSuspenderEliminar" ref="generaDatos"/>
+            <to uri="direct:generaMail"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_generaMailRoute">
@@ -170,6 +193,10 @@
                 <when id="_when3">
                     <simple>${header.operacion} == '{{sinc_grupos-gmail.nocturno.funcion}}'</simple>
                     <to id="creaCuerpoSync" uri="velocity:templateMailSincronizaGrupos.vm?contentCache=true"/>
+                </when>
+                <when>
+                    <simple>${header.operacion} == '{{se-cuentas-gmail.nocturno.funcion}}'</simple>
+                    <to id="creaCuerpoSync" uri="velocity:templateMailSuspendeEliminaCuentas.vm?contentCache=true"/>
                 </when>
                 <otherwise id="_otherwise1">
                     <log id="_log4" message="NO HAY PROCESO PARA (${header.operacion})"/>

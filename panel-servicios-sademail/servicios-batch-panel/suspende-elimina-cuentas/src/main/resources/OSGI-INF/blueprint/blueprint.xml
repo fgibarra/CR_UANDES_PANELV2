@@ -98,6 +98,10 @@
         <property name="uriReportServices" value="{{uri.reportServices}}"/>
         <property name="gmailServices" value="{{uri.gmailServices}}"/>
     </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.FinalizaProceso" id="finalizaProceso">
+        <property name="panelServices" value="{{scheduler.uri-serviciosBatch}}"/>
+    </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -153,6 +157,8 @@
                     </choice>
                 </loop>
             </loop>
+			<process ref="finalizaProceso"/>
+            <to id="_fin" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_route3">

@@ -17,7 +17,6 @@
     <fullyQualifiedTypeName name="com.google.api.services.admin.reports.model.UsageReport"/>
     <fullyQualifiedTypeName name="java.util.Map.Entry"/>
     <fullyQualifiedTypeName name="java.util.Set"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.JSonUtilities"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos"/>
     <fullyQualifiedTypeName name="java.util.Properties"/>
@@ -35,22 +34,14 @@
     <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersResponse"/>
-    <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
-    <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
-    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.User"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
     <fullyQualifiedTypeName name="org.apache.camel.Message"/>
     <fullyQualifiedTypeName name="org.apache.camel.Header"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse"/>
-    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.ReportResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
     <fullyQualifiedTypeName name="java.math.BigDecimal"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas"/>
     <fullyQualifiedTypeName name="org.apache.cxf.jaxrs.impl.ResponseImpl"/>
     <fullyQualifiedTypeName name="java.sql.Date"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
@@ -60,4 +51,13 @@
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="java.time.ZoneId"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
+    <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
+    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas"/>
 </qualifiedTypeNameHistroy>
