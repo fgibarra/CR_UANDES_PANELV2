@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.camel.CamelExecutionException;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -23,6 +24,7 @@ import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
+import cl.uandes.panel.comunes.utils.StringUtilities;
 import cl.uandes.sadmemail.comunes.google.api.services.User;
 import cl.uandes.sadmemail.comunes.report.json.Report;
 import cl.uandes.sadmemail.comunes.report.json.ReportResponse;
@@ -39,8 +41,17 @@ public class SincronizaUsuario implements Processor {
 	@EndpointInject(uri = "sql-stored:classpath:sql/prd_actualiza_cuenta.sql?dataSource=#bannerDataSource")
 	ProducerTemplate prd_actualiza_cuenta;
 
+	@EndpointInject(uri = "sql-stored:classpath:sql/prd_registra_eliminacion.sql?dataSource=#bannerDataSource")
+	ProducerTemplate prd_registra_eliminacion;
+
 	@EndpointInject(uri = "sql:classpath:sql/insertMiResultadoErrores.sql?dataSource=#bannerDataSource")
 	ProducerTemplate insertMiResultadoErrores;
+
+	@EndpointInject(uri = "sql:classpath:sql/quitaFechaAviso.sql?dataSource=#bannerDataSource")
+	ProducerTemplate quitaFechaAviso;
+
+	@EndpointInject(uri = "sql:classpath:sql/marcaCuentaSuspendida.sql?dataSource=#bannerDataSource")
+	ProducerTemplate marcaCuentaSuspendida;
 
 	@EndpointInject(uri = "cxfrs:bean:rsReporteUsuario?continuationTimeout=-1")
 	ProducerTemplate consultarUsageCuenta;
@@ -54,6 +65,17 @@ public class SincronizaUsuario implements Processor {
 	ProducerTemplate eliminaCuenta;
 	String templateEliminaCuenta = "%s/user/delete/%s";
 
+	@EndpointInject(uri = "cxfrs:bean:rsReactivaCuenta?continuationTimeout=-1")
+	ProducerTemplate reactivarCuentaGmail;
+	String templateReactivarCuentaGmail = "%s/user/reactivar/%s";
+
+	
+	@EndpointInject(uri = "velocity:templateMailAvisoSuspension.vm?contentCache=true")
+	ProducerTemplate velocity;
+	
+	@EndpointInject(uri="direct:generaMail")
+	ProducerTemplate sendmail;
+	
 	User user = null;
 	ContadoresSincronizarCuentas contadores = null;
 	Integer keyResultado;
@@ -105,7 +127,8 @@ public class SincronizaUsuario implements Processor {
 			// tenemos los datos para actualizar BD
 			Map<String, Object> datos = actualizaBD(user, reporte);
 			if (datos != null) {
-				String estadoAcademico = (String) datos.get("estado_academico");
+				String estadoAcademico = (String) datos.get("ESTADO_ACADEMICO");
+				java.sql.Date fechaAviso = (java.sql.Date) datos.get("FECHA_AVISO");
 				
 				logger.info(String.format("SincronizaUsuario: user.id=%s user.email=%s estadoAcademico=%s fecha_aviso=%s", 
 						user.getId(), user.getEmail(), estadoAcademico, StringUtils.toString((Date) datos.get("fecha_aviso"))));
@@ -113,14 +136,30 @@ public class SincronizaUsuario implements Processor {
 				// se pueden eliminar cuentas en base al estado academico
 				if (hayQueEliminar(estadoAcademico))
 					eliminarCuenta(user.getId());
-				if (hayExcesoUso(getMaxPermitido(estadoAcademico), reporte)) {
-					java.sql.Date fechaAviso = (Date) datos.get("fecha_aviso");
-					if (fechaAviso != null) {
-						if (hayQueSuspender(fechaAviso)) {
-							suspenderCuenta(user.getId());
+				
+				else if (StringUtils.estaContenido("suspender", operaciones)) {
+					Long maxPermitido = getMaxPermitido(estadoAcademico);
+					if (hayExcesoUso(maxPermitido, reporte)) {
+						if (fechaAviso != null) {
+							if (hayQueSuspender(fechaAviso)) {
+								suspenderCuenta(user.getId());
+							}
+						} else {
+							avisarSuspencion(exchange, user, reporte, maxPermitido);
 						}
-					} else {
-						avisarSuspencion(user, reporte);
+					} else  {
+						// No hay exceso de uso.
+						// si hubo aviso, eliminar el aviso
+						if (fechaAviso != null) {
+							quitaFechaAviso.requestBodyAndHeader(null, "idGmail", user.getId());
+						}
+						
+						if (hayQueReactivar(maxPermitido, reporte)) {
+							if (!reactivarCuenta(user)) {
+								registraError(proceso, "No se pudo reactivar cuenta", new BigDecimal(keyResultado),user.getEmail());
+								logger.info(String.format("SincronizaUsuario: no pudo reactivar cuenta %s", user.getEmail()));
+							}
+						}
 					}
 				}
 			} else
@@ -129,6 +168,7 @@ public class SincronizaUsuario implements Processor {
 		countThread.decCounter();
 		logger.info(String.format("SincronizaUsuario: libera thread countThread=%d", countThread.getCounter()));
 	}
+
 
 
 
@@ -240,6 +280,7 @@ public class SincronizaUsuario implements Processor {
 		headers.put("KEY_RESULTADO", keyResultado);
 		headers.put("ID_USUARIO", cuenta);
 		insertMiResultadoErrores.requestBodyAndHeaders(null, headers);
+		contadores.incErrores();
 	}
 
 	
@@ -286,7 +327,6 @@ public class SincronizaUsuario implements Processor {
 			response = (Response)eliminaCuenta.requestBody(null);
 			if (response.getStatus() > 300) {
 				registraError("eliminaCuenta", response.getStatusInfo().getReasonPhrase(), ObjectFactory.toBigDecimal(keyResultado), id);
-				contadores.incErrores();
 			} else {
 				contadores.incEliminadas();
 				marcarCuentaEliminadaEnBD(id);
@@ -294,15 +334,27 @@ public class SincronizaUsuario implements Processor {
 		} catch (Exception e) {
 			logger.error("eliminaCuenta", e);
 			registraError("eliminaCuenta", e.getMessage(), ObjectFactory.toBigDecimal(keyResultado), id);
-			contadores.incErrores();
 		}
 	}
 
 
 
 
+	@SuppressWarnings("unchecked")
 	private void marcarCuentaEliminadaEnBD(String id) {
-		// TODO Auto-generated method stub
+		Map<String, Object> headersOut = null;
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("id_gmail", id);
+		headers.put("keyResultado", ObjectFactory.toBigDecimal(keyResultado));
+		try {
+			headersOut = (Map<String, Object>) prd_registra_eliminacion.requestBodyAndHeaders(null, headers);
+			Integer key = ObjectFactory.toInteger((BigDecimal)headersOut.get("key"));
+			logger.info(String.format("marcarCuentaEliminadaEnBD: cuenta %s copiada a tabla de eliminadas con key: %d",
+					id, key==null ? -1 : key));
+		} catch (Exception e) {
+			logger.error("Al invocar SP prd_registra_eliminacion", e);
+			registraError("eliminaCuenta",  e.getMessage(), ObjectFactory.toBigDecimal(keyResultado), id);
+		}
 		
 	}
 
@@ -315,11 +367,14 @@ public class SincronizaUsuario implements Processor {
 	 * @return
 	 */
 	private boolean hayQueSuspender(Date fechaAviso) {
-		// calcular la LocalDate correspondiente a la fecha tope
-		// agregar los dias
-		LocalDate fechaTope = new Date(fechaAviso.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(periodoGracia);
-		logger.info(String.format("hayQueSuspender: fechaTope=%s, now=%s", fechaTope, LocalDate.now()));
-		return LocalDate.now().isAfter(fechaTope);
+		if (StringUtils.estaContenido("suspender", operaciones)) {
+			// calcular la LocalDate correspondiente a la fecha tope
+			// agregar los dias
+			LocalDate fechaTope = new Date(fechaAviso.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(periodoGracia);
+			logger.info(String.format("hayQueSuspender: fechaTope=%s, now=%s", fechaTope, LocalDate.now()));
+			return LocalDate.now().isAfter(fechaTope);
+		}
+		return false;
 	}
 
 
@@ -337,38 +392,98 @@ public class SincronizaUsuario implements Processor {
 			response = (Response)suspendeCuenta.requestBody(null);
 			if (response.getStatus() > 300) {
 				registraError("suspenderCuenta", response.getStatusInfo().getReasonPhrase(), ObjectFactory.toBigDecimal(keyResultado), id);
-				contadores.incErrores();
 			} else {
 				contadores.incSuspendidas();
-				marcarCuentaSuspendidaEnBD(id);
+				marcaCuentaSuspendida.requestBodyAndHeader(null, "id_gmail", id);
 			}
 		} catch (Exception e) {
 			logger.error("suspenderCuenta", e);
 			registraError("suspenderCuenta", e.getMessage(), ObjectFactory.toBigDecimal(keyResultado), id);
-			contadores.incErrores();
 		}
 	}
 
 
 
-	private void marcarCuentaSuspendidaEnBD(String id) {
-		// TODO Auto-generated method stub
+	/**
+	 * Envia email y marca fecha de aviso
+	 * 
+	 * - Prepara header para template con Velocity
+	 * - invoca velocyty
+	 * - prepara invocacion al servicio de envio de emails
+	 * - envia el email
+	 * 
+	 * @param user
+	 * @param reporte
+	 */
+	private void avisarSuspencion(Exchange exchange, User user, Report reporte, Long maxPermitido) {
+		Map<String,Object> headers = new HashMap<String,Object>();
 		
+		headers.put("fechaProceso", StringUtilities.getInstance().toString(new java.util.Date(), "E, dd MMM yyyy HH:mm:ss z"));
+		headers.put("nombre", user.getGivenName());
+		headers.put("email", user.getEmail());
+		headers.put("drive_used_quota_in_mb", reporte.getDriveUsedQuotaInMb());
+		headers.put("drive_used_quota_in_mb_fmt", StringUtilities.getInstance().format(reporte.getDriveUsedQuotaInMb()));
+		headers.put("gplus_photos_used_quota_in_mb", reporte.getGplusPhotosUsedQuotaInMb());
+		headers.put("gplus_photos_used_quota_in_mb_fmt", StringUtilities.getInstance().format(reporte.getGplusPhotosUsedQuotaInMb()));
+		headers.put("gmail_used_quota_in_mb", reporte.getGmailUsedQuotaInMb());
+		headers.put("gmail_used_quota_in_mb_fmt", StringUtilities.getInstance().format(reporte.getGmailUsedQuotaInMb()));
+		headers.put("used_quota_in_mb_fmt", StringUtilities.getInstance().format(reporte.getUsedQuotaInMb()));
+		headers.put("quota_asignada_fmt", StringUtilities.getInstance().format(maxPermitido));
+		headers.put("plazo", periodoGracia);
+		
+		Object cuerpo = velocity.requestBodyAndHeaders(null, headers);
+		logger.info(String.format("avisarSuspencion: cuerpo mail=%s", cuerpo));
+		
+		if (cuerpo == null)
+			return;
+		
+		sendmail.requestBody(cuerpo);
+		
+	}
+
+
+
+
+
+	/**
+	 * @param maxPermitido
+	 * @param reporte
+	 * @return
+	 */
+	private boolean hayQueReactivar(Long maxPermitido, Report reporte) {
+		if (StringUtils.estaContenido("suspender", operaciones)) {
+			if (reporte.getIsSuspended() && reporte.getUsedQuotaInMb() < maxPermitido)
+				return true;
+		}
+		return false;
 	}
 
 
 
 
 	/**
-	 * Envia email y marca fecha de aviso
 	 * @param user
-	 * @param reporte
 	 */
-	private void avisarSuspencion(User user, Report reporte) {
-		// TODO Auto-generated method stub
+	private boolean reactivarCuenta(User user) {
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("CamelHttpMethod", "PUT");
+		headers.put("Exchange.DESTINATION_OVERRIDE_URL", 
+				String.format(templateReactivarCuentaGmail,getGmailServices(), user.getId()));
+		ResponseImpl response;
+		try {
+			response = (ResponseImpl)reactivarCuentaGmail.requestBodyAndHeaders(null, headers);
+			if (response.getStatus() < 300) {
+				return true;
+		}
+		else
+			return false;
+		} catch (CamelExecutionException e) {
+			logger.error(String.format("reactivarCuenta: id=%s (%s) error: %s",
+					user.getId(), user.getEmail(), e.getMessage()));
+			return false;
+		}
 		
 	}
-
 
 
 

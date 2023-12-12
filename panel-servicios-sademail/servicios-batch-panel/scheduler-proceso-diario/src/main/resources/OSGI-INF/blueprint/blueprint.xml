@@ -18,6 +18,7 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
         </jaxrs:providers>
     </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- Ejecutar proceso crear cuentas-->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/servicioBatch/crearCuentas/procese"
@@ -44,6 +45,19 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Ejecutar proceso suspender eliminar cuentas -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/suspendeEliminaCuentas/procese"
+        id="servSuspendeElimina" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioSuspendeEliminaCuentasEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- Envio de correos-->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panelv2/servicio/sendmail/send"
@@ -56,6 +70,7 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
         </cxf:providers>
     </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <http-conf:conduit name="*.http-conduit">
         <http-conf:client ConnectionTimeout="5000" ReceiveTimeout="0"/>
     </http-conf:conduit>
@@ -113,20 +128,20 @@
             <!-- seconds+minutes+hours+day of month+month+day of week+year-->
             <!--  http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html -->
             <from id="_partiendoSincronizaGrupos" uri="quartz2://horaProcesoSincronizaGrupos?cron={{scheduler.procesoSincronizacionGrupos.cronexpr}}"/>
-            <log message="partiendo un nuevo ciclo de sincronizacion de grupos"/>
-            <bean method="generaRequestSincronizaGrupos" ref="generaDatos"/>
-            <to uri="cxfrs:bean:servCreaGrupos?timeout=-1"/>
-            <log message="Sincroniza grupos avisa que partio: ${body}"/>
+            <log id="_log5" message="partiendo un nuevo ciclo de sincronizacion de grupos"/>
+            <bean id="_bean6" method="generaRequestSincronizaGrupos" ref="generaDatos"/>
+            <to id="_to3" uri="cxfrs:bean:servCreaGrupos?timeout=-1"/>
+            <log id="_log6" message="Sincroniza grupos avisa que partio: ${body}"/>
         </route>
         <!-- ================================================================================================= -->
-        <route id="_sincronizaCuentas">
+        <route id="_suspendeEliminaCuentas">
             <!-- seconds+minutes+hours+day of month+month+day of week+year-->
             <!--  http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html -->
-            <from id="_partiendoSincroniza" uri="quartz2://horaProcesoSincronizaCuentas?cron={{scheduler.procesoSincronizacionCuentas.cronexpr}}"/>
-            <log message="partiendo un nuevo ciclo de sincronizacion de cuentas"/>
-            <bean method="generaRequestSincronizaCuentas" ref="generaDatos"/>
-            <to uri="cxfrs:bean:servCreaGrupos?timeout=-1"/>
-            <log message="Sincroniza grupos avisa que partio: ${body}"/>
+            <from id="_partiendoSuspendeElimina" uri="quartz2://horaProcesoSuspendeEliminaCuentas?cron={{scheduler.procesoSuspendeEliminaCuentas.cronexpr}}"/>
+            <log id="_log7" message="partiendo un nuevo ciclo de sincronizacion, suspernder y eliminar cuentas"/>
+            <bean id="_bean7" method="generaRequestSincronizaCuentas" ref="generaDatos"/>
+            <to id="_to4" uri="cxfrs:bean:servSuspendeElimina?timeout=-1"/>
+            <log id="_log8" message="Sincroniza, Suspende, Elimina cuentas avisa que partio: ${body}"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_readjson">
@@ -165,18 +180,18 @@
             <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
             <bean id="_bean5"
                 method="preparaMailResultadoSincronizarGrupos" ref="generaDatos"/>
-            <to uri="direct:generaMail"/>
+            <to id="_to5" uri="direct:generaMail"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_terminaSincronizarSuspenderEliminarRoute">
             <from id="_from3" uri="direct:terminaSincronizarSuspenderEliminar"/>
-            <setHeader headerName="operacion">
+            <setHeader headerName="operacion" id="_setHeader4">
                 <constant>suspender_eliminar_cuentas</constant>
             </setHeader>
             <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
-            <bean
+            <bean id="_bean8"
                 method="preparaMailResultadoSincronizarSuspenderEliminar" ref="generaDatos"/>
-            <to uri="direct:generaMail"/>
+            <to id="_to6" uri="direct:generaMail"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_generaMailRoute">
@@ -194,7 +209,7 @@
                     <simple>${header.operacion} == '{{sinc_grupos-gmail.nocturno.funcion}}'</simple>
                     <to id="creaCuerpoSync" uri="velocity:templateMailSincronizaGrupos.vm?contentCache=true"/>
                 </when>
-                <when>
+                <when id="_when4">
                     <simple>${header.operacion} == '{{se-cuentas-gmail.nocturno.funcion}}'</simple>
                     <to id="creaCuerpoSync" uri="velocity:templateMailSuspendeEliminaCuentas.vm?contentCache=true"/>
                 </when>

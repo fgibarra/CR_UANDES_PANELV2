@@ -10,11 +10,12 @@ import javax.ws.rs.core.Response;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 
 @Path("/")
-public interface ServicioCrearGruposEndpoint {
+public interface ServicioSuspendeEliminaCuentasEndpoint {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/procese")
 	public Response procese(ProcesoDiarioRequest request);
+	
 }

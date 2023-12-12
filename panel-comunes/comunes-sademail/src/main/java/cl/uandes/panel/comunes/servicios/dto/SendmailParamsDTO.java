@@ -1,6 +1,7 @@
-package cl.uandes.panel.servicio.scheduler.bean.dto;
+package cl.uandes.panel.comunes.servicios.dto;
 
 import java.io.Serializable;
+
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,17 +16,17 @@ public class SendmailParamsDTO implements Serializable {
 	 * 
 	 */
 	@JsonIgnore
-	private static final long serialVersionUID = -7469394586841654507L;
+	private static final long serialVersionUID = -2136266801289132662L;
 	@JsonProperty("EMAIL_WEBMASTER")
 	private String emailWebMaster;
 	@JsonProperty("EMAIL_SUPPORT")
 	private String[] emailsSoporte;
 	@JsonProperty("GMAIL_DOMINIO")
-	private String dominioAzure;
+	private String dominioGmail;
 	
 	public SendmailParamsDTO(Map<String, Object> datos) {
 		this.emailWebMaster = (String)datos.get("EMAIL_WEBMASTER");
-		this.dominioAzure = (String)datos.get("GMAIL_DOMINIO");
+		this.dominioGmail = (String)datos.get("GMAIL_DOMINIO");
 		String valor = (String)datos.get("EMAIL_SUPPORT");
 		if (valor != null)
 			this.emailsSoporte = valor.split(";");
@@ -51,8 +52,7 @@ public class SendmailParamsDTO implements Serializable {
 		return emailsSoporte;
 	}
 
-	public String getDominioAzure() {
-		return dominioAzure;
+	public String getDominioGmail() {
+		return dominioGmail;
 	}
-
 }

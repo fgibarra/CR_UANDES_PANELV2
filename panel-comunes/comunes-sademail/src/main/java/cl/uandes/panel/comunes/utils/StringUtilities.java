@@ -1,6 +1,7 @@
 package cl.uandes.panel.comunes.utils;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -10,6 +11,7 @@ public class StringUtilities {
 
 	private  static StringUtilities instance;
 	private final String FECHA_HORA_FMT = "dd/MM/yy HH:mm:ss";
+	private final String LONG_DEFAULT_FMT = "#,##0";
 	
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -70,5 +72,25 @@ public class StringUtilities {
 					date.toString(), e.getMessage()));
 			return null;
 		}
+	}
+	
+	public String format(Object dato) {
+		if (dato == null) return null;
+		if (dato instanceof Long)
+			return format(dato, LONG_DEFAULT_FMT);
+		throw new RuntimeException(String.format("Objeto %d de clase %s No tiene definido un PATTERN", dato, dato.getClass().getName()));
+	}
+
+	public String format(Object dato, String fmt) {
+		if (dato == null) return null;
+		if (dato instanceof Integer || dato instanceof Long ||dato instanceof Float || dato instanceof Double) {
+			try {
+				DecimalFormat df = new DecimalFormat(fmt);
+				return df.format(dato);
+			} catch (Exception  e) {
+				throw new RuntimeException(e);
+			}
+		}
+		throw new RuntimeException(String.format("Objeto %d de clase %s No tiene definido un FORMATTER", dato, dato.getClass().getName()));
 	}
 }

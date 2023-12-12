@@ -18,6 +18,7 @@ import java.util.Set;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -158,59 +159,84 @@ public abstract class ReportGmailWAOImpl {
 		}
     }
 
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> getReportUsuario(String idUsuario) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		UsageReports report = null;
-		UsageReport.Entity entity = null;
-		List<UsageReport.Parameters> listaParametros = null;
+	int daysAgo = 3;
 
+	public Map<String, Object> getReportUsuario(String idUsuario) {
+		UsageReports report = null;
+		UserUsageReport.Get r = null;
+		
 		LocalDate today =  LocalDate.now();
-		// jueves = 3
-		// viernes = 4
-		int daysAgo = 4;
-		do {
-			LocalDate threeDaysAgo = today.minusDays(daysAgo);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			
-			List<UsageReport> lista = null;
-			
-			try {
-				UserUsageReport.Get r = reports.userUsageReport().get(idUsuario, sdf.format(Date.from(threeDaysAgo.atStartOfDay(ZoneId.systemDefault()).toInstant())));
-				report = r.execute();
-				if (report != null) {
-					lista = report.getUsageReports();
-					
-					if (lista != null) {
-						for (UsageReport re : lista) {
-							Set<Entry<String, Object>> set = re.entrySet();
-							
-							for (Entry<String, Object> entry : set) {
-								//logger.info(String.format("UsageReport: %s=%s", entry.getKey(), entry.getValue()));
-								if ("entity".equals(entry.getKey()))
-									entity = (Entity) entry.getValue();
-								if ("parameters".equals(entry.getKey()))
-									listaParametros = (List<Parameters>) entry.getValue();
-							}
-						}
-					} else {
-						logger.info(String.format("getReportUsuario: lista con datos del reporte viene nula para reporte para usuario %s daysAgo=%d",
-								idUsuario, daysAgo));
+		LocalDate threeDaysAgo = today.minusDays(daysAgo);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			r = reports.userUsageReport().get(idUsuario, sdf.format(Date.from(threeDaysAgo.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+			report = r.execute();
+		} catch (Exception e) {
+			if (e instanceof GoogleJsonResponseException) {
+				GoogleJsonResponseException ex = (GoogleJsonResponseException)e;
+				String msg = ex.getDetails().getMessage();
+				String template = "Data for dates later than ";
+
+				logger.info(String.format("msg=%s", msg));
+				
+				if (msg.startsWith(template)) {
+					String fechaReporte = msg.substring(template.length(), template.length()+10);
+					logger.info(String.format("getReportUsuario: usuario %s intentar con fecha %s", idUsuario, fechaReporte));
+					try {
+						r = reports.userUsageReport().get(idUsuario, fechaReporte);
+						report = r.execute();
+					} catch (IOException e1) {
+						logger.error(String.format("getReportUsuario: usuario %s causa: %s", idUsuario, e.getMessage()));
 						report = null;
 					}
-				} else
-					logger.info(String.format("getReportUsuario: No pudo recuperar reporte para usuario %s daysAgo=%d", 
-							idUsuario, daysAgo));
-			} catch (Exception e) {
+				} else {
+					logger.error(String.format("getReportUsuario: usuario %s daysAgo=%d causa: %s", idUsuario, daysAgo, e.getMessage()));
+					report = null;
+				}
+			} else {
 				logger.error(String.format("getReportUsuario: usuario %s daysAgo=%d causa: %s", idUsuario, daysAgo, e.getMessage()));
 				report = null;
 			}
-		} while (++daysAgo < 7 && report == null);
+		}
+		
+		return procesaReport(idUsuario, report);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Map<String, Object> procesaReport (String idUsuario, UsageReports report) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<UsageReport> lista = null;
+		UsageReport.Entity entity = null;
+		List<UsageReport.Parameters> listaParametros = null;
+		
+		if (report != null) {
+			lista = report.getUsageReports();
+			
+			if (lista != null) {
+				for (UsageReport re : lista) {
+					Set<Entry<String, Object>> set = re.entrySet();
+					
+					for (Entry<String, Object> entry : set) {
+						//logger.info(String.format("UsageReport: %s=%s", entry.getKey(), entry.getValue()));
+						if ("entity".equals(entry.getKey()))
+							entity = (Entity) entry.getValue();
+						if ("parameters".equals(entry.getKey()))
+							listaParametros = (List<Parameters>) entry.getValue();
+					}
+				}
+			} else {
+				logger.info(String.format("getReportUsuario: lista con datos del reporte viene nula para reporte para usuario %s daysAgo=%d",
+						idUsuario, daysAgo));
+				report = null;
+			}
+		} else
+			logger.info(String.format("getReportUsuario: No pudo recuperar reporte para usuario %s daysAgo=%d", 
+					idUsuario, daysAgo));
 		
 		map.put("entity", entity);
 		map.put("parameters", listaParametros);
 		
 		return map;
 	}
-	
 }

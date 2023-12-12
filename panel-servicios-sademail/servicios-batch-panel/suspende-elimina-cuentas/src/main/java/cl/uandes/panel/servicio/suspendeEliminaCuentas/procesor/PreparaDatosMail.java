@@ -1,4 +1,4 @@
-package cl.uandes.panel.servicio.scheduler.procesor;
+package cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor;
 
 import java.util.List;
 import java.util.Map;
@@ -13,16 +13,11 @@ import org.apache.camel.PropertyInject;
 import cl.uandes.panel.comunes.json.sendmail.SendmailRequest;
 import cl.uandes.panel.comunes.servicios.dto.SendmailParamsDTO;
 
-/**
- * Coloca el en Body y los headers necesarios para enviar un correo
- * @author fernando
- *
- */
 public class PreparaDatosMail implements Processor {
 
 	@EndpointInject(uri = "sql:classpath:sql/qryKcoSendmailParams.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qryKcoSendmailParams;
-	@PropertyInject(value = "scheduler.mail.asunto", defaultValue="Reporte proceso diario")
+	@PropertyInject(value = "se-cuentas-gmail.mailAviso.asunto", defaultValue="Se ha sobrepasado cuota asignada para su cuenta de correo miuandes.cl")
 	private String asunto;
 	@PropertyInject(value = "serv.mailPanel.mail_from", defaultValue="panel@miuandes.cl")
 	private String from;
@@ -55,5 +50,4 @@ public class PreparaDatosMail implements Processor {
 	public void setFrom(String from) {
 		this.from = from;
 	}
-
 }

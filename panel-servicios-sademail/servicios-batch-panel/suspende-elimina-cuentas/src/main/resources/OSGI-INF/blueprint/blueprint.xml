@@ -70,6 +70,18 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/reactivar/{username}"
+        id="rsReactivaCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/delete/{username}"
         id="rsEliminaCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
         <cxf:headers>
@@ -101,6 +113,11 @@
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.FinalizaProceso" id="finalizaProceso">
         <property name="panelServices" value="{{scheduler.uri-serviciosBatch}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.PreparaDatosMail" id="preparaDatosMail">
+        <property name="asunto" value="{{se-cuentas-gmail.mailAviso.asunto}}"/>
+        <property name="from" value="{{serv.mailPanel.mail_from}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -157,13 +174,20 @@
                     </choice>
                 </loop>
             </loop>
-			<process ref="finalizaProceso"/>
+            <process id="_process3" ref="finalizaProceso"/>
             <to id="_fin" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_route3">
             <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=10"/>
             <process id="_process1" ref="sincronizaUsuario"/>
+        </route>
+        <!-- ================================================================================================= -->
+		<route id="_generaMailRoute">
+            <from uri="direct:generaMail"/>
+            <process id="_preparaDatosMail" ref="preparaDatosMail"/>
+            <!-- manda email -->
+            <to id="_to1" uri="cxfrs:bean:servSendmail?timeout=-1"/>
         </route>
         <!-- ================================================================================================= -->
     </camelContext>

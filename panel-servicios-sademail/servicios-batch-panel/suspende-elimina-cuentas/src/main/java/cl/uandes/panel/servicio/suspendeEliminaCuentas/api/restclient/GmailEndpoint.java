@@ -27,7 +27,13 @@ public interface GmailEndpoint {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/user/suspend/{username}")
 	public Response suspendUser(@PathParam("username")String in_msg);
-	
+
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/user/reactivar/{username}")
+	public Response reactivarUser(@PathParam("username")String in_msg);
+
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
