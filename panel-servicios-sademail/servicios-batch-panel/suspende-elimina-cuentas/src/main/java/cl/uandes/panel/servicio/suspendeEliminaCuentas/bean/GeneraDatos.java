@@ -19,6 +19,7 @@ import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest;
 import cl.uandes.sadmemail.comunes.gmail.json.AllUsersResponse;
 import cl.uandes.sadmemail.comunes.google.api.services.User;
+import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
 
 public class GeneraDatos {
 
@@ -45,6 +46,9 @@ public class GeneraDatos {
 	public void recuperaUsuariosGmail(Exchange exchange) {
 		Message message = exchange.getIn();
 		String token = (String) message.getHeader("retrieveAllUsers.token");
+		Integer procesados = ((ContadoresSincronizarCuentas)message.getHeader("contadoresSincronizarCuentas")).getCountProcesados();
+		logger.info(String.format("recuperaUsuariosGmail: token=%s elementos procesados: %d", 
+				token != null ? token : "ES NULO", procesados));
 		AllUsersResponse response = retrieveAllUsers(token);
 		if (response != null && response.getCodigo() == 0) {
 			message.setHeader("retrieveAllUsers.token", response.getNextToken());

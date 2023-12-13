@@ -93,6 +93,19 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+    <!-- Envio de correos-->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panelv2/servicio/sendmail/send"
+        id="servSendmail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.ServicioSendmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.resources.SuspendeEliminaCuentasRestService" id="restService">
@@ -131,7 +144,7 @@
         <route id="_readjson">
             <from id="_promService" uri="direct:start"/>
             <log id="_log2" message="(L53)queda en el body: ${body}"/>
-            <to id="_to1" uri="mock:end"/>
+            <to uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
         <!-- 	SINCRONIZA CUENTAS-->
@@ -151,7 +164,7 @@
                     <method method="setErrorInicializacion" ref="generaDatos"/>
                 </setBody>
                 <log id="_log1" message="(L07) atrapo un exception. en el body queda: ${body}"/>
-                <to id="_to1" uri="mock:end"/>
+                <to uri="mock:end"/>
             </onException>
             <process id="_process2" ref="inicialiceProceso"/>
             <loop doWhile="true" id="_loop1">
@@ -169,11 +182,13 @@
                         </when>
                         <otherwise id="_otherwise2">
                             <bean id="_bean2" method="recuperaUsuario" ref="generaDatos"/>
+							<log message="(L172) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
                             <to id="_to2" uri="seda:procesaUsuario"/>
                         </otherwise>
                     </choice>
                 </loop>
             </loop>
+			<log message="(L178) finalizaProceso"/>
             <process id="_process3" ref="finalizaProceso"/>
             <to id="_fin" uri="mock:end"/>
         </route>
@@ -183,11 +198,11 @@
             <process id="_process1" ref="sincronizaUsuario"/>
         </route>
         <!-- ================================================================================================= -->
-		<route id="_generaMailRoute">
-            <from uri="direct:generaMail"/>
+        <route id="_generaMailRoute">
+            <from id="_from1" uri="direct:generaMail"/>
             <process id="_preparaDatosMail" ref="preparaDatosMail"/>
             <!-- manda email -->
-            <to id="_to1" uri="cxfrs:bean:servSendmail?timeout=-1"/>
+            <to uri="cxfrs:bean:servSendmail?timeout=-1"/>
         </route>
         <!-- ================================================================================================= -->
     </camelContext>
