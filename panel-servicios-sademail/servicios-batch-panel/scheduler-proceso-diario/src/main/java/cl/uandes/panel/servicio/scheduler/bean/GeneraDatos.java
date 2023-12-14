@@ -163,6 +163,7 @@ public class GeneraDatos {
 		
 		List<MiResultadoErroresDTO> listaErrores = getListaErrores(keyResultado);
 		headers.put("reporteErrores",  listaErrores);
+		headers.put("reporteErroresSize", listaErrores.size());
 		return headers;
 	}
 	
@@ -258,9 +259,15 @@ public class GeneraDatos {
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> datos = (List<Map<String, Object>>) qryMiResultadoErrores.requestBodyAndHeader(null, "keyResultado", 
 				StringUtilities.getInstance().toBigDecimal(keyResultado));
-		if (datos != null) {
-			for (Map<String, Object> map : datos)
-				lista.add(new MiResultadoErroresDTO(map));
+		if (datos != null && datos.size() > 0) {
+			for (Map<String, Object> map : datos) {
+				MiResultadoErroresDTO dto = new MiResultadoErroresDTO(map);
+				lista.add(dto);
+				logger.info(String.format("getListaErrores: %s", dto));
+			}
+		} else {
+			logger.info(String.format("getListaErrores: recuperados %s %d", 
+					datos == null ? "NULO" : "", datos != null ? datos.size(): -1));
 		}
 		return lista;
 	}

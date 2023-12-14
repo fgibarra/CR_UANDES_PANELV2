@@ -129,9 +129,15 @@ public class SincronizaUsuario implements Processor {
 			if (datos != null) {
 				String estadoAcademico = (String) datos.get("ESTADO_ACADEMICO");
 				java.sql.Date fechaAviso = (java.sql.Date) datos.get("FECHA_AVISO");
+				String tipoCuenta = (String) datos.get("TIPO_CUENTA");
+
+				logger.info(String.format("SincronizaUsuario: user.id=%s user.email=%s estadoAcademico=%s fecha_aviso=%s tipoCuenta=%s", 
+						user.getId(), user.getEmail(), estadoAcademico, StringUtils.toString((Date) datos.get("fecha_aviso")), tipoCuenta));
 				
-				logger.info(String.format("SincronizaUsuario: user.id=%s user.email=%s estadoAcademico=%s fecha_aviso=%s", 
-						user.getId(), user.getEmail(), estadoAcademico, StringUtils.toString((Date) datos.get("fecha_aviso"))));
+				if ("PANEL".equalsIgnoreCase(tipoCuenta))
+					contadores.incRegistrados();
+				else if ("EXTERNA".equalsIgnoreCase(tipoCuenta))
+					contadores.incNoRegistrados();
 				
 				// se pueden eliminar cuentas en base al estado academico
 				if (hayQueEliminar(estadoAcademico))
