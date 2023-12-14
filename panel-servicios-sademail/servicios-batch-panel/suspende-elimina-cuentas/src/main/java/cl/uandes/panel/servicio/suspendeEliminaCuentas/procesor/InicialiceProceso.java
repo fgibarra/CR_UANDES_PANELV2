@@ -14,6 +14,7 @@ import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException;
+import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.RegistrosEnBD;
 
 public class InicialiceProceso extends RegistrosEnBD implements Processor {
@@ -38,6 +39,9 @@ public class InicialiceProceso extends RegistrosEnBD implements Processor {
 	/**
 	 * Lee datos de KCO_FUNCIONES para cargar parametros
 	 * Inicializa MI_RESULTADO para registrar la salida
+	 * Inicializa los contadores ContadoresSincronizarCuentas
+	 * Marca la hora de inicio del proceso
+	 * Inicializa el contador de Threads
 	 * @param exchange
 	 */
 	@Override
@@ -65,6 +69,7 @@ public class InicialiceProceso extends RegistrosEnBD implements Processor {
 			}
 			headers.put("DatosKcoFunciones", data);
 			headers.put("keyResultado", getResultadoFuncion().getKey());
+			headers.put("countThread", new CountThreads());
 			
 			logger.info(String.format("estaInicializado: %s keyResultado: %d", 
 					headers.get("estaInicializado"), headers.get("keyResultado")));

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="prd_actualiza_cuenta"/>
+		<item key="selection" value="{header"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="{header"/>
+			<item value="servSendmail"/>
+			<item value="_to1"/>
+			<item value="updateMiGruposMiUandes"/>
 			<item value="prd_actualiza_cuenta"/>
 			<item value="registraError"/>
 			<item value="Azure"/>
@@ -19,12 +23,9 @@
 			<item value="inicialiceProceso"/>
 			<item value="rsRetrieveAllUsers"/>
 			<item value="proceso"/>
-			<item value="getProceso"/>
-			<item value="propNumberPrueba"/>
-			<item value="InicialiceCrearCuentas"/>
-			<item value="Integer"/>
 		</list>
 		<list key="replacehistory">
+			<item value="{headers"/>
 			<item value="Gmail"/>
 			<item value="InicialiceProceso"/>
 			<item value="Long"/>
@@ -39,7 +40,6 @@
 			<item value="logger.info"/>
 			<item value="(3)"/>
 			<item value="(2)"/>
-			<item value="(1)"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

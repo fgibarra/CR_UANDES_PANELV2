@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MembersRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException"/>
-    <fullyQualifiedTypeName name="java.io.File"/>
-    <fullyQualifiedTypeName name="java.io.FileInputStream"/>
     <fullyQualifiedTypeName name="com.google.api.services.admin.reports.ReportsScopes"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="com.google.api.client.googleapis.auth.oauth2.GoogleCredential"/>
@@ -18,7 +13,6 @@
     <fullyQualifiedTypeName name="org.apache.log4j.PropertyConfigurator"/>
     <fullyQualifiedTypeName name="com.google.api.services.admin.reports.model.UsageReport.Parameters"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.apiReportServices.wao.ReportGmailWAOesb"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.Report"/>
     <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
     <fullyQualifiedTypeName name="javax.ws.rs.Path"/>
@@ -26,13 +20,10 @@
     <fullyQualifiedTypeName name="javax.ws.rs.Consumes"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.MediaType"/>
     <fullyQualifiedTypeName name="javax.ws.rs.Produces"/>
-    <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.User"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
-    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
     <fullyQualifiedTypeName name="org.apache.camel.Header"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.ReportResponse"/>
@@ -45,7 +36,6 @@
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="java.time.ZoneId"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
-    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
     <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
@@ -60,4 +50,14 @@
     <fullyQualifiedTypeName name="java.text.DecimalFormat"/>
     <fullyQualifiedTypeName name="java.sql.Date"/>
     <fullyQualifiedTypeName name="org.apache.camel.CamelExecutionException"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
+    <fullyQualifiedTypeName name="com.google.api.services.admin.directory.model.User"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.JSonUtilities"/>
+    <fullyQualifiedTypeName name="java.io.Reader"/>
+    <fullyQualifiedTypeName name="java.io.FileReader"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.Report"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.User"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
 </qualifiedTypeNameHistroy>

@@ -415,7 +415,7 @@ public class SincronizaUsuario implements Processor {
 	 * @param user
 	 * @param reporte
 	 */
-	private void avisarSuspencion(Exchange exchange, User user, Report reporte, Long maxPermitido) {
+	public void avisarSuspencion(Exchange exchange, User user, Report reporte, Long maxPermitido) {
 		Map<String,Object> headers = new HashMap<String,Object>();
 		
 		headers.put("fechaProceso", StringUtilities.getInstance().toString(new java.util.Date(), "E, dd MMM yyyy HH:mm:ss z"));
@@ -437,7 +437,7 @@ public class SincronizaUsuario implements Processor {
 		if (cuerpo == null)
 			return;
 		
-		sendmail.requestBody(cuerpo);
+		sendmail.requestBodyAndHeaders(cuerpo, exchange.getIn().getHeaders());
 		
 	}
 
@@ -533,6 +533,22 @@ public class SincronizaUsuario implements Processor {
 
 	public synchronized String getTemplateEliminaCuenta() {
 		return templateEliminaCuenta;
+	}
+
+
+
+
+
+	public synchronized Long getPeriodoGracia() {
+		return periodoGracia;
+	}
+
+
+
+
+
+	public synchronized void setPeriodoGracia(Long periodoGracia) {
+		this.periodoGracia = periodoGracia;
 	}
 
 

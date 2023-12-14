@@ -132,6 +132,10 @@
         <property name="asunto" value="{{se-cuentas-gmail.mailAviso.asunto}}"/>
         <property name="from" value="{{serv.mailPanel.mail_from}}"/>
     </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.Test" id="test">
+        <property name="sincronizarUsuarioBean" ref="sincronizaUsuario"/>
+    </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -140,11 +144,38 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <camelContext id="suspende-elimina-cuentas" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <!-- 
+        <route id="_fromInicio">
+            <from id="_partida" uri="timer://foo?repeatCount=1"/>
+            <log id="_log4" message="(L150) partio"/>
+            <to id="_to7" uri="direct:leeUser"/>
+            <bean id="_bean3" method="getUser" ref="test"/>
+            <log id="_log5" message="(L153)queda en el header.user: ${header.user}"/>
+            <to uri="direct:leeReport"/>
+            <bean method="getReport" ref="test"/>
+            <log message="(L156)queda en el header.report: ${header.report}"/>
+			<bean method="invocaavisarSuspencion" ref="test"/>
+        </route>
+        <route id="_route1">
+            <from id="_from4" uri="direct:leeUser"/>
+            <pollEnrich id="_pollEnrich1" timeout="2000">
+                <constant>file:///home/sademail/data?fileName=user.json</constant>
+            </pollEnrich>
+            <log id="_log6" message="(L163)queda en body: ${body}"/>
+        </route>
+        <route>
+            <from uri="direct:leeReport"/>
+            <pollEnrich timeout="2000">
+                <constant>file:///home/sademail/data?fileName=report.json</constant>
+            </pollEnrich>
+            <log message="(L171)queda en body: ${body}"/>
+        </route>
+		-->
         <!-- -->
         <route id="_readjson">
             <from id="_promService" uri="direct:start"/>
             <log id="_log2" message="(L53)queda en el body: ${body}"/>
-            <to uri="mock:end"/>
+            <to id="_to1" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
         <!-- 	SINCRONIZA CUENTAS-->
@@ -164,10 +195,12 @@
                     <method method="setErrorInicializacion" ref="generaDatos"/>
                 </setBody>
                 <log id="_log1" message="(L07) atrapo un exception. en el body queda: ${body}"/>
-                <to uri="mock:end"/>
+                <to id="_to3" uri="mock:end"/>
             </onException>
             <process id="_process2" ref="inicialiceProceso"/>
             <loop doWhile="true" id="_loop1">
+                <!-- Inicialmente inicializado a TRUE por SuspendeEliminaCuentasRestService
+				     posteriormente actualizado por recuperaUsuariosGmail -->
                 <simple>${header.hayToken}</simple>
                 <bean id="_bean1" method="recuperaUsuariosGmail" ref="generaDatos"/>
                 <loop doWhile="true" id="_loop2">
@@ -182,13 +215,13 @@
                         </when>
                         <otherwise id="_otherwise2">
                             <bean id="_bean2" method="recuperaUsuario" ref="generaDatos"/>
-							<log message="(L172) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
+                            <log id="_log7" message="(L172) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
                             <to id="_to2" uri="seda:procesaUsuario"/>
                         </otherwise>
                     </choice>
                 </loop>
             </loop>
-			<log message="(L178) finalizaProceso"/>
+            <log id="_log8" message="(L178) finalizaProceso"/>
             <process id="_process3" ref="finalizaProceso"/>
             <to id="_fin" uri="mock:end"/>
         </route>
@@ -202,7 +235,7 @@
             <from id="_from1" uri="direct:generaMail"/>
             <process id="_preparaDatosMail" ref="preparaDatosMail"/>
             <!-- manda email -->
-            <to uri="cxfrs:bean:servSendmail?timeout=-1"/>
+            <to id="_to4" uri="cxfrs:bean:servSendmail?timeout=-1"/>
         </route>
         <!-- ================================================================================================= -->
     </camelContext>

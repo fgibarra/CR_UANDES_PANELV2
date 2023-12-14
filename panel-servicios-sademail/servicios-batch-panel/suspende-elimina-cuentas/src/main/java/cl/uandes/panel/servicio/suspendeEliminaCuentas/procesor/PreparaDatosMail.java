@@ -1,37 +1,31 @@
 package cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.PropertyInject;
+import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.sendmail.SendmailRequest;
-import cl.uandes.panel.comunes.servicios.dto.SendmailParamsDTO;
+import cl.uandes.sadmemail.comunes.google.api.services.User;
 
 public class PreparaDatosMail implements Processor {
 
-	@EndpointInject(uri = "sql:classpath:sql/qryKcoSendmailParams.sql?dataSource=#bannerDataSource")
-	ProducerTemplate qryKcoSendmailParams;
 	@PropertyInject(value = "se-cuentas-gmail.mailAviso.asunto", defaultValue="Se ha sobrepasado cuota asignada para su cuenta de correo miuandes.cl")
 	private String asunto;
 	@PropertyInject(value = "serv.mailPanel.mail_from", defaultValue="panel@miuandes.cl")
 	private String from;
-
+	private Logger logger = Logger.getLogger(getClass());
+	
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
 		String mensaje = (String) message.getBody();
-		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> lista = (List<Map<String, Object>>)qryKcoSendmailParams.requestBody(null);
-		SendmailParamsDTO params = new SendmailParamsDTO(lista.get(0));
+		User user = (User)message.getHeader("user");
+		logger.info(String.format("PreparaDatosMail: recupera user: %s", user));
 		
-		SendmailRequest sendmailRequest = new SendmailRequest(params.getEmailWebMaster(), 
-				params.getEmailsSoporte(), from, null, getAsunto(), mensaje);
+		SendmailRequest sendmailRequest = new SendmailRequest(user.getEmail(), 
+				null, from, null, getAsunto(), mensaje);
 		message.setBody(sendmailRequest);
 	}
 

@@ -9163,3 +9163,183 @@ java.lang.Exception: Resource '/crear-grupos-batch/src/main/resources/sql/update
 
 !ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 11:43:24.129
 !MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 13:28:19.843
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 13:28:19.853
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 13:28:19.854
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 17:22:08.454
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 17:22:08.460
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 17:22:08.461
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:01:17.319
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:01:17.338
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:01:17.340
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:03:40.134
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:03:40.154
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:03:40.156
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:06:34.047
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:06:34.068
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:06:34.070
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:21:11.113
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:21:11.129
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:21:11.131
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:34:09.198
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:34:09.216
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:34:09.217
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:36:57.098
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:36:57.115
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:36:57.116
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:37:45.500
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:37:45.519
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:37:45.521
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:39:47.844
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:39:47.880
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:39:47.882
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:54:23.231
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:54:23.256
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:54:23.257
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:54:45.078
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:54:45.103
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 18:54:45.104
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:13:13.368
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:13:13.391
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:13:13.392
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:36:04.801
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:36:04.828
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:36:04.830
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:38:14.354
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:38:14.372
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:38:14.373
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:40:10.310
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:40:10.343
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 19:40:10.344
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:05:56.868
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:05:56.903
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:05:56.905
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:11:55.102
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:11:55.123
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:11:55.125
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:17:32.179
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:17:32.208
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 20:17:32.209
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 21:07:56.864
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 21:07:56.871
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2023-12-13 21:07:56.873
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: handled

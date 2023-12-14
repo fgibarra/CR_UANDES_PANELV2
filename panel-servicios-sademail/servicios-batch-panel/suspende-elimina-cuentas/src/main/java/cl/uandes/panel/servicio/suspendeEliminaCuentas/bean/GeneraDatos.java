@@ -40,7 +40,6 @@ public class GeneraDatos {
 	 * Deja en el header el token devuelto
 	 * Define el header.hayToken = tru/false dependiendo si hay mas usuarios que recuperar
 	 * Deja en header.listaUsuariosSincronizar los usuarios recuperados
-	 * Inicializa el contador de Threads
 	 * @param exchange
 	 */
 	public void recuperaUsuariosGmail(Exchange exchange) {
@@ -51,9 +50,10 @@ public class GeneraDatos {
 				token != null ? token : "ES NULO", procesados));
 		AllUsersResponse response = retrieveAllUsers(token);
 		if (response != null && response.getCodigo() == 0) {
-			message.setHeader("retrieveAllUsers.token", response.getNextToken());
+			token = response.getNextToken();
+			message.setHeader("retrieveAllUsers.token", token);
+			message.setHeader("hayToken", token != null);
 			message.setHeader("listaUsuariosSincronizar", response.getListaUsuarios());
-			message.setHeader("countThread", new CountThreads());
 		}
 	}
 	

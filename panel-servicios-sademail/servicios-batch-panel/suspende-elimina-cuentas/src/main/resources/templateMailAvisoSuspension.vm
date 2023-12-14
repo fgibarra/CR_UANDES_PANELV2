@@ -186,22 +186,25 @@ dujS9beCmNj/AM/qdJfB+4YmAAAAAElFTkSuQmCC" alt="Logo UAndes" />
 
 <section>
 <p stype="text-align:right;margin-bottom:50px;">Fecha del aviso: ${headers.fechaProceso}</p>
-<h3 stype="margin-bottom:40px;">Estimado ${header.nombre}</h3>
+<h3 stype="margin-bottom:40px;">Estimado ${headers.nombre}</h3>
 <p>
-Su cuenta ${header.email} est&aacute; ocupando
-#if( ${header.drive_used_quota_in_mb} > 0 )
-${header.drive_used_quota_in_mb_fmt} megaBytes en Drive,&sp
+Su cuenta ${headers.email} est&aacute; ocupando:
+</p>
+<ul>
+#if( ${headers.drive_used_quota_in_mb} > 0 )
+<li>${headers.drive_used_quota_in_mb_fmt} megaBytes en Drive</li>
 #end
-#if( ${header.gplus_photos_used_quota_in_mb} > 0 )
-${gplus_photos_used_quota_in_mb_fmt} megaBytes en Google Photos,&sp
+#if( ${headers.gplus_photos_used_quota_in_mb} > 0 )
+<li>${gplus_photos_used_quota_in_mb_fmt} megaBytes en Google Photos</li>
 #end
-#if( ${header.gmail_used_quota_in_mb} > 0 )
-${header.gmail_used_quota_in_mb_fmt} megaBytes en su cuenta de correo,&sp
+#if( ${headers.gmail_used_quota_in_mb} > 0 )
+<li>${headers.gmail_used_quota_in_mb_fmt} megaBytes en su cuenta de correo</li>
 #end
-un total de ${header.used_quota_in_mb_fmt}, lo que supera su cuota asignada de ${header.quota_asignada_fmt}.
+</ul>
+<p>un total de ${headers.used_quota_in_mb_fmt}, lo que supera su cuota asignada de ${headers.quota_asignada_fmt}.
 </p>
 <p> 
-Le agradeceremos que en un plazo de ${header.plazo} d&iacute;s libere el espacio que excede de su cuota, con el fin de evitar que tengamos que suspender su cuenta de recibir nuevos correos, guardar documentos en su Drive o fotos en Google Fotos.
+Le agradeceremos que en un plazo de ${headers.plazo} d&iacute;as libere el espacio que excede de su cuota, con el fin de evitar que tengamos que suspender su cuenta, lo que le impedir&aacute; recibir nuevos correos, guardar documentos en su Drive o fotos en Google Fotos.
 </p> 
 </section>
 
