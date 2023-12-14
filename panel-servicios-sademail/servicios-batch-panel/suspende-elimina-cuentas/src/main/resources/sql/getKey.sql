@@ -1,0 +1,1 @@
+select HIBERNATE_SEQUENCE.nextval from dual

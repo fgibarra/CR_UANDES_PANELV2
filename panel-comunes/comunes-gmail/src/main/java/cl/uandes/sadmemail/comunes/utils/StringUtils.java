@@ -10,6 +10,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import cl.uandes.sadmemail.comunes.report.json.Report;
+
+@SuppressWarnings("deprecation")
 public class StringUtils {
 
 	public final static String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
@@ -105,6 +108,18 @@ public class StringUtils {
 			return null;
 		}
 	}
+	
+	public static Timestamp toTimeStamp(String fecha, String pattern) {
+		if (fecha == null) return null;
+		try {
+			DateFormat formatter = new SimpleDateFormat(pattern);
+			Date date  = formatter.parse(fecha);
+			return new Timestamp(date.getTime());
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+	
 	public static String obj2String(Object obj) {
 		if (obj == null) return null;
 		if (obj instanceof String) return (String)obj;
@@ -341,5 +356,33 @@ public class StringUtils {
 		if (rut != null)
 			rut = rut.trim().replaceAll("[^\\w]", "").replaceAll("[.-]", "").toUpperCase();
 		return rut;
+	}
+	
+	public static String getNombreCuenta(String email) {
+		String nombreCuenta = null;
+		if (email != null)
+			try {
+				nombreCuenta = email.substring(0, email.indexOf('@'));
+			} catch (Exception e) {
+				nombreCuenta = email;
+			}
+		return nombreCuenta;
+	}
+
+	public static boolean estaContenido(String valor, String[] patterns) {
+		boolean result = false;
+		if (valor != null && valor.length() > 0)
+			for (String regex : patterns) {
+				if (valor.matches(regex))
+					return true;
+			}
+		
+		return result;
+	}
+	
+	public static void main(String args[]) {
+		String REPORT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
+		Timestamp t = StringUtils.toTimeStamp("2023-12-04 22:20:33.123Z", REPORT_DATE_PATTERN);
+		System.out.println(t);
 	}
 }

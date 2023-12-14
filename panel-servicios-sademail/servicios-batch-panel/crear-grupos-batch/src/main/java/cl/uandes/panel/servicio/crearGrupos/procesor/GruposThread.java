@@ -123,8 +123,8 @@ public class GruposThread implements Processor {
 			actualizaOrigen(grupo, exchange);
 			
 			if (crearGrupo(exchange, grupo, res)) {
-				sacarMiembrosInactivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()));
-				agregarMiembrosActivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()));
+				sacarMiembrosInactivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()), grupo.getGroupName());
+				agregarMiembrosActivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()), grupo.getGroupName());
 			}
 		}
 	}
@@ -156,8 +156,8 @@ public class GruposThread implements Processor {
 	private boolean crearGrupo(Exchange exchange, GruposMiUandes grupo, ResultadoFuncion miResultado) {
 		Message message = exchange.getIn();
 		Map<String,Object> headers = new HashMap<String,Object>();
-		logger.info(String.format("crearGrupo: hay que crear? grupo.getCreadoGmail().booleanValue(): %b miResultado=%s",
-				grupo.getCreadoGmail().booleanValue(), miResultado));
+		logger.info(String.format("crearGrupo: %s hay que crear? grupo.getCreadoGmail().booleanValue(): %b miResultado=%s",
+				grupo.getGroupName(), grupo.getCreadoGmail().booleanValue(), miResultado));
 		if (!grupo.getCreadoGmail().booleanValue()) {
 			/* validar que efectivamente no este creado. 
 			 * Si lo esta solo actualizar el flag en MI_GRUPOS_AZURE
@@ -345,13 +345,13 @@ public class GruposThread implements Processor {
 			return "20500201";
 		}
 	}
-	private void sacarMiembrosInactivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado) throws ProcesaMiembroException {
+	private void sacarMiembrosInactivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado, String groupName) throws ProcesaMiembroException {
 		/*
 		 * Recuperar lista de miembros que ya no estan en el grupo
 		 * recorrer la lista
 		 * invocar a la ruta que saca miembro del grupo
 		 */
-		logger.info(String.format("sacarMiembrosInactivos: de grupo %d", keyGrupo.intValue()));
+		logger.info(String.format("sacarMiembrosInactivos: de grupo %s (%d)", groupName, keyGrupo.intValue()));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("tipoOperacion", BigDecimal.ZERO);
 		headers.put("keyGrupo", keyGrupo);
@@ -405,7 +405,7 @@ public class GruposThread implements Processor {
 	}
 	
 	//------------------------------------------------------------------------------------------------------------//
-	private void agregarMiembrosActivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado) throws ProcesaMiembroException {
+	private void agregarMiembrosActivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado, String groupName) throws ProcesaMiembroException {
 		/*
 		 * Recuperar lista de miembros que hay que agregar al grupo
 		 * recorrer la lista
@@ -414,7 +414,7 @@ public class GruposThread implements Processor {
 		 * 'One or more added object references already exist'
 		 * de esta manera se asegura que lo que este en la BD tambien este en Gmail.
 		 */
-		logger.info(String.format("agregarMiembrosActivos: de grupo %d", keyGrupo.intValue()));
+		logger.info(String.format("agregarMiembrosActivos: de grupo %s (%d)", groupName, keyGrupo.intValue()));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("tipoOperacion", BigDecimal.ONE);
 		headers.put("keyGrupo", keyGrupo);
@@ -427,7 +427,9 @@ public class GruposThread implements Processor {
 			for (DatosMemeberDTO datos : miembrosAgregar) {
 				// hacerlo en un multithread
 				//agregarMiembrosPT.requestBodyAndHeaders(datos, headers);
-				if (!datos.getKeyGrupoMiembro().getActivo()) // solo si aparece registrado en NAP_GRUPO_MIEMBRO.activo=0
+				logger.info(String.format("agregarMiembrosActivos: de grupo %s miembro: %s activo %b creado %b", 
+						groupName, datos.getLoginName(), datos.getKeyGrupoMiembro().getActivo(), datos.getKeyGrupoMiembro().getCreadoGmail()));
+				if (!datos.getKeyGrupoMiembro().getCreadoGmail()) // solo si aparece registrado en NAP_GRUPO_MIEMBRO.activo=1 NAP_GRUPO_MIEMBRO.creadoGmail=0
 					agregarMiembrosPT.asyncRequestBodyAndHeaders("seda:agregaMiembroAction", datos, headers);
 			}
 		}

@@ -8,6 +8,15 @@
   <artifactId>suspende-elimina-cuentas</artifactId>
   <packaging>bundle</packaging>
   <name>Suspende y elimina cuentas</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>uandes.panel-v2.comunes</groupId>
+  		<artifactId>comunes-gmail</artifactId>
+  		<version>0.0.1</version>
+  		<scope>system</scope>
+  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-gmail/target/comunes-gmail-0.0.1.jar</systemPath>
+  	</dependency>
+  </dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>

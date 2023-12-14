@@ -82,7 +82,7 @@ public class CrearGruposRestService {
 		else
 			uri = "direct:sincronizar";
 		
-		logger.info(String.format("CrearCuentasRestService.procese: %s proceso con funcion=%s header.request = %s", 
+		logger.info(String.format("CrearGruposRestService.procese: %s proceso con funcion=%s header.request = %s", 
 				uri, getFuncionCrear(), exchange.getIn().getHeader("request")));
 		
 		procesoBatch.asyncSend(uri, exchange);

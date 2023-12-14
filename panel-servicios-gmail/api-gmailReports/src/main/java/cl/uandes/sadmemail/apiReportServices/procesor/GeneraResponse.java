@@ -34,13 +34,21 @@ public class GeneraResponse implements Processor {
 		ReportGmailWAOesb wao = new ReportGmailWAOesb(headers);
 		String operacion = (String)exchange.getIn().getHeader("Operacion");
 		if ("report-usage".equals(operacion)) {
-			Map<String, Object> reporteGmail = wao.getReportUsuario((String)headers.get("Body"));
+			String idUsuario = (String)headers.get("Body");
+			Map<String, Object> reporteGmail = wao.getReportUsuario(idUsuario);
+			
 			UsageReport.Entity entity = (Entity) reporteGmail.get("entity");
 			@SuppressWarnings("unchecked")
 			List<UsageReport.Parameters> listaParametros = (List<Parameters>) reporteGmail.get("parameters");
-			//logger.info(String.format("listaParametros size=%d", listaParametros!=null?listaParametros.size():-1));
-			Report reporte = factoryReporte(entity, listaParametros);
-			ReportResponse response = new ReportResponse(0, "OK", reporte);
+			
+			ReportResponse response = null;
+			if (entity != null && listaParametros != null) {
+				//logger.info(String.format("listaParametros size=%d", listaParametros!=null?listaParametros.size():-1));
+				Report reporte = factoryReporte(entity, listaParametros);
+				response = new ReportResponse(0, "OK", reporte);
+			} else {
+				response = new ReportResponse(-1, String.format("No pudo recuperar reporte para usuario %s", idUsuario), null);
+			}
 			message.setBody(response);
 		}
 	}

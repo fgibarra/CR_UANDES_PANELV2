@@ -8,7 +8,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF servers -->
-    <jaxrs:server address="/ESB/panel/servicioBatch/suspendeEliminaCuentas/"
+    <jaxrs:server
+        address="/ESB/panel/servicioBatch/suspendeEliminaCuentas/"
         id="rsPanelServices" staticSubresourceResolution="true">
         <jaxrs:serviceBeans>
             <ref component-id="restService"/>
@@ -32,11 +33,108 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/reportServices/report/usage/{userId}"
+        id="rsReporteUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.ReporteEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieveAllUsers"
+        id="rsRetrieveAllUsers" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/suspend/{username}"
+        id="rsSuspendeCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/reactivar/{username}"
+        id="rsReactivaCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/delete/{username}"
+        id="rsEliminaCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.GmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- Envio de correos-->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panelv2/servicio/sendmail/send"
+        id="servSendmail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.restclient.ServicioSendmailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.api.resources.SuspendeEliminaCuentasRestService" id="restService">
-        <property name="funcion" value="{{crear-grupos-gmail.nocturno.funcion}}"/>
-        <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
+        <property name="funcion" value="{{se-cuentas-gmail.nocturno.funcion}}"/>
+        <property name="operaciones" value="{{se-cuentas-gmail.nocturno.operaciones}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos">
+        <property name="gmailServices" value="{{uri.gmailServices}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.InicialiceProceso" id="inicialiceProceso"/>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.SincronizaUsuario" id="sincronizaUsuario">
+        <property name="uriReportServices" value="{{uri.reportServices}}"/>
+        <property name="gmailServices" value="{{uri.gmailServices}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.FinalizaProceso" id="finalizaProceso">
+        <property name="panelServices" value="{{scheduler.uri-serviciosBatch}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.PreparaDatosMail" id="preparaDatosMail">
+        <property name="asunto" value="{{se-cuentas-gmail.mailAviso.asunto}}"/>
+        <property name="from" value="{{serv.mailPanel.mail_from}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.Test" id="test">
+        <property name="sincronizarUsuarioBean" ref="sincronizaUsuario"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -44,28 +142,101 @@
         filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
     <!-- ==================================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-    <camelContext id="suspende-elimina-cuentas"
-        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="suspende-elimina-cuentas" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <!-- 
+        <route id="_fromInicio">
+            <from id="_partida" uri="timer://foo?repeatCount=1"/>
+            <log id="_log4" message="(L150) partio"/>
+            <to id="_to7" uri="direct:leeUser"/>
+            <bean id="_bean3" method="getUser" ref="test"/>
+            <log id="_log5" message="(L153)queda en el header.user: ${header.user}"/>
+            <to uri="direct:leeReport"/>
+            <bean method="getReport" ref="test"/>
+            <log message="(L156)queda en el header.report: ${header.report}"/>
+			<bean method="invocaavisarSuspencion" ref="test"/>
+        </route>
+        <route id="_route1">
+            <from id="_from4" uri="direct:leeUser"/>
+            <pollEnrich id="_pollEnrich1" timeout="2000">
+                <constant>file:///home/sademail/data?fileName=user.json</constant>
+            </pollEnrich>
+            <log id="_log6" message="(L163)queda en body: ${body}"/>
+        </route>
+        <route>
+            <from uri="direct:leeReport"/>
+            <pollEnrich timeout="2000">
+                <constant>file:///home/sademail/data?fileName=report.json</constant>
+            </pollEnrich>
+            <log message="(L171)queda en body: ${body}"/>
+        </route>
+		-->
         <!-- -->
         <route id="_readjson">
             <from id="_promService" uri="direct:start"/>
             <log id="_log2" message="(L53)queda en el body: ${body}"/>
             <to id="_to1" uri="mock:end"/>
         </route>
-
-		<route>
-			<from uri="direct:proceso"/>
-			<log message="(L59) Proceso en header: ${header.proceso} request: ${header.request}"/>
-			<choice>
-				<when>
-					<simple>${header.proceso} == 'eliminar'</simple>
-					<log message="(L63) eliminar cuentas"/>
-				</when>
-				<otherwise>
-					<log message="(L66) suspender cuentas"/>
-				</otherwise>
-			</choice>
-		</route>
+        <!-- ================================================================================================= -->
+        <!-- 	SINCRONIZA CUENTAS-->
+        <!-- El proceso del requerimiento que viene desde el request	-->
+        <!-- ================================================================================================= -->
+        <route id="_route2">
+            <from id="_from2" uri="direct:sincronizar"/>
+            <onException id="_onExceptionKCO_FUNCIONES">
+                <exception>cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException</exception>
+                <handled>
+                    <constant>true</constant>
+                </handled>
+                <setHeader headerName="exception" id="_setHeader1">
+                    <simple>${exception}</simple>
+                </setHeader>
+                <setBody id="_setBody1">
+                    <method method="setErrorInicializacion" ref="generaDatos"/>
+                </setBody>
+                <log id="_log1" message="(L07) atrapo un exception. en el body queda: ${body}"/>
+                <to id="_to3" uri="mock:end"/>
+            </onException>
+            <process id="_process2" ref="inicialiceProceso"/>
+            <loop doWhile="true" id="_loop1">
+                <!-- Inicialmente inicializado a TRUE por SuspendeEliminaCuentasRestService
+				     posteriormente actualizado por recuperaUsuariosGmail -->
+                <simple>${header.hayToken}</simple>
+                <bean id="_bean1" method="recuperaUsuariosGmail" ref="generaDatos"/>
+                <loop doWhile="true" id="_loop2">
+                    <simple>${header.listaUsuariosSincronizar.size} &gt; 0</simple>
+                    <choice id="_choice2">
+                        <when id="_when2">
+                            <simple>${header.countThread.getCounter} &gt; 9</simple>
+                            <delay id="_delay1">
+                                <constant>1000</constant>
+                            </delay>
+                            <log id="_log3" message="(L122)Esperando se desocupe thread"/>
+                        </when>
+                        <otherwise id="_otherwise2">
+                            <bean id="_bean2" method="recuperaUsuario" ref="generaDatos"/>
+                            <log id="_log7" message="(L172) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
+                            <to id="_to2" uri="seda:procesaUsuario"/>
+                        </otherwise>
+                    </choice>
+                </loop>
+            </loop>
+            <log id="_log8" message="(L178) finalizaProceso"/>
+            <process id="_process3" ref="finalizaProceso"/>
+            <to id="_fin" uri="mock:end"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_route3">
+            <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=10"/>
+            <process id="_process1" ref="sincronizaUsuario"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_generaMailRoute">
+            <from id="_from1" uri="direct:generaMail"/>
+            <process id="_preparaDatosMail" ref="preparaDatosMail"/>
+            <!-- manda email -->
+            <to id="_to4" uri="cxfrs:bean:servSendmail?timeout=-1"/>
+        </route>
+        <!-- ================================================================================================= -->
     </camelContext>
 </blueprint>

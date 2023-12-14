@@ -11,7 +11,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.PropertyInject;
 
 import cl.uandes.panel.comunes.json.sendmail.SendmailRequest;
-import cl.uandes.panel.servicio.scheduler.bean.dto.SendmailParamsDTO;
+import cl.uandes.panel.comunes.servicios.dto.SendmailParamsDTO;
 
 /**
  * Coloca el en Body y los headers necesarios para enviar un correo

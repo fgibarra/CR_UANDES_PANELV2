@@ -172,7 +172,7 @@
                     <to id="_to5" uri="sql:classpath:sql/getAlumnosNuevos.sql?dataSource=#bannerDataSource"/>
                 </when>
                 <otherwise id="_otherwise2">
-                    <to id="_to8" uri="sql:classpath:sql/getAlumnosNuevosPeriodos.sql?dataSource=#bannerDataSource"/>
+                    <to id="_to8" uri="sql:classpath:sql/getAlumnosNuevos.sql?dataSource=#bannerDataSource"/>
                 </otherwise>
             </choice>
             <bean id="_bean3" method="factoryCuentas" ref="generaDatos"/>
