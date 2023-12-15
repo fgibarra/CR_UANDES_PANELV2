@@ -135,18 +135,28 @@
         <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
     </bean>
     <bean
-        class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGrupos" id="inicialiceCrearGrupos"/>
+        class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearGrupos">
+		<property name="registraInicio" ref="registrosComunes"/>
+	</bean>
+	<!--
+    <bean
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGrupos" id="inicialiceCrearGrupos">
+		<property name="registraInicio" ref="registrosComunes"/>
+	</bean>
+	-->
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposThread" id="gruposThread">
         <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
         <property name="dominio" value="{{panelv3.dominio}}"/>
     </bean>
+	<!--
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGruposVigentes" id="inicialiceCrearGruposVigentes"/>
     <bean
-        class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposVigentesThread" id="gruposVigentesThread"/>
-    <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGruposVigentesPosgrado" id="inicialiceCrearGruposVigentesPosgrado"/>
+	-->
+    <bean
+        class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposVigentesThread" id="gruposVigentesThread"/>
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposVigentesPosgradoThread" id="gruposVigentesPosgradoThread"/>
     <bean
@@ -168,6 +178,10 @@
     </bean>
     <bean
         class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.InicialiceSincronizarGrupos" id="inicialiceSincronizarGrupos"/>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+		<argument index="0" value="crear-grupos-batch"/> <!-- reemplazar artifactId -->
+	</bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -206,9 +220,29 @@
 				-->
                 <bean id="_bean2" method="getListaOperaciones" ref="generaDatos"/>
                 <log id="_log4" message="(L208)procesar ${header.proceso}"/>
+
+				<!--
                 <log id="_log8" message="(L209)sql:select key, funcion, min_thread, max_thread, parametro, comentario, ultima_ejecucion from kco_funciones where funcion=${header.proceso}"/>
                 <to id="_to4" uri="sql:classpath:sql/getKcoFuncion.sql?dataSource=#bannerDataSource"/>
+				-->
                 <process id="_recuperaDatosInicializar" ref="inicialiceCrearGrupos"/>
+
+				<choice>
+					<when>
+						<simple>${header.inicializado}</simple>
+						<to uri="direct:procesaFuncion"/>
+					</when>
+					<otherwise>
+						<log message="proceso ${header.proceso} no pudo ser inicializado"/>
+			            <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+			            <to uri="mock:end"/>
+					</otherwise>
+				</choice>
+            </loop>
+        </route>
+        <!-- ================================================================================================= -->
+		<route id="_procesaFuncion">
+			<from uri="direct:procesaFuncion"/>
                 <log id="_log15" message="(L212)despues de _recuperaDatosInicializar: DatosKcoFunciones_${header.DatosKcoFunciones} ResultadoFuncion: ${header.ResultadoFuncion} key: ${header.key}"/>
                 <choice id="_choice1">
                     <when id="_when1">
@@ -244,8 +278,7 @@
                             method="setOperacionDesconocida" ref="restService"/>
                     </otherwise>
                 </choice>
-            </loop>
-        </route>
+		</route>
         <!-- ================================================================================================= -->
         <!--  El proceso de los distintos tipos de grupos -->
         <!-- ================================================================================================= -->
@@ -330,7 +363,8 @@
         <!-- ================================================================================================= -->
         <!--                               direct:getKey                                                       -->
         <!-- ================================================================================================= -->
-        <route id="_getKey">
+        <!--
+		<route id="_getKey">
             <from id="_procesoInicialiceCrearGrupos1" uri="direct:getKey"/>
             <log id="_log12" message="(L335)antes del sequence"/>
             <to id="_to5" uri="sql:select HIBERNATE_SEQUENCE.nextval from dual?dataSource=#bannerDataSource"/>
@@ -339,6 +373,7 @@
                 <simple>${body.get(0)[NEXTVAL]}</simple>
             </setHeader>
         </route>
+		-->
         <!-- ================================================================================================= -->
         <!--                               direct:creaResultado                                                -->
         <!-- ================================================================================================= -->

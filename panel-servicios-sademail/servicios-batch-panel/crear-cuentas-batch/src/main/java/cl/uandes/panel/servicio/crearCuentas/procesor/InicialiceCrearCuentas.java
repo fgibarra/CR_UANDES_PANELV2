@@ -1,36 +1,25 @@
 package cl.uandes.panel.servicio.crearCuentas.procesor;
 
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.Map;
 
-import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
+import org.apache.camel.Message;
 import org.apache.camel.Processor;
-import org.apache.camel.ProducerTemplate;
-import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.bean.RegistrosComunes;
+import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
-import cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException;
-import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
 
 /**
  * Inicializa el proceso de creacion de cuentas
  * @author fernando
  *
  */
-public class InicialiceCrearCuentas extends cl.uandes.panel.comunes.utils.RegistrosEnBD implements Processor {
-	
-	@EndpointInject(uri = "sql:classpath:sql/getKey.sql?dataSource=#bannerDataSource")
-	ProducerTemplate getKey;
-	@EndpointInject(uri = "sql:classpath:sql/insertMiResultado.sql?dataSource=#bannerDataSource")
-	ProducerTemplate creaMiResultado;
-	@EndpointInject(uri = "sql:classpath:sql/insertMiResultadoErrores.sql?dataSource=#bannerDataSource")
-	ProducerTemplate insertMiResultadoErrores;
-	@EndpointInject(uri = "sql:classpath:sql/actualizarKcoFunciones.sql?dataSource=#bannerDataSource")
-	ProducerTemplate actualizarKcoFunciones;
+public class InicialiceCrearCuentas implements Processor {
+	private RegistrosComunes registraInicio;
 
-	private Logger logger = Logger.getLogger(getClass());
 	private ResultadoFuncion resultadoFuncion = null;
 	
 	/**
@@ -40,35 +29,23 @@ public class InicialiceCrearCuentas extends cl.uandes.panel.comunes.utils.Regist
 	 */
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		@SuppressWarnings("unchecked")
-		List<Map<String, Object>>datos = (List<Map<String, Object>>)exchange.getIn().getBody();
-		if (datos != null && datos.size() > 0) {
-			Map<String,Object> headers = exchange.getIn().getHeaders();
-			DatosKcoFunciones data = new DatosKcoFunciones(datos.get(0));
-			logger.info(String.format("InicialiceCrearCuentas: data: %s", data));
-			setResultadoFuncion(inicialiceResultadoFuncion(exchange, data));
-			logger.info(String.format("Almacenado: ResultadoFuncion %s", resultadoFuncion!=null?getResultadoFuncion():"GUARDO NULO"));
-			headers.put("countProcesados", Integer.valueOf(0));
-			headers.put("countErrores", Integer.valueOf(0));
-			headers.put("countAgregadosBD", Integer.valueOf(0));
-			headers.put("countAgregadosAD", Integer.valueOf(0));
-			if (data.getParametros().getDisabled()) {
-				// El proceso esta deshabilitado
-				ProcesoDiarioResponse response = procesoDeshabilitado(data);
-				headers.put("estaInicializado", "false");
-				headers.put("resCrearCuenta", response);
-			} else {
-				headers.put("estaInicializado", "true");
-			}
-			headers.put("DatosKcoFunciones", data);
-			headers.put("keyResultado", getResultadoFuncion().getKey());
+		Message message = exchange.getIn();
+		Boolean inicializado = Boolean.FALSE;
+		
+		Map<String, Object> datosInicializacion = registraInicio.inicializar(exchange);
+		if (datosInicializacion != null) {
+			DatosKcoFunciones data = (DatosKcoFunciones) datosInicializacion.get("DatosKcoFunciones");
+			ResultadoFuncion res = (ResultadoFuncion) datosInicializacion.get("ResultadoFuncion");
 			
-			logger.info(String.format("estaInicializado: %s keyResultado: %d", 
-					headers.get("estaInicializado"), headers.get("keyResultado")));
-			actualizaInicio(data.getKey());
-			return;
+			message.setHeader("DatosKcoFunciones", data);
+			message.setHeader("ResultadoFuncion", res);
+			message.setHeader("contadoresCrearGrupos", new ContadoresCrearGrupos(0,0,0,0,0,0,0,0,0,0));
+			message.setHeader("key", BigDecimal.valueOf(res.getKey().longValue()));		
+			
+			inicializado = Boolean.TRUE;
 		}
-		throw new KcoFuncionesException("No pudo recuperar datos desde tabla KCO_FUNCIONES");
+		
+		message.setHeader("inicializado", inicializado);
 	}
 
 	public ResultadoFuncion getResultadoFuncion() {
@@ -78,24 +55,11 @@ public class InicialiceCrearCuentas extends cl.uandes.panel.comunes.utils.Regist
 	public void setResultadoFuncion(ResultadoFuncion resultadoFuncion) {
 		this.resultadoFuncion = resultadoFuncion;
 	}
-
-	@Override
-	public ProducerTemplate getKey() {
-		return getKey;
+	public RegistrosComunes getRegistraInicio() {
+		return registraInicio;
 	}
 
-	@Override
-	public ProducerTemplate creaMiResultado() {
-		return creaMiResultado;
-	}
-
-	@Override
-	public ProducerTemplate insertMiResultadoErrores() {
-		return insertMiResultadoErrores;
-	}
-
-	@Override
-	public ProducerTemplate actualizarKcoFunciones() {
-		return actualizarKcoFunciones;
+	public void setRegistraInicio(RegistrosComunes registraInicio) {
+		this.registraInicio = registraInicio;
 	}
 }

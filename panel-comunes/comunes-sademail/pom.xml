@@ -46,7 +46,10 @@
 							cl.uandes.panel.comunes.json.updateidgmail,
 							cl.uandes.panel.comunes.servicios.dto,
 							cl.uandes.panel.comunes.servicios.exceptions,
-							cl.uandes.panel.comunes.utils
+							cl.uandes.panel.comunes.utils,
+							cl.uandes.panel.comunes.bean,
+							cl.uandes.panel.comunes.procesor,
+							sql_comunes
 						</Export-Package>
 						<Import-Package>
 							cl.uandes.sadmemail.comunes.google.api.services,

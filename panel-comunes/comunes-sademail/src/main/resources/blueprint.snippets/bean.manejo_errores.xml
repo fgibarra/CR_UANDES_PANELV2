@@ -10,7 +10,7 @@
 	<!-- AGREGAR AL BLUEPRINT DEL PROYECTO -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
-<bean class="cl.uandes.panel.comunes.bean.ManejoErrores" id="registraErrores">
+<bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
 	<argument index="0" value="pom.artifactID"/> <!-- reemplazar artifactId -->
 </bean>
 

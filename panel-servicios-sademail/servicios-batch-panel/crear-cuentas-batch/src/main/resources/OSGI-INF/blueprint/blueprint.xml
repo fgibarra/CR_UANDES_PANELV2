@@ -91,7 +91,15 @@
         <property name="kcoFuncion" value="{{crear-cuentas-gmail.kco-funcion}}"/>
     </bean>
     <bean
-        class="cl.uandes.panel.servicio.crearCuentas.procesor.InicialiceCrearCuentas" id="inicialiceCrearCuentas"/>
+        class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearCuentas">
+		<property name="registraInicio" ref="registrosComunes"/>
+	</bean>
+	<!--
+    <bean
+        class="cl.uandes.panel.servicio.crearCuentas.procesor.InicialiceCrearCuentas" id="inicialiceCrearCuentas">
+		<property name="registraInicio" ref="registrosComunes"/>
+	</bean>
+	-->
     <bean
         class="cl.uandes.panel.servicio.crearCuentas.procesor.CuentasThread" id="cuentasThread">
         <property name="adServices" value="{{crear-cuentas-gmail.uri-servicios-ad}}"/>
@@ -100,6 +108,10 @@
         <property name="ramaAD" value="{{crear-cuentas-gmail.ramaAD}}"/>
         <property name="sevicioCrearCuentaPanel" value="{{crear-cuentas-gmail.uri-servicio-crear-cuentas-panel}}"/>
     </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+		<argument index="0" value="crear-cuentas-batch"/> <!-- reemplazar artifactId -->
+	</bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -124,26 +136,29 @@
         <!-- ================================================================================================= -->
         <route id="_procesoRoute">
             <from id="_readJsonRoute" uri="direct:proceso"/>
-            <onException id="_onExceptionKCO_FUNCIONES">
-                <exception>cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException</exception>
-                <handled>
-                    <constant>true</constant>
-                </handled>
-                <setHeader headerName="exception" id="_setHeader1">
-                    <simple>${exception}</simple>
-                </setHeader>
-                <setBody id="_setBody1">
-                    <method method="setErrorInicializacion" ref="generaDatos"/>
-                </setBody>
-                <log id="_log1" message="(L133) atrapo un exception. en el body queda: ${body}"/>
-                <to id="_to1" uri="mock:end"/>
-            </onException>
             <!--bean id="_bean2" method="getKcoFuncion" ref="generaDatos"/-->
             <log id="_log3" message="(L137) Proceso en header: ${header.proceso}"/>
+<!--
             <to id="_to4" uri="sql:classpath:sql/getKcoFunciones.sql?dataSource=#bannerDataSource"/>
             <process id="_recuperaDatosKCO" ref="inicialiceCrearCuentas"/>
-            <log id="_log2" message="(L140) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado}"/>
-            <choice id="_choice1">
+-->
+            <process id="_recuperaDatosInicializar" ref="inicialiceCrearCuentas"/>
+			<log message="(L140) header.inicializado: ${header.inicializado}"/>
+			<choice>
+				<when>
+					<simple>${header.inicializado}</simple>
+					<to uri="direct:recuperaCuentas"/>
+				</when>
+				<otherwise>
+                    <log id="_log4" message="(L147) inicialiceCrearCuentas dejo header.estaInicializado: ${header.inicializado} keyResultado: ${header.keyResultado}"/>
+			        <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+                    <to id="_to7" uri="mock:end"/>
+				</otherwise>
+			</choice>
+
+            <log id="_log2" message="(L153) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado}"/>
+<!--            
+			<choice id="_choice1">
                 <when id="_when1">
                     <simple>${header.estaInicializado} == 'false'</simple>
                     <log id="_log4" message="(L144) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado} keyResultado: ${header.keyResultado}"/>
@@ -155,17 +170,18 @@
                     <log id="_log10" message="(L149) termina con: ${header.jsonResultado} y en el body: ${body}"/>
                 </otherwise>
             </choice>
+-->
             <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
             <to id="_to2" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_recuperaCuentasRoute">
             <from id="_from_procesoRoute" uri="direct:recuperaCuentas"/>
-            <log id="_log6" message="(L158) Estamos en _recuperaCuentasRoute"/>
+            <log id="_log6" message="(L174) Estamos en _recuperaCuentasRoute"/>
             <setHeader headerName="periodo" id="_setHeader2">
                 <method method="getPeriodo" ref="generaDatos"/>
             </setHeader>
-            <log id="_log7" message="(L162) periodo: ${header.periodo} keyResultado: ${header.keyResultado}"/>
+            <log id="_log7" message="(L178) periodo: ${header.periodo} keyResultado: ${header.keyResultado}"/>
             <choice id="_choice2">
                 <when id="_when2">
                     <simple>${header.periodo.length} == 6</simple>
@@ -176,13 +192,13 @@
                 </otherwise>
             </choice>
             <bean id="_bean3" method="factoryCuentas" ref="generaDatos"/>
-            <log id="_log8" message="(L173) recuperaCuentasRoute: keyResultado: ${header.keyResultado}"/>
+            <log id="_log8" message="(L189) recuperaCuentasRoute: keyResultado: ${header.keyResultado}"/>
             <to id="_to6" uri="direct:procesaCuentas"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_procesaCuentasRoute">
             <from id="_from_recuperaCuentasRoute" uri="direct:procesaCuentas"/>
-            <log id="_log9" message="(L179) _procesaCuentasRoute: keyResultado: ${header.keyResultado}"/>
+            <log id="_log9" message="(L196) _procesaCuentasRoute: keyResultado: ${header.keyResultado}"/>
             <loop doWhile="true" id="_loop1">
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <bean id="_bean4" method="getCuentaFromListaCuentas" ref="generaDatos"/>
@@ -199,7 +215,7 @@
             <to id="_to9" uri="sql:classpath:sql/actualizarKcoFunciones.sql?dataSource=#bannerDataSource"/>
             <to id="_to10" uri="sql:classpath:sql/actualizarMiResultado.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean6" method="procesoDiarioResponse" ref="generaDatos"/>
-            <log id="_log11" message="(L190) terminando el proceso"/>
+            <log id="_log11" message="(L212) terminando el proceso"/>
         </route>
     </camelContext>
 </blueprint>

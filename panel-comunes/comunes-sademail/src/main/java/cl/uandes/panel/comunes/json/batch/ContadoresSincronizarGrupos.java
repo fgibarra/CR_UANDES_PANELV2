@@ -1,19 +1,17 @@
 package cl.uandes.panel.comunes.json.batch;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContadoresSincronizarGrupos implements Serializable {
+public class ContadoresSincronizarGrupos implements Contadores {
 
 	/**
 	 * 
@@ -95,5 +93,15 @@ public class ContadoresSincronizarGrupos implements Serializable {
 
 	public synchronized void setCountSacados(Integer countSacados) {
 		this.countSacados = countSacados;
+	}
+
+	@Override
+	public Integer getCount1() {
+		return getCountSacados();
+	}
+
+	@Override
+	public Integer getCount2() {
+		return null;
 	}
 }

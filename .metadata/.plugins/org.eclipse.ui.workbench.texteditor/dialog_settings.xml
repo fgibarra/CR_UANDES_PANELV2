@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="{header"/>
+		<item key="selection" value="direct:recuperaCuentas"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="direct:recuperaCuentas"/>
+			<item value="(L"/>
+			<item value="(L1"/>
+			<item value="direct:registraFinBD"/>
 			<item value="{header"/>
 			<item value="servSendmail"/>
 			<item value="_to1"/>
@@ -19,10 +23,6 @@
 			<item value="_to4"/>
 			<item value="_bean6"/>
 			<item value="_log5"/>
-			<item value="seda:agregaMiembroAction"/>
-			<item value="inicialiceProceso"/>
-			<item value="rsRetrieveAllUsers"/>
-			<item value="proceso"/>
 		</list>
 		<list key="replacehistory">
 			<item value="{headers"/>

@@ -110,17 +110,6 @@ public class SuspendeEliminaCuentasRestService {
 				valida = false;
 			logger.info(String.format("operacion %s es valida %b", operacion, valida));
 		}
-		if (valida) {
-			// las combinaciones
-			if (req.getFuncion().equals(funcionesValidas[0])) {
-				if (req.getOperaciones()[0].equals(procesosValidos[1])) {
-					setMsgError("No se pueden eliminar profesores");
-					valida = false;
-				}
-			}
-		} else {
-			setMsgError(String.format("operacion %s no es valida", req.getOperaciones()[0]));
-		}
 		return valida;
 	}
 

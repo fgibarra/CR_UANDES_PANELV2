@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -92,5 +93,15 @@ public class StringUtilities {
 			}
 		}
 		throw new RuntimeException(String.format("Objeto %d de clase %s No tiene definido un FORMATTER", dato, dato.getClass().getName()));
+	}
+
+	public String dumpMap(Map<String, Object> headers) {
+		StringBuffer sb = new StringBuffer();
+		for (String key : headers.keySet()) {
+			sb.append(String.format("%s = |%s| - ", key, headers.get(key)));
+		}
+		if (sb.length() > 3)
+			sb.setLength(sb.length() - 3);
+		return sb.toString();
 	}
 }
