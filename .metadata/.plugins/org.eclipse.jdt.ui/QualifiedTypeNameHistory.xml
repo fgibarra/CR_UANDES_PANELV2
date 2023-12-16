@@ -51,7 +51,6 @@
     <fullyQualifiedTypeName name="javax.sql.rowset.serial.SerialClob"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="java.io.StringWriter"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.Contadores"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
 </qualifiedTypeNameHistroy>

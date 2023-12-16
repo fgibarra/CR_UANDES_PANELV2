@@ -134,11 +134,10 @@
         <property name="funcionSincroniza" value="{{sincroniza-grupos-gmail.nocturno.funcion}}"/>
         <property name="proceso" value="{{crear-grupos-gmail.proceso}}"/>
     </bean>
-    <bean
-        class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearGrupos">
-		<property name="registraInicio" ref="registrosComunes"/>
-	</bean>
-	<!--
+    <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearGrupos">
+        <property name="registraInicio" ref="registrosComunes"/>
+    </bean>
+    <!--
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGrupos" id="inicialiceCrearGrupos">
 		<property name="registraInicio" ref="registrosComunes"/>
@@ -148,8 +147,9 @@
         class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposThread" id="gruposThread">
         <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
         <property name="dominio" value="{{panelv3.dominio}}"/>
+        <property name="registrosBD" ref="registrosComunes"/>
     </bean>
-	<!--
+    <!--
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.InicialiceCrearGruposVigentes" id="inicialiceCrearGruposVigentes"/>
     <bean
@@ -162,7 +162,7 @@
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.GruposSinMiembrosThread" id="gruposSinMiembros">
         <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
-        <property name="delegate" ref="gruposThread"/>
+        <property name="registrosBD" ref="registrosComunes"/>
     </bean>
     <bean class="cl.uandes.panel.servicio.crearGrupos.bean.GeneraDatos" id="generaDatos">
         <property name="propNumberPrueba" value="{{crear-grupos-gmail.numero-pruebas}}"/>
@@ -170,18 +170,26 @@
     <bean
         class="cl.uandes.panel.servicio.crearGrupos.procesor.ActualizaMiResultados" id="actualizaMiResultados">
         <property name="panelServices" value="{{crear-grupos-gmail.uri-serviciosPanel}}"/>
+        <property name="registrosBD" ref="registrosComunes"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.SincronizarGruposAction" id="sincronizarGruposAction">
         <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
+        <property name="registraInicio" ref="registrosComunes"/>
     </bean>
+    <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceSincronizarGrupos">
+        <property name="registraInicio" ref="registrosComunes"/>
+    </bean>
+	<!--
     <bean
         class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.InicialiceSincronizarGrupos" id="inicialiceSincronizarGrupos"/>
+    -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-	<bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
-		<argument index="0" value="crear-grupos-batch"/> <!-- reemplazar artifactId -->
-	</bean>
+    <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+        <argument index="0" value="crear-grupos-batch"/>
+        <!-- reemplazar artifactId -->
+    </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -220,65 +228,62 @@
 				-->
                 <bean id="_bean2" method="getListaOperaciones" ref="generaDatos"/>
                 <log id="_log4" message="(L208)procesar ${header.proceso}"/>
-
-				<!--
+                <!--
                 <log id="_log8" message="(L209)sql:select key, funcion, min_thread, max_thread, parametro, comentario, ultima_ejecucion from kco_funciones where funcion=${header.proceso}"/>
                 <to id="_to4" uri="sql:classpath:sql/getKcoFuncion.sql?dataSource=#bannerDataSource"/>
 				-->
                 <process id="_recuperaDatosInicializar" ref="inicialiceCrearGrupos"/>
-
-				<choice>
-					<when>
-						<simple>${header.inicializado}</simple>
-						<to uri="direct:procesaFuncion"/>
-					</when>
-					<otherwise>
-						<log message="proceso ${header.proceso} no pudo ser inicializado"/>
-			            <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
-			            <to uri="mock:end"/>
-					</otherwise>
-				</choice>
+                <choice id="_choice4">
+                    <when id="_when8">
+                        <simple>${header.inicializado}</simple>
+                        <to id="_to4" uri="direct:procesaFuncion"/>
+                    </when>
+                    <otherwise id="_otherwise4">
+                        <log id="_log7" message="proceso ${header.proceso} no pudo ser inicializado"/>
+                        <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+                        <to id="_to5" uri="mock:end"/>
+                    </otherwise>
+                </choice>
             </loop>
         </route>
         <!-- ================================================================================================= -->
-		<route id="_procesaFuncion">
-			<from uri="direct:procesaFuncion"/>
-                <log id="_log15" message="(L212)despues de _recuperaDatosInicializar: DatosKcoFunciones_${header.DatosKcoFunciones} ResultadoFuncion: ${header.ResultadoFuncion} key: ${header.key}"/>
-                <choice id="_choice1">
-                    <when id="_when1">
-                        <simple>${header.proceso} == 'crear_grupos'</simple>
-                        <setHeader headerName="emailPermission" id="_setHeader2">
-                            <constant>Anyone</constant>
-                        </setHeader>
-                        <log id="_log9" message="(L219)invoca prd_puebla_grupos_generales - values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
-                        <to id="_to8" uri="sql-stored:classpath:sql/prd_puebla_grupos_generales.sql?dataSource=#bannerDataSource"/>
-                        <to id="_to9" uri="direct:crearGrupos"/>
-                    </when>
-                    <when id="_when2">
-                        <simple>${header.proceso} == 'grupos_inprogress'</simple>
-                        <setHeader headerName="emailPermission" id="_setHeader3">
-                            <constant>Owner</constant>
-                        </setHeader>
-                        <log id="_log10" message="(L228)invoca prd_puebla_grupos_vigentes - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
-                        <to id="_to10" uri="sql-stored:classpath:sql/prd_puebla_grupos_vigentes.sql?dataSource=#bannerDataSource"/>
-                        <to id="_to2" uri="direct:crearGruposVigentes"/>
-                    </when>
-                    <when id="_when3">
-                        <simple>${header.proceso} == 'grupos_inprogress_postgrado'</simple>
-                        <setHeader headerName="emailPermission" id="_setHeader4">
-                            <constant>Owner</constant>
-                        </setHeader>
-                        <log id="_log11" message="(L237)invoca prd_puebla_grupos_postgrado - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
-                        <to id="_to11" uri="sql-stored:classpath:sql/prd_puebla_grupos_postgrado.sql?dataSource=#bannerDataSource"/>
-                        <to id="_to3" uri="direct:crearGruposVigentesPosgrado"/>
-                    </when>
-                    <otherwise id="_otherwise1">
-                        <log id="_log5" message="(L242)Operacion desconocida"/>
-                        <bean id="_bean3"
-                            method="setOperacionDesconocida" ref="restService"/>
-                    </otherwise>
-                </choice>
-		</route>
+        <route id="_procesaFuncion">
+            <from id="_from8" uri="direct:procesaFuncion"/>
+            <log id="_log15" message="(L212)despues de _recuperaDatosInicializar: DatosKcoFunciones_${header.DatosKcoFunciones} ResultadoFuncion: ${header.ResultadoFuncion} key: ${header.key}"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.proceso} == 'crear_grupos'</simple>
+                    <setHeader headerName="emailPermission" id="_setHeader2">
+                        <constant>Anyone</constant>
+                    </setHeader>
+                    <log id="_log9" message="(L219)invoca prd_puebla_grupos_generales - values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
+                    <to id="_to8" uri="sql-stored:classpath:sql/prd_puebla_grupos_generales.sql?dataSource=#bannerDataSource"/>
+                    <to id="_to9" uri="direct:crearGrupos"/>
+                </when>
+                <when id="_when2">
+                    <simple>${header.proceso} == 'grupos_inprogress'</simple>
+                    <setHeader headerName="emailPermission" id="_setHeader3">
+                        <constant>Owner</constant>
+                    </setHeader>
+                    <log id="_log10" message="(L228)invoca prd_puebla_grupos_vigentes - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
+                    <to id="_to10" uri="sql-stored:classpath:sql/prd_puebla_grupos_vigentes.sql?dataSource=#bannerDataSource"/>
+                    <to id="_to2" uri="direct:crearGruposVigentes"/>
+                </when>
+                <when id="_when3">
+                    <simple>${header.proceso} == 'grupos_inprogress_postgrado'</simple>
+                    <setHeader headerName="emailPermission" id="_setHeader4">
+                        <constant>Owner</constant>
+                    </setHeader>
+                    <log id="_log11" message="(L237)invoca prd_puebla_grupos_postgrado - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
+                    <to id="_to11" uri="sql-stored:classpath:sql/prd_puebla_grupos_postgrado.sql?dataSource=#bannerDataSource"/>
+                    <to id="_to3" uri="direct:crearGruposVigentesPosgrado"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log id="_log5" message="(L242)Operacion desconocida"/>
+                    <bean id="_bean3" method="setOperacionDesconocida" ref="restService"/>
+                </otherwise>
+            </choice>
+        </route>
         <!-- ================================================================================================= -->
         <!--  El proceso de los distintos tipos de grupos -->
         <!-- ================================================================================================= -->

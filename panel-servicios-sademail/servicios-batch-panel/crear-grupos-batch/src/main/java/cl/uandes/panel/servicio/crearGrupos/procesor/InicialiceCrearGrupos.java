@@ -18,6 +18,7 @@ import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
  * @author fernando
  *
  */
+@Deprecated
 public class InicialiceCrearGrupos implements Processor {
 	private RegistrosComunes registraInicio;
 	

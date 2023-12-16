@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.camel.CamelExecutionException;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -109,15 +110,8 @@ public class RegistrosComunes {
 	private ResultadoFuncion initResultadoFuncion(DatosKcoFunciones data) {
 		Map<String, Object> headers = new HashMap<String,Object>();
 		try {
-			List<?> resRoute = (List<?>)getKey.requestBody(null);
-			//logger.info(String.format("InicialiceCrearGrupos: valor: %s clase: %s", resRoute, resRoute!=null?resRoute.getClass().getName():"es NULO"));
-			@SuppressWarnings("unchecked")
-			Map<String, Object> map = (Map<String, Object>)resRoute.get(0);
-			//logger.info(String.format("InicialiceCrearGrupos: map: %s clase: %s", map, map!=null?map.getClass().getName():"es NULO"));
-			BigDecimal valor = (BigDecimal)map.get("NEXTVAL");
-			//logger.info(String.format("InicialiceCrearGrupos: valor: %s clase: %s", valor, valor!=null?valor.getClass().getName():"es NULO"));
-			
 			// inicializa el resultado
+			BigDecimal valor = getKey();
 			ResultadoFuncion res = ObjectFactory.createResultadoFuncion(data, valor);
 			
 			headers.put("key", BigDecimal.valueOf(res.getKey().longValue()));
@@ -138,8 +132,28 @@ public class RegistrosComunes {
 		}
 	}
 	
+	private BigDecimal getKey() {
+		List<?> resRoute = (List<?>)getKey.requestBody(null);
+		//logger.info(String.format("InicialiceCrearGrupos: valor: %s clase: %s", resRoute, resRoute!=null?resRoute.getClass().getName():"es NULO"));
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = (Map<String, Object>)resRoute.get(0);
+		//logger.info(String.format("InicialiceCrearGrupos: map: %s clase: %s", map, map!=null?map.getClass().getName():"es NULO"));
+		BigDecimal valor = (BigDecimal)map.get("NEXTVAL");
+		//logger.info(String.format("InicialiceCrearGrupos: valor: %s clase: %s", valor, valor!=null?valor.getClass().getName():"es NULO"));
+		return valor;
+	}
 
 	private void registraError(String proceso, String apoyo, Exception e) {
+		Map<String, String> map = getClaseMetodo(e);
+		String clase = map.get("clase");
+		String metodo = map.get("metodo");
+		logger.info(String.format("registraError: proceso=%s apoyo=%s clase=%s metodo=%s",
+				proceso, apoyo, clase, metodo));
+		registraLogError(clase, metodo, apoyo, e, null);
+	}
+
+	private Map<String, String> getClaseMetodo(Exception e) {
+		Map<String, String> map = new HashMap<String, String>();
 		StackTraceElement[] elements = e.getStackTrace();
 		String clase = elements[2].getClassName();;
 		String metodo = elements[2].getMethodName();
@@ -148,20 +162,47 @@ public class RegistrosComunes {
 			if (valor.startsWith("cl.uandes")) {
 				clase = elements[i].getClassName();
 				metodo = elements[i].getMethodName();
+				map.put("clase", clase);
+				map.put("metodo", metodo);
 				break;
 			}
 		}
-		
-		logger.info(String.format("registraError: proceso=%s apoyo=%s clase=%s metodo=%s",
-				proceso, apoyo, clase, metodo));
-		registraLogError(clase, metodo, apoyo, e, null);
+		return map;
 	}
-
-	public Integer registraMiResultado(String funcion, Integer minThread, Integer maxThread) {
-		Integer key = null;
+	/**
+	 * @param idUsuario
+	 * @param e
+	 * @param keyGrupo
+	 * @param keyResultado
+	 * @return
+	 */
+	public void registraMiResultadoErrores(String idUsuario, String apoyo, Throwable e, Integer keyGrupo, Integer keyResultado) {
+		try {
+			Map<String, Object> headers = new HashMap<String, Object>();
+			String msg = e.getMessage();
+			Map<String, String> map = getClaseMetodo((Exception) e);
+			String clase = map.get("clase");
+			String metodo = map.get("metodo");
+			
+			
+			BigDecimal key = getKey();
+			
+			headers.put("KEY", key);
+			headers.put("ID_USUARIO", idUsuario);
+			headers.put("TIPO", metodo);
+			headers.put("CAUSA", msg);
+			headers.put("KEY_GRUPO", ObjectFactory.toBigDecimal(keyGrupo));
+			headers.put("KEY_RESULTADO", ObjectFactory.toBigDecimal(keyResultado));
+			
+			insertMiResultadoErrores.requestBodyAndHeaders(null, headers);
+			
+			registraLogError(clase, metodo, apoyo, e, key.intValue());
+		} catch (Exception e1) {
+			logger.error("registraMiResultadoErrores", e);
+		}
 		
-		return key;
 	}
+	
 	/**
 	 * @param idUsuario
 	 * @param tipo

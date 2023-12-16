@@ -19,6 +19,7 @@ import org.apache.camel.PropertyInject;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupRequest;
 import cl.uandes.panel.comunes.json.batch.crearGrupos.GroupResponse;
@@ -37,11 +38,15 @@ import cl.uandes.panel.servicio.crearGrupos.api.resources.CrearGruposRestService
  */
 public class GruposThread implements Processor {
 
+	
     @PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
 	private String gmailServices;
 	
     @PropertyInject(value = "panelv2.dominio", defaultValue="uandes.cl")
 	private String dominio;
+	
+    @PropertyInject(value = "registrosComunes")
+	private RegistrosComunes registrosBD;
 	
 	@EndpointInject(uri = "sql:classpath:sql/updateGrupoCreado.sql?dataSource=#bannerDataSource")
 	ProducerTemplate saveGrupo;
@@ -109,41 +114,51 @@ public class GruposThread implements Processor {
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		logger.info("Entrando a GruposThread");
-		res = (ResultadoFuncion)exchange.getIn().getHeader("ResultadoFuncion");
-		contadores = (ContadoresCrearGrupos)exchange.getIn().getHeader("contadoresCrearGrupos");
-		DatosKcoFunciones datos = (DatosKcoFunciones)exchange.getIn().getHeader("DatosKcoFunciones");
-		logger.info(String.format("GruposThread: datos: %s", datos));
-		logger.info(String.format("GruposThread: res: %s", res));
-		GruposMiUandes grupo = (GruposMiUandes)exchange.getIn().getHeader("grupoGmail");
-		logger.info(String.format("GruposThread: grupo |%s|", grupo));
-		if (grupo != null) {
-			contadores.incCountProcesados();
-			
-			actualizaOrigen(grupo, exchange);
-			
-			if (crearGrupo(exchange, grupo, res)) {
-				sacarMiembrosInactivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()), grupo.getGroupName());
-				agregarMiembrosActivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()), grupo.getGroupName());
+		try {
+			logger.info("Entrando a GruposThread");
+			res = (ResultadoFuncion)exchange.getIn().getHeader("ResultadoFuncion");
+			contadores = (ContadoresCrearGrupos)exchange.getIn().getHeader("contadoresCrearGrupos");
+			DatosKcoFunciones datos = (DatosKcoFunciones)exchange.getIn().getHeader("DatosKcoFunciones");
+			logger.info(String.format("GruposThread: datos: %s", datos));
+			logger.info(String.format("GruposThread: res: %s", res));
+			GruposMiUandes grupo = (GruposMiUandes)exchange.getIn().getHeader("grupoGmail");
+			logger.info(String.format("GruposThread: grupo |%s|", grupo));
+			if (grupo != null) {
+				contadores.incCountProcesados();
+				
+				actualizaOrigen(grupo, exchange);
+				
+				if (crearGrupo(exchange, grupo, res)) {
+					sacarMiembrosInactivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()), grupo.getGroupName());
+					agregarMiembrosActivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()), grupo.getGroupName());
+				}
 			}
+		} catch (Exception e) {
+			if (res != null)
+				registrosBD.registraMiResultadoErrores("NA", null, e, null, res.getKey());
 		}
 	}
 	
 	private void actualizaOrigen(GruposMiUandes grupo, Exchange exchange) {
 		String proceso = (String)exchange.getIn().getHeader("proceso");
 		Map<String, Object> headers = new HashMap<String, Object>();
-		if (CrearGruposRestService.procesosValidosCrear[1].equals(proceso)) {
-			headers.put("origen", "VIGENTES");
-			if (grupo.getOrigen() != null)
+		try {
+			if (CrearGruposRestService.procesosValidosCrear[1].equals(proceso)) {
+				headers.put("origen", "VIGENTES");
+				if (grupo.getOrigen() != null)
+					return;
+			} else if (CrearGruposRestService.procesosValidosCrear[2].equals(proceso)) {
+				headers.put("origen", "POSGRADO");
+				if (grupo.getOrigen() != null)
+					return;
+			} else
 				return;
-		} else if (CrearGruposRestService.procesosValidosCrear[2].equals(proceso)) {
-			headers.put("origen", "POSGRADO");
-			if (grupo.getOrigen() != null)
-				return;
-		} else
-			return;
-		headers.put("key", ObjectFactory.toBigDecimal(grupo.getKey()));
-		updateOrigenGrupo.requestBodyAndHeaders(null, headers);
+			headers.put("key", ObjectFactory.toBigDecimal(grupo.getKey()));
+			updateOrigenGrupo.requestBodyAndHeaders(null, headers);
+		} catch (Exception e) {
+			String apoyo = String.format("proceso=%s grupo=%s origen=%s", proceso, grupo, headers.get("origen"));
+			registrosBD.registraMiResultadoErrores("NA", apoyo, e, grupo.getKey(), res.getKey());
+		}
 	}
 	
 	/**
@@ -184,7 +199,9 @@ public class GruposThread implements Processor {
 					} catch (Exception e) {
 						logger.error("crearGrupo", e);
 						contadores.incCountErrores();
-						registraError("createGrupoGmail", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+						String apoyo = String.format("crearGrupo: crear grupo %s templateCreateGrupoGmail=%s",
+								body, templateCreateGrupoGmail);
+						registrosBD.registraMiResultadoErrores("NA", apoyo, e, grupo.getKey(), miResultado.getKey());
 						return false;
 					}
 					logger.info(String.format("Vuelve de crear crgupo con res: %s", res));
@@ -210,7 +227,7 @@ public class GruposThread implements Processor {
 						*/
 					} else {
 						contadores.incCountErrores();
-						registraError("createGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+						registrosBD.registraMiResultadoErrores("NA", "createGrupoGmail", res.getMensaje(), grupo.getKey(), miResultado.getKey());
 						return false;
 					}
 				} else {
@@ -228,7 +245,8 @@ public class GruposThread implements Processor {
 			} catch (Exception e) {
 				logger.error("createGrupoGmail", e);
 				contadores.incCountErrores();
-				registraError("createGrupoGmail", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+				String apoyo = String.format("grupo=%s", grupo);
+				registrosBD.registraMiResultadoErrores("NA", apoyo, e, grupo.getKey(), miResultado.getKey());
 				return false;
 			}
 		} else {
@@ -248,7 +266,8 @@ public class GruposThread implements Processor {
 						(ResponseImpl)recuperaGrupoGmail.requestBodyAndHeaders(null, headers), GroupResponse.class);
 			} catch (Exception e) {
 				contadores.incCountErrores();
-				registraError("recuperaGrupoGmail", e.getMessage(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+				String apoyo = String.format("url=%s", url);
+				registrosBD.registraMiResultadoErrores("NA", apoyo, e, grupo.getKey(), miResultado.getKey());
 				return false;
 			}
 			if (res.getCodigo() != 0) {
@@ -261,13 +280,13 @@ public class GruposThread implements Processor {
 					res = (GroupResponse) createGrupoGmail.requestBodyAndHeaders(body, headers);
 					if (res.getCodigo() != 0) {
 						contadores.incCountErrores();
-						registraError("recuperaGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+						registrosBD.registraMiResultadoErrores("NA", "recuperaGrupoGmail", res.getMensaje(), grupo.getKey(), miResultado.getKey());
 						return false;
 					}
 					contadores.incCountGruposAgregadosAD();
 				} else {
 					contadores.incCountErrores();
-					registraError("recuperaGrupoGmail", res.getMensaje(), new BigDecimal(miResultado.getKey()),new BigDecimal(grupo.getKey()));
+					registrosBD.registraMiResultadoErrores("NA", "recuperaGrupoGmail", res.getMensaje(), grupo.getKey(), miResultado.getKey());
 					return false;
 				}
 			} else {			
@@ -395,7 +414,8 @@ public class GruposThread implements Processor {
 				contadores.incCountMiembrosSacadosAD();
 			} else {
 				contadores.incCountErrores();
-				registraError("sacarMember", response.getStatusInfo().toString(), keyResultado, datos);
+				registrosBD.registraMiResultadoErrores("NA", "sacarMember", response.getStatusInfo().toString(), 
+						Integer.valueOf(datos.getKeyGrupoMiembro().getKeyGrupo().intValue()), keyResultado.intValue());
 			}
 			operaContador("MIEMBROS_CREADOS", keyResultado);
 		} catch (Exception e) {
@@ -463,7 +483,8 @@ public class GruposThread implements Processor {
 				contadores.incCountMiembrosAgregadosBD();
 			} else {
 				contadores.incCountErrores();
-				registraError("agregarMember", response.getMensaje(), keyResultado, datos);
+				registrosBD.registraMiResultadoErrores("NA", "agregarMember", response.getMensaje(), 
+						Integer.valueOf(datos.getKeyGrupoMiembro().getKeyGrupo().intValue()), keyResultado.intValue());
 			}
 			operaContador("MIEMBROS_CREADOS", keyResultado);
 		} catch (Exception e) {
@@ -481,9 +502,10 @@ public class GruposThread implements Processor {
 	public void errorProcesoMiembro(Exchange exchange) {
 		Message message = exchange.getMessage();
 		String mensaje = (String) message.getBody();
-		registraError("errorProcesoMiembro", mensaje, 
-				(BigDecimal)message.getHeader("keyResultado"), 
-				(DatosMemeberDTO)message.getHeader("DatosMemeberDTO"));
+		Integer keyResultado = ((BigDecimal)message.getHeader("keyResultado")).intValue();
+		Integer keyGrupo = ((DatosMemeberDTO)message.getHeader("DatosMemeberDTO")).getKeyGrupoMiembro().getKeyGrupo();
+		registrosBD.registraMiResultadoErrores("NA", "errorProcesoMiembro", mensaje, 
+				keyGrupo, keyResultado);
 	}
 
 	//------------------------------------------------------------------------------------------------------------//
@@ -496,7 +518,7 @@ public class GruposThread implements Processor {
 		}
 		return lista;
 	}
-
+/*
 	public void registraError(String tipo, String mensaje, BigDecimal keyResultado, DatosMemeberDTO datos) {
 		logger.info(String.format("registraError: tipo=%s mensaje=%s keyResultado=%d DatosMemeberDTO=%s",
 				tipo, mensaje, keyResultado.intValue(), datos));
@@ -757,6 +779,14 @@ public class GruposThread implements Processor {
 	}
 	public void setDominio(String dominio) {
 		this.dominio = dominio;
+	}
+
+	public RegistrosComunes getRegistrosBD() {
+		return registrosBD;
+	}
+
+	public void setRegistrosBD(RegistrosComunes registrosBD) {
+		this.registrosBD = registrosBD;
 	}
 
 }

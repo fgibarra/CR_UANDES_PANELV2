@@ -14,7 +14,9 @@ import org.apache.camel.PropertyInject;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos;
+import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.panel.servicio.sincronizarGrupos.bean.CountThreads;
 import cl.uandes.sadmemail.comunes.gmail.json.MemberRequest;
@@ -28,6 +30,9 @@ public class SincronizarGruposAction implements Processor {
     @PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
 	private String gmailServices;
 
+    @PropertyInject(value = "registrosComunes")
+	private RegistrosComunes registrosBD;
+	
     @EndpointInject(uri = "cxfrs:bean:rsRetrieveAllMembers?timeout=-1")
 	ProducerTemplate retrieveAllMembers;
 	String templateRetrieveAllMembers = "%s/members/retrieveMembers";
@@ -42,24 +47,31 @@ public class SincronizarGruposAction implements Processor {
 	private Logger logger = Logger.getLogger(getClass());
 	private String nextPageToken;
 	private ContadoresSincronizarGrupos contadores = null;
+	private ResultadoFuncion res;
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		Message message = exchange.getIn();
-		String groupName = (String) message.getHeader("grupoGmail");
-		
-		contadores = (ContadoresSincronizarGrupos)message.getHeader("contadoresSincronizarGrupos");
-		contadores.incProcesados();
-		logger.info(String.format("SincronizarGruposAction: groupName %s", groupName));
-		setNextPageToken(null);
-		do {
-			List<Member> listaMiembros = getListaMiembros(groupName, exchange);
-			for (Member member : listaMiembros) {
-				procesaMember(member, groupName, exchange);
-			}
-		} while (getNextPageToken() != null);
-		Integer valor = ((CountThreads)message.getHeader("countThread")).decCounter();
-		logger.info(String.format("SincronizarGruposAction: countThread=%d",valor));
+		try {
+			Message message = exchange.getIn();
+			res = (ResultadoFuncion)exchange.getIn().getHeader("ResultadoFuncion");
+			String groupName = (String) message.getHeader("grupoGmail");
+			
+			contadores = (ContadoresSincronizarGrupos)message.getHeader("contadoresSincronizarGrupos");
+			contadores.incProcesados();
+			logger.info(String.format("SincronizarGruposAction: groupName %s", groupName));
+			setNextPageToken(null);
+			do {
+				List<Member> listaMiembros = getListaMiembros(groupName, exchange);
+				for (Member member : listaMiembros) {
+					procesaMember(member, groupName, exchange);
+				}
+			} while (getNextPageToken() != null);
+			Integer valor = ((CountThreads)message.getHeader("countThread")).decCounter();
+			logger.info(String.format("SincronizarGruposAction: countThread=%d",valor));
+		} catch (Exception e) {
+			if (res != null)
+				registrosBD.registraMiResultadoErrores("NA", null, e, null, res.getKey());
+		}
 	}
 
 	private void procesaMember(Member member, String groupName, Exchange exchange) {
@@ -138,6 +150,14 @@ public class SincronizarGruposAction implements Processor {
 
 	public void setNextPageToken(String nextPageToken) {
 		this.nextPageToken = nextPageToken;
+	}
+
+	public RegistrosComunes getRegistrosBD() {
+		return registrosBD;
+	}
+
+	public void setRegistrosBD(RegistrosComunes registrosBD) {
+		this.registrosBD = registrosBD;
 	}
 
 }
