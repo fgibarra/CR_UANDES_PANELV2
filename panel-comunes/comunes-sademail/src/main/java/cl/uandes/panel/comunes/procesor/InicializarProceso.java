@@ -9,6 +9,7 @@ import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.bean.RegistrosComunes;
+import cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
@@ -52,6 +53,10 @@ public class InicializarProceso implements Processor {
 			} else if ("crear-cuentas-batch".equals(getRegistraInicio().getLogAplicacion())) {
 				keyContador = "contadoresCrearCuentas";
 				message.setHeader(keyContador, new ContadoresCrearCuentas(0,0,0,0));
+			} else if ("asignar_owners".equals(getRegistraInicio().getLogAplicacion())) {
+				message.setHeader("countThread", new CountThreads());
+				keyContador = "contadoresAsignarOwners";
+				message.setHeader(keyContador, new ContadoresAsignarOwners(0,0,0,0,0,0));
 			}
 			
 			logger.info(String.format("InicializarProceso: deshabilitado %b", data.getParametros().getDisabled()));

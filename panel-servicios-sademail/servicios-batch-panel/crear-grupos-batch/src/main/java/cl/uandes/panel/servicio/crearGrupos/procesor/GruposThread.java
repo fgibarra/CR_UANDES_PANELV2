@@ -470,7 +470,7 @@ public class GruposThread implements Processor {
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateAgregarMember,getGmailServices()));
 			headers.put("CamelHttpMethod", "POST");
 			//logger.info(String.format("agregarMiembrosActivos: URL=%s", (String)headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
-			MemberResponse response = (MemberResponse) ObjectFactory.procesaResponseImpl((ResponseImpl)agregarMember.requestBody(datos.getRequest()),MemberResponse.class);
+			MemberResponse response = (MemberResponse) ObjectFactory.procesaResponseImpl((ResponseImpl)agregarMember.requestBodyAndHeaders(datos.getRequest(), headers),MemberResponse.class);
 			if (response.getCodigo() == 0 || (response.getMensaje() != null && (
 					response.getMensaje().matches(".*already exist.*")) ||
 					response.getMensaje().matches(".*409 Conflict.*"))
