@@ -33,6 +33,7 @@ public class InicializarProceso implements Processor {
 		Boolean inicializado = Boolean.FALSE;
 		proceso = (String) message.getHeader("proceso");
 		
+		String keyContador = "No definido";
 		Map<String, Object> datosInicializacion = registraInicio.inicializar(exchange);
 		if (datosInicializacion != null) {
 			DatosKcoFunciones data = (DatosKcoFunciones) datosInicializacion.get("DatosKcoFunciones");
@@ -42,7 +43,6 @@ public class InicializarProceso implements Processor {
 			message.setHeader("ResultadoFuncion", res);
 			message.setHeader("key", BigDecimal.valueOf(res.getKey().longValue()));		
 			
-			String keyContador = null;
 			if ("suspende-elimina-cuentas".equals(getRegistraInicio().getLogAplicacion())) {
 				message.setHeader("countThread", new CountThreads());
 				keyContador = "contadoresSincronizarCuentas";
@@ -53,13 +53,13 @@ public class InicializarProceso implements Processor {
 			} else if ("crear-cuentas-batch".equals(getRegistraInicio().getLogAplicacion())) {
 				keyContador = "contadoresCrearCuentas";
 				message.setHeader(keyContador, new ContadoresCrearCuentas(0,0,0,0));
-			} else if ("asignar_owners".equals(getRegistraInicio().getLogAplicacion())) {
+			} else if ("add-delete-owners-members".equals(getRegistraInicio().getLogAplicacion())) {
 				message.setHeader("countThread", new CountThreads());
 				keyContador = "contadoresAsignarOwners";
 				message.setHeader(keyContador, new ContadoresAsignarOwners(0,0,0,0,0,0));
 			}
 			
-			logger.info(String.format("InicializarProceso: deshabilitado %b", data.getParametros().getDisabled()));
+			logger.info(String.format("InicializarProceso: KCO_FUNCIONES.deshabilitado %b", data.getParametros().getDisabled()));
 
 			if (data.getParametros().getDisabled()) {
 				// El proceso esta deshabilitado
@@ -77,6 +77,8 @@ public class InicializarProceso implements Processor {
 		}
 		
 		message.setHeader("inicializado", inicializado);
+		logger.info(String.format("InicializarProceso: inicializado=%b keyContador=%s (%s) countThread: %s",
+				message.getHeader("inicializado"), keyContador, message.getHeader(keyContador), message.getHeader("countThread")));
 	}
 
 	public ProcesoDiarioResponse procesoDeshabilitado(DatosKcoFunciones data) {

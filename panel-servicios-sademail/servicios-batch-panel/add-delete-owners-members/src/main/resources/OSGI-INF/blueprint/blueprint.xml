@@ -68,7 +68,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
-        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restclient.SchedulerEndpoint">
+        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.SchedulerEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -80,10 +80,9 @@
     <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
-        class="cl.uandes.panel.servicio.owners.api.resources.OwnersRestService" id="restService">
-		<argument index="0" value="{{ae-owners-members-grupo.procesos}}"/>
+        class="cl.uandes.panel.servicio.owners.api.resource.OwnersRestService" id="restService">
+		<argument index="0" value="sincroniza,procesoAE"/>
         <property name="funcionOwners" value="{{ae-owners-members-grupo.nocturno.kco-funcion}}"/>
-        <property name="procesos" value="{{ae-owners-members-grupo.procesos}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceOwners">
@@ -109,7 +108,7 @@
     <!-- ==================================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <camelContext id="add-delete-owners-members"
-        trace="false" xmlns="http://camel.apache.org/schema/blueprint.xsd">
+        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <!-- -->
         <route id="_readjson">
@@ -125,14 +124,15 @@
 			<!-- 1.- Leer los distintos grupos que hay en NAP_GRUPO_OWNER
 			     2.- Loopear para cada uno de los grupos procesandolos en paralelo
 			-->
+			<log message="(L127) inicializar proceso: ${header.proceso}"/>
 			<process id="_inicializarSincronizacion" ref="inicialiceOwners"/>
 			<choice>
 				<when>
-					<simple>${header.inicializado}</simple>
+					<simple>${header.inicializado} &amp;&amp; ${header.countThread} != null &amp;&amp; ${header.contadoresAsignarOwners} != null</simple>
 					<to uri="direct:do_procesaSincronizacion"/>					
 				</when>
 				<otherwise>
-                    <log message="proceso ${header.proceso} no pudo ser inicializado body: ${body}"/>
+                    <log message="(L135) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
                     <to id="_avisaTerminaSincronizar" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
                     <to uri="mock:end"/>
 				</otherwise>
@@ -150,23 +150,23 @@
                 <simple>${header.listaGruposSincronizar.size} &gt; 0</simple>
                 <choice>
                     <when>
-                        <simple>${header.countThread.getCounter} &gt; 9</simple>
+                        <simple>${header.countThread.getCounter} &gt; 1</simple>
                         <delay>
                             <constant>1000</constant>
                         </delay>
-                        <log message="(L155)Esperando se desocupe thread"/>
+                        <log message="(L157)Esperando se desocupe thread"/>
                     </when>
                     <otherwise>
-                        <bean imethod="recuperaGrupo" ref="generaDatos"/>
-                        <log message="(L159) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
-                        <to iuri="seda:procesaGrupo"/>
+                        <bean method="recuperaGrupo" ref="generaDatos"/>
+                        <log message="(L161) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
+                        <to uri="seda:procesaGrupo"/>
                     </otherwise>
                 </choice>
             </loop>
 		</route>
 		<!-- _________________________________________________________________________________________________ -->
         <route >
-            <from uri="seda:procesaGrupo?concurrentConsumers=10"/>
+            <from uri="seda:procesaGrupo?concurrentConsumers=2"/>
             <process ref="sincronizaGrupo"/>
         </route>
         <!-- ================================================================================================= -->
@@ -174,6 +174,7 @@
         <!-- ================================================================================================= -->
         <route id="_procesoAERoute">
             <from id="_proceso" uri="direct:procesoAE"/>
+			<to uri="mock:end"/>
         </route>
     </camelContext>
 </blueprint>

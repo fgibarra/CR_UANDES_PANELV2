@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
+import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.panel.servicio.owners.dto.NapGrupoOwnerDTO;
 import cl.uandes.sadmemail.comunes.gmail.json.MemberRequest;
@@ -37,7 +38,6 @@ import cl.uandes.sadmemail.comunes.google.api.services.Members;
  */
 public class SincronizaGrupo implements Processor {
 
-    @PropertyInject(value = "registrosComunes")
 	private RegistrosComunes registrosBD;
 
     @PropertyInject(value = "uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
@@ -49,6 +49,10 @@ public class SincronizaGrupo implements Processor {
 	@EndpointInject(uri = "sql:classpath:sql/insertNapGrupoOwner.sql?dataSource=#bannerDataSource")
 	ProducerTemplate insertNapGrupoOwner;
 
+	@EndpointInject(uri = "sql:classpath:sql/updateNapGrupoOwner.sql?dataSource=#bannerDataSource")
+	ProducerTemplate updateNapGrupoOwner;
+
+	
     @EndpointInject(uri = "cxfrs:bean:rsRetrieveOwners?continuationTimeout=-1")
 	ProducerTemplate retrieveOwners;
 	String templateRetrieveOwners = "%s/members/retrieveOwners";
@@ -63,19 +67,23 @@ public class SincronizaGrupo implements Processor {
     
 	private ResultadoFuncion res;
 	private ContadoresAsignarOwners contadores;
-	
+	private CountThreads countThread;
 	private Logger logger = Logger.getLogger(getClass());
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
+		contadores = (ContadoresAsignarOwners)message.getHeader("contadoresAsignarOwners");
+		countThread = (CountThreads)message.getHeader("countThread");
 		try {
+			countThread.incCounter();
+			logger.info(String.format("SincronizaGrupo: countThread %d", countThread.getCounter()));
 			String groupName = (String) message.getBody();
 			Set<String> ownersInGmail = getOwnersInGmail(groupName);
 			List<NapGrupoOwnerDTO> lista = getListaNapGrupoOwnerDTO(groupName);
 			for (NapGrupoOwnerDTO dto : lista) {
 				if (!ownersInGmail.contains(dto.getOwnerEmail())) {
-					agregarOwner(groupName, dto.getOwnerEmail());
+					agregarOwner(groupName, dto);
 					ownersInGmail.remove(dto.getOwnerEmail());
 				}
 				contadores.incCountProcesados();
@@ -87,11 +95,12 @@ public class SincronizaGrupo implements Processor {
 			
 		} catch (Exception e) {
 			logger.error("process", e);
-			contadores.incCountErrores();
 			if (res != null)
 				registrosBD.registraMiResultadoErrores("NA", null, e, null, res.getKey());
+			contadores.incCountErrores();
+		} finally {
+			countThread.decCounter();
 		}
-
 	}
 
 	/**
@@ -159,9 +168,10 @@ public class SincronizaGrupo implements Processor {
 	 * @param ownerEmail
 	 * @return
 	 */
-	private boolean agregarOwner(String groupName, String ownerEmail) {
+	private boolean agregarOwner(String groupName, NapGrupoOwnerDTO dto) {
 		Map<String, Object> headers = new HashMap<String, Object>();
 		boolean resultado = false;
+		String ownerEmail = dto.getOwnerEmail();
 		try {
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateAddOwner,getGmailServices()));
 			headers.put("CamelHttpMethod", "POST");
@@ -172,6 +182,7 @@ public class SincronizaGrupo implements Processor {
 					response.getMensaje().matches(".*409 Conflict.*"))
 				) {
 				contadores.incCountAgregadosGMAIL();
+				updateNapGrupoOwner.requestBodyAndHeader(null, "key", ObjectFactory.toBigDecimal(dto.getKey()));
 				resultado = true;
 			} else {
 				contadores.incCountErrores();

@@ -74,11 +74,11 @@
 		</profile>
 	</profiles>
   <modules>
-  	<module>add-delete-owners-members</module>
   	<module>crear-cuentas-batch</module>
   	<module>crear-grupos-batch</module>
   	<module>scheduler-proceso-diario</module>
   	<module>actualiza-espacio-usado</module>
   	<module>suspende-elimina-cuentas</module>
+  	<module>add-delete-owners-members</module>
   </modules>
 </project>

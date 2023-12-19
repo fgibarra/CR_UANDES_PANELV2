@@ -8,7 +8,6 @@ import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.bean.RegistrosComunes;
@@ -16,10 +15,9 @@ import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 
 public class GeneraDatos {
 
-    @PropertyInject(value = "registrosComunes")
 	private RegistrosComunes registrosBD;
 
-	@EndpointInject(uri = "sql:classpath:sql/qryGruposFomNapOwners.sql?dataSource=#bannerDataSource")
+	@EndpointInject(uri = "sql:classpath:sql/qryGruposFromNapOwners.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qryGruposFomNapOwners;
 
 	private ResultadoFuncion res;

@@ -924,7 +924,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			members.setMembers(owners);
 			return members;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("retreiveGroupOwners", e);
 			if (e instanceof com.google.api.client.googleapis.json.GoogleJsonResponseException) {
 				if (analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e) > 5) {
 					logger.error("retreiveGroupOwners",e);

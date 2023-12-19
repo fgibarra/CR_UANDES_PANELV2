@@ -34,10 +34,17 @@ public class NapGrupoOwnerDTO implements Serializable {
 		this.key = Integer.valueOf(((BigDecimal)datos.get("KEY")).intValue());
 		this.groupName = (String)datos.get("GROUP_NAME");
 		this.ownerEmail = (String)datos.get("OWNER_EMAIL");
-		Integer valor = Integer.valueOf(((BigDecimal)datos.get("ACTIVO")).intValue());
-		this.activo = valor == 1 ? Boolean.TRUE : Boolean.FALSE;
-		valor = Integer.valueOf(((BigDecimal)datos.get("CREADO_GMAIL")).intValue());
-		this.creadoGmail = valor == 1 ? Boolean.TRUE : Boolean.FALSE;
+		Integer valor;
+		Object obj = datos.get("ACTIVO");
+		if (obj != null) {
+			valor = Integer.valueOf(((BigDecimal)datos.get("ACTIVO")).intValue());
+			this.activo = valor == 1 ? Boolean.TRUE : Boolean.FALSE;
+		}
+		obj = datos.get("CREADO_GMAIL");
+		if (obj != null) {
+			valor = Integer.valueOf(((BigDecimal)datos.get("CREADO_GMAIL")).intValue());
+			this.creadoGmail = valor == 1 ? Boolean.TRUE : Boolean.FALSE;
+		}
 		this.fechaValidacion = (Timestamp)datos.get("FECHA_VALIDACION");
 	}
 	
