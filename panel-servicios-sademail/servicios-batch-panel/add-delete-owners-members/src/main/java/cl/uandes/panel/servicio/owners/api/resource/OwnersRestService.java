@@ -16,7 +16,10 @@ import org.apache.camel.PropertyInject;
 import org.apache.camel.builder.ExchangeBuilder;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersRequest;
+import cl.uandes.panel.comunes.json.aeOwnersMembers.RequestOwners;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
+import cl.uandes.sadmemail.comunes.utils.StringUtils;
 
 /**
  * Recibe el json con que se invoca. 1.- valida json con datos correctos 2.- si
@@ -39,7 +42,8 @@ public class OwnersRestService {
 	@PropertyInject(value = "ae-owners-members-grupo.procesos", defaultValue = "sincroniza,procesoAE")
 	private String procesos;
 	public static String procesosValidos[];
-
+	private String msgErrorValidacion;
+	
 	Logger logger = Logger.getLogger(getClass());
 
 	public OwnersRestService(String procesos) {
@@ -78,11 +82,37 @@ public class OwnersRestService {
 				.build();
 
 		String uri = "";
-		if (request.getFuncion().equals(getFuncionEA()))
-			uri = "direct:procesoAE";
-		else
+		if (request.getFuncion().equals(getFuncionSincroniza()))
 			uri = "direct:procesoSincronizar";
 
+		logger.info(String.format("CrearGruposRestService.procese: %s proceso con funcion=%s header.request = %s", uri,
+				getFuncionSincroniza(), exchange.getIn().getHeader("request")));
+
+		procesoBatch.asyncSend(uri, exchange);
+
+		Response response = Response.ok().status(200).entity(String.format("Partio %s", funcionOwners)).build();
+		return response;
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	@Path("/pueblaWrkOwnersGrupos")
+	public Response procesar(AeOwnersMembersRequest request) {
+
+		if (!valida(request))
+			return Response.ok().status(401).entity(getMsgErrorValidacion()).build();
+
+		// Validado.
+		CamelContext camelContext = producer.getCamelContext();
+		// partir el proceso batch
+		ProducerTemplate procesoBatch = camelContext.createProducerTemplate();
+		Exchange exchange = ExchangeBuilder.anExchange(camelContext)
+				.withHeader("proceso", funcionOwners) // kco_funcion para inicializar
+				.withHeader("request", request).withBody(request)
+				.build();
+
+		String uri = "direct:procesoAE";
 		logger.info(String.format("CrearGruposRestService.procese: %s proceso con funcion=%s header.request = %s", uri,
 				getFuncionEA(), exchange.getIn().getHeader("request")));
 
@@ -92,7 +122,6 @@ public class OwnersRestService {
 		return response;
 	}
 
-	@SuppressWarnings("unused")
 	private String getFuncionSincroniza() {
 		return procesosValidos[0];
 	}
@@ -126,6 +155,33 @@ public class OwnersRestService {
 		return valida;
 	}
 
+	private boolean valida(AeOwnersMembersRequest request) {
+		setMsgErrorValidacion(null);
+		if (request.getCuentasEnvio() == null || request.getCuentasEnvio().length() == 0)
+			setMsgErrorValidacion("Debe ingresar correo para informar");
+
+		if (request.getServicio() == null || request.getServicio().length() == 0)
+			setMsgErrorValidacion("Debe ingresar servicio a ejecutar");
+		else if (!StringUtils.estaContenido(request.getServicio().toLowerCase(), new String[] { "member", "owner"} ))
+			setMsgErrorValidacion(String.format("Servicio %s no es valido", request.getServicio()));
+		
+		if (request.getCriterio() == null)
+			setMsgErrorValidacion ("Debe definir un criterio a procesar");
+		else {
+			RequestOwners criterio = request.getCriterio();
+			if (criterio.getFuncion() == null || criterio.getFuncion().length() == 0)
+				setMsgErrorValidacion ("El criterio debe contener una funcion");
+			else if (!StringUtils.estaContenido(criterio.getFuncion().toLowerCase(), new String[] {"add", "del"}));
+				setMsgErrorValidacion (String.format("Funcion %s es invalida", criterio.getFuncion()));
+			
+			if (criterio.getProgramas() == null || criterio.getProgramas().size() == 0)
+				setMsgErrorValidacion("Debe indicar programas con que operar");
+			
+			if (criterio.getCuentas() == null || criterio.getCuentas().size() == 0)
+				setMsgErrorValidacion("Debe indicar las cuentas con que operar");
+		}
+		return getMsgErrorValidacion() == null;
+	}
 	// ===========================================================================================================
 	// Getters y Setters
 	// ===========================================================================================================
@@ -144,5 +200,17 @@ public class OwnersRestService {
 
 	public void setProcesos(String procesos) {
 		this.procesos = procesos;
+	}
+
+	public String getMsgErrorValidacion() {
+		return msgErrorValidacion;
+	}
+
+	public void setMsgErrorValidacion(String msgErrorValidacion) {
+		if (msgErrorValidacion == null || this.msgErrorValidacion == null) {
+			this.msgErrorValidacion = msgErrorValidacion;
+		} else {
+			this.msgErrorValidacion = this.msgErrorValidacion+"; "+msgErrorValidacion;
+		}
 	}
 }

@@ -40,14 +40,20 @@ public class Members implements Serializable {
 
 	public Members(com.google.api.services.admin.directory.model.Members g_members) {
 		List<Member> lista = new ArrayList<Member>();
-		this.etag = g_members.getEtag();
-		this.listaMembers = lista;
-		this.kind = g_members.getKind();
-		this.nextPageToken = g_members.getNextPageToken();
-		for (com.google.api.services.admin.directory.model.Member g_member : g_members.getMembers()) {
-			lista.add(new Member(g_member.getEtag(), g_member.getEmail(),
-					g_member.getId(), g_member.getKind(), g_member.getRole(), g_member.getType()));
+		if (g_members != null) {
+			this.etag = g_members.getEtag();
+			this.kind = g_members.getKind();
+			this.nextPageToken = g_members.getNextPageToken();
+			for (com.google.api.services.admin.directory.model.Member g_member : g_members.getMembers()) {
+				lista.add(new Member(g_member.getEtag(), g_member.getEmail(),
+						g_member.getId(), g_member.getKind(), g_member.getRole(), g_member.getType()));
+			}
+		} else {
+			this.etag = null;
+			this.kind = null;
+			this.nextPageToken = null;
 		}
+		this.listaMembers = lista;
 	}
 	
 	@Override

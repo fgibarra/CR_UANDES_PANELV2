@@ -24,7 +24,6 @@ public class ActualizaMiResultados implements Processor {
     @PropertyInject(value = "scheduler.uri-serviciosBatch", defaultValue="http://localhost:8181/cxf/ESB/panel/servicioBatch")
 	private String panelServices;
 	
-    @PropertyInject(value = "registrosComunes")
 	private RegistrosComunes registrosBD;
 		
 	@EndpointInject(uri = "sql:classpath:sql/updateMiResultado.sql?dataSource=#bannerDataSource")

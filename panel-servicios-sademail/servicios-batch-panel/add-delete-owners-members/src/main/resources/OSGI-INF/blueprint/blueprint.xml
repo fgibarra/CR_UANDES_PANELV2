@@ -81,7 +81,7 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.owners.api.resource.OwnersRestService" id="restService">
-		<argument index="0" value="sincroniza,procesoAE"/>
+        <argument index="0" value="sincroniza,procesoAE"/>
         <property name="funcionOwners" value="{{ae-owners-members-grupo.nocturno.kco-funcion}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
@@ -89,17 +89,25 @@
         <property name="registraInicio" ref="registrosComunes"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
-	<bean class="cl.uandes.panel.servicio.owners.sincroniza.bean.GeneraDatos" id="generaDatos">
+    <bean
+        class="cl.uandes.panel.servicio.owners.sincroniza.bean.GeneraDatos" id="generaDatos">
         <property name="registrosBD" ref="registrosComunes"/>
-	</bean>
+    </bean>
     <!-- __________________________________________________________________________________________________ -->
-	<bean class="cl.uandes.panel.servicio.owners.sincroniza.procesor.SincronizaGrupo" id="sincronizaGrupo">
+    <bean
+        class="cl.uandes.panel.servicio.owners.sincroniza.procesor.SincronizaGrupo" id="sincronizaGrupo">
         <property name="registrosBD" ref="registrosComunes"/>
         <property name="gmailServices" value="{{uri-gmailServices}}"/>
-	</bean>
+    </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
-        <argument index="0" value="add-delete-owners-members"/><!-- reemplazar artifactId -->
+        <argument index="0" value="add-delete-owners-members"/>
+        <!-- reemplazar artifactId -->
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.owners.procesor.FinalizaProceso" id="finalizaProceso">
+        <property name="panelServices" value="{{scheduler.uri-serviciosBatch}}"/>
+        <property name="registrosBD" ref="registrosComunes"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -107,8 +115,7 @@
         filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
     <!-- ==================================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-    <camelContext id="add-delete-owners-members"
-        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="add-delete-owners-members" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <!-- -->
         <route id="_readjson">
@@ -117,64 +124,67 @@
             <to id="_to1" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
-		<!-- Sincronizar tabla NAP_GRUPO_OWNER con owners en GMAIL -->
+        <!-- Sincronizar tabla NAP_GRUPO_OWNER con owners en GMAIL -->
         <!-- ================================================================================================= -->
         <route id="_procesoSincronizaRoute">
             <from id="_proceso" uri="direct:procesoSincronizar"/>
-			<!-- 1.- Leer los distintos grupos que hay en NAP_GRUPO_OWNER
+            <!-- 1.- Leer los distintos grupos que hay en NAP_GRUPO_OWNER
 			     2.- Loopear para cada uno de los grupos procesandolos en paralelo
 			-->
-			<log message="(L127) inicializar proceso: ${header.proceso}"/>
-			<process id="_inicializarSincronizacion" ref="inicialiceOwners"/>
-			<choice>
-				<when>
-					<simple>${header.inicializado} &amp;&amp; ${header.countThread} != null &amp;&amp; ${header.contadoresAsignarOwners} != null</simple>
-					<to uri="direct:do_procesaSincronizacion"/>					
-				</when>
-				<otherwise>
-                    <log message="(L135) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
+            <log id="_log1" message="(L134) inicializar proceso: ${header.proceso}"/>
+            <process id="_inicializarSincronizacion" ref="inicialiceOwners"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.inicializado} &amp;&amp; ${header.countThread} != null &amp;&amp; ${header.contadoresAsignarOwners} != null</simple>
+                    <to id="_to2" uri="direct:do_procesaSincronizacion"/>
+					<log message="(L140) Finaliza proceso"/>
+					<process ref="finalizaProceso"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log id="_log3" message="(L144) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
                     <to id="_avisaTerminaSincronizar" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
-                    <to uri="mock:end"/>
-				</otherwise>
-			</choice>
-			
+                    <to id="_to3" uri="mock:end"/>
+                </otherwise>
+            </choice>
         </route>
-		<!-- _________________________________________________________________________________________________ -->
-		<route id="_doProcesoSincronizacion">
-			<!-- 1.- Leer los distintos grupos que hay en NAP_GRUPO_OWNER
+        <!-- _________________________________________________________________________________________________ -->
+        <route id="_doProcesoSincronizacion">
+            <!-- 1.- Leer los distintos grupos que hay en NAP_GRUPO_OWNER
 			     2.- Loopear para cada uno de los grupos procesandolos en paralelo
 			-->
-			<from uri="direct:do_procesaSincronizacion"/>
-            <bean method="recuperaGrupos" ref="generaDatos"/>
-            <loop doWhile="true">
+            <from id="_from1" uri="direct:do_procesaSincronizacion"/>
+            <bean id="_bean1" method="recuperaGrupos" ref="generaDatos"/>
+            <loop doWhile="true" id="_loop1">
                 <simple>${header.listaGruposSincronizar.size} &gt; 0</simple>
-                <choice>
-                    <when>
-                        <simple>${header.countThread.getCounter} &gt; 1</simple>
-                        <delay>
+                <choice id="_choice2">
+                    <when id="_when2">
+                        <simple>${header.countThread.getCounter} &gt; 11</simple>
+                        <delay id="_delay1">
                             <constant>1000</constant>
                         </delay>
-                        <log message="(L157)Esperando se desocupe thread"/>
+                        <log id="_log4" message="(L165)Esperando se desocupe thread"/>
                     </when>
-                    <otherwise>
-                        <bean method="recuperaGrupo" ref="generaDatos"/>
-                        <log message="(L161) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
-                        <to uri="seda:procesaGrupo"/>
+                    <otherwise id="_otherwise2">
+                        <bean id="_bean2" method="recuperaGrupo" ref="generaDatos"/>
+                        <log id="_log5" message="(L169) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
+                        <to id="_to4" uri="seda:procesaGrupo"/>
                     </otherwise>
                 </choice>
             </loop>
-		</route>
-		<!-- _________________________________________________________________________________________________ -->
-        <route >
-            <from uri="seda:procesaGrupo?concurrentConsumers=2"/>
-            <process ref="sincronizaGrupo"/>
+        </route>
+        <!-- _________________________________________________________________________________________________ -->
+        <route id="_route1">
+            <from id="_from2" uri="seda:procesaGrupo?concurrentConsumers=12"/>
+            <process id="_process1" ref="sincronizaGrupo"/>
         </route>
         <!-- ================================================================================================= -->
-		<!-- Agregar / Eliminar Owners -->
+        <!-- Agregar / Eliminar Owners -->
         <!-- ================================================================================================= -->
         <route id="_procesoAERoute">
             <from id="_proceso" uri="direct:procesoAE"/>
-			<to uri="mock:end"/>
+			<log message="(L185) proceso=${header.proceso} request=${header.request}"/>
+
+            <to id="_to5" uri="mock:end"/>
         </route>
     </camelContext>
 </blueprint>

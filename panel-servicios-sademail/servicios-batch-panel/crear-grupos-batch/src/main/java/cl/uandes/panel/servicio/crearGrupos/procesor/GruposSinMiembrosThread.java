@@ -29,7 +29,6 @@ public class GruposSinMiembrosThread implements Processor {
     @PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
 	private String gmailServices;
 	
-    @PropertyInject(value = "registrosComunes")
 	private RegistrosComunes registrosBD;
 		
 	@EndpointInject(uri = "sql:classpath:sql/deleteGrupo.sql?dataSource=#bannerDataSource")

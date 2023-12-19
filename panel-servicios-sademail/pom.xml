@@ -303,5 +303,6 @@
 		<module>serv-crear-cuentas-panel</module>
 		<module>serv-sincroniza-grupos</module>
 		<module>servicios-batch-panel</module>
+		<module>servicios-online-panel</module>
 	</modules>
 </project>

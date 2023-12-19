@@ -13,6 +13,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
@@ -136,6 +137,10 @@ public class GeneraDatos {
 		exchange.getIn().setHeaders(generaHeaders(exchange));
 	}
 	
+	public void preparaMailResultadoSincronizarOwners(Exchange exchange) {
+		exchange.getIn().setHeaders(generaHeaders(exchange));
+	}
+	
 	
 	private Map<String,Object> generaHeaders(Exchange exchange) {
 		Map<String,Object> headers = new HashMap<String,Object>();
@@ -248,6 +253,20 @@ public class GeneraDatos {
 				headers.put("countNoRegistradas", contadores.getCountNoRegistrados());
 				headers.put("countSuspendidas", contadores.getCountSuspendidas());
 				headers.put("countEliminadas", contadores.getCountEliminadas());
+			} catch (Exception e) {
+				logger.error(String.format("ContadoresSincronizarSuspenderEliminar: json malo |%s|", jsonContadores), e);
+			}
+		} else if (delegate.esSincronizarOwners(operacion)) {
+			try {
+				ContadoresAsignarOwners contadores = (ContadoresAsignarOwners)JSonUtilities.getInstance().
+						json2java(jsonContadores, ContadoresAsignarOwners.class, false);
+				logger.info(String.format("ContadoresSincronizarCuentas: %s", contadores));
+				headers.put("countProcesados", contadores.getCountProcesados());
+				headers.put("countErrores", contadores.getCountErrores());
+				headers.put("headers.owners-agregados-bd", contadores.getCountAgregadosBD());
+				headers.put("owners-agregadas-gmail", contadores.getCountAgregadosGMAIL());
+				headers.put("owners-sacados-bd", contadores.getCountSacadosBD());
+				headers.put("owners-sacados-gmail", contadores.getCountSacadosGMAIL());
 			} catch (Exception e) {
 				logger.error(String.format("ContadoresSincronizarSuspenderEliminar: json malo |%s|", jsonContadores), e);
 			}

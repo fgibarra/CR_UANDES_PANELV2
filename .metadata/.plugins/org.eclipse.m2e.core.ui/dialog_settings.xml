@@ -6,6 +6,7 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="servicios-online-panel"/>
 			<item value="add-delete-owners-members"/>
 			<item value="api-sendmail"/>
 			<item value="api-gmailReports"/>
@@ -33,13 +34,13 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
-			<item value="org.add.delete.owners.members"/>
+			<item value="org.servicios.online.panel"/>
 		</list>
 		<list key="groupId">
-			<item value="uandes.panel-v2.servicios.batch"/>
+			<item value="uandes.panel-v2.servicios"/>
 		</list>
 		<list key="artifactId">
-			<item value="add-delete-owners-members"/>
+			<item value="servicios-online-panel"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -55,12 +56,16 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="uandes.panel-v2.servicios"/>
 			<item value="uandes.panel-v2.servicios.batch"/>
 		</list>
 		<list key="name">
+			<item value="Servicios Online Panel"/>
 			<item value="Agregar Sacar owners o miembros de grupos"/>
 		</list>
 		<list key="artifactId">
+			<item value="servicios-online-panel"/>
+			<item value="panel-servicios-sademail"/>
 			<item value="add-delete-owners-members"/>
 			<item value="servicios-batch-panel"/>
 		</list>

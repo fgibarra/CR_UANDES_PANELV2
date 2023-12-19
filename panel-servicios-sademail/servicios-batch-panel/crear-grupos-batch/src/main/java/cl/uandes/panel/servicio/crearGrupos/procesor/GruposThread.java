@@ -45,7 +45,6 @@ public class GruposThread implements Processor {
     @PropertyInject(value = "panelv2.dominio", defaultValue="uandes.cl")
 	private String dominio;
 	
-    @PropertyInject(value = "registrosComunes")
 	private RegistrosComunes registrosBD;
 	
 	@EndpointInject(uri = "sql:classpath:sql/updateGrupoCreado.sql?dataSource=#bannerDataSource")
