@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="members-retrieveOwners"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="_to6"/>
+			<item value="_setHeader4"/>
 			<item value="members-retrieveOwners"/>
 			<item value="agregarMember.requestBody"/>
 			<item value="direct:recuperaCuentas"/>
@@ -21,8 +23,6 @@
 			<item value="prd_actualiza_cuenta"/>
 			<item value="registraError"/>
 			<item value="Azure"/>
-			<item value="_to3"/>
-			<item value="_to4"/>
 		</list>
 		<list key="replacehistory">
 			<item value="{headers"/>

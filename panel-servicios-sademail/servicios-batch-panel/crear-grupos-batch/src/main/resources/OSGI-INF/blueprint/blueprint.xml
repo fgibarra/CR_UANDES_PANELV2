@@ -176,12 +176,12 @@
     <bean
         class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.SincronizarGruposAction" id="sincronizarGruposAction">
         <property name="gmailServices" value="{{crear-grupos-gmail.uri-gmailServices}}"/>
-        <property name="registraInicio" ref="registrosComunes"/>
+        <property name="registrosBD" ref="registrosComunes"/>
     </bean>
     <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceSincronizarGrupos">
         <property name="registraInicio" ref="registrosComunes"/>
     </bean>
-	<!--
+    <!--
     <bean
         class="cl.uandes.panel.servicio.sincronizarGrupos.procesor.InicialiceSincronizarGrupos" id="inicialiceSincronizarGrupos"/>
     -->

@@ -1,1 +1,0 @@
-package cl.uandes.panel.servicio.owners.sincroniza.bean;

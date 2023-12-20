@@ -1,4 +1,4 @@
-package cl.uandes.panel.servicio.owners.sincroniza.bean;
+package cl.uandes.panel.servicio.owners.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +60,13 @@ public class GeneraDatos {
 		message.setBody(grupo);
 	}
 
+	/**
+	 * Debe dejar en el Body el grupo,cuenta de wwwwwrk_owners_grupo
+	 * @param exchange
+	 */
+	public void recuperaGrupoCuenta(Exchange exchange) {
+		
+	}
 	//======================================================================================================================================
 	// Getters y Setters
 	//======================================================================================================================================

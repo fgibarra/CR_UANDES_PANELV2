@@ -75,6 +75,7 @@ public class SincronizaGrupo implements Processor {
 		Message message = exchange.getIn();
 		contadores = (ContadoresAsignarOwners)message.getHeader("contadoresAsignarOwners");
 		countThread = (CountThreads)message.getHeader("countThread");
+		res = (ResultadoFuncion)message.getHeader("ResultadoFuncion");
 		try {
 			countThread.incCounter();
 			logger.info(String.format("SincronizaGrupo: countThread %d", countThread.getCounter()));
@@ -177,9 +178,10 @@ public class SincronizaGrupo implements Processor {
 			headers.put("CamelHttpMethod", "POST");
 			MemberRequest request = new MemberRequest(groupName, ownerEmail);
 			MemberResponse response = (MemberResponse) ObjectFactory.procesaResponseImpl((ResponseImpl)addOwner.requestBodyAndHeaders(request, headers),MemberResponse.class);
-			if (response.getCodigo() == 0 || (response.getMensaje() != null && (
+			logger.info(String.format("agregarOwner: MemberResponse: %s", response!=null?response:"ES NULO"));
+			if (response != null && (response.getCodigo() == 0 || (response.getMensaje() != null && (
 					response.getMensaje().matches(".*already exist.*")) ||
-					response.getMensaje().matches(".*409 Conflict.*"))
+					response.getMensaje().matches(".*409 Conflict.*")))
 				) {
 				contadores.incCountAgregadosGMAIL();
 				updateNapGrupoOwner.requestBodyAndHeader(null, "key", ObjectFactory.toBigDecimal(dto.getKey()));
@@ -232,11 +234,11 @@ public class SincronizaGrupo implements Processor {
 		this.registrosBD = registrosBD;
 	}
 
-	public synchronized String getGmailServices() {
+	public String getGmailServices() {
 		return gmailServices;
 	}
 
-	public synchronized void setGmailServices(String gmailServices) {
+	public void setGmailServices(String gmailServices) {
 		this.gmailServices = gmailServices;
 	}
 

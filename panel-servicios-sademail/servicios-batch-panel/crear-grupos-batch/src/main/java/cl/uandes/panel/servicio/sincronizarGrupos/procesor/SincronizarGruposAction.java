@@ -30,7 +30,6 @@ public class SincronizarGruposAction implements Processor {
     @PropertyInject(value = "crear-grupos-gmail.uri-gmailServices", defaultValue="http://localhost:8181/cxf/ESB/panel/gmailServices")
 	private String gmailServices;
 
-    @PropertyInject(value = "registrosComunes")
 	private RegistrosComunes registrosBD;
 	
     @EndpointInject(uri = "cxfrs:bean:rsRetrieveAllMembers?timeout=-1")

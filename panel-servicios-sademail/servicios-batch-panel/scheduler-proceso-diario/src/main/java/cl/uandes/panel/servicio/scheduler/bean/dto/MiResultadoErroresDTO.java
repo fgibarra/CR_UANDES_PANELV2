@@ -36,6 +36,7 @@ public class MiResultadoErroresDTO implements Serializable {
 		this.idUsuario = (String)datos.get("ID_USUARIO");
 		this.tipo = (String)datos.get("TIPO");
 		this.causa = (String)datos.get("CAUSA");
+		if (this.causa == null) this.causa = "NullPointerException";
 		this.keyGrupo = ObjectFactory.toInteger((BigDecimal)datos.get("KEY_GRUPO"));
 		this.fechaHoraRegistro = StringUtilities.getInstance().toString((Timestamp)datos.get("FECHA_HORA_REGISTRO"));
 	}

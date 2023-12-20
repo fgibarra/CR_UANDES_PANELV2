@@ -37,11 +37,23 @@ public class OwnersRestService {
 
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
-	@PropertyInject(value = "ae-owners-members-grupo.nocturno.kco-funcion", defaultValue = "asignar_owners")
+	@PropertyInject(value = "ae-owners-members-grupo.nocturno.funcionSincronizar", defaultValue = "sincronizar_owners")
 	private String funcionOwners;
 	@PropertyInject(value = "ae-owners-members-grupo.procesos", defaultValue = "sincroniza,procesoAE")
 	private String procesos;
+	@PropertyInject(value = "ae-owners-members-grupo.servicios", defaultValue = "member,owner")
+	private String servicios;
+	@PropertyInject(value = "ae-owners-members-grupo.funciones", defaultValue = "add,del")
+	private String funciones;
+	
 	public static String procesosValidos[];
+	public static String serviciosValidos[];
+	public static int OWNER = 1;
+	public static int MEMBER = 0;
+	public static String funcionesValidos[];
+	public static int ADD = 0;
+	public static int DEL = 1;
+	
 	private String msgErrorValidacion;
 	
 	Logger logger = Logger.getLogger(getClass());
@@ -68,22 +80,21 @@ public class OwnersRestService {
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	@Path("/procese")
 	public Response procese(ProcesoDiarioRequest request) {
-
+		
 		if (!valida(request)) {
 			return Response.ok().status(401).entity("no indica un request valido").build();
 		}
 		// responder al Scheduler y partir el proceso en forma batch
 		CamelContext camelContext = producer.getCamelContext();
 		// partir el proceso batch
+		String proceso = getFuncionOwners();
 		ProducerTemplate procesoBatch = camelContext.createProducerTemplate();
 		Exchange exchange = ExchangeBuilder.anExchange(camelContext)
-				.withHeader("proceso", request.getFuncion()) // kco_funcion para inicializar
+				.withHeader("proceso", proceso) // kco_funcion para inicializar
 				.withHeader("request", request).withBody(request)
 				.build();
 
-		String uri = "";
-		if (request.getFuncion().equals(getFuncionSincroniza()))
-			uri = "direct:procesoSincronizar";
+		String uri = "direct:procesoSincronizar";
 
 		logger.info(String.format("CrearGruposRestService.procese: %s proceso con funcion=%s header.request = %s", uri,
 				getFuncionSincroniza(), exchange.getIn().getHeader("request")));
@@ -99,16 +110,24 @@ public class OwnersRestService {
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	@Path("/pueblaWrkOwnersGrupos")
 	public Response procesar(AeOwnersMembersRequest request) {
-
+		
+		initServiciosFuncionesValidos();
+		
 		if (!valida(request))
 			return Response.ok().status(401).entity(getMsgErrorValidacion()).build();
 
+		String proceso;
+		if (request.getServicio().equalsIgnoreCase(serviciosValidos[OWNER]))
+			proceso = "asignar_owners";
+		else
+			proceso = "asignar_miembros";
+		
 		// Validado.
 		CamelContext camelContext = producer.getCamelContext();
 		// partir el proceso batch
 		ProducerTemplate procesoBatch = camelContext.createProducerTemplate();
 		Exchange exchange = ExchangeBuilder.anExchange(camelContext)
-				.withHeader("proceso", funcionOwners) // kco_funcion para inicializar
+				.withHeader("proceso", proceso) // kco_funcion para inicializar
 				.withHeader("request", request).withBody(request)
 				.build();
 
@@ -120,6 +139,15 @@ public class OwnersRestService {
 
 		Response response = Response.ok().status(200).entity(String.format("Partio %s", funcionOwners)).build();
 		return response;
+	}
+
+	private void initServiciosFuncionesValidos() {
+		if (serviciosValidos == null)
+			serviciosValidos = getServicios().split(",");
+		
+		if (funcionesValidos == null)
+			funcionesValidos = getFunciones().split(",");
+		
 	}
 
 	private String getFuncionSincroniza() {
@@ -156,13 +184,14 @@ public class OwnersRestService {
 	}
 
 	private boolean valida(AeOwnersMembersRequest request) {
+		//logger.info(String.format("valida: request: %s funcion |%s|", request, request.getCriterio().getFuncion().toLowerCase()));
 		setMsgErrorValidacion(null);
 		if (request.getCuentasEnvio() == null || request.getCuentasEnvio().length() == 0)
 			setMsgErrorValidacion("Debe ingresar correo para informar");
 
 		if (request.getServicio() == null || request.getServicio().length() == 0)
 			setMsgErrorValidacion("Debe ingresar servicio a ejecutar");
-		else if (!StringUtils.estaContenido(request.getServicio().toLowerCase(), new String[] { "member", "owner"} ))
+		else if (!StringUtils.estaContenido(request.getServicio().toLowerCase(), serviciosValidos ))
 			setMsgErrorValidacion(String.format("Servicio %s no es valido", request.getServicio()));
 		
 		if (request.getCriterio() == null)
@@ -171,7 +200,7 @@ public class OwnersRestService {
 			RequestOwners criterio = request.getCriterio();
 			if (criterio.getFuncion() == null || criterio.getFuncion().length() == 0)
 				setMsgErrorValidacion ("El criterio debe contener una funcion");
-			else if (!StringUtils.estaContenido(criterio.getFuncion().toLowerCase(), new String[] {"add", "del"}));
+			else if (!StringUtils.estaContenido(criterio.getFuncion().toLowerCase(), funcionesValidos ))
 				setMsgErrorValidacion (String.format("Funcion %s es invalida", criterio.getFuncion()));
 			
 			if (criterio.getProgramas() == null || criterio.getProgramas().size() == 0)
@@ -212,5 +241,21 @@ public class OwnersRestService {
 		} else {
 			this.msgErrorValidacion = this.msgErrorValidacion+"; "+msgErrorValidacion;
 		}
+	}
+
+	public synchronized String getServicios() {
+		return servicios;
+	}
+
+	public synchronized void setServicios(String servicios) {
+		this.servicios = servicios;
+	}
+
+	public synchronized String getFunciones() {
+		return funciones;
+	}
+
+	public synchronized void setFunciones(String funciones) {
+		this.funciones = funciones;
 	}
 }

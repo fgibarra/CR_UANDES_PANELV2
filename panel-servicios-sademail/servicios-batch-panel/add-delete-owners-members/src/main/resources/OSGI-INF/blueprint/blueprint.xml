@@ -82,7 +82,9 @@
     <bean
         class="cl.uandes.panel.servicio.owners.api.resource.OwnersRestService" id="restService">
         <argument index="0" value="sincroniza,procesoAE"/>
-        <property name="funcionOwners" value="{{ae-owners-members-grupo.nocturno.kco-funcion}}"/>
+        <property name="funcionOwners" value="{{ae-owners-members-grupo.nocturno.funcionSincronizar}}"/>
+        <property name="servicios" value="{{ae-owners-members-grupo.servicios}}"/>
+        <property name="funciones" value="{{ae-owners-members-grupo.funciones}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceOwners">
@@ -90,7 +92,7 @@
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean
-        class="cl.uandes.panel.servicio.owners.sincroniza.bean.GeneraDatos" id="generaDatos">
+        class="cl.uandes.panel.servicio.owners.bean.GeneraDatos" id="generaDatos">
         <property name="registrosBD" ref="registrosComunes"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
@@ -99,6 +101,19 @@
         <property name="registrosBD" ref="registrosComunes"/>
         <property name="gmailServices" value="{{uri-gmailServices}}"/>
     </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.owners.add_delete.procesor.ProcesaGrupoCuenta" id="procesaGrupoCuenta">
+        <property name="registrosBD" ref="registrosComunes"/>
+        <property name="gmailServices" value="{{uri-gmailServices}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.owners.add_delete.procesor.GeneraWrkOwnersGrupos" id="generaWrkOwnersGrupos">
+        <property name="registrosBD" ref="registrosComunes"/>
+        <property name="dataSource" ref="bannerDataSource"/>
+    </bean>
+
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
         <argument index="0" value="add-delete-owners-members"/>
@@ -137,8 +152,8 @@
                 <when id="_when1">
                     <simple>${header.inicializado} &amp;&amp; ${header.countThread} != null &amp;&amp; ${header.contadoresAsignarOwners} != null</simple>
                     <to id="_to2" uri="direct:do_procesaSincronizacion"/>
-					<log message="(L140) Finaliza proceso"/>
-					<process ref="finalizaProceso"/>
+                    <log id="_log6" message="(L140) Finaliza proceso"/>
+                    <process id="_process2" ref="finalizaProceso"/>
                 </when>
                 <otherwise id="_otherwise1">
                     <log id="_log3" message="(L144) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
@@ -182,9 +197,49 @@
         <!-- ================================================================================================= -->
         <route id="_procesoAERoute">
             <from id="_proceso" uri="direct:procesoAE"/>
-			<log message="(L185) proceso=${header.proceso} request=${header.request}"/>
-
-            <to id="_to5" uri="mock:end"/>
+            <log id="_log7" message="(L185) proceso=${header.proceso} request=${header.request}"/>
+            <log message="(L186) inicializar proceso: ${header.proceso}"/>
+            <process id="_inicializarProcesoAE" ref="inicialiceOwners"/>
+            <choice>
+                <when>
+                    <simple>${header.inicializado} &amp;&amp; ${header.countThread} != null &amp;&amp; ${header.contadoresAsignarOwners} != null</simple>
+                    <to uri="direct:do_procesaAE"/>
+                    <log message="(L192) Finaliza proceso"/>
+                    <process ref="finalizaProceso"/>
+                </when>
+                <otherwise >
+                    <log message="(L144) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
+                    <to id="_avisaTerminaProcesoAE" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+                    <to uri="mock:end"/>
+                </otherwise>
+            </choice>
+        </route>
+        <!-- _________________________________________________________________________________________________ -->
+        <route id="_doProcesoAE">
+			<from uri="direct:do_procesaAE"/>
+			<process ref="generaWrkOwnersGrupos"/> <!-- puebla la tabla wrk_owners-grupos y genera la lista-->
+            <loop doWhile="true">
+                <simple>${header.listaGrupoCuenta.size} &gt; 0</simple>
+                <choice >
+                    <when >
+                        <simple>${header.countThread.getCounter} &gt; 11</simple>
+                        <delay >
+                            <constant>1000</constant>
+                        </delay>
+                        <log message="(L214)Esperando se desocupe thread"/>
+                    </when>
+                    <otherwise >
+                        <bean method="recuperaGrupoCuenta" ref="generaDatos"/>
+                        <log message="(L218) procesa elemento numero: ${header.listaGrupoCuenta.size}"/>
+                        <to uri="seda:procesaGrupoCuenta"/>
+                    </otherwise>
+                </choice>
+            </loop>
+        </route>
+        <!-- _________________________________________________________________________________________________ -->
+        <route >
+            <from uri="seda:procesaGrupoCuenta?concurrentConsumers=12"/>
+            <process ref="procesaGrupoCuenta"/>
         </route>
     </camelContext>
 </blueprint>

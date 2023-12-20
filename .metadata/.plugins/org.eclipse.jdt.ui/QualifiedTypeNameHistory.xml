@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.AllUsersResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.exceptions.KcoFuncionesException"/>
-    <fullyQualifiedTypeName name="org.apache.camel.Header"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.ReportResponse"/>
-    <fullyQualifiedTypeName name="org.apache.cxf.jaxrs.impl.ResponseImpl"/>
-    <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="java.time.ZoneId"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas"/>
@@ -45,8 +38,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
     <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
-    <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
-    <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="org.apache.camel.Message"/>
@@ -54,10 +45,19 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersRequest"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.RequestOwners"/>
+    <fullyQualifiedTypeName name="com.sun.xml.bind.v2.runtime.reflect.Accessor.GetterSetterReflection"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.servicio.owners.api.resource.OwnersRestService"/>
+    <fullyQualifiedTypeName name="javax.sql.DataSource"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="oracle.jdbc.driver.OracleConnection"/>
+    <fullyQualifiedTypeName name="oracle.jdbc.OracleTypeMetaData.Array"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
+    <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
+    <fullyQualifiedTypeName name="java.sql.Array"/>
 </qualifiedTypeNameHistroy>

@@ -64,4 +64,12 @@ public class FinalizaProceso implements Processor {
 		this.panelServices = panelServices;
 	}
 
+	public synchronized RegistrosComunes getRegistrosBD() {
+		return registrosBD;
+	}
+
+	public synchronized void setRegistrosBD(RegistrosComunes registrosBD) {
+		this.registrosBD = registrosBD;
+	}
+
 }

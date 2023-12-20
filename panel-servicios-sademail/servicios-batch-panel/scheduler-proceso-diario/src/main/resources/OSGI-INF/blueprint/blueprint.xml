@@ -186,24 +186,24 @@
         <!-- ================================================================================================= -->
         <route id="_terminaSincronizarSuspenderEliminarRoute">
             <from id="_from3" uri="direct:terminaSincronizarSuspenderEliminar"/>
-            <setHeader headerName="operacion" id="_setHeader4">
+            <setHeader headerName="operacion">
                 <constant>suspender_eliminar_cuentas</constant>
             </setHeader>
             <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
             <bean id="_bean8"
                 method="preparaMailResultadoSincronizarSuspenderEliminar" ref="generaDatos"/>
-            <to id="_to6" uri="direct:generaMail"/>
+            <to uri="direct:generaMail"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_terminaSincronizarOwnersRoute">
             <from id="_from3" uri="direct:terminaSincronizarOwners"/>
-            <setHeader headerName="operacion" id="_setHeader4">
+            <setHeader headerName="operacion">
                 <constant>asignar_owners</constant>
             </setHeader>
             <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
-            <bean
+            <bean id="_bean9"
                 method="preparaMailResultadoSincronizarOwners" ref="generaDatos"/>
-            <to id="_to6" uri="direct:generaMail"/>
+            <to uri="direct:generaMail"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_generaMailRoute">

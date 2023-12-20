@@ -154,9 +154,9 @@ public class RegistrosComunes {
 	private Map<String, String> getClaseMetodo(Exception e) {
 		Map<String, String> map = new HashMap<String, String>();
 		StackTraceElement[] elements = e.getStackTrace();
-		String clase = elements[2].getClassName();;
-		String metodo = elements[2].getMethodName();
-		for (int i = 2; i < elements.length; i++) {
+		String clase = elements[0].getClassName();;
+		String metodo = elements[0].getMethodName();
+		for (int i = 0; i < elements.length; i++) {
 			String valor = elements[i].getClassName();
 			if (valor.startsWith("cl.uandes")) {
 				clase = elements[i].getClassName();
@@ -177,6 +177,7 @@ public class RegistrosComunes {
 	 */
 	public void registraMiResultadoErrores(String idUsuario, String apoyo, Throwable e, Integer keyGrupo, Integer keyResultado) {
 		try {
+			logger.info(String.format("registraMiResultadoErrores:  keyResultado=%d apoyo |%s|", keyResultado, apoyo));
 			Map<String, Object> headers = new HashMap<String, Object>();
 			String msg = e.getMessage();
 			Map<String, String> map = getClaseMetodo((Exception) e);
@@ -225,9 +226,11 @@ public class RegistrosComunes {
 	 * @param keyMiResultadoErrores
 	 */
 	public void registraLogError(String logClase, String logMetodo, String logApoyo, Throwable e, Integer keyMiResultadoErrores) {
+		logger.info(String.format("registraLogError: logClase:%s logMetodo:%s", logClase,logMetodo));
 		Map<String, Object> headers = new HashMap<String, Object>();
 		String excepcion = e.getClass().getCanonicalName();
 		String msg = e.getMessage();
+		if (msg == null) msg = "NULL";
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
