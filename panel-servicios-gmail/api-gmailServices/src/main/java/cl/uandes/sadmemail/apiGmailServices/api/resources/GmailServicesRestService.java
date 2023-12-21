@@ -396,7 +396,7 @@ public class GmailServicesRestService {
 		return (MemberResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
 	
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/members/retrieveOwners")

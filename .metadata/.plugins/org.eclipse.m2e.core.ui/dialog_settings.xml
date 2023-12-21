@@ -6,6 +6,8 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="servicios-online-panel"/>
+			<item value="add-delete-owners-members"/>
 			<item value="api-sendmail"/>
 			<item value="api-gmailReports"/>
 			<item value="suspende-elimina-cuentas"/>
@@ -32,13 +34,13 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
-			<item value="org.api.sendmail"/>
+			<item value="org.servicios.online.panel"/>
 		</list>
 		<list key="groupId">
 			<item value="uandes.panel-v2.servicios"/>
 		</list>
 		<list key="artifactId">
-			<item value="api-sendmail"/>
+			<item value="servicios-online-panel"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -55,12 +57,17 @@
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
 			<item value="uandes.panel-v2.servicios"/>
+			<item value="uandes.panel-v2.servicios.batch"/>
 		</list>
 		<list key="name">
+			<item value="Servicios Online Panel"/>
+			<item value="Agregar Sacar owners o miembros de grupos"/>
 		</list>
 		<list key="artifactId">
-			<item value="api-sendmail"/>
-			<item value="panel-servicios-gmail"/>
+			<item value="servicios-online-panel"/>
+			<item value="panel-servicios-sademail"/>
+			<item value="add-delete-owners-members"/>
+			<item value="servicios-batch-panel"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -72,6 +79,7 @@
 		</list>
 		<list key="version">
 			<item value="0.0.1"/>
+			<item value="0.0.1-SNAPSHOT"/>
 		</list>
 	</section>
 	<section name="MavenProjectImportWizardPage">
@@ -86,5 +94,24 @@
 			<item value="[groupId].[artifactId]-[version]"/>
 			<item value="[name]"/>
 		</list>
+	</section>
+	<section name="MavenProjectWizardLocationPage">
+		<list key="location">
+			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-servicios-sademail/servicios-batch-panel/pom.xml"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.ui.internal.wizards.MavenProjectSelectionDialog">
+		<item key="width" value="480"/>
+		<item key="height" value="828"/>
+		<item key="x" value="770"/>
+		<item key="y" value="28"/>
 	</section>
 </section>

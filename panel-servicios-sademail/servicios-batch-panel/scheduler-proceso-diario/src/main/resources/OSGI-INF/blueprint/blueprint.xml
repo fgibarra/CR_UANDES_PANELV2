@@ -85,6 +85,7 @@
         <property name="procesoSyncGruposVigentes" value="{{sinc_grupos_vigentes.operacion}}"/>
         <property name="procesoSyncGruposPostgrado" value="{{sinc_grupos_postgrado.operacion}}"/>
         <property name="procesoSincronizarSuspenderEliminar" value="{{se-cuentas-gmail.nocturno.funcion}}"/>
+        <property name="procesoSincronizarOwners" value="{{ae-owners-members-grupo.nocturno.kco-funcion}}"/>
     </bean>
     <bean class="cl.uandes.panel.servicio.scheduler.bean.GeneraDatos" id="generaDatos">
         <argument index="0" value="crear_cuentas"/>
@@ -185,13 +186,24 @@
         <!-- ================================================================================================= -->
         <route id="_terminaSincronizarSuspenderEliminarRoute">
             <from id="_from3" uri="direct:terminaSincronizarSuspenderEliminar"/>
-            <setHeader headerName="operacion" id="_setHeader4">
+            <setHeader headerName="operacion">
                 <constant>suspender_eliminar_cuentas</constant>
             </setHeader>
             <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
             <bean id="_bean8"
                 method="preparaMailResultadoSincronizarSuspenderEliminar" ref="generaDatos"/>
-            <to id="_to6" uri="direct:generaMail"/>
+            <to uri="direct:generaMail"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_terminaSincronizarOwnersRoute">
+            <from id="_from3" uri="direct:terminaSincronizarOwners"/>
+            <setHeader headerName="operacion">
+                <constant>asignar_owners</constant>
+            </setHeader>
+            <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
+            <bean id="_bean9"
+                method="preparaMailResultadoSincronizarOwners" ref="generaDatos"/>
+            <to uri="direct:generaMail"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_generaMailRoute">
@@ -211,7 +223,11 @@
                 </when>
                 <when id="_when4">
                     <simple>${header.operacion} == '{{se-cuentas-gmail.nocturno.funcion}}'</simple>
-                    <to id="creaCuerpoSync" uri="velocity:templateMailSuspendeEliminaCuentas.vm?contentCache=true"/>
+                    <to id="creaCuerpoSuspendeElimina" uri="velocity:templateMailSuspendeEliminaCuentas.vm?contentCache=true"/>
+                </when>
+                <when id="_when4">
+                    <simple>${header.operacion} == '{{ae-owners-members-grupo.nocturno.kco-funcion}}'</simple>
+                    <to id="creaCuerpoAsignarOwners" uri="velocity:templateMailAsignarOwners.vm?contentCache=true"/>
                 </when>
                 <otherwise id="_otherwise1">
                     <log id="_log4" message="NO HAY PROCESO PARA (${header.operacion})"/>

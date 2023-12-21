@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>uandes.panel-v2.servicios</groupId>
+    <artifactId>panel-servicios-sademail</artifactId>
+    <version>0.0.1</version>
+  </parent>
+  <artifactId>servicios-online-panel</artifactId>
+  <packaging>pom</packaging>
+  <name>Servicios Online Panel</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>uandes.panel-v2.comunes</groupId>
+  		<artifactId>comunes-sademail</artifactId>
+  		<version>0.0.1</version>
+  		<scope>system</scope>
+  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/target/comunes-sademail-0.0.1.jar</systemPath>
+  	</dependency>
+  </dependencies>
+</project>

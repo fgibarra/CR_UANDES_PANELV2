@@ -46,7 +46,10 @@
 							cl.uandes.panel.comunes.json.updateidgmail,
 							cl.uandes.panel.comunes.servicios.dto,
 							cl.uandes.panel.comunes.servicios.exceptions,
-							cl.uandes.panel.comunes.utils
+							cl.uandes.panel.comunes.utils,
+							cl.uandes.panel.comunes.bean,
+							cl.uandes.panel.comunes.procesor,
+							sql_comunes
 						</Export-Package>
 						<Import-Package>
 							cl.uandes.sadmemail.comunes.google.api.services,
@@ -86,8 +89,8 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/comunes/comunes-sademail/0.0.1</outputDirectory>
-					<finalName>comunes-sademail-0.0.1</finalName>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/comunes/comunes-sademail/${project.version}</outputDirectory>
+					<finalName>comunes-sademail-${project.version}</finalName>
 					<attach>false</attach>
 				</configuration>
 			</plugin>

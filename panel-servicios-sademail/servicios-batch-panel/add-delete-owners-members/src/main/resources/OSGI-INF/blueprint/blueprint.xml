@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/servicioBatch/owners/"
+        id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/isOwner"
+        id="rsIsOwner" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.GmailServicesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/addOwner"
+        id="rsAddOwner" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.GmailServicesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/retrieveOwners"
+        id="rsRetrieveOwners" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.GmailServicesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/deleteOwner"
+        id="rsDeleteOwner" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.GmailServicesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/addMemeber"
+        id="rsAgregarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.GmailServicesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/deleteMember"
+        id="rsSacarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.GmailServicesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
+        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.SchedulerEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.panel.servicio.owners.api.resource.OwnersRestService" id="restService">
+        <argument index="0" value="sincroniza,procesoAE"/>
+        <property name="funcionOwners" value="{{ae-owners-members-grupo.nocturno.funcionSincronizar}}"/>
+        <property name="servicios" value="{{ae-owners-members-grupo.servicios}}"/>
+        <property name="funciones" value="{{ae-owners-members-grupo.funciones}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceOwners">
+        <property name="registraInicio" ref="registrosComunes"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.servicio.owners.bean.GeneraDatos" id="generaDatos">
+        <property name="registrosBD" ref="registrosComunes"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.owners.sincroniza.procesor.SincronizaGrupo" id="sincronizaGrupo">
+        <property name="registrosBD" ref="registrosComunes"/>
+        <property name="gmailServices" value="{{uri-gmailServices}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.owners.add_delete.procesor.ProcesaGrupoCuenta" id="procesaGrupoCuenta">
+        <property name="registrosBD" ref="registrosComunes"/>
+        <property name="gmailServices" value="{{uri-gmailServices}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.owners.add_delete.procesor.GeneraWrkOwnersGrupos" id="generaWrkOwnersGrupos">
+        <property name="registrosBD" ref="registrosComunes"/>
+        <property name="dataSource" ref="bannerDataSource"/>
+    </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+        <argument index="0" value="add-delete-owners-members"/>
+        <!-- reemplazar artifactId -->
+    </bean>
+    <bean
+        class="cl.uandes.panel.servicio.owners.procesor.FinalizaProceso" id="finalizaProceso">
+        <property name="panelServices" value="{{scheduler.uri-serviciosBatch}}"/>
+        <property name="registrosBD" ref="registrosComunes"/>
+    </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <camelContext id="add-delete-owners-members" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <!-- -->
+        <route id="_readjson">
+            <from id="_promService" uri="direct:start"/>
+            <log id="_log2" message="(L94)queda en el body: ${body}"/>
+            <to id="_to1" uri="mock:end"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <!-- Sincronizar tabla NAP_GRUPO_OWNER con owners en GMAIL -->
+        <!-- ================================================================================================= -->
+        <route id="_procesoSincronizaRoute">
+            <from id="_proceso" uri="direct:procesoSincronizar"/>
+            <!-- 1.- Leer los distintos grupos que hay en NAP_GRUPO_OWNER
+			     2.- Loopear para cada uno de los grupos procesandolos en paralelo
+			-->
+            <log id="_log1" message="(L134) inicializar proceso: ${header.proceso}"/>
+            <process id="_inicializarSincronizacion" ref="inicialiceOwners"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.inicializado} &amp;&amp; ${header.countThread} != null &amp;&amp; ${header.contadoresAsignarOwners} != null</simple>
+                    <to id="_to2" uri="direct:do_procesaSincronizacion"/>
+                    <log id="_log6" message="(L140) Finaliza proceso"/>
+                    <process id="_process2" ref="finalizaProceso"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log id="_log3" message="(L144) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
+                    <to id="_avisaTerminaSincronizar" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+                    <to id="_to3" uri="mock:end"/>
+                </otherwise>
+            </choice>
+        </route>
+        <!-- _________________________________________________________________________________________________ -->
+        <route id="_doProcesoSincronizacion">
+            <!-- 1.- Leer los distintos grupos que hay en NAP_GRUPO_OWNER
+			     2.- Loopear para cada uno de los grupos procesandolos en paralelo
+			-->
+            <from id="_from1" uri="direct:do_procesaSincronizacion"/>
+            <bean id="_bean1" method="recuperaGrupos" ref="generaDatos"/>
+            <loop doWhile="true" id="_loop1">
+                <simple>${header.listaGruposSincronizar.size} &gt; 0</simple>
+                <choice id="_choice2">
+                    <when id="_when2">
+                        <simple>${header.countThread.getCounter} &gt; 11</simple>
+                        <delay id="_delay1">
+                            <constant>1000</constant>
+                        </delay>
+                        <log id="_log4" message="(L165)Esperando se desocupe thread"/>
+                    </when>
+                    <otherwise id="_otherwise2">
+                        <bean id="_bean2" method="recuperaGrupo" ref="generaDatos"/>
+                        <log id="_log5" message="(L169) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
+                        <to id="_to4" uri="seda:procesaGrupo"/>
+                    </otherwise>
+                </choice>
+            </loop>
+        </route>
+        <!-- _________________________________________________________________________________________________ -->
+        <route id="_route1">
+            <from id="_from2" uri="seda:procesaGrupo?concurrentConsumers=12"/>
+            <process id="_process1" ref="sincronizaGrupo"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <!-- Agregar / Eliminar Owners -->
+        <!-- ================================================================================================= -->
+        <route id="_procesoAERoute">
+            <from id="_proceso" uri="direct:procesoAE"/>
+            <log id="_log7" message="(L185) proceso=${header.proceso} request=${header.request}"/>
+            <log id="_log8" message="(L186) inicializar proceso: ${header.proceso}"/>
+            <process id="_inicializarProcesoAE" ref="inicialiceOwners"/>
+            <choice id="_choice3">
+                <when id="_when3">
+                    <simple>${header.inicializado} &amp;&amp; ${header.countThread} != null &amp;&amp; ${header.contadoresAsignarOwners} != null</simple>
+                    <to id="_to5" uri="direct:do_procesaAE"/>
+                    <log id="_log9" message="(L192) Finaliza proceso"/>
+                    <process id="_process3" ref="finalizaProceso"/>
+                </when>
+                <otherwise id="_otherwise3">
+                    <log id="_log10" message="(L144) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
+                    <to id="_avisaTerminaProcesoAE" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+                    <to id="_to6" uri="mock:end"/>
+                </otherwise>
+            </choice>
+        </route>
+        <!-- _________________________________________________________________________________________________ -->
+        <route id="_doProcesoAE">
+            <from id="_from3" uri="direct:do_procesaAE"/>
+            <process id="_process4" ref="generaWrkOwnersGrupos"/>
+            <!-- puebla la tabla wrk_owners-grupos y genera la lista-->
+            <loop doWhile="true" id="_loop2">
+                <simple>${header.listaGrupoCuenta.size} &gt; 0</simple>
+                <choice id="_choice4">
+                    <when id="_when4">
+                        <simple>${header.countThread.getCounter} &gt; 11</simple>
+                        <delay id="_delay2">
+                            <constant>1000</constant>
+                        </delay>
+                        <log id="_log11" message="(L214)Esperando se desocupe thread"/>
+                    </when>
+                    <otherwise id="_otherwise4">
+                        <bean id="_bean3" method="recuperaGrupoCuenta" ref="generaDatos"/>
+                        <log id="_log12" message="(L218) procesa elemento numero: ${header.listaGrupoCuenta.size}"/>
+                        <to id="_to7" uri="seda:procesaGrupoCuenta"/>
+                    </otherwise>
+                </choice>
+            </loop>
+        </route>
+        <!-- _________________________________________________________________________________________________ -->
+        <route id="_route2">
+            <from id="_from4" uri="seda:procesaGrupoCuenta?concurrentConsumers=12"/>
+            <process id="_process5" ref="procesaGrupoCuenta"/>
+        </route>
+    </camelContext>
+</blueprint>

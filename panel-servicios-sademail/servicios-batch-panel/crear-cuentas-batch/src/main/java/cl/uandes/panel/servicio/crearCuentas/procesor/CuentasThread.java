@@ -209,6 +209,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 					ServiciosLDAPResponse.class);
 		} catch (Exception e) {
 			logger.error("consultaXrut", e);
+			//registraLogError(getClass(),"crearCuentaAD", String.format("createCuenta: request: %s", request), e, keyResultado);
 			response = new ServiciosLDAPResponse(-1, e.getMessage());
 		}
 		// ServiciosLDAPResponse response = (ServiciosLDAPResponse)

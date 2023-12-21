@@ -17,6 +17,7 @@ import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 
+@Deprecated
 public class InicialiceSincronizarGrupos implements Processor {
 
 	@EndpointInject(uri = "sql:classpath:sql/getKcoFuncion.sql?dataSource=#bannerDataSource")

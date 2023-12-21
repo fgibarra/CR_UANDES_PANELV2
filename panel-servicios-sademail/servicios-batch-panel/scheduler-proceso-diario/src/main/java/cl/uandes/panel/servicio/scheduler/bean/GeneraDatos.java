@@ -13,6 +13,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
@@ -136,6 +137,10 @@ public class GeneraDatos {
 		exchange.getIn().setHeaders(generaHeaders(exchange));
 	}
 	
+	public void preparaMailResultadoSincronizarOwners(Exchange exchange) {
+		exchange.getIn().setHeaders(generaHeaders(exchange));
+	}
+	
 	
 	private Map<String,Object> generaHeaders(Exchange exchange) {
 		Map<String,Object> headers = new HashMap<String,Object>();
@@ -163,6 +168,7 @@ public class GeneraDatos {
 		
 		List<MiResultadoErroresDTO> listaErrores = getListaErrores(keyResultado);
 		headers.put("reporteErrores",  listaErrores);
+		headers.put("reporteErroresSize", listaErrores.size());
 		return headers;
 	}
 	
@@ -250,6 +256,20 @@ public class GeneraDatos {
 			} catch (Exception e) {
 				logger.error(String.format("ContadoresSincronizarSuspenderEliminar: json malo |%s|", jsonContadores), e);
 			}
+		} else if (delegate.esSincronizarOwners(operacion)) {
+			try {
+				ContadoresAsignarOwners contadores = (ContadoresAsignarOwners)JSonUtilities.getInstance().
+						json2java(jsonContadores, ContadoresAsignarOwners.class, false);
+				logger.info(String.format("ContadoresSincronizarCuentas: %s", contadores));
+				headers.put("countProcesados", contadores.getCountProcesados());
+				headers.put("countErrores", contadores.getCountErrores());
+				headers.put("headers.owners-agregados-bd", contadores.getCountAgregadosBD());
+				headers.put("owners-agregadas-gmail", contadores.getCountAgregadosGMAIL());
+				headers.put("owners-sacados-bd", contadores.getCountSacadosBD());
+				headers.put("owners-sacados-gmail", contadores.getCountSacadosGMAIL());
+			} catch (Exception e) {
+				logger.error(String.format("ContadoresSincronizarSuspenderEliminar: json malo |%s|", jsonContadores), e);
+			}
 		}
 	}
 
@@ -258,9 +278,15 @@ public class GeneraDatos {
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> datos = (List<Map<String, Object>>) qryMiResultadoErrores.requestBodyAndHeader(null, "keyResultado", 
 				StringUtilities.getInstance().toBigDecimal(keyResultado));
-		if (datos != null) {
-			for (Map<String, Object> map : datos)
-				lista.add(new MiResultadoErroresDTO(map));
+		if (datos != null && datos.size() > 0) {
+			for (Map<String, Object> map : datos) {
+				MiResultadoErroresDTO dto = new MiResultadoErroresDTO(map);
+				lista.add(dto);
+				logger.info(String.format("getListaErrores: %s", dto));
+			}
+		} else {
+			logger.info(String.format("getListaErrores: recuperados %s %d", 
+					datos == null ? "NULO" : "", datos != null ? datos.size(): -1));
 		}
 		return lista;
 	}

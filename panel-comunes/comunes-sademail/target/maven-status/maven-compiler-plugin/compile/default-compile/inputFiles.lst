@@ -1,5 +1,6 @@
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/utils/StringUtilities.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/crearGrupos/MemberRequest.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/procesor/InicializarProceso.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/ProcesoDiarioResponse.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/EnBanner.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/utils/ObjectFactory.java
@@ -15,6 +16,9 @@
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/CrearCuentasRequest.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/SchedulerPanelRequest.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/crearGrupos/package-info.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/bean/package-info.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/KcoLogErrorDTO.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/bean/RegistrosComunes.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/CreaCuentaResponse.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/DatosCuentasBanner.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/crearGrupos/GroupResponse.java
@@ -23,6 +27,7 @@
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/crearGrupos/MemberResponse.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/ProcesoDiarioRequest.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/crearcuentas/ConsultaXrutRequest.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/procesor/package-info.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/CrearCuentasResponse.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/sendmail/SendmailRequest.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/cambiacuenta/CambiaCuentaResponse.java
@@ -35,6 +40,7 @@
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/GrupoMiembro.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/crearcuentas/ConsultaXrutResponse.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/aeOwnersMembers/AeOwnersMembersRequest.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/Contadores.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/package-info.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/package-info.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/crearcuentas/BaseResponse.java
@@ -49,6 +55,7 @@
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/ContadoresSincronizarCuentas.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/aeOwnersMembers/AeOwnersMembersResponse.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/ParametrosCrearGrupos.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/batch/ContadoresAsignarOwners.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/GruposMiUandes.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/SendmailParamsDTO.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/sincronizaGrupos/SincronizaGruposRequest.java

@@ -33,6 +33,11 @@ public class GeneraDatos {
     String propNumberPrueba;
 
 
+	/**
+	 * Invocado por ruta _procesoRoute para sacar un elemento de la listaOperaciones para su proceso
+	 * operaciones posibles (crear_grupos, grupos_inprogress, grupos_inprogress_postgrado)
+	 * @param exchange
+	 */
 	public void getListaOperaciones(Exchange exchange) {
 		@SuppressWarnings("unchecked")
 		List<String> lista = (List<String>)exchange.getIn().getHeader("listaOperaciones");

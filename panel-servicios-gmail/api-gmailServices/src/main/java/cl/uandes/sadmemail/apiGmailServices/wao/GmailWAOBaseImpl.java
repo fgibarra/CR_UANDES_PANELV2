@@ -917,14 +917,17 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 				members = directory.members().list(getCuenta(groupName)).execute();
 			}
 			List<Member> owners = new ArrayList<Member>();
-			for (Member member : members.getMembers()) {
-				if ("OWNER".equals(member.getRole()))
-					owners.add(member);
+
+			if (members != null && members.size() > 0) {
+				for (Member member : members.getMembers()) {
+					if ("OWNER".equals(member.getRole()))
+						owners.add(member);
+				}
+				members.setMembers(owners);
 			}
-			members.setMembers(owners);
 			return members;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("retreiveGroupOwners", e);
 			if (e instanceof com.google.api.client.googleapis.json.GoogleJsonResponseException) {
 				if (analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e) > 5) {
 					logger.error("retreiveGroupOwners",e);

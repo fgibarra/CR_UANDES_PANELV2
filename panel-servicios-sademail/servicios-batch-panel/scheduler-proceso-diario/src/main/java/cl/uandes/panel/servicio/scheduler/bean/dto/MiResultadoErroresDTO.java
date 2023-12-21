@@ -2,6 +2,7 @@ package cl.uandes.panel.servicio.scheduler.bean.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cl.uandes.panel.comunes.utils.ObjectFactory;
+import cl.uandes.panel.comunes.utils.StringUtilities;
 
 public class MiResultadoErroresDTO implements Serializable {
 
@@ -27,12 +29,16 @@ public class MiResultadoErroresDTO implements Serializable {
 	private String causa;
 	@JsonProperty("KEY_GRUPO")
 	private Integer keyGrupo;
+	@JsonProperty("FECHA_HORA_REGISTRO")
+	private String fechaHoraRegistro;
 	
 	public MiResultadoErroresDTO(Map<String, Object> datos) {
 		this.idUsuario = (String)datos.get("ID_USUARIO");
 		this.tipo = (String)datos.get("TIPO");
 		this.causa = (String)datos.get("CAUSA");
+		if (this.causa == null) this.causa = "NullPointerException";
 		this.keyGrupo = ObjectFactory.toInteger((BigDecimal)datos.get("KEY_GRUPO"));
+		this.fechaHoraRegistro = StringUtilities.getInstance().toString((Timestamp)datos.get("FECHA_HORA_REGISTRO"));
 	}
 
 	@Override
@@ -61,6 +67,10 @@ public class MiResultadoErroresDTO implements Serializable {
 
 	public Integer getKeyGrupo() {
 		return keyGrupo;
+	}
+
+	public String getFechaHoraRegistro() {
+		return fechaHoraRegistro;
 	}
 
 }
