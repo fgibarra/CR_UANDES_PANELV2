@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>uandes.panel-v2.servicios</groupId>
-    <artifactId>panel-servicios-sademail</artifactId>
+    <groupId>uandes.panel-v2.servicios.batch</groupId>
+    <artifactId>servicios-batch-panel</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>serv-cambiar-apellido</artifactId>
+  <artifactId>serv-actualiza-id-gmail</artifactId>
   <packaging>bundle</packaging>
-  <name>serv-cambiar-apellido</name>
+  <name>serv-actualiza-id-gmail</name>
 
 	<dependencies>
 		<dependency>
@@ -20,19 +20,6 @@
     		<artifactId>comunes-sademail</artifactId>
     		<version>0.0.1</version>
 		</dependency>
-		<!-- BIBLIOTECAS DE LA APLICACION BDC -->
-		<dependency>
-			<groupId>uandes</groupId>
-			<artifactId>json-datatransfer</artifactId>
-			<version>0.0.2</version>
-			<scope>system</scope>
-			<systemPath>/home/sademail/CodereadyProjects/UANDES/INTEGRACION_LEGANTO/comunes-leganto/json-datatransfer/target/json-datatransfer-0.0.2.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-velocity</artifactId>
-			<version>${camel.version}</version>
-	    </dependency>
 	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
@@ -44,19 +31,13 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Export-Package>cl.uandes.panel.apiCambiaApellidoServices.api.resources</Export-Package>
+						<Export-Package>cl.uandes.panel.apiActualizaIdGmailServices.api.resources</Export-Package>
 						<Import-Package>
 							cl.uandes.panel.comunes.json.updateidgmail,
-							cl.uandes.panel.comunes.json.cambiacuenta,
-							cl.uandes.mail.json,
-							cl.uandes.utils,
 							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",
-							com.fasterxml.jackson.databind,
-							com.fasterxml.jackson.annotation,
 							javax.sql,
 							javax.ws.rs;version="[2.1,3)",
 							javax.ws.rs.core;version="[2.1,3)",
-							org.apache.velocity,
 							org.apache.camel;version="[2.21,3)",org.apache.camel.builder;version="[2.21,3)",
 							org.apache.cxf.jaxrs.impl;version="[3.1,4)",org.apache.log4j;version="[1.2,2)",
 							org.osgi.service.blueprint;version="[1.0.0,2.0.0)"
@@ -65,10 +46,10 @@
 							cl.uandes.sadmemail.comunes.*
 						</DynamicImport-Package>
 						<_removeheaders>Import-Service,Export-Service</_removeheaders>
-						<Bundle-Description>ServiceCambiaApellido</Bundle-Description>
-						<Bundle-Name>Service cambia apellido v1.0</Bundle-Name>
-						<Bundle-SymbolicName>serv-cambia-apellido-v1</Bundle-SymbolicName>
-						<Bundle-Name>Panel [serv-cambia-apellido-v1]</Bundle-Name>
+						<Bundle-Description>ServiceActualizaIdGmail</Bundle-Description>
+						<Bundle-Name>Service actualiza id gmail v1.0</Bundle-Name>
+						<Bundle-SymbolicName>serv-actualiza-id-gmail-v1</Bundle-SymbolicName>
+						<Bundle-Name>Panel [serv-actualiza-id-gmail-v1]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -87,6 +68,30 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/batch/serv-actualiza-id-gmail/${project.version}</outputDirectory>
+					<finalName>serv-actualiza-id-gmail-${project.version}</finalName>
+					<attach>false</attach>
+				</configuration>
+			</plugin>
+			<!-- 
+			<plugin>
+				<groupId>cl.firsa.maven-plugin</groupId>
+				<artifactId>modifica-index</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>modifica-index</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			 -->
 		</plugins>
 	</build>
 	<profiles>

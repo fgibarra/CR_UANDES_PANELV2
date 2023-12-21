@@ -5,6 +5,7 @@
     <artifactId>panel-servicios-sademail</artifactId>
     <version>0.0.1</version>
   </parent>
+  <groupId>uandes.panel-v2.servicios.online</groupId>
   <artifactId>servicios-online-panel</artifactId>
   <packaging>pom</packaging>
   <name>Servicios Online Panel</name>
@@ -16,5 +17,18 @@
   		<scope>system</scope>
   		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/target/comunes-sademail-0.0.1.jar</systemPath>
   	</dependency>
+		<!-- BIBLIOTECAS DE LA APLICACION BDC -->
+		<dependency>
+			<groupId>uandes</groupId>
+			<artifactId>json-datatransfer</artifactId>
+			<version>0.0.2</version>
+			<scope>system</scope>
+			<systemPath>${user.home}/CodereadyProjects/UANDES/INTEGRACION_LEGANTO/comunes-leganto/json-datatransfer/target/json-datatransfer-0.0.2.jar</systemPath>
+		</dependency>
   </dependencies>
+  <modules>
+  	<module>serv-cambiar-apellido</module>
+  	<module>serv-crear-cuenta</module>
+  	<module>serv-crear-cuentas-panel</module>
+  </modules>
 </project>

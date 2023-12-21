@@ -304,5 +304,6 @@
 		<module>serv-sincroniza-grupos</module>
 		<module>servicios-batch-panel</module>
 		<module>servicios-online-panel</module>
+		<module>servicios-tools-panel</module>
 	</modules>
 </project>
