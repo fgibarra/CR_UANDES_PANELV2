@@ -84,8 +84,8 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>/home/fernando/.m2/repository/uandes/panel-v2/servicios/${project.artifact}/${project.version}</outputDirectory>
-					<finalName>${project.artifact}-${project.version}</finalName>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/batch/suspende-elimina-cuentas/${project.version}</outputDirectory>
+					<finalName>suspende-elimina-cuentas-${project.version}</finalName>
 					<attach>false</attach>
 				</configuration>
 			</plugin>

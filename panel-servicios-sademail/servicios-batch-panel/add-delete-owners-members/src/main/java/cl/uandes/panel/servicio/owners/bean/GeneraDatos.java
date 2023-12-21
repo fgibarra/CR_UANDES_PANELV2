@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
+import cl.uandes.panel.servicio.owners.dto.WrkOwnersGruposDTO;
 
 public class GeneraDatos {
 
@@ -65,7 +66,14 @@ public class GeneraDatos {
 	 * @param exchange
 	 */
 	public void recuperaGrupoCuenta(Exchange exchange) {
-		
+		Message message = exchange.getIn();
+		@SuppressWarnings("unchecked")
+		List<WrkOwnersGruposDTO> lista = (List<WrkOwnersGruposDTO>)message.getHeader("listaGrupoCuenta");
+		if (lista != null && lista.size() > 0) {
+			WrkOwnersGruposDTO dto = lista.remove(0);
+			message.setHeader("WrkOwnersGruposDTO", dto);
+		}
+			
 	}
 	//======================================================================================================================================
 	// Getters y Setters

@@ -211,9 +211,16 @@ public class RegistrosComunes {
 	 * @param keyResultado
 	 * @return
 	 */
-	public Integer registraMiResultadoErrores(String idUsuario, String tipo, String causa, Integer keyGrupo, Integer keyResultado) {
-		// TODO
-		Integer key = null;
+	public BigDecimal registraMiResultadoErrores(String idUsuario, String tipo, String causa, Integer keyGrupo, Integer keyResultado) {
+		Map<String, Object> headers = new HashMap<String, Object>();
+		BigDecimal key = getKey();
+		headers.put("KEY", key);
+		headers.put("ID_USUARIO", idUsuario);
+		headers.put("TIPO", tipo);
+		headers.put("CAUSA", causa);
+		headers.put("KEY_GRUPO", ObjectFactory.toBigDecimal(keyGrupo));
+		headers.put("KEY_RESULTADO", ObjectFactory.toBigDecimal(keyResultado));
+		insertMiResultadoErrores.requestBodyAndHeaders(null, headers);
 		
 		return key;
 	}

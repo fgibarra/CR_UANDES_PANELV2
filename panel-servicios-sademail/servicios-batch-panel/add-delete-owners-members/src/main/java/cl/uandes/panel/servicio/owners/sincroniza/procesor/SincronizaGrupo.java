@@ -210,7 +210,7 @@ public class SincronizaGrupo implements Processor {
 					logger.info(String.format("agregarOwnersABD: groupName=%s ownersInGmail=%s", groupName, ownersInGmail));
 					headers.clear();
 					headers.put("groupName", groupName);
-					headers.put("ownerEmail", ownerEmail);
+					headers.put("email", ownerEmail);
 					insertNapGrupoOwner.requestBodyAndHeaders(null, headers);
 				}
 			}

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="deleteOwner"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="deleteOwner"/>
+			<item value="MemberRequest"/>
+			<item value="insertNapGrupoOwner"/>
 			<item value="_to6"/>
 			<item value="_setHeader4"/>
 			<item value="members-retrieveOwners"/>
@@ -20,9 +23,6 @@
 			<item value="servSendmail"/>
 			<item value="_to1"/>
 			<item value="updateMiGruposMiUandes"/>
-			<item value="prd_actualiza_cuenta"/>
-			<item value="registraError"/>
-			<item value="Azure"/>
 		</list>
 		<list key="replacehistory">
 			<item value="{headers"/>

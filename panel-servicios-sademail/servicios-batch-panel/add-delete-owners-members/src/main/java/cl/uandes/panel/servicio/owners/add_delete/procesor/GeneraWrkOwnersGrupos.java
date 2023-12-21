@@ -1,7 +1,9 @@
 package cl.uandes.panel.servicio.owners.add_delete.procesor;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -18,6 +20,8 @@ import cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersRequest;
 import cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.servicio.owners.api.resource.OwnersRestService;
+import cl.uandes.panel.servicio.owners.dto.WrkOwnersGruposDTO;
+
 import java.sql.Array;
 import oracle.jdbc.driver.OracleConnection;
 
@@ -29,6 +33,9 @@ public class GeneraWrkOwnersGrupos implements Processor {
 	@EndpointInject(uri = "sql-stored:classpath:sql/prd_pueblaWrkOwnersGroups.sql?dataSource=#bannerDataSource")
 	ProducerTemplate pueblaWrkOwnersGroups;
 
+	@EndpointInject(uri = "sql:classpath:sql/qryWrkOwnersGrupos.sql?dataSource=#bannerDataSource")
+	ProducerTemplate qryWrkOwnersGrupos;
+	
 	private ResultadoFuncion res;
 	private ContadoresAsignarOwners contadores;
 	private Logger logger = Logger.getLogger(getClass());
@@ -51,10 +58,7 @@ public class GeneraWrkOwnersGrupos implements Processor {
 			logger.info(String.format("serviciosValidos [%s, %s]",
 					OwnersRestService.serviciosValidos[OwnersRestService.OWNER],
 					OwnersRestService.serviciosValidos[OwnersRestService.MEMBER]));
-			if (servicio.equalsIgnoreCase(OwnersRestService.serviciosValidos[OwnersRestService.OWNER]))
-				doProcesoOwner(exchange, request);
-			else
-				doProcesoMember(exchange, request);
+			doProceso(exchange, request);
 			
 		} catch (Exception e) {
 			String apoyo = String.format("process: servicio=%s", servicio);
@@ -66,12 +70,35 @@ public class GeneraWrkOwnersGrupos implements Processor {
 
 	}
 
-	private void doProcesoOwner(Exchange exchange, AeOwnersMembersRequest request) {
+	/**
+	 * Puebla tabla wrk_owners_grupos con los datos a agregar/eliminar owners o members a grupos
+	 * Lee a una lista y lo deja en el header
+	 * @param exchange
+	 * @param request
+	 */
+	private void doProceso(Exchange exchange, AeOwnersMembersRequest request) {
 		logger.info("invoca a doProcesoOwner");
-		pueblaWrkOwnersGrupos (exchange, request);
+		List<WrkOwnersGruposDTO> lista = new ArrayList<WrkOwnersGruposDTO>();
+		exchange.getIn().setHeader("listaGrupoCuenta", lista);
+		if (pueblaWrkOwnersGrupos (exchange, request)) {
+			try {
+				@SuppressWarnings("unchecked")
+				List<Map<String, Object>> datos = (List<Map<String, Object>>)qryWrkOwnersGrupos.requestBody(null);
+				if (datos != null && datos.size() > 0) {
+					for (Map<String, Object> map : datos)
+						lista.add(new WrkOwnersGruposDTO(map));
+				}
+			} catch (Exception e) {
+				String apoyo = String.format("process: request=%s", request);
+				logger.error(apoyo, e);
+				if (res != null)
+					registrosBD.registraMiResultadoErrores("NA", apoyo, e, null, res.getKey());
+				contadores.incCountErrores();
+			}
+		}
 	}
 
-	private void pueblaWrkOwnersGrupos(Exchange exchange, AeOwnersMembersRequest request) {
+	private boolean pueblaWrkOwnersGrupos(Exchange exchange, AeOwnersMembersRequest request) {
 		logger.info("invoca a pueblaWrkOwnersGrupos");
 		Map<String,Object> headers = new HashMap<String,Object>();
 		
@@ -84,18 +111,14 @@ public class GeneraWrkOwnersGrupos implements Processor {
 			headers.put("esbWrkOwnersProgramas", esbWrkOwnersProgramas);
 			headers.put("esbWrkOwnersCuentas", esbWrkOwnersCuentas);
 			pueblaWrkOwnersGroups.requestBodyAndHeaders(null, headers);
+			return true;
 		} catch (SQLException e) {
 			String apoyo = String.format("process: request=%s", request);
 			logger.error(apoyo, e);
 			if (res != null)
 				registrosBD.registraMiResultadoErrores("NA", apoyo, e, null, res.getKey());
+			return false;
 		}
-	}
-
-	private void doProcesoMember(Exchange exchange, AeOwnersMembersRequest request) {
-		// TODO Auto-generated method stub
-		logger.info("invoca a doProcesoMember");
-		pueblaWrkOwnersGrupos (exchange, request);
 	}
 
 	//======================================================================================================================================

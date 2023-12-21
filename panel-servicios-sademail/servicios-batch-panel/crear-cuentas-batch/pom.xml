@@ -78,8 +78,8 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/batch/crear-cuentas-batch/1.0.0</outputDirectory>
-					<finalName>crear-cuentas-batch-1.0.0</finalName>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/batch/crear-cuentas-batch/${project.version}</outputDirectory>
+					<finalName>crear-cuentas-batch-${project.version}</finalName>
 					<attach>false</attach>
 				</configuration>
 			</plugin>

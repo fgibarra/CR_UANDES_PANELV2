@@ -40,4 +40,16 @@ public interface GmailServicesEndpoint {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/member/deleteOwner")
 	public Response deleteOwnerFromGroup(MemberRequest in_msg);
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/member/addMember")
+	public MemberResponse addMemberToGroup(MemberRequest in_msg);
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/member/deleteMember")
+	public Response deleteMemberFromGroup(MemberRequest in_msg);
 }

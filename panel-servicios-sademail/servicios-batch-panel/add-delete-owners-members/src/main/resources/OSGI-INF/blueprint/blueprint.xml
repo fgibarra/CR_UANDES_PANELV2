@@ -67,6 +67,30 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/addMemeber"
+        id="rsAgregarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.GmailServicesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/member/deleteMember"
+        id="rsSacarMember" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.GmailServicesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
         id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.SchedulerEndpoint">
         <cxf:headers>
@@ -91,8 +115,7 @@
         <property name="registraInicio" ref="registrosComunes"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
-    <bean
-        class="cl.uandes.panel.servicio.owners.bean.GeneraDatos" id="generaDatos">
+    <bean class="cl.uandes.panel.servicio.owners.bean.GeneraDatos" id="generaDatos">
         <property name="registrosBD" ref="registrosComunes"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
@@ -113,7 +136,6 @@
         <property name="registrosBD" ref="registrosComunes"/>
         <property name="dataSource" ref="bannerDataSource"/>
     </bean>
-
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
         <argument index="0" value="add-delete-owners-members"/>
@@ -198,48 +220,49 @@
         <route id="_procesoAERoute">
             <from id="_proceso" uri="direct:procesoAE"/>
             <log id="_log7" message="(L185) proceso=${header.proceso} request=${header.request}"/>
-            <log message="(L186) inicializar proceso: ${header.proceso}"/>
+            <log id="_log8" message="(L186) inicializar proceso: ${header.proceso}"/>
             <process id="_inicializarProcesoAE" ref="inicialiceOwners"/>
-            <choice>
-                <when>
+            <choice id="_choice3">
+                <when id="_when3">
                     <simple>${header.inicializado} &amp;&amp; ${header.countThread} != null &amp;&amp; ${header.contadoresAsignarOwners} != null</simple>
-                    <to uri="direct:do_procesaAE"/>
-                    <log message="(L192) Finaliza proceso"/>
-                    <process ref="finalizaProceso"/>
+                    <to id="_to5" uri="direct:do_procesaAE"/>
+                    <log id="_log9" message="(L192) Finaliza proceso"/>
+                    <process id="_process3" ref="finalizaProceso"/>
                 </when>
-                <otherwise >
-                    <log message="(L144) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
+                <otherwise id="_otherwise3">
+                    <log id="_log10" message="(L144) proceso ${header.proceso} no pudo ser inicializado body: ${body} header.countThread=${header.countThread} header.contadoresAsignarOwners=${header.contadoresAsignarOwners}"/>
                     <to id="_avisaTerminaProcesoAE" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
-                    <to uri="mock:end"/>
+                    <to id="_to6" uri="mock:end"/>
                 </otherwise>
             </choice>
         </route>
         <!-- _________________________________________________________________________________________________ -->
         <route id="_doProcesoAE">
-			<from uri="direct:do_procesaAE"/>
-			<process ref="generaWrkOwnersGrupos"/> <!-- puebla la tabla wrk_owners-grupos y genera la lista-->
-            <loop doWhile="true">
+            <from id="_from3" uri="direct:do_procesaAE"/>
+            <process id="_process4" ref="generaWrkOwnersGrupos"/>
+            <!-- puebla la tabla wrk_owners-grupos y genera la lista-->
+            <loop doWhile="true" id="_loop2">
                 <simple>${header.listaGrupoCuenta.size} &gt; 0</simple>
-                <choice >
-                    <when >
+                <choice id="_choice4">
+                    <when id="_when4">
                         <simple>${header.countThread.getCounter} &gt; 11</simple>
-                        <delay >
+                        <delay id="_delay2">
                             <constant>1000</constant>
                         </delay>
-                        <log message="(L214)Esperando se desocupe thread"/>
+                        <log id="_log11" message="(L214)Esperando se desocupe thread"/>
                     </when>
-                    <otherwise >
-                        <bean method="recuperaGrupoCuenta" ref="generaDatos"/>
-                        <log message="(L218) procesa elemento numero: ${header.listaGrupoCuenta.size}"/>
-                        <to uri="seda:procesaGrupoCuenta"/>
+                    <otherwise id="_otherwise4">
+                        <bean id="_bean3" method="recuperaGrupoCuenta" ref="generaDatos"/>
+                        <log id="_log12" message="(L218) procesa elemento numero: ${header.listaGrupoCuenta.size}"/>
+                        <to id="_to7" uri="seda:procesaGrupoCuenta"/>
                     </otherwise>
                 </choice>
             </loop>
         </route>
         <!-- _________________________________________________________________________________________________ -->
-        <route >
-            <from uri="seda:procesaGrupoCuenta?concurrentConsumers=12"/>
-            <process ref="procesaGrupoCuenta"/>
+        <route id="_route2">
+            <from id="_from4" uri="seda:procesaGrupoCuenta?concurrentConsumers=12"/>
+            <process id="_process5" ref="procesaGrupoCuenta"/>
         </route>
     </camelContext>
 </blueprint>
