@@ -117,62 +117,68 @@ public class SincronizaUsuario implements Processor {
 		
 		logger.info(String.format("SincronizaUsuario: contadores=%d user.id=%s user.email=%s",
 				contadores.getCountProcesados(), user.getId(), user.getEmail()));
-		Report reporte = getReporte(user.getId());
-		if (reporte == null) {
-			// no se pudo recuperar el reporte de uso, Abortar
-			registraError(proceso, String.format("No se pudo recuperar reporte para cuenta %s de %s %s", 
-					user.getEmail(), user.getGivenName(), user.getFamilyName()),
-					new BigDecimal(keyResultado),user.getEmail());
-		} else {
-			// tenemos los datos para actualizar BD
-			Map<String, Object> datos = actualizaBD(user, reporte);
-			if (datos != null) {
-				String estadoAcademico = (String) datos.get("ESTADO_ACADEMICO");
-				java.sql.Date fechaAviso = (java.sql.Date) datos.get("FECHA_AVISO");
-				String tipoCuenta = (String) datos.get("TIPO_CUENTA");
+		try {
+			Report reporte = getReporte(user.getId());
+			if (reporte == null) {
+				// no se pudo recuperar el reporte de uso, Abortar
+				registraError(proceso, String.format("No se pudo recuperar reporte para cuenta %s de %s %s", 
+						user.getEmail(), user.getGivenName(), user.getFamilyName()),
+						new BigDecimal(keyResultado),user.getEmail());
+			} else {
+				// tenemos los datos para actualizar BD
+				Map<String, Object> datos = actualizaBD(user, reporte);
+				if (datos != null) {
+					String estadoAcademico = (String) datos.get("ESTADO_ACADEMICO");
+					java.sql.Date fechaAviso = (java.sql.Date) datos.get("FECHA_AVISO");
+					String tipoCuenta = (String) datos.get("TIPO_CUENTA");
 
-				logger.info(String.format("SincronizaUsuario: user.id=%s user.email=%s estadoAcademico=%s fecha_aviso=%s tipoCuenta=%s", 
-						user.getId(), user.getEmail(), estadoAcademico, StringUtils.toString((Date) datos.get("fecha_aviso")), tipoCuenta));
-				
-				if ("PANEL".equalsIgnoreCase(tipoCuenta))
-					contadores.incRegistrados();
-				else if ("EXTERNA".equalsIgnoreCase(tipoCuenta))
-					contadores.incNoRegistrados();
-				
-				// se pueden eliminar cuentas en base al estado academico
-				if (hayQueEliminar(estadoAcademico))
-					eliminarCuenta(user.getId());
-				
-				else if (StringUtils.estaContenido("suspender", operaciones)) {
-					Long maxPermitido = getMaxPermitido(estadoAcademico);
-					if (hayExcesoUso(maxPermitido, reporte)) {
-						if (fechaAviso != null) {
-							if (hayQueSuspender(fechaAviso)) {
-								suspenderCuenta(user.getId());
+					logger.info(String.format("SincronizaUsuario: user.id=%s user.email=%s estadoAcademico=%s fecha_aviso=%s tipoCuenta=%s", 
+							user.getId(), user.getEmail(), estadoAcademico, StringUtils.toString((Date) datos.get("fecha_aviso")), tipoCuenta));
+					
+					if ("PANEL".equalsIgnoreCase(tipoCuenta))
+						contadores.incRegistrados();
+					else if ("EXTERNA".equalsIgnoreCase(tipoCuenta))
+						contadores.incNoRegistrados();
+					
+					// se pueden eliminar cuentas en base al estado academico
+					if (hayQueEliminar(estadoAcademico))
+						eliminarCuenta(user.getId());
+					
+					else if (StringUtils.estaContenido("suspender", operaciones)) {
+						Long maxPermitido = getMaxPermitido(estadoAcademico);
+						if (hayExcesoUso(maxPermitido, reporte)) {
+							if (fechaAviso != null) {
+								if (hayQueSuspender(fechaAviso)) {
+									suspenderCuenta(user.getId());
+								}
+							} else {
+								avisarSuspencion(exchange, user, reporte, maxPermitido);
 							}
-						} else {
-							avisarSuspencion(exchange, user, reporte, maxPermitido);
-						}
-					} else  {
-						// No hay exceso de uso.
-						// si hubo aviso, eliminar el aviso
-						if (fechaAviso != null) {
-							quitaFechaAviso.requestBodyAndHeader(null, "idGmail", user.getId());
-						}
-						
-						if (hayQueReactivar(maxPermitido, reporte)) {
-							if (!reactivarCuenta(user)) {
-								registraError(proceso, "No se pudo reactivar cuenta", new BigDecimal(keyResultado),user.getEmail());
-								logger.info(String.format("SincronizaUsuario: no pudo reactivar cuenta %s", user.getEmail()));
+						} else  {
+							// No hay exceso de uso.
+							// si hubo aviso, eliminar el aviso
+							if (fechaAviso != null) {
+								quitaFechaAviso.requestBodyAndHeader(null, "idGmail", user.getId());
+							}
+							
+							if (hayQueReactivar(maxPermitido, reporte)) {
+								if (!reactivarCuenta(user)) {
+									registraError(proceso, "No se pudo reactivar cuenta", new BigDecimal(keyResultado),user.getEmail());
+									logger.info(String.format("SincronizaUsuario: no pudo reactivar cuenta %s", user.getEmail()));
+								}
 							}
 						}
 					}
-				}
-			} else
-				logger.error(String.format("No pudo actualizar BD para %s", user.getEmail()));
+				} else
+					logger.error(String.format("No pudo actualizar BD para %s", user.getEmail()));
+			}
+			countThread.decCounter();
+			logger.info(String.format("SincronizaUsuario: libera thread countThread=%d", countThread.getCounter()));
+		} catch (CamelExecutionException e) {
+			countThread.decCounter();
+			logger.error("No se pudo procesar usuario", e);
+			registraError(proceso, "No se pudo procesar usuario", new BigDecimal(keyResultado),user.getEmail());
 		}
-		countThread.decCounter();
-		logger.info(String.format("SincronizaUsuario: libera thread countThread=%d", countThread.getCounter()));
 	}
 
 

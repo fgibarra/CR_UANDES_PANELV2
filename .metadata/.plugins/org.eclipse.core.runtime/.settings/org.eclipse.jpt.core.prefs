@@ -1,2 +1,4 @@
+defaultJpaPlatform_1.0=hibernate
 defaultJpaPlatform_2.0=hibernate2_0
+defaultJpaPlatform_2.2=generic2_2
 eclipse.preferences.version=1

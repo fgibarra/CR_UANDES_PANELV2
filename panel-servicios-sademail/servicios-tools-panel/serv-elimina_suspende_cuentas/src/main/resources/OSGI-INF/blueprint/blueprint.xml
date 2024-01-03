@@ -179,7 +179,7 @@
             </camel:setHeader>
             <log id="_log9" message="Reactiva cuentas: a actualizar id_gmail archivo input"/>
             <to id="actIgGmail1" uri="direct:actualizaIdGmail"/>
-            <to id="_qryDatos" uri="sql:select key,cuenta,spriden_id,usado,estado_academico,id_gmail from wrk_cuentas_operar where res_elim_suspender is null order by cuenta?dataSource=#bannerDataSource"/>
+            <to id="_qryDatos" uri="sql:select key,cuenta,spriden_id,usado,estado_academico,id_gmail,last_login from wrk_cuentas_operar where res_elim_suspender is null order by cuenta?dataSource=#bannerDataSource"/>
             <process id="_recuperaDeBanner" ref="recuperaDeBanner"/>
             <log id="_log1" message="hay ${header.listaCuentas.size} elementos en la lista"/>
             <loop doWhile="true" id="_loopProcesaDatos">

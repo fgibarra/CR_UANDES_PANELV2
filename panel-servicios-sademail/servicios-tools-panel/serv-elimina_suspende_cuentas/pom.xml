@@ -62,7 +62,7 @@
 							org.osgi.service.blueprint;version="[1.0.0,2.0.0)"
 						</Import-Package>
 						<DynamicImport-Package>
-							cl.uandes.sadmemail.comunes.*
+							*
 						</DynamicImport-Package>
 						<_removeheaders>Import-Service,Export-Service</_removeheaders>
 						<Bundle-Description>ServiceEliminaSuspendeCuenta</Bundle-Description>

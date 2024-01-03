@@ -31,6 +31,8 @@ public class DatosLeidosBannerDTO implements Serializable {
 	String funcion;
 	@JsonProperty("id_gmail")
 	String idGmail;
+	@JsonProperty("last_login")
+	String lastLogin;
 
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -44,34 +46,43 @@ public class DatosLeidosBannerDTO implements Serializable {
 					this.loginName = this.loginName.substring(0, index);
 			}
 			this.key = (Integer.valueOf(((BigDecimal)mapDatos.get("KEY")).intValue()));
+			this.lastLogin = (String)mapDatos.get("LAST_LOGIN");
 			this.spridenId = (String)mapDatos.get("SPRIDEN_ID");
+			this.idGmail = (String)mapDatos.get("ID_GMAIL");
 			if (mapDatos.get("USADO") != null)
 				this.usado = Integer.valueOf(((BigDecimal)mapDatos.get("USADO")).intValue());
 			String estado = (String)mapDatos.get("ESTADO_ACADEMICO");
 			if (estado != null) {
 				if (esElimina(estado))
 					this.funcion = "elimina";
-				else if (!esIntocable(estado) && esSuspende(maxUsado))
-					this.funcion = "suspende";
+				else if (!esIntocable(estado)) {
+					if (esSuspende())
+						this.funcion = "suspende";
+					else if (esSuspende1(estado))
+						this.funcion = "suspende";
+					else if (esSuspende2(getUsado()))
+						this.funcion = "suspende";	
+				}
 				else
-					this.funcion = null;
+					this.funcion = "ignore";
 			} else
 				this.funcion = "ignore";
-			this.idGmail = (String)mapDatos.get("ID_GMAIL");
 		} catch (Exception e) {
 			StringBuffer sb = new StringBuffer();
 			for (String key : mapDatos.keySet()) {
 				sb.append(String.format("%s = %s\n", key, mapDatos.get(key)));
 			}
-			logger.error(String.format("DatosLeidosBannerDTO: %s\n%s", e.getCause(), sb.toString()));
+			logger.error(String.format("DatosLeidosBannerDTO: %s\n%s", e.getCause(), sb.toString()), e);
 		}
 	}
 	
 	private boolean esElimina(String estado) {
 		String [] estadosElimina = {"ABANDONO","ELIMINADO","DESISTIDO","FALLECIDO","RETIRADO"};
 		for (String es : estadosElimina)
-			if (estado.equals(es))
-				return true;
+			if (estado.equals(es)) {
+				if (getLastLogin().toLowerCase().indexOf("never") >= 0)
+					return true;
+			}
 		return false;
 	}
 
@@ -83,7 +94,21 @@ public class DatosLeidosBannerDTO implements Serializable {
 		return false;
 	}
 
-	private boolean esSuspende(Integer maxUsado) {
+	private boolean esSuspende() {
+		return true;
+	}
+	
+	@SuppressWarnings("unused")
+	private boolean esSuspende1(String estado) {
+		String [] estadosElimina = {"ABANDONO","ELIMINADO","DESISTIDO","FALLECIDO","RETIRADO"};
+		for (String es : estadosElimina)
+			if (estado.equals(es))
+				return true;
+		return false;
+	}
+
+	@SuppressWarnings("unused")
+	private boolean esSuspende2(Integer maxUsado) {
 		if (getUsado() > maxUsado)
 			return true;
 		return false;
@@ -152,6 +177,14 @@ public class DatosLeidosBannerDTO implements Serializable {
 
 	public String getIdGmail() {
 		return idGmail;
+	}
+
+	public String getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(String lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 }

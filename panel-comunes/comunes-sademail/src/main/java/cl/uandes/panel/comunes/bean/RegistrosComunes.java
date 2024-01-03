@@ -151,7 +151,7 @@ public class RegistrosComunes {
 		registraLogError(clase, metodo, apoyo, e, null);
 	}
 
-	private Map<String, String> getClaseMetodo(Exception e) {
+	public Map<String, String> getClaseMetodo(Exception e) {
 		Map<String, String> map = new HashMap<String, String>();
 		StackTraceElement[] elements = e.getStackTrace();
 		String clase = elements[0].getClassName();;

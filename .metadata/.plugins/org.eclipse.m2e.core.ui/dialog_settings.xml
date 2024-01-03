@@ -6,6 +6,7 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="servicios-tools-panel"/>
 			<item value="servicios-online-panel"/>
 			<item value="add-delete-owners-members"/>
 			<item value="api-sendmail"/>
@@ -23,6 +24,7 @@
 		</list>
 	</section>
 	<section name="MavenProjectWizardArchetypePage">
+		<item key="catalog" value="All Catalogs"/>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
 			<item value="[artifactId]-TRUNK"/>
@@ -34,13 +36,10 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
-			<item value="org.servicios.online.panel"/>
 		</list>
 		<list key="groupId">
-			<item value="uandes.panel-v2.servicios"/>
 		</list>
 		<list key="artifactId">
-			<item value="servicios-online-panel"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -51,23 +50,24 @@
 			<item value="[name]"/>
 		</list>
 		<list key="version">
-			<item value="0.0.1"/>
+			<item value="0.0.1-SNAPSHOT"/>
 		</list>
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
-			<item value="uandes.panel-v2.servicios"/>
-			<item value="uandes.panel-v2.servicios.batch"/>
+			<item value="uandes.panel-v2.gui"/>
 		</list>
 		<list key="name">
-			<item value="Servicios Online Panel"/>
-			<item value="Agregar Sacar owners o miembros de grupos"/>
+			<item value="Esqueleto JSF con Primefaces"/>
+			<item value="Un simple Hello"/>
+			<item value="Hello world JSF 2.2"/>
+			<item value="Panel - v2 WebApp"/>
 		</list>
 		<list key="artifactId">
-			<item value="servicios-online-panel"/>
-			<item value="panel-servicios-sademail"/>
-			<item value="add-delete-owners-members"/>
-			<item value="servicios-batch-panel"/>
+			<item value="panel-web"/>
+			<item value="hello-simple"/>
+			<item value="hello-world"/>
+			<item value="panel-webapp"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -79,11 +79,13 @@
 		</list>
 		<list key="version">
 			<item value="0.0.1"/>
+			<item value="1.0.0"/>
 			<item value="0.0.1-SNAPSHOT"/>
 		</list>
 	</section>
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-gui/panel-webapp"/>
 			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-servicios-sademail/servicios-batch-panel"/>
 		</list>
 		<list key="projectNameTemplate">
@@ -97,6 +99,10 @@
 	</section>
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-gui/panel-web"/>
+			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-gui/hello-simple"/>
+			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-gui/hello-world"/>
+			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-gui"/>
 			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-servicios-sademail/servicios-batch-panel/pom.xml"/>
 		</list>
 		<list key="projectNameTemplate">
@@ -113,5 +119,20 @@
 		<item key="height" value="828"/>
 		<item key="x" value="770"/>
 		<item key="y" value="28"/>
+	</section>
+	<section name="org.eclipse.m2e.core.ui.internal.wizards.CustomArchetypeDialog">
+		<list key="archetypeGroupId">
+			<item value="org.primefaces.archetypes"/>
+		</list>
+		<list key="archetypeArtifactId">
+			<item value="primefaces-jsf20-archetype"/>
+		</list>
+		<list key="archetypeVersion">
+			<item value="0.1.0"/>
+		</list>
+		<list key="repositoryUrl">
+			<item value="https://github.com/svn2github/primefaces-maven/tree/master/archetypes"/>
+			<item value=""/>
+		</list>
 	</section>
 </section>
