@@ -115,15 +115,22 @@ public class SincronizaUsuario implements Processor {
 		usoProfesores = datosKcoFunciones.getParametros().getUsoProfesores();
 		periodoGracia = datosKcoFunciones.getParametros().getPeriodo().longValue();
 		
-		logger.info(String.format("SincronizaUsuario: contadores=%d user.id=%s user.email=%s",
-				contadores.getCountProcesados(), user.getId(), user.getEmail()));
+		logger.info(String.format("SincronizaUsuario: contadores=%d user.id=%s user.email=%s countThread=%d keyResultado=%d",
+				contadores.getCountProcesados(), user.getId(), user.getEmail(), countThread.getCounter(),keyResultado));
 		try {
 			Report reporte = getReporte(user.getId());
 			if (reporte == null) {
-				// no se pudo recuperar el reporte de uso, Abortar
-				registraError(proceso, String.format("No se pudo recuperar reporte para cuenta %s de %s %s", 
-						user.getEmail(), user.getGivenName(), user.getFamilyName()),
-						new BigDecimal(keyResultado),user.getEmail());
+				if (user != null) {
+					logger.info(String.format("SincronizaUsuario: No pudo obtener reporte [keyResultado=%d]", keyResultado));
+					// no se pudo recuperar el reporte de uso, Abortar
+					String msg = String.format("No se pudo recuperar reporte para cuenta %s de %s %s", 
+							user.getEmail(), user.getGivenName(), user.getFamilyName());
+					logger.info(msg);
+					registraError(proceso, msg,
+							new BigDecimal(keyResultado),user.getEmail());
+				} else {
+					logger.info("SincronizaUsuario: user es NULO");
+				}
 			} else {
 				// tenemos los datos para actualizar BD
 				Map<String, Object> datos = actualizaBD(user, reporte);
@@ -174,7 +181,7 @@ public class SincronizaUsuario implements Processor {
 			}
 			countThread.decCounter();
 			logger.info(String.format("SincronizaUsuario: libera thread countThread=%d", countThread.getCounter()));
-		} catch (CamelExecutionException e) {
+		} catch (Exception e) {
 			countThread.decCounter();
 			logger.error("No se pudo procesar usuario", e);
 			registraError(proceso, "No se pudo procesar usuario", new BigDecimal(keyResultado),user.getEmail());
@@ -225,7 +232,8 @@ public class SincronizaUsuario implements Processor {
 		}
 		if (res.getCodigo() == 0)
 			reporte  = res.getReporte();
-		
+		else
+			logger.info(String.format("getReporte: res=%s report es %s", res!=null?res:"ES NULO", reporte==null?"NULO":reporte));
 		return reporte;
 	}
 

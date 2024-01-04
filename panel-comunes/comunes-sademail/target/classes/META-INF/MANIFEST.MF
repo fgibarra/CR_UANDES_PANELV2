@@ -1,3 +1,40 @@
 Manifest-Version: 1.0
-Class-Path: 
-
+Bnd-LastModified: 1704398453907
+Build-Jdk: 1.8.0_291
+Built-By: sademail
+Bundle-Description: ComunesPanel
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: Panel [comunes-panel-v1]
+Bundle-SymbolicName: comunes-panel-v1
+Bundle-Version: 0.0.1
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: *
+Export-Package: cl.uandes.panel.comunes.json.aeOwnersMembers;uses:="com.
+ fasterxml.jackson.annotation";version="0.0.1",cl.uandes.panel.comunes.j
+ son.batch;uses:="com.fasterxml.jackson.annotation";version="0.0.1",cl.u
+ andes.panel.comunes.json.batch.crearGrupos;uses:="com.fasterxml.jackson
+ .annotation";version="0.0.1",cl.uandes.panel.comunes.json.batch.crearcu
+ entas;uses:="com.fasterxml.jackson.annotation";version="0.0.1",cl.uande
+ s.panel.comunes.json.cambiacuenta;uses:="com.fasterxml.jackson.annotati
+ on";version="0.0.1",cl.uandes.panel.comunes.json.creaCuenta;uses:="com.
+ fasterxml.jackson.annotation";version="0.0.1",cl.uandes.panel.comunes.j
+ son.sendmail;uses:="com.fasterxml.jackson.annotation";version="0.0.1",c
+ l.uandes.panel.comunes.json.sincronizaGrupos;uses:="com.fasterxml.jacks
+ on.annotation";version="0.0.1",cl.uandes.panel.comunes.json.updateidgma
+ il;uses:="com.fasterxml.jackson.annotation";version="0.0.1",cl.uandes.p
+ anel.comunes.servicios.dto;uses:="com.fasterxml.jackson.annotation";ver
+ sion="0.0.1",cl.uandes.panel.comunes.servicios.exceptions;version="0.0.
+ 1",cl.uandes.panel.comunes.utils;uses:="cl.uandes.panel.comunes.json.ba
+ tch,cl.uandes.panel.comunes.servicios.dto,org.apache.log4j";version="0.
+ 0.1",cl.uandes.panel.comunes.bean;version="0.0.1",cl.uandes.panel.comun
+ es.procesor;uses:="cl.uandes.panel.comunes.bean,cl.uandes.panel.comunes
+ .json.batch,cl.uandes.panel.comunes.servicios.dto";version="0.0.1",sql_
+ comunes;version="0.0.1"
+Import-Package: org.apache.log4j;version="[1.2,2)",com.fasterxml.jackson
+ .databind;version="[2.6,3)",com.fasterxml.jackson.annotation;version="[
+ 2.6,3)",org.apache.commons.lang;version="[2.6,3)",cl.uandes.sadmemail.c
+ omunes.google.api.services;version="[0.0,1)",com.fasterxml.jackson.jaxr
+ s.json;version="[2.6,3)"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Tool: Bnd-3.2.0.201605172007

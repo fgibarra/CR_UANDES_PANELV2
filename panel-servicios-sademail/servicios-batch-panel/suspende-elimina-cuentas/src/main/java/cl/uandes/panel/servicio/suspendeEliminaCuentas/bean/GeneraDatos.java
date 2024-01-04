@@ -14,6 +14,7 @@ import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
+import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.sadmemail.comunes.gmail.json.AllUsersRequest;
@@ -33,6 +34,7 @@ public class GeneraDatos {
 	ProducerTemplate rsRetrieveAllUsers;
 	String templateRecuperaGrupoGmail = "%s/user/retrieveAllUsers";
 
+	private ResultadoFuncion resultadoFuncion = null;
 	private Logger logger = Logger.getLogger(getClass());
 	
 	/**
@@ -45,6 +47,7 @@ public class GeneraDatos {
 	public void recuperaUsuariosGmail(Exchange exchange) {
 		Message message = exchange.getIn();
 		String token = (String) message.getHeader("retrieveAllUsers.token");
+		resultadoFuncion = (ResultadoFuncion)message.getHeader("ResultadoFuncion");
 		Integer procesados = ((ContadoresSincronizarCuentas)message.getHeader("contadoresSincronizarCuentas")).getCountProcesados();
 		logger.info(String.format("recuperaUsuariosGmail: token=%s elementos procesados: %d", 
 				token != null ? token : "ES NULO", procesados));
@@ -54,6 +57,7 @@ public class GeneraDatos {
 			message.setHeader("retrieveAllUsers.token", token);
 			message.setHeader("hayToken", token != null);
 			message.setHeader("listaUsuariosSincronizar", response.getListaUsuarios());
+			message.setHeader("keyResultado", resultadoFuncion.getKey());
 		}
 	}
 	
