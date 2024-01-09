@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
+import org.apache.camel.Header;
 import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
 import org.apache.log4j.Logger;
@@ -288,6 +289,12 @@ public class RegistrosComunes {
 		actualizarMiResultado.requestBodyAndHeaders(null, headers);
 	}
 
+	public String getSamaccountName(@Header(value = "nombres")String nombres) {
+		//TODO
+		String smaccountName = null;
+		
+		return smaccountName;
+	}
 	//============================================================================================================
 	// Getters y Setters
 	//============================================================================================================

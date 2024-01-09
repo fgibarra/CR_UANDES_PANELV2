@@ -82,5 +82,6 @@
   	<module>add-delete-owners-members</module>
   	<module>scheduler-actualiza-id-gmail</module>
   	<module>serv-actualiza-id-gmail</module>
+  	<module>crear-cuentas-AD-file</module>
   </modules>
 </project>

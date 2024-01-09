@@ -6,6 +6,7 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="crear-cuentas-AD-file"/>
 			<item value="servicios-tools-panel"/>
 			<item value="servicios-online-panel"/>
 			<item value="add-delete-owners-members"/>
@@ -36,10 +37,13 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
+			<item value="org.crear.cuentas.AD.file"/>
 		</list>
 		<list key="groupId">
+			<item value="uandes.panel-v2.servicios.batch"/>
 		</list>
 		<list key="artifactId">
+			<item value="crear-cuentas-AD-file"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -50,20 +54,24 @@
 			<item value="[name]"/>
 		</list>
 		<list key="version">
-			<item value="0.0.1-SNAPSHOT"/>
+			<item value="0.0.1"/>
 		</list>
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="uandes.panel-v2.servicios.batch"/>
 			<item value="uandes.panel-v2.gui"/>
 		</list>
 		<list key="name">
+			<item value="crear-cuentas-AD-file"/>
 			<item value="Esqueleto JSF con Primefaces"/>
 			<item value="Un simple Hello"/>
 			<item value="Hello world JSF 2.2"/>
 			<item value="Panel - v2 WebApp"/>
 		</list>
 		<list key="artifactId">
+			<item value="crear-cuentas-AD-file"/>
+			<item value="servicios-batch-panel"/>
 			<item value="panel-web"/>
 			<item value="hello-simple"/>
 			<item value="hello-world"/>

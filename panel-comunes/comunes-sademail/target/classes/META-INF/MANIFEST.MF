@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1704398453907
+Bnd-LastModified: 1704727160481
 Build-Jdk: 1.8.0_291
 Built-By: sademail
 Bundle-Description: ComunesPanel
@@ -36,5 +36,5 @@ Import-Package: org.apache.log4j;version="[1.2,2)",com.fasterxml.jackson
  2.6,3)",org.apache.commons.lang;version="[2.6,3)",cl.uandes.sadmemail.c
  omunes.google.api.services;version="[0.0,1)",com.fasterxml.jackson.jaxr
  s.json;version="[2.6,3)"
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
 Tool: Bnd-3.2.0.201605172007
