@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import cl.uandes.panel.comunes.utils.StringUtilities;
+
 public class CuentasADDTO implements Serializable {
 
 	/**
@@ -29,12 +31,27 @@ public class CuentasADDTO implements Serializable {
 	private String comuna;
 	@JsonProperty("RAMA")
 	private String rama;
+	@JsonProperty("LOGIN_NAME")
+	private String loginName;
+	@JsonProperty("LOGIN_NAME_0")
+	private String loginName0;
 
+	private Integer seq = 1;
+	
 	public CuentasADDTO(String linea) {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	public synchronized void incSeq() {
+		this.seq++;
+	}
+	
+	public synchronized String setLastLoginName() {
+		this.loginName = String.format("%s%d", loginName0, seq);
+		return this.loginName;
+	}
+	
 	@Override
 	@JsonIgnore
 	public String toString() {
@@ -109,6 +126,34 @@ public class CuentasADDTO implements Serializable {
 
 	public void setRama(String rama) {
 		this.rama = rama;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public Integer getSeq() {
+		return seq;
+	}
+
+	public void setSeq(Integer seq) {
+		this.seq = seq;
+	}
+
+	public void setSeq(String valor) {
+		this.seq = StringUtilities.getInstance().toInteger(valor);
+	}
+
+	public String getLoginName0() {
+		return loginName0;
+	}
+
+	public void setLoginName0(String loginName0) {
+		this.loginName0 = loginName0;
 	}
 
 }

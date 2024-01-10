@@ -1,0 +1,1 @@
+insert into ad_nombres_cuentas (smaccountName) values (:#smaccountName)

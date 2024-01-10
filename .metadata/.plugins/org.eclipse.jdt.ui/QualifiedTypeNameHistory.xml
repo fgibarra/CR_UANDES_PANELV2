@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.io.File"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.report.json.Report"/>
-    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.google.api.services.User"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.KcoLogErrorDTO"/>
     <fullyQualifiedTypeName name="javax.sql.rowset.serial.SerialClob"/>
     <fullyQualifiedTypeName name="java.io.StringWriter"/>
     <fullyQualifiedTypeName name="java.io.PrintWriter"/>
@@ -27,7 +23,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.RequestOwners"/>
     <fullyQualifiedTypeName name="com.sun.xml.bind.v2.runtime.reflect.Accessor.GetterSetterReflection"/>
@@ -60,4 +55,9 @@
     <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="org.apache.camel.Header"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.CuentasADDTO"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPResponse"/>
 </qualifiedTypeNameHistroy>

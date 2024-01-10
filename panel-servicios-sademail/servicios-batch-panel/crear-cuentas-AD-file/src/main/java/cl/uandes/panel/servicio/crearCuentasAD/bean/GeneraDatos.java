@@ -14,14 +14,38 @@ public class GeneraDatos {
 
 	private Logger logger = Logger.getLogger(getClass());
 
-	public void generaLista(Exchange exchange) {
+	/**
+	 * Genera lista para crear cuentas AD a partir del archivo leido
+	 * 
+	 * @param exchange
+	 */
+	public void generaListaXfile(Exchange exchange) {
 		Message message = exchange.getIn();
 		Object body = message.getBody();
-		
+
 		// KCO_FUNCIONES
 		logger.info(String.format("para KCO_FUNCIONES: key: %s\n%s", body.getClass().getSimpleName(), body));
-		
+
 	}
+
+	/**
+	 * Genera lista para crear cuentas AD segun el request recibido
+	 * 
+	 * @param exchange
+	 */
+	public void generaListaXrequest(Exchange exchange) {
+		Message message = exchange.getIn();
+		Object body = message.getBody();
+
+		// KCO_FUNCIONES
+		logger.info(String.format("para KCO_FUNCIONES: key: %s\n%s", body.getClass().getSimpleName(), body));
+
+	}
+
+	//===============================================================================================================
+	// Getters y Setters
+	//===============================================================================================================
+	
 	public String getProceso() {
 		return proceso;
 	}

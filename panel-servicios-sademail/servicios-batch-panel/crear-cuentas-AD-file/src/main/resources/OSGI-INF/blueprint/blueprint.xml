@@ -19,6 +19,8 @@
     </jaxrs:server>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF clients -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- servicio AD -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/serviciosAD/consultaXrut"
         id="rsADconsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultaADEndpoint">
@@ -56,13 +58,51 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- sedrvicios gmail -->
+    <!-- Consultar nickname gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
+        id="consultaNickNameGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- Consultar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.crearCuentasAD.api.resource.CrearCuentasRestService" id="restService">
         <property name="procesoCrearCuentas" value="{{crear-cuentas-AD.funcion}}"/>
     </bean>
-    <bean class="cl.uandes.panel.servicio.crearCuentasAD.bean.GeneraDatos" id="generaDatos">
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.crearCuentasAD.bean.GeneraDatos" id="generaDatos">
         <property name="proceso" value="{{crear-cuentas-AD.funcion}}"/>
         <property name="kcoFuncion" value="{{crear-cuentas-AD.funcion}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+        <argument index="0" value="crear_cuentas_AD"/>
+        <!-- reemplazar artifactId -->
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearCuentas">
+        <property name="registraInicio" ref="registrosComunes"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -70,20 +110,60 @@
         filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
     <!-- ==================================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-    <camelContext id="crear-cuentas-AD-file"
-        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
-         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
-       <!-- ================================================================================================= -->
-        <route>
-			<from uri="file:///home/sademail/cuentasAD?fileName=cuentas.csv"/>
-			<bean method="generaLista" ref="generaDatos"/>
-			<to uri="mock:end"/>
+    <camelContext id="crear-cuentas-AD-file" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <!-- ================================================================================================= -->
+        <route id="_fromFile">
+            <from id="_from1" uri="file:///home/sademail/cuentasAD?fileName=cuentas.csv"/>
+			<!--
+				Parte porque se detecto el archivo en el directorio
+				- armar una lista con los datos del archivo  
+				- inicializar registros de log
+				- completa la lista de las cuentas AD a crear
+				- va a la ruta que crea las cuentas
+			-->
+            <bean id="_bean1" method="generaListaXfile" ref="generaDatos"/>
+			<process id="_recuperaDatosInicializar" ref="inicialiceCrearCuentas"/>
+            <to id="_to1" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
-        <route>
-			<from uri="direct:proceso"/>
+        <route id="_readJson">
+            <from id="_from2" uri="direct:proceso"/>
+			<!--
+				Viene de algun scheduler.
+				- El RestService deja la respuesrta al que invoca y activa en forma asincrona a la ruta seda:doJob
+			-->
 			<to uri="mock:end"/>
+		</route>
+        <!-- ================================================================================================= -->
+		<route>
+			<from uri="seda:procesaAlumnosPostgrado"/>
+			<!--
+				Viene de RestService.
+				- inicializar registros de log
+				- arma la lista de las cuentas AD a crear
+				- va a la ruta que crea las cuentas
+			-->
+			<process id="_recuperaDatosInicializar" ref="inicialiceCrearCuentas"/>
+			<bean method="generaListaXrequest" ref="generaDados"/>
+			<to uri="direct:procesaLista"/>
+            <to uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
+		<route>
+			<from uri="direct:procesaLista"/>
+			<!--
+				Recibe la lista con los datos listos para crear las cuentas
+				- loop para cada elemento
+					- crea la cuenta
+					- la registra en la BDC (si existe el usuario) 
+			-->
+			<loop doWhile="true">
+			<simple>${header.listaCuentas.size} &gt; 0</simple>
+                <bean method="getCuentaFromListaCuentas" ref="generaDatos"/>
+                <process id="_cuentasThreadProcess" ref="cuentasThread"/>
+            </loop>
+			<process ref="registraCuentaBDC"/>
+		</route>
     </camelContext>
 </blueprint>

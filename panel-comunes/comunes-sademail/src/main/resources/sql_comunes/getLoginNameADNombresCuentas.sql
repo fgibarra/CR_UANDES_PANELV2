@@ -1,0 +1,1 @@
+select samaccount_name from samaccount_name where samaccount_name like :#cuentaporciento

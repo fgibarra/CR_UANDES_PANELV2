@@ -1,6 +1,7 @@
 package cl.uandes.panel.comunes.bean;
 
 import java.io.PrintWriter;
+import java.io.SequenceInputStream;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -12,13 +13,21 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Header;
 import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
+import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.Contadores;
+import cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPRequest;
+import cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPResponse;
+import cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario;
+import cl.uandes.panel.comunes.servicios.dto.CuentasADDTO;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.panel.comunes.utils.StringUtilities;
+import cl.uandes.sadmemail.comunes.gmail.json.AliasResponse;
+import cl.uandes.sadmemail.comunes.gmail.json.UserResponse;
+import cl.uandes.sadmemail.comunes.utils.JSonUtilities;
 
 public class RegistrosComunes {
 
@@ -45,6 +54,12 @@ public class RegistrosComunes {
 	@EndpointInject(uri = "sql:classpath:sql_comunes/insertKcoLogError.sql?dataSource=#bannerDataSource")
 	ProducerTemplate insertKcoLogError;
 
+	@EndpointInject(uri = "sql:classpath:sql_comunes/getLoginNameADNombresCuenta.sql?dataSource=#bannerDataSource")
+	ProducerTemplate getLoginNameADNombresCuenta;
+
+	@EndpointInject(uri = "sql:classpath:sql_comunes/insertNombresCuenta.sql?dataSource=#bannerDataSource")
+	ProducerTemplate insertNombresCuenta;
+	
 	String proceso = null;
 	
 	private Logger logger = Logger.getLogger(getClass());
@@ -289,12 +304,180 @@ public class RegistrosComunes {
 		actualizarMiResultado.requestBodyAndHeaders(null, headers);
 	}
 
-	public String getSamaccountName(@Header(value = "nombres")String nombres) {
+	/**
+	 * Busca un nombre para cuenta mail y AD que no haya sido usado
+	 * - arma el posible nombre a partir de la primera letra del primer nombre + 
+	 * 		la primera letra del segundo nombre (si existe) +
+	 * 		apellido paterno.
+	 * - busca que no se encuentre en tabla AD_NOMBRES_CUENTA
+	 * 		si lo encuentra, agrega un numero de secuencia hasta que no exista.
+	 * - busca si hay un nickname definido en gmail (si hay incrementa la secuencia)
+	 * - busca si no hay una cuenta en gmail
+	 * - cuando no encuentre por ningun criterio, actualiza la tabla y devuelve el nombre
+	 * 
+	 * @param nombres
+	 * @return
+	 */
+	public String getSamaccountName(@Header(value = "CuentasADDTO")CuentasADDTO cuentasADDTO, Exchange exchange) {
 		//TODO
 		String smaccountName = null;
-		
+		if (cuentasADDTO != null) {
+			// recuperar un login name desde AD_NOMBRES_CUENTA que no este ocupado
+			cuentasADDTO = getSamaccountName(cuentasADDTO);
+			
+			// verifica que no se haya ocupado como nombre de cuenta o nickname en GMAIL
+			boolean esteOcupado = true;
+			do {
+				esteOcupado = estaOcupadoEngmail(cuentasADDTO);
+				if (esteOcupado) {
+					insertNombresCuenta.requestBodyAndHeader(null, "smaccountName", cuentasADDTO.getLoginName());
+					cuentasADDTO.incSeq();
+					cuentasADDTO.setLastLoginName();
+				}
+			} while (esteOcupado);
+
+			// verifica que no este ocupado como sAmaccountName en el AD
+			esteOcupado = true;
+			do {
+				esteOcupado = estaOcupadoEnAD(cuentasADDTO);
+				if (esteOcupado) {
+					insertNombresCuenta.requestBodyAndHeader(null, "smaccountName", cuentasADDTO.getLoginName());
+					cuentasADDTO.incSeq();
+					cuentasADDTO.setLastLoginName();
+				}
+			} while (esteOcupado);
+
+			smaccountName = cuentasADDTO.getLoginName();
+			insertNombresCuenta.requestBodyAndHeader(null, "smaccountName", smaccountName);
+		}
 		return smaccountName;
 	}
+	
+	private CuentasADDTO getSamaccountName(CuentasADDTO cuentasADDTO) {
+		logger.info(String.format("estaOcupadoEngmail: loginName0=%s seq=%d", cuentasADDTO.getLoginName0(), cuentasADDTO.getSeq()));
+		String smaccountName = cuentasADDTO.getLoginName0();
+		@SuppressWarnings("unchecked")
+		List<Map<String,Object>> datos = (List<Map<String, Object>>) getLoginNameADNombresCuenta.
+				requestBodyAndHeader(null, "cuentaporciento", smaccountName);
+		if (datos != null && datos.size() > 0) {
+			// si hay 1 solo
+			if (datos.size() > 1) {
+				// separar nombres de secuencias
+				// encontrar la seq mayor y actualizarla
+				for (Map<String, Object> map : datos) {
+					String loginName = (String) map.get("SAMACCOUNT_NAME");
+					Integer seq = null;
+					try {
+						seq = StringUtilities.getInstance().toInteger(loginName.substring(smaccountName.length()));
+						if (seq > cuentasADDTO.getSeq())
+							cuentasADDTO.setSeq(seq);
+					} catch (Exception e) {
+						;
+					}
+				}
+				cuentasADDTO.incSeq();
+			}
+			// genera nuevo nombre incluyendo la seq
+			smaccountName = cuentasADDTO.setLastLoginName();
+			
+			// ingresa este nombre a la tabla AD_NOMBRES_CUENTA
+			insertNombresCuenta.requestBodyAndHeader(null, "smaccountName", smaccountName);
+		} else
+			// no se recuperaron datos del SQL
+			cuentasADDTO.setLoginName(smaccountName);
+			
+		return cuentasADDTO;
+	}
+	
+	private Boolean estaOcupadoEngmail (CuentasADDTO cuentasADDTO) {
+		logger.info(String.format("estaOcupadoEngmail: loginName=%s seq=%d", cuentasADDTO.getLoginName(), cuentasADDTO.getSeq()));
+		if (hayNickName(cuentasADDTO)) {
+			return Boolean.TRUE;
+		}
+		if (hayCuentaGmail(cuentasADDTO)) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	@EndpointInject(uri = "cxfrs:bean:consultaNickNameGMail") // recupera de Gmail nickName
+	ProducerTemplate apiHayNickName;
+	private final String templateUriHayNickName = "http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/%s";
+	public boolean hayNickName(CuentasADDTO cuentasADDTO) {
+		final Map<String,Object> headers = new HashMap<String,Object>();
+		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateUriHayNickName, cuentasADDTO.getLoginName()));
+		headers.put("CamelHttpMethod", "GET");
+		try {
+			AliasResponse obj = (AliasResponse)procesaResponseImpl((ResponseImpl)apiHayNickName.requestBodyAndHeaders(null, headers), AliasResponse.class);
+			return obj.getHayAlias();
+		} catch (Exception e) {
+			logger.error("hayNickName", e);
+		}
+		return false;
+	}
+
+	@EndpointInject(uri = "cxfrs:bean:consultaGMail") // recupera de Gmail cuenta
+	ProducerTemplate apiHayCuenta;
+	private final String templateUriHayCuenta = "http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve/%s";
+	public boolean hayCuentaGmail(CuentasADDTO cuentasADDTO) {
+		final Map<String,Object> headers = new HashMap<String,Object>();
+		
+		// consultarlo a gmail
+		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateUriHayCuenta, cuentasADDTO.getLoginName()));
+		headers.put("CamelHttpMethod", "GET");
+		try {
+			UserResponse obj = (UserResponse)procesaResponseImpl((ResponseImpl)apiHayCuenta.requestBodyAndHeaders(null, headers), UserResponse.class);
+			return obj.getCodigo() < 0 ? Boolean.FALSE : Boolean.TRUE;
+		} catch (Exception e) {
+			logger.error("hayCuenta", e);
+		}
+		return false;
+	}
+
+	public Object procesaResponseImpl(ResponseImpl responseImpl, Class<?> clss) throws Exception {
+		StringBuffer sb = new StringBuffer();
+		java.io.SequenceInputStream in = (SequenceInputStream) responseImpl.getEntity();
+		int incc;
+		while ((incc=in.read()) != -1)
+			sb.append((char)incc);
+		String jsonString =  sb.toString();
+		
+		int status = responseImpl.getStatus();
+		logger.info(String.format("procesaResponseImpl: Http status: %d errorsExist [%b]", status, jsonString.contains("errorsExist")));
+		if (status >= 300) {
+			return null;
+		}
+
+		return JSonUtilities.getInstance().json2java(jsonString, clss, false);
+	}
+
+	@EndpointInject(uri = "cxfrs:bean:rsADvalidarUsuario") // recupera de Gmail cuenta
+	ProducerTemplate validarUsuarioAD;
+	private final String uriADvalidarUsuario = "http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario";
+	private Boolean estaOcupadoEnAD (CuentasADDTO cuentasADDTO) {
+		// TODO
+		logger.info(String.format("estaOcupadoEngmail: loginName=%s seq=%d", cuentasADDTO.getLoginName(), cuentasADDTO.getSeq()));
+		final Map<String,Object> headers = new HashMap<String,Object>();
+		
+		// consultarlo a gmail
+		headers.put(Exchange.DESTINATION_OVERRIDE_URL, uriADvalidarUsuario);
+		headers.put("CamelHttpMethod", "POST");
+		
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ValidarUsuario", null, Usuario.createUsuario4validar(cuentasADDTO.getLoginName()));
+		ServiciosLDAPResponse response;
+		try {
+			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
+					(ResponseImpl) validarUsuarioAD.requestBodyAndHeaders(request, headers),
+					ServiciosLDAPResponse.class);
+		} catch (Exception e) {
+			logger.error("consultaXrut", e);
+			//registraLogError(getClass(),"crearCuentaAD", String.format("createCuenta: request: %s", request), e, keyResultado);
+			response = new ServiciosLDAPResponse(-1, e.getMessage());
+		}
+		
+		return response.getCodigo() < 0 ? Boolean.FALSE : Boolean.TRUE;
+	}
+
 	//============================================================================================================
 	// Getters y Setters
 	//============================================================================================================
