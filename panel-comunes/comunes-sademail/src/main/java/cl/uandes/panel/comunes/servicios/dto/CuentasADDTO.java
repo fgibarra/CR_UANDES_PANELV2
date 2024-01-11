@@ -38,9 +38,33 @@ public class CuentasADDTO implements Serializable {
 
 	private Integer seq = 1;
 	
-	public CuentasADDTO(String linea) {
+	public CuentasADDTO(String titulos, String linea) {
 		super();
-		// TODO Auto-generated constructor stub
+		if (linea != null && linea.length() > 0 && titulos != null && titulos.length() > 0) { 
+			String valoresT[] = titulos.split("\u0003");
+			String valoresD[] = linea.split("\u0003");
+			
+			if (valoresT.length >= valoresD.length) {
+				String metodos[] = new String[valoresT.length];
+				int i = 0;
+				for (String valor : valoresT) {
+					valor = valor.toLowerCase();
+					metodos[i++] = String.format("set%s", String.format("%s%s", valor.substring(0, 1).toUpperCase(), valor.substring(1)));
+				}
+				
+				i = 0;
+				for (String dato : valoresD) {
+					try {
+						java.lang.reflect.Method metodo = getClass().getMethod(metodos[i++], String.class);
+						metodo.invoke(this, dato);
+					} catch (Exception e) {
+						;
+					}
+				}
+				
+			}
+		}
+		
 	}
 
 	public synchronized void incSeq() {
@@ -64,6 +88,17 @@ public class CuentasADDTO implements Serializable {
 		}
 	}
 
+	public String getSamaccountName() {
+		return getLoginName();
+	}
+	
+	public String getEmployeeId() {
+		if (rut != null && rut.charAt(0) == '@')
+			return rut.substring(1);
+		
+		return getRut();
+	}
+	
 	public String getNombres() {
 		return nombres;
 	}

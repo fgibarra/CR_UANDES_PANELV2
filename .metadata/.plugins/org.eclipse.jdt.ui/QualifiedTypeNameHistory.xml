@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="javax.sql.rowset.serial.SerialClob"/>
-    <fullyQualifiedTypeName name="java.io.StringWriter"/>
-    <fullyQualifiedTypeName name="java.io.PrintWriter"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.Contadores"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
     <fullyQualifiedTypeName name="java.sql.Timestamp"/>
@@ -17,7 +12,6 @@
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MemberResponse"/>
     <fullyQualifiedTypeName name="java.util.HashSet"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
     <fullyQualifiedTypeName name="org.apache.camel.Message"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest"/>
@@ -32,7 +26,6 @@
     <fullyQualifiedTypeName name="oracle.jdbc.OracleTypeMetaData.Array"/>
     <fullyQualifiedTypeName name="java.sql.Array"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.servicio.owners.dto.WrkOwnersGruposDTO"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.servicio.owners.api.resource.OwnersRestService"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
@@ -40,7 +33,6 @@
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="javax.faces.bean.RequestScoped"/>
     <fullyQualifiedTypeName name="javax.faces.application.FacesMessage"/>
     <fullyQualifiedTypeName name="javax.faces.context.FacesContext"/>
@@ -55,9 +47,17 @@
     <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="org.apache.camel.Header"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.CuentasADDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPResponse"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="java.io.FileInputStream"/>
+    <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
+    <fullyQualifiedTypeName name="java.nio.CharBuffer"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentasAD"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

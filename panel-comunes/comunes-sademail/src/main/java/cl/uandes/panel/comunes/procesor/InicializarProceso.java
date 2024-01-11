@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
+import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentasAD;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
@@ -57,6 +58,9 @@ public class InicializarProceso implements Processor {
 				message.setHeader("countThread", new CountThreads());
 				keyContador = "contadoresAsignarOwners";
 				message.setHeader(keyContador, new ContadoresAsignarOwners(0,0,0,0,0,0));
+			} else if ("crear_cuentas_AD".equals(getRegistraInicio().getLogAplicacion())) {
+				keyContador = "contadoresCuentasAD";
+				message.setHeader(keyContador, new ContadoresCrearCuentasAD(0, 0, 0, 0));
 			}
 			
 			logger.info(String.format("InicializarProceso: KCO_FUNCIONES.deshabilitado %b", data.getParametros().getDisabled()));

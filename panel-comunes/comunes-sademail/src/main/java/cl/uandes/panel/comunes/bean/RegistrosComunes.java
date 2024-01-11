@@ -319,7 +319,6 @@ public class RegistrosComunes {
 	 * @return
 	 */
 	public String getSamaccountName(@Header(value = "CuentasADDTO")CuentasADDTO cuentasADDTO, Exchange exchange) {
-		//TODO
 		String smaccountName = null;
 		if (cuentasADDTO != null) {
 			// recuperar un login name desde AD_NOMBRES_CUENTA que no este ocupado
@@ -459,7 +458,7 @@ public class RegistrosComunes {
 		logger.info(String.format("estaOcupadoEngmail: loginName=%s seq=%d", cuentasADDTO.getLoginName(), cuentasADDTO.getSeq()));
 		final Map<String,Object> headers = new HashMap<String,Object>();
 		
-		// consultarlo a gmail
+		// consultarlo a AD
 		headers.put(Exchange.DESTINATION_OVERRIDE_URL, uriADvalidarUsuario);
 		headers.put("CamelHttpMethod", "POST");
 		
