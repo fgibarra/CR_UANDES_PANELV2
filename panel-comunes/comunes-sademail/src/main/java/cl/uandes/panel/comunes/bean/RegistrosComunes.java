@@ -13,6 +13,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Header;
 import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.PropertyInject;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
@@ -54,13 +55,15 @@ public class RegistrosComunes {
 	@EndpointInject(uri = "sql:classpath:sql_comunes/insertKcoLogError.sql?dataSource=#bannerDataSource")
 	ProducerTemplate insertKcoLogError;
 
-	@EndpointInject(uri = "sql:classpath:sql_comunes/getLoginNameADNombresCuenta.sql?dataSource=#bannerDataSource")
+	@EndpointInject(uri = "sql:classpath:sql_comunes/getLoginNameADNombresCuentas.sql?dataSource=#bannerDataSource")
 	ProducerTemplate getLoginNameADNombresCuenta;
 
 	@EndpointInject(uri = "sql:classpath:sql_comunes/insertNombresCuenta.sql?dataSource=#bannerDataSource")
 	ProducerTemplate insertNombresCuenta;
 	
 	String proceso = null;
+	@PropertyInject(value = "RegistrosComunes.debug", defaultValue = "false")
+	private String debug;
 	
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -272,8 +275,7 @@ public class RegistrosComunes {
 	private void insertLogError(Map<String, Object> headers) {
 		try {
 			
-			logger.info(String.format("registraLogError headers: %s", StringUtilities.getInstance().dumpMap(headers)));
-		
+			logger.info(String.format("registraLogError headers: %s", StringUtilities.getInstance().dumpMapKeys(headers)));
 			insertKcoLogError.requestBodyAndHeaders(null, headers);
 		} catch (Exception e) {
 			logger.error("insertLogError", e);
@@ -293,6 +295,9 @@ public class RegistrosComunes {
 		Message message = exchange.getIn();
 		Contadores contadores = (Contadores) message.getHeader(keyContador);
 		ResultadoFuncion res = (ResultadoFuncion)message.getHeader("ResultadoFuncion");
+		logger.info(String.format("cierraMiResultados: keyContador=%s contadores: %s ResultadoFuncion:%s",
+				keyContador, contadores, res));
+		
 		// MI_RESULTADOS
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put("countProcesados", contadores.getCountProcesados());
@@ -317,9 +322,9 @@ public class RegistrosComunes {
 	 * 
 	 * @param nombres
 	 * @return
+	 * @throws Exception 
 	 */
-	public String getSamaccountName(@Header(value = "CuentasADDTO")CuentasADDTO cuentasADDTO, Exchange exchange) {
-		String smaccountName = null;
+	public String getSamaccountName(@Header(value = "CuentasADDTO")CuentasADDTO cuentasADDTO, Exchange exchange) throws Exception {
 		if (cuentasADDTO != null) {
 			// recuperar un login name desde AD_NOMBRES_CUENTA que no este ocupado
 			cuentasADDTO = getSamaccountName(cuentasADDTO);
@@ -329,7 +334,7 @@ public class RegistrosComunes {
 			do {
 				esteOcupado = estaOcupadoEngmail(cuentasADDTO);
 				if (esteOcupado) {
-					insertNombresCuenta.requestBodyAndHeader(null, "smaccountName", cuentasADDTO.getLoginName());
+					add2AdNombresCuenta(cuentasADDTO);
 					cuentasADDTO.incSeq();
 					cuentasADDTO.setLastLoginName();
 				}
@@ -338,40 +343,49 @@ public class RegistrosComunes {
 			// verifica que no este ocupado como sAmaccountName en el AD
 			esteOcupado = true;
 			do {
-				esteOcupado = estaOcupadoEnAD(cuentasADDTO);
+				try {
+					esteOcupado = estaOcupadoEnAD(cuentasADDTO);
+				} catch (Exception e) {
+					throw e;
+				}
 				if (esteOcupado) {
-					insertNombresCuenta.requestBodyAndHeader(null, "smaccountName", cuentasADDTO.getLoginName());
+					add2AdNombresCuenta(cuentasADDTO);
 					cuentasADDTO.incSeq();
 					cuentasADDTO.setLastLoginName();
 				}
 			} while (esteOcupado);
 
-			smaccountName = cuentasADDTO.getLoginName();
-			insertNombresCuenta.requestBodyAndHeader(null, "smaccountName", smaccountName);
+			add2AdNombresCuenta(cuentasADDTO);
 		}
-		return smaccountName;
+		logger.info(String.format("getSamaccountName devuelve %s", cuentasADDTO.getSamaccountName()));
+		exchange.getIn().setHeader("CuentasADDTO", cuentasADDTO);
+		return cuentasADDTO.getSamaccountName();
 	}
 	
 	private CuentasADDTO getSamaccountName(CuentasADDTO cuentasADDTO) {
-		logger.info(String.format("estaOcupadoEngmail: loginName0=%s seq=%d", cuentasADDTO.getLoginName0(), cuentasADDTO.getSeq()));
+		logger.info(String.format("getSamaccountName: loginName0=%s seq=%d", cuentasADDTO.getLoginName0(), cuentasADDTO.getSeq()));
 		String smaccountName = cuentasADDTO.getLoginName0();
+		
 		@SuppressWarnings("unchecked")
 		List<Map<String,Object>> datos = (List<Map<String, Object>>) getLoginNameADNombresCuenta.
-				requestBodyAndHeader(null, "cuentaporciento", smaccountName);
+				requestBodyAndHeader(null, "cuentaporciento", smaccountName+"%");
+		logger.info(String.format("datos es %s NULO, size = %d", datos != null?"NO":"", datos != null?datos.size() : -1));
 		if (datos != null && datos.size() > 0) {
-			// si hay 1 solo
-			if (datos.size() > 1) {
+			if (datos.size() >= 1) {
 				// separar nombres de secuencias
 				// encontrar la seq mayor y actualizarla
 				for (Map<String, Object> map : datos) {
 					String loginName = (String) map.get("SAMACCOUNT_NAME");
-					Integer seq = null;
-					try {
-						seq = StringUtilities.getInstance().toInteger(loginName.substring(smaccountName.length()));
-						if (seq > cuentasADDTO.getSeq())
-							cuentasADDTO.setSeq(seq);
-					} catch (Exception e) {
-						;
+					if (loginName.length() != smaccountName.length()) {
+						// solo se saca la seq del login name cuando no es el mismo
+						Integer seq;
+						try {
+							seq = StringUtilities.getInstance().toInteger(loginName.substring(smaccountName.length()));
+							if (seq > cuentasADDTO.getSeq())
+								cuentasADDTO.setSeq(seq);
+						} catch (Exception e) {
+							;
+						}
 					}
 				}
 				cuentasADDTO.incSeq();
@@ -379,13 +393,21 @@ public class RegistrosComunes {
 			// genera nuevo nombre incluyendo la seq
 			smaccountName = cuentasADDTO.setLastLoginName();
 			
-			// ingresa este nombre a la tabla AD_NOMBRES_CUENTA
-			insertNombresCuenta.requestBodyAndHeader(null, "smaccountName", smaccountName);
 		} else
 			// no se recuperaron datos del SQL
 			cuentasADDTO.setLoginName(smaccountName);
 			
 		return cuentasADDTO;
+	}
+	
+	private void add2AdNombresCuenta(CuentasADDTO cuentasADDTO) {
+		// ingresa este nombre a la tabla AD_NOMBRES_CUENTA
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("smaccountName", cuentasADDTO.getSamaccountName());
+		map.put("rut", cuentasADDTO.getRut());
+		logger.info(String.format("getSamaccountName: smaccountName=%s rut=%s", 
+				cuentasADDTO.getSamaccountName(),cuentasADDTO.getRut()));
+		insertNombresCuenta.requestBodyAndHeaders(null, map);
 	}
 	
 	private Boolean estaOcupadoEngmail (CuentasADDTO cuentasADDTO) {
@@ -453,28 +475,35 @@ public class RegistrosComunes {
 	@EndpointInject(uri = "cxfrs:bean:rsADvalidarUsuario") // recupera de Gmail cuenta
 	ProducerTemplate validarUsuarioAD;
 	private final String uriADvalidarUsuario = "http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario";
-	private Boolean estaOcupadoEnAD (CuentasADDTO cuentasADDTO) {
-		// TODO
-		logger.info(String.format("estaOcupadoEngmail: loginName=%s seq=%d", cuentasADDTO.getLoginName(), cuentasADDTO.getSeq()));
-		final Map<String,Object> headers = new HashMap<String,Object>();
+	private Boolean estaOcupadoEnAD (CuentasADDTO cuentasADDTO) throws Exception {
+		logger.info(String.format("estaOcupadoEnAD: loginName=%s seq=%d", cuentasADDTO.getLoginName(), cuentasADDTO.getSeq()));
 		
-		// consultarlo a AD
-		headers.put(Exchange.DESTINATION_OVERRIDE_URL, uriADvalidarUsuario);
-		headers.put("CamelHttpMethod", "POST");
-		
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ValidarUsuario", null, Usuario.createUsuario4validar(cuentasADDTO.getLoginName()));
-		ServiciosLDAPResponse response;
-		try {
-			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
-					(ResponseImpl) validarUsuarioAD.requestBodyAndHeaders(request, headers),
-					ServiciosLDAPResponse.class);
-		} catch (Exception e) {
-			logger.error("consultaXrut", e);
-			//registraLogError(getClass(),"crearCuentaAD", String.format("createCuenta: request: %s", request), e, keyResultado);
-			response = new ServiciosLDAPResponse(-1, e.getMessage());
-		}
-		
-		return response.getCodigo() < 0 ? Boolean.FALSE : Boolean.TRUE;
+		if (!Boolean.valueOf(getDebug())) {
+			// Si no se definio debug o esta en false
+			final Map<String,Object> headers = new HashMap<String,Object>();
+			
+			// consultarlo a AD
+			headers.put(Exchange.DESTINATION_OVERRIDE_URL, uriADvalidarUsuario);
+			headers.put("CamelHttpMethod", "POST");
+			
+			ServiciosLDAPRequest request = new ServiciosLDAPRequest("ValidarUsuario", null, Usuario.createUsuario4validar(cuentasADDTO.getLoginName()));
+			ServiciosLDAPResponse response;
+			try {
+				response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
+						(ResponseImpl) validarUsuarioAD.requestBodyAndHeaders(request, headers),
+						ServiciosLDAPResponse.class);
+			} catch (Exception e) {
+				logger.error("estaOcupadoEnAD", e);
+				//registraLogError(getClass(),"crearCuentaAD", String.format("createCuenta: request: %s", request), e, keyResultado);
+				throw new RuntimeException(e.getMessage());
+				
+			}
+			if (response.getCodigo() == 0)
+				return response.getMensaje().equals("NOK") ? Boolean.FALSE : Boolean.TRUE;
+				
+			throw new RuntimeException(response.getMensaje());
+		} else
+			return Boolean.FALSE;
 	}
 
 	//============================================================================================================
@@ -487,5 +516,13 @@ public class RegistrosComunes {
 
 	public void setLogAplicacion(String logAplicacion) {
 		this.logAplicacion = logAplicacion;
+	}
+
+	public String getDebug() {
+		return debug;
+	}
+
+	public void setDebug(String debug) {
+		this.debug = debug;
 	}
 }

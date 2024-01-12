@@ -106,6 +106,15 @@ public class StringUtilities {
 		return sb.toString();
 	}
 
+	public String dumpMapKeys(Map<String, Object> headers) {
+		StringBuffer sb = new StringBuffer();
+		for (String key : headers.keySet()) {
+			sb.append(String.format("|%s| ", key));
+		}
+		if (sb.length() > 1)
+			sb.setLength(sb.length() - 1);
+		return sb.toString();
+	}
 	  /**
 	   * Saca los acentos, tildes, puntitos arriba, apostrofos
 	   * @param valor
@@ -120,10 +129,13 @@ public class StringUtilities {
 	    StringBuffer newValor = new StringBuffer();
 	    for (int i = 0; i < len; i++) {
 	      char cc = chars[i];
-	      if (cc == ' ')
-	        continue; //skip espacios
+	      if (cc == ' ') {
+	    	  newValor.append(cc);
+		      continue;
+	      }
 	      if (cc > 'z') {
-	        char europeos[] = { 'á', 'é', 'è', 'í', 'ó', 'ú', 'ö', 'ü', 'ñ' };
+	        @SuppressWarnings("unused")
+			char europeos[] = { 'á', 'é', 'è', 'í', 'ó', 'ú', 'ö', 'ü', 'ñ' };
 	        char europeoshex[] =
 	        { 0xE1, 0xE9, 0xE8, 0xED, 0xF3, 0xFA, 0xF6, 0xFC, 0xF1 };
 	        char corresp[] = { 'a', 'e', 'e', 'i', 'o', 'u', 'o', 'u', 'n' };

@@ -17,6 +17,10 @@ public class CuentasADDTO implements Serializable {
 	private static final long serialVersionUID = -8810317914858920957L;
 	@JsonProperty("NOMBRES")
 	private String nombres;
+	@JsonProperty("NOMBRE")
+	private String nombre;
+	@JsonProperty("MIDDLE_NAME")
+	private String middleName;
 	@JsonProperty("APELLIDOS")
 	private String apellidos;
 	@JsonProperty("RUT")
@@ -36,7 +40,7 @@ public class CuentasADDTO implements Serializable {
 	@JsonProperty("LOGIN_NAME_0")
 	private String loginName0;
 
-	private Integer seq = 1;
+	private Integer seq = 0;
 	
 	public CuentasADDTO(String titulos, String linea) {
 		super();
@@ -91,7 +95,14 @@ public class CuentasADDTO implements Serializable {
 	public String getSamaccountName() {
 		return getLoginName();
 	}
-	
+	/*
+	public static void main(String args[]) {
+		String titulos = "NOMBRES\u0003PASSWORD\u0003RAMA\u0003RUT\u0003APELLIDOS\u0003COMUNA\u0003EMAIL\u0003DIRECCION";
+		String datos = "JIMENA ANDREA\u000313901950\u0003BibliotecaUA\u0003139019504\u0003SÍLVA YAÑEZ\u0003PROVIDENCIA\u0003JSY.SILVA@GMAIL.COM\u0003DARIO URZUA 1910, D 203";
+		CuentasADDTO dto = new CuentasADDTO(titulos, datos);
+		System.out.println(String.format("samaccountName=%s dt=%s",dto.getSamaccountName(), dto));
+	}
+	*/
 	public String getEmployeeId() {
 		if (rut != null && rut.charAt(0) == '@')
 			return rut.substring(1);
@@ -104,6 +115,14 @@ public class CuentasADDTO implements Serializable {
 	}
 
 	public void setNombres(String nombres) {
+		if (nombres != null) {
+			String partes[] = nombres.split(" ");
+			if (partes.length == 2) {
+				setNombre(partes[0]);
+				setMiddleName(partes[1]);
+			} else
+				setNombre(nombres);
+		}
 		this.nombres = nombres;
 	}
 
@@ -184,11 +203,36 @@ public class CuentasADDTO implements Serializable {
 	}
 
 	public String getLoginName0() {
+		if (loginName0 == null) {
+			StringBuffer sb = new StringBuffer();
+			sb.append(this.nombre.toLowerCase().charAt(0));
+			if (this.middleName != null)
+				sb.append(this.middleName.toLowerCase().charAt(0));
+			String ap[] = apellidos.split(" ");
+			sb.append(StringUtilities.getInstance().toLetrasAscii(ap[0].toLowerCase()));
+			loginName0 = sb.toString();
+		}
 		return loginName0;
 	}
 
 	public void setLoginName0(String loginName0) {
 		this.loginName0 = loginName0;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 }

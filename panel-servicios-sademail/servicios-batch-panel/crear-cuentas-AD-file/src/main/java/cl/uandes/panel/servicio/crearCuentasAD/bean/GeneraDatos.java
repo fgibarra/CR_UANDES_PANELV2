@@ -39,21 +39,23 @@ public class GeneraDatos {
 			String titulos = null;
 			int numLinea = 0;
 			while ((linea = reader.readLine()) != null) {
-				logger.info(String.format("generaListaXfile: leido: %s", linea));
-				linea = linea.replace("\",", "\u0003");
-				linea = linea.replace("\"", "");
-				if (numLinea == 0) {
-					if (linea.matches(".*NOMBRES.*")) { 
-						numLinea++;
-						titulos = linea;
-						logger.info(String.format("titulo: %s", titulos));
-						continue;
+				if (linea.length() > 1) {
+					logger.info(String.format("generaListaXfile: leido: %s", linea));
+					linea = linea.replace("\",", "\u0003");
+					linea = linea.replace("\"", "");
+					if (numLinea == 0) {
+						if (linea.matches(".*NOMBRES.*")) { 
+							numLinea++;
+							titulos = linea;
+							logger.info(String.format("titulo: %s", titulos));
+							continue;
+						}
 					}
+					logger.info(String.format("generaListaXfile: linea a procesar: %s", linea));
+					CuentasADDTO dto = new CuentasADDTO(titulos, linea);
+					logger.info(String.format("dto: %s", dto));
+					lista.add(dto);
 				}
-				logger.info(String.format("generaListaXfile: linea a procesar: %s", linea));
-				CuentasADDTO dto = new CuentasADDTO(titulos, linea);
-				logger.info(String.format("dto: %s", dto));
-				lista.add(dto);
 			}
 		} catch (Exception e) {
 			logger.error(String.format("generaListaXfile: body: %s\n%s", body.getClass().getSimpleName(), body), e);

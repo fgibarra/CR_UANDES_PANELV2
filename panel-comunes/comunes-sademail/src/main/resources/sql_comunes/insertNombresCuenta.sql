@@ -1,1 +1,1 @@
-insert into ad_nombres_cuentas (smaccountName) values (:#smaccountName)
+insert into ad_nombres_cuenta (samaccount_name, rut, fecha_creacion) values (:#smaccountName, :#rut, sysdate)

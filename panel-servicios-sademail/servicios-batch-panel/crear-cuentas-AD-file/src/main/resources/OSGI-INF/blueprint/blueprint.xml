@@ -84,6 +84,18 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
         </cxf:providers>
     </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
+        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.SchedulerEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.servicio.crearCuentasAD.api.resource.CrearCuentasRestService" id="restService">
@@ -99,15 +111,25 @@
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
         <argument index="0" value="crear_cuentas_AD"/>
         <!-- reemplazar artifactId -->
+        <property name="debug" value="{{RegistrosComunes.debug}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearCuentas">
         <property name="registraInicio" ref="registrosComunes"/>
+        <property name="keyContador" value="contadoresCuentasAD"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.comunes.procesor.FinalizaProceso" id="finalizaProceso">
+        <property name="panelServices" value="{{scheduler.uri-serviciosBatch}}"/>
+        <property name="registrosBD" ref="registrosComunes"/>
+        <property name="keyContador" value="contadoresCuentasAD"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean
         class="cl.uandes.panel.servicio.crearCuentasAD.procesor.CuentasThread" id="cuentasThread">
         <property name="registrosComunes" ref="registrosComunes"/>
+        <property name="debug" value="{{crear-cuentas-AD.debug}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
@@ -131,8 +153,16 @@
             <setHeader headerName="proceso" id="_setHeader1">
                 <constant>crear_cuentas_AD</constant>
             </setHeader>
-            <process id="_recuperaDatosInicializar" ref="inicialiceCrearCuentas"/>
-            <to id="_to5" uri="direct:procesaLista"/>
+            <process id="_recuperaDatosInicializarxFile" ref="inicialiceCrearCuentas"/>
+			<choice>
+				<when>
+					<simple>${header.inicializado}</simple>
+					<to id="_to5" uri="direct:procesaLista"/>
+				</when>
+				<otherwise>
+					<log message="NO se inicializo"/>
+				</otherwise>
+			</choice>
             <to id="_to1" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
@@ -153,7 +183,7 @@
 				- arma la lista de las cuentas AD a crear
 				- va a la ruta que crea las cuentas
 			-->
-            <process id="_recuperaDatosInicializar" ref="inicialiceCrearCuentas"/>
+            <process id="_recuperaDatosInicializarxSql" ref="inicialiceCrearCuentas"/>
             <bean id="_bean2" method="generaListaXrequest" ref="generaDatos"/>
             <to id="_to3" uri="direct:procesaLista"/>
             <to id="_to4" uri="mock:end"/>
@@ -171,7 +201,9 @@
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <bean id="_bean3" method="getCuentaFromListaCuentas" ref="generaDatos"/>
                 <process id="_cuentasThreadProcess" ref="cuentasThread"/>
+				<log message="(L174)Termino el proceso de ${header.CuentasADDTO}"/>
             </loop>
+			<process id="_cierraMiResultados" ref="finalizaProceso"/>
         </route>
     </camelContext>
 </blueprint>

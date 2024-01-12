@@ -9,6 +9,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.PropertyInject;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
@@ -24,6 +25,8 @@ import cl.uandes.panel.comunes.utils.ObjectFactory;
 public class CuentasThread implements Processor {
 
 	private RegistrosComunes registrosComunes;
+	@PropertyInject(value = "crear-cuentas-AD.debug", defaultValue = "false")
+	private String debug;
 
 	@EndpointInject(uri = "cxfrs:bean:rsADcrearUsuario") // crear cuenta AD
 	ProducerTemplate crearUsuarioAD;
@@ -55,6 +58,7 @@ public class CuentasThread implements Processor {
 		String samaccountName = null;
 		try {
 			samaccountName = registrosComunes.getSamaccountName(cuentasADDTO, exchange);
+			logger.info(String.format("en el message cuentasADDTO: %s", (CuentasADDTO) message.getHeader("CuentasADDTO")));
 			if (samaccountName == null) {
 				// no pudo generar uno
 				String msg = String.format("Error: no pudo crear un samaccountName para %s",  cuentasADDTO);
@@ -70,7 +74,7 @@ public class CuentasThread implements Processor {
 			registrosComunes.registraMiResultadoErrores(null, msg, e1, null, res.getKey());
 			return;
 		}
-		logger.info(String.format("samaccountName=%s cuentasADDTO=%s", samaccountName, cuentasADDTO));
+		logger.info(String.format("CuentasThread: samaccountName=%s cuentasADDTO=%s", samaccountName, cuentasADDTO));
 		
 		final Map<String,Object> headers = new HashMap<String,Object>();
 		// crear el usuario en el AD
@@ -85,21 +89,25 @@ public class CuentasThread implements Processor {
 						cuentasADDTO.getNombres(),
 						cuentasADDTO.getApellidos()));
 		logger.info(String.format("asi quedaria la invocacion para crear la cuenta: %s", request));
-		/*
-		@SuppressWarnings("unused")
-		ServiciosLDAPResponse response = null;
-		try {
-			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
-					(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
-					ServiciosLDAPResponse.class);
-			contadoresCuentasAD.incCountAgregadosAD();
-		} catch (Exception e) {
-			String msg = String.format("Error al invocar api para crear usuario AD. request=%s", request);
-			logger.error(msg, e);
-			registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
-			contadoresCuentasAD.incCountErrores();
+		
+		if (!Boolean.valueOf(getDebug())) {
+			// Si no se definio debug o esta en false
+			@SuppressWarnings("unused")
+			ServiciosLDAPResponse response = null;
+			try {
+				response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
+						(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
+						ServiciosLDAPResponse.class);
+				contadoresCuentasAD.incCountAgregadosAD();
+			} catch (Exception e) {
+				String msg = String.format("Error al invocar api para crear usuario AD. request=%s", request);
+				logger.error(msg, e);
+				registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
+				contadoresCuentasAD.incCountErrores();
+			}
 		}
-
+		
+		// Actualizar la BDC
 		try {
 			actualizarBDC(cuentasADDTO);
 		} catch (Exception e) {
@@ -108,7 +116,7 @@ public class CuentasThread implements Processor {
 			registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
 			contadoresCuentasAD.incCountErrores();
 		}
-		*/
+		
 	}
 
 	/**
@@ -120,6 +128,8 @@ public class CuentasThread implements Processor {
 	 */
 	private void actualizarBDC(CuentasADDTO cuentasADDTO) throws Exception {
 		Boolean esta = Boolean.FALSE;
+		logger.info(String.format("actualizarBDC: update bdc_usuario_millenium set usuario_ad=%s, userid_alma=%s, passwd_alma=%s where spriden_id=%s", 
+				cuentasADDTO.getSamaccountName(),cuentasADDTO.getEmployeeId(), cuentasADDTO.getPassword(), cuentasADDTO.getRut()));
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> datos = (List<Map<String, Object>>) estaEnBdc.requestBodyAndHeader(null, "rut", cuentasADDTO.getRut());
 		if (datos != null && datos.size() > 0) {
@@ -150,6 +160,14 @@ public class CuentasThread implements Processor {
 
 	public void setRegistrosComunes(RegistrosComunes registrosComunes) {
 		this.registrosComunes = registrosComunes;
+	}
+
+	public String getDebug() {
+		return debug;
+	}
+
+	public void setDebug(String debug) {
+		this.debug = debug;
 	}
 
 }

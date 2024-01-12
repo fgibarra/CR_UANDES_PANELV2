@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
+import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.bean.RegistrosComunes;
@@ -22,6 +23,8 @@ import cl.uandes.panel.comunes.utils.CountThreads;
 public class InicializarProceso implements Processor {
 
 	private RegistrosComunes registraInicio;
+    @PropertyInject(value = "RegistrosComunes.key-contadores", defaultValue="No definido")
+	private String keyContador;
 	
 	private String proceso = null;
 	private ResultadoFuncion resultadoFuncion = null;
@@ -34,7 +37,6 @@ public class InicializarProceso implements Processor {
 		Boolean inicializado = Boolean.FALSE;
 		proceso = (String) message.getHeader("proceso");
 		
-		String keyContador = "No definido";
 		Map<String, Object> datosInicializacion = registraInicio.inicializar(exchange);
 		if (datosInicializacion != null) {
 			DatosKcoFunciones data = (DatosKcoFunciones) datosInicializacion.get("DatosKcoFunciones");
@@ -46,20 +48,25 @@ public class InicializarProceso implements Processor {
 			
 			if ("suspende-elimina-cuentas".equals(getRegistraInicio().getLogAplicacion())) {
 				message.setHeader("countThread", new CountThreads());
-				keyContador = "contadoresSincronizarCuentas";
+				if (keyContador.equals("No definido"))
+					keyContador = "contadoresSincronizarCuentas";
 				message.setHeader(keyContador, new ContadoresSincronizarCuentas(proceso));
 			} else if ("crear-grupos-batch".equals(getRegistraInicio().getLogAplicacion())) {
-				keyContador = "contadoresCrearGrupos";
+				if (keyContador.equals("No definido"))
+					keyContador = "contadoresCrearGrupos";
 				message.setHeader(keyContador, new ContadoresCrearGrupos(0,0,0,0,0,0,0,0,0,0));
 			} else if ("crear-cuentas-batch".equals(getRegistraInicio().getLogAplicacion())) {
-				keyContador = "contadoresCrearCuentas";
+				if (keyContador.equals("No definido"))
+					keyContador = "contadoresCrearCuentas";
 				message.setHeader(keyContador, new ContadoresCrearCuentas(0,0,0,0));
 			} else if ("add-delete-owners-members".equals(getRegistraInicio().getLogAplicacion())) {
 				message.setHeader("countThread", new CountThreads());
-				keyContador = "contadoresAsignarOwners";
+				if (keyContador.equals("No definido"))
+					keyContador = "contadoresAsignarOwners";
 				message.setHeader(keyContador, new ContadoresAsignarOwners(0,0,0,0,0,0));
 			} else if ("crear_cuentas_AD".equals(getRegistraInicio().getLogAplicacion())) {
-				keyContador = "contadoresCuentasAD";
+				if (keyContador.equals("No definido"))
+					keyContador = "contadoresCuentasAD";
 				message.setHeader(keyContador, new ContadoresCrearCuentasAD(0, 0, 0, 0));
 			}
 			
@@ -110,5 +117,13 @@ public class InicializarProceso implements Processor {
 
 	public void setRegistraInicio(RegistrosComunes registraInicio) {
 		this.registraInicio = registraInicio;
+	}
+
+	public String getKeyContador() {
+		return keyContador;
+	}
+
+	public void setKeyContador(String keyContador) {
+		this.keyContador = keyContador;
 	}
 }

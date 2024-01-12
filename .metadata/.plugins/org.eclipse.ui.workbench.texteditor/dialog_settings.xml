@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="direct:incrementaResultado"/>
+		<item key="selection" value="_recuperaDatosInicializar"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="_recuperaDatosInicializar"/>
 			<item value="direct:incrementaResultado"/>
 			<item value="countThread"/>
 			<item value="bundle.namespace"/>
@@ -22,7 +23,6 @@
 			<item value="(L"/>
 			<item value="(L1"/>
 			<item value="direct:registraFinBD"/>
-			<item value="{header"/>
 		</list>
 		<list key="replacehistory">
 			<item value="{headers"/>

@@ -1,1 +1,1 @@
-select samaccount_name from samaccount_name where samaccount_name like :#cuentaporciento
+select samaccount_name from ad_nombres_cuenta where samaccount_name like :#cuentaporciento
