@@ -270,8 +270,10 @@ public class GruposThread implements Processor {
 				return false;
 			}
 			if (res.getCodigo() != 0) {
-				if (res.getMensaje().matches(".*Invalid object identifier*")) {
+				if (res.getMensaje().matches(".*Invalid object identifier*")||
+						res.getMensaje().matches(".*No se pudo recuperar*")) {
 					// crearlo
+					logger.info(String.format("GruposThread: No existe en GMAIL. Crearlo %s", grupo));
 					headers.clear();
 					GroupRequest body = new GroupRequest(grupo.getGroupName(), grupo.getGroupDescription(), grupo.getEmailPermission(), getFechaExpiracion(grupo));
 					headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateGrupoGmail,getGmailServices()));

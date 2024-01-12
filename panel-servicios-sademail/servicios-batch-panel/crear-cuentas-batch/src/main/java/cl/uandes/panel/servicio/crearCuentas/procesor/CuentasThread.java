@@ -155,7 +155,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 		if (!"OK".equals(response.getEstado())) {
 			// NO existe cuenta en AD --> crearla
 			if (crearCuentaAD(dto)) {
-				registraCuentaADenBD(dto.getSpridenId());
+				registraCuentaADenBD(dto.getLoginName(), dto.getSpridenId());
 				resultado = true;
 				incAgregadosAD(message);
 			}
@@ -164,7 +164,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 				// si no se detecto en la BD pero si en el AD, actualizar BD
 				logger.info(String.format("defineCuentaEnAD: no se detecto %s en la BD pero si en el AD, actualizar BD", 
 						dto.getSpridenId()));
-				registraCuentaADenBD(dto.getSpridenId());
+				registraCuentaADenBD(dto.getLoginName(), dto.getSpridenId());
 				
 			resultado = true;
 		}
@@ -172,8 +172,9 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 		return resultado;
 	}
 
-	private void registraCuentaADenBD(String spridenId) {
+	private void registraCuentaADenBD(String loginName, String spridenId) {
 		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("usuarioAD", loginName);
 		headers.put("cuentaAD", spridenId);
 		String passwdAlma = null;
 		if (spridenId.charAt(0) == '@') {
@@ -194,7 +195,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 		logger.info(String.format("crearCuentaAD: DatosCuentasBanner: %s", dto));
 
 		ServiciosLDAPRequest request = new ServiciosLDAPRequest(getSevicioADCrearCuenta(), null,
-				Usuario.createUsuario4crear(dto.getSpridenId(), dto.getPassword(), getRamaAD(), dto.getRut(), dto.getNombres(),
+				Usuario.createUsuario4crear(dto.getLoginName(), dto.getPassword(), getRamaAD(), dto.getRut(), dto.getNombres(),
 						dto.getApellidos()));
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateCuentaAD, getAdServices()));
@@ -252,7 +253,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 				logger.info(String.format("crearCuentaEnGmail: vuelve de API con mensaje: %s", msg));
 				if (msg.matches(".*ya existe registrada para rut.*")) {
 					// la cuenta ya esta, registrarla en BD
-					registraCuentaADenBD(dto.getSpridenId());
+					registraCuentaADenBD(dto.getLoginName(), dto.getSpridenId());
 					incAgregadosAD(exchange.getIn());
 				}
 				setMensajeError(response.getMensaje());

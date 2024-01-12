@@ -90,11 +90,10 @@
         <property name="proceso" value="{{crear-cuentas-gmail.proceso}}"/>
         <property name="kcoFuncion" value="{{crear-cuentas-gmail.kco-funcion}}"/>
     </bean>
-    <bean
-        class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearCuentas">
-		<property name="registraInicio" ref="registrosComunes"/>
-	</bean>
-	<!--
+    <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearCuentas">
+        <property name="registraInicio" ref="registrosComunes"/>
+    </bean>
+    <!--
     <bean
         class="cl.uandes.panel.servicio.crearCuentas.procesor.InicialiceCrearCuentas" id="inicialiceCrearCuentas">
 		<property name="registraInicio" ref="registrosComunes"/>
@@ -109,9 +108,10 @@
         <property name="sevicioCrearCuentaPanel" value="{{crear-cuentas-gmail.uri-servicio-crear-cuentas-panel}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-	<bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
-		<argument index="0" value="crear-cuentas-batch"/> <!-- reemplazar artifactId -->
-	</bean>
+    <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+        <argument index="0" value="crear-cuentas-batch"/>
+        <!-- reemplazar artifactId -->
+    </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -138,26 +138,25 @@
             <from id="_readJsonRoute" uri="direct:proceso"/>
             <!--bean id="_bean2" method="getKcoFuncion" ref="generaDatos"/-->
             <log id="_log3" message="(L137) Proceso en header: ${header.proceso}"/>
-<!--
+            <!--
             <to id="_to4" uri="sql:classpath:sql/getKcoFunciones.sql?dataSource=#bannerDataSource"/>
             <process id="_recuperaDatosKCO" ref="inicialiceCrearCuentas"/>
 -->
             <process id="_recuperaDatosInicializar" ref="inicialiceCrearCuentas"/>
-			<log message="(L140) header.inicializado: ${header.inicializado}"/>
-			<choice>
-				<when>
-					<simple>${header.inicializado}</simple>
-					<to uri="direct:recuperaCuentas"/>
-				</when>
-				<otherwise>
+            <log id="_log5" message="(L140) header.inicializado: ${header.inicializado}"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.inicializado}</simple>
+                    <to id="_to1" uri="direct:recuperaCuentas"/>
+                </when>
+                <otherwise id="_otherwise1">
                     <log id="_log4" message="(L147) inicialiceCrearCuentas dejo header.estaInicializado: ${header.inicializado} keyResultado: ${header.keyResultado}"/>
-			        <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+                    <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
                     <to id="_to7" uri="mock:end"/>
-				</otherwise>
-			</choice>
-
+                </otherwise>
+            </choice>
             <log id="_log2" message="(L153) inicialiceCrearCuentas dejo header.estaInicializado: ${header.estaInicializado}"/>
-<!--            
+            <!--            
 			<choice id="_choice1">
                 <when id="_when1">
                     <simple>${header.estaInicializado} == 'false'</simple>
@@ -181,7 +180,8 @@
             <setHeader headerName="periodo" id="_setHeader2">
                 <method method="getPeriodo" ref="generaDatos"/>
             </setHeader>
-            <log id="_log7" message="(L178) periodo: ${header.periodo} keyResultado: ${header.keyResultado}"/>
+            <bean id="_bean1" method="setContadores" ref="generaDatos"/>
+            <log id="_log7" message="(L178) periodo: ${header.periodo} keyResultado: ${header.keyResultado} countProcesados=${header.countProcesados} countErrores=${header.countErrores} countAgregadosBD=${header.countAgregadosBD} countAgregadosAD=${header.countAgregadosAD}"/>
             <choice id="_choice2">
                 <when id="_when2">
                     <simple>${header.periodo.length} == 6</simple>

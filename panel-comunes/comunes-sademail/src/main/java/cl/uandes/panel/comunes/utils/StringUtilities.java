@@ -1,6 +1,7 @@
 package cl.uandes.panel.comunes.utils;
 
 import java.math.BigDecimal;
+import java.nio.CharBuffer;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -104,4 +105,156 @@ public class StringUtilities {
 			sb.setLength(sb.length() - 3);
 		return sb.toString();
 	}
+
+	public String dumpMapKeys(Map<String, Object> headers) {
+		StringBuffer sb = new StringBuffer();
+		for (String key : headers.keySet()) {
+			sb.append(String.format("|%s| ", key));
+		}
+		if (sb.length() > 1)
+			sb.setLength(sb.length() - 1);
+		return sb.toString();
+	}
+	  /**
+	   * Saca los acentos, tildes, puntitos arriba, apostrofos
+	   * @param valor
+	   * @return
+	   */
+	  public String toLetrasAscii(String valor) {
+	    if (valor == null || valor.length() == 0)
+	      return valor;
+	    int len = valor.length();
+	    char chars[] = new char[len];
+	    valor.toLowerCase().getChars(0, len, chars, 0);
+	    StringBuffer newValor = new StringBuffer();
+	    for (int i = 0; i < len; i++) {
+	      char cc = chars[i];
+	      if (cc == ' ') {
+	    	  newValor.append(cc);
+		      continue;
+	      }
+	      if (cc > 'z') {
+	        @SuppressWarnings("unused")
+			char europeos[] = { 'á', 'é', 'è', 'í', 'ó', 'ú', 'ö', 'ü', 'ñ' };
+	        char europeoshex[] =
+	        { 0xE1, 0xE9, 0xE8, 0xED, 0xF3, 0xFA, 0xF6, 0xFC, 0xF1 };
+	        char corresp[] = { 'a', 'e', 'e', 'i', 'o', 'u', 'o', 'u', 'n' };
+	        for (int j = 0; j < europeoshex.length; j++)
+	          if (cc == europeoshex[j]) {
+	            cc = corresp[j];
+	            break;
+	          }
+	        if (cc < 'a' || cc > 'z') {
+	          // no es letra europea
+	          continue;
+	        }
+	      }
+	      if ((cc >= 'A' && cc <= 'Z') || (cc >= 'a' && cc <= 'z') ||
+	          (cc >= '0' && cc <= '9') || cc == '.' || cc == '_')
+	        newValor.append(cc);
+	    }
+	    return newValor.toString();
+	  }
+
+	  /**
+	   * devuelve representacion hex del string entregado como parametro
+	   */
+	  public String representacionHexadecimal(String dato) {
+	    return representacionHexadecimal(dato.getBytes());
+	  }
+
+	  /**
+	   * devuelve representacion hex del string entregado como parametro
+	   */
+	  public String representacionHexadecimal(StringBuffer dato) {
+	    int len = dato.length();
+	    char[] x = new char[len];
+
+	    for (int i = 0; i < len; i++)
+	      x[i] = dato.charAt(i);
+
+	    return representacionHexadecimal(x);
+	  }
+
+	  /**
+	   * devuelve representacion hex del string entregado como parametro
+	   */
+	  public String representacionHexadecimal(CharBuffer dato) {
+	    int len = dato.length();
+	    char[] x = new char[len];
+
+	    for (int i = 0; i < len; i++)
+	      x[i] = dato.charAt(i);
+
+	    return representacionHexadecimal(x);
+	  }
+
+	  /**
+	   * devuelve representacion hex del string entregado como parametro
+	   */
+	  public String representacionHexadecimal(byte[] dato, int len) {
+	    byte[] x = new byte[len];
+
+	    for (int i = 0; i < len; i++)
+	      x[i] = dato[i];
+
+	    return representacionHexadecimal(x);
+	  }
+
+	  /**
+	   * devuelve representacion hex del string entregado como parametro
+	   */
+	  public String representacionHexadecimal(byte[] dato) {
+	    StringBuffer sb = new StringBuffer().append('|');
+
+	    for (int len = dato.length, i = 0; i < len; i++) {
+	      byte c = dato[i];
+	      String s = Integer.toHexString((int)c);
+
+	      if (s.length() < 2) {
+	        sb.append('0');
+	      } else if (s.length() > 2) {
+	        s = s.substring(s.length() - 2);
+	      }
+
+	      sb.append(s).append('|');
+	    }
+
+	    return sb.toString();
+	  }
+
+	  /**
+	   * devuelve la representacion hexadecimal
+	   * @param dato
+	   * @return
+	   */
+	  public String representacionHexadecimal(char[] dato) {
+	    return representacionHexadecimal(dato, dato.length);
+	  }
+
+	  /**
+	   * devuelve la representacion hexadecimal
+	   * @param dato
+	   * @param count
+	   * @return
+	   */
+	  public String representacionHexadecimal(char[] dato, int count) {
+	    StringBuffer sb = new StringBuffer().append('|');
+
+	    for (int len = count, i = 0; i < len; i++) {
+	      char c = dato[i];
+	      String s = Integer.toHexString((int)c);
+
+	      if (s.length() < 2) {
+	        sb.append('0');
+	      } else if (s.length() > 2) {
+	        s = s.substring(s.length() - 2);
+	      }
+
+	      sb.append(s).append('|');
+	    }
+
+	    return sb.toString();
+	  }
+
 }

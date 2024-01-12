@@ -89,11 +89,11 @@
     <!-- ========================================================================================== -->
     <bean
         class="cl.uandes.comun.ad.client.soap.cxf.consultaXrut.CxfHeaderFilterStrategy" id="cxfConsultaXrutHeaderFilterStrategy">
-		<property name="debug" value="{{servicios-ad.debug}}"/>
+        <property name="debug" value="{{servicios-ad.debug}}"/>
     </bean>
     <bean
         class="cl.uandes.comun.ad.client.soap.cxf.consultaXrut.CxfHeaderOutInterceptor" id="headerOutInterceptorConsultaRutAD">
-		<property name="debug" value="{{servicios-ad.debug}}"/>
+        <property name="debug" value="{{servicios-ad.debug}}"/>
     </bean>
     <bean
         class="cl.uandes.comun.ad.client.soap.cxf.consultaXrut.CreateSoapRequest" id="soapRequestConsultaXrut">

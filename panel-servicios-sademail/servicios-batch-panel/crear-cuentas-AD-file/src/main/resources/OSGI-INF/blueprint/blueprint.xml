@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/servicioBatch/crearCuentasAD/"
+        id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF clients -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- servicio AD -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/consultaXrut"
+        id="rsADconsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/crearUsuario"
+        id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario"
+        id="rsADvalidarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- sedrvicios gmail -->
+    <!-- Consultar nickname gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
+        id="consultaNickNameGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- Consultar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
+        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.SchedulerEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean
+        class="cl.uandes.panel.servicio.crearCuentasAD.api.resource.CrearCuentasRestService" id="restService">
+        <property name="procesoCrearCuentas" value="{{crear-cuentas-AD.funcion}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.crearCuentasAD.bean.GeneraDatos" id="generaDatos">
+        <property name="proceso" value="{{crear-cuentas-AD.funcion}}"/>
+        <property name="kcoFuncion" value="{{crear-cuentas-AD.funcion}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+        <argument index="0" value="crear_cuentas_AD"/>
+        <!-- reemplazar artifactId -->
+        <property name="debug" value="{{RegistrosComunes.debug}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearCuentas">
+        <property name="registraInicio" ref="registrosComunes"/>
+        <property name="keyContador" value="contadoresCuentasAD"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.comunes.procesor.FinalizaProceso" id="finalizaProceso">
+        <property name="panelServices" value="{{scheduler.uri-serviciosBatch}}"/>
+        <property name="registrosBD" ref="registrosComunes"/>
+        <property name="keyContador" value="contadoresCuentasAD"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.crearCuentasAD.procesor.CuentasThread" id="cuentasThread">
+        <property name="registrosComunes" ref="registrosComunes"/>
+        <property name="debug" value="{{crear-cuentas-AD.debug}}"/>
+    </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <camelContext id="crear-cuentas-AD-file" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <!-- ================================================================================================= -->
+        <route id="_fromFile">
+            <from id="_from1" uri="file:///home/sademail/cuentasAD?fileName=cuentas.csv"/>
+            <!--
+				Parte porque se detecto el archivo en el directorio
+				- armar una lista con los datos del archivo  
+				- inicializar registros de log
+				- completa la lista de las cuentas AD a crear
+				- va a la ruta que crea las cuentas
+			-->
+            <bean id="_bean1" method="generaListaXfile" ref="generaDatos"/>
+            <setHeader headerName="proceso" id="_setHeader1">
+                <constant>crear_cuentas_AD</constant>
+            </setHeader>
+            <process id="_recuperaDatosInicializarxFile" ref="inicialiceCrearCuentas"/>
+			<choice>
+				<when>
+					<simple>${header.inicializado}</simple>
+					<to id="_to5" uri="direct:procesaLista"/>
+				</when>
+				<otherwise>
+					<log message="NO se inicializo"/>
+				</otherwise>
+			</choice>
+            <to id="_to1" uri="mock:end"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_readJson">
+            <from id="_from2" uri="direct:proceso"/>
+            <!--
+				Viene de algun scheduler.
+				- El RestService deja la respuesrta al que invoca y activa en forma asincrona a la ruta seda:doJob
+			-->
+            <to id="_to2" uri="mock:end"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_route1">
+            <from id="_from3" uri="seda:procesaAlumnosPostgrado"/>
+            <!--
+				Viene de RestService.
+				- inicializar registros de log
+				- arma la lista de las cuentas AD a crear
+				- va a la ruta que crea las cuentas
+			-->
+            <process id="_recuperaDatosInicializarxSql" ref="inicialiceCrearCuentas"/>
+            <bean id="_bean2" method="generaListaXrequest" ref="generaDatos"/>
+            <to id="_to3" uri="direct:procesaLista"/>
+            <to id="_to4" uri="mock:end"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_route2">
+            <from id="_from4" uri="direct:procesaLista"/>
+            <!--
+				Recibe la lista con los datos listos para crear las cuentas
+				- loop para cada elemento
+					- crea la cuenta
+					- la registra en la BDC (si existe el usuario) 
+			-->
+            <loop doWhile="true" id="_loop1">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
+                <bean id="_bean3" method="getCuentaFromListaCuentas" ref="generaDatos"/>
+                <process id="_cuentasThreadProcess" ref="cuentasThread"/>
+				<log message="(L174)Termino el proceso de ${header.CuentasADDTO}"/>
+            </loop>
+			<process id="_cierraMiResultados" ref="finalizaProceso"/>
+        </route>
+    </camelContext>
+</blueprint>

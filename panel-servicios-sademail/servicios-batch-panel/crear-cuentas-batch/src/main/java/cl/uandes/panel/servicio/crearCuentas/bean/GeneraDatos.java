@@ -16,6 +16,7 @@ import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
 import cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest;
 import cl.uandes.panel.comunes.servicios.dto.DatosCuentasBanner;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
+import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 
 /**
  * Multiples metodos usados en las rutas Camel del proceso
@@ -43,6 +44,16 @@ public class GeneraDatos {
 		return null;
 	}
 	
+	public void setContadores(Exchange exchange) {
+		Message message = exchange.getIn();
+		ContadoresCrearCuentas contadoresCrearCuentas = (ContadoresCrearCuentas)message.getHeader("contadoresCrearCuentas");
+		ResultadoFuncion res = (ResultadoFuncion)message.getHeader("ResultadoFuncion");
+		message.setHeader("countProcesados", contadoresCrearCuentas.getCountProcesados());
+		message.setHeader("countErrores", contadoresCrearCuentas.getCountErrores());
+		message.setHeader("countAgregadosBD", contadoresCrearCuentas.getCountAgregadosBD());
+		message.setHeader("countAgregadosAD", contadoresCrearCuentas.getCountAgregadosAD());
+		message.setHeader("keyResultado", res.getKey());
+	}
 	/**
 	 * Dejar en el header los datos necesarios para actualizar las tablas KCO_FUNCIONES y MI_RESULTADOS
 	 * @param exchange

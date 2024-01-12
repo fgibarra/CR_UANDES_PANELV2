@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="NewWizardAction">
-		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.ui.wizards.new.folder"/>
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.datatools.sqltools.internal.sqlscrapbook.wizards.NewSQLScrapbookFileCreationWizard"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
 			<item value="org.eclipse.ui.Basic"/>
 			<item value="org.eclipse.jdt.ui.java"/>
 			<item value="org.eclipse.jst.j2ee.internal"/>
 			<item value="org.jboss.ide.eclipse.ui.wizards"/>
 			<item value="org.jboss.tools.jst.web"/>
+			<item value="org.jboss.tools.jst.web/org.jboss.tools.jsf"/>
 			<item value="org.eclipse.jpt.jpa"/>
 			<item value="org.jboss.tools.central.ui.wizard.category"/>
 			<item value="org.fusesource.ide.newwizards"/>

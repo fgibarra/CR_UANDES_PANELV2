@@ -1,8 +1,9 @@
 eclipse.preferences.version=1
+org.jboss.ide.eclipse.as.ui.defaultWebServer=Red Hat Fuse 7+ Runtime UAndes Server
 org.jboss.ide.eclipse.as.ui.preferences.disabled.automatic.server.view=true
 org.jboss.ide.eclipse.as.ui.preferences.enabledDecorators.1=true
 org.jboss.ide.eclipse.as.ui.preferences.runtime.last.type.org.jboss.ide.eclipse.as.runtime.51=/home/appServers/jbossEsb-5.0.1.GA
-org.jboss.ide.eclipse.as.ui.wizards.LAST_RUNTIME_CREATED=Red Hat Fuse 7+ Runtime
+org.jboss.ide.eclipse.as.ui.wizards.LAST_RUNTIME_CREATED=Red Hat Fuse 7+ Runtime UAndes
 org.jboss.ide.eclipse.as.ui.wizards.LAST_RUNTIME_TYPE_CREATED=org.fusesource.ide.fuseesb.runtime.70
-org.jboss.ide.eclipse.as.ui.wizards.LAST_SERVER_CREATED=fuse-karaf-7.7.0.fuse-770009-redhat-00002
+org.jboss.ide.eclipse.as.ui.wizards.LAST_SERVER_CREATED=Red Hat Fuse 7+ Runtime UAndes Server
 org.jboss.ide.eclipse.as.ui.wizards.LAST_SERVER_TYPE_CREATED=org.fusesource.ide.fuseesb.server.70

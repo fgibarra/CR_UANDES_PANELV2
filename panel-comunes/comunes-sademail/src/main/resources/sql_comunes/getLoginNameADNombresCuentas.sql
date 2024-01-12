@@ -1,0 +1,1 @@
+select samaccount_name from ad_nombres_cuenta where samaccount_name like :#cuentaporciento

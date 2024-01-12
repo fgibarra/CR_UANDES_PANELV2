@@ -116,11 +116,10 @@
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.bean.GeneraDatos" id="generaDatos">
         <property name="gmailServices" value="{{uri.gmailServices}}"/>
     </bean>
-    <bean
-        class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceProceso">
-		<property name="registraInicio" ref="registrosComunes"/>
-	</bean>
-	<!--
+    <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceProceso">
+        <property name="registraInicio" ref="registrosComunes"/>
+    </bean>
+    <!--
     <bean
         class="cl.uandes.panel.servicio.suspendeEliminaCuentas.procesor.InicialiceProceso" id="inicialiceProceso">
 		<property name="registraInicio" ref="registrosComunes"/>
@@ -145,9 +144,10 @@
         <property name="sincronizarUsuarioBean" ref="sincronizaUsuario"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-	<bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
-		<argument index="0" value="suspende-elimina-cuentas"/> <!-- reemplazar artifactId -->
-	</bean>
+    <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+        <argument index="0" value="suspende-elimina-cuentas"/>
+        <!-- reemplazar artifactId -->
+    </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"
@@ -195,24 +195,22 @@
         <!-- ================================================================================================= -->
         <route id="_route2">
             <from id="_from2" uri="direct:sincronizar"/>
-
             <process id="_process2" ref="inicialiceProceso"/>
-			<choice>
-				<when>
-					<simple>${header.inicializado}</simple>
-					<to uri="direct:recuperaCuentas"/>
-				</when>
-				<otherwise>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.inicializado}</simple>
+                    <to id="_to3" uri="direct:recuperaCuentas"/>
+                </when>
+                <otherwise id="_otherwise1">
                     <log id="_log4" message="(L144) inicialiceCrearCuentas dejo header.estaInicializado: ${header.inicializado} keyResultado: ${header.keyResultado}"/>
-		            <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+                    <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
                     <to id="_to7" uri="mock:end"/>
-				</otherwise>
-			</choice>
-
+                </otherwise>
+            </choice>
         </route>
         <!-- ================================================================================================= -->
-		<route>
-			<from uri="direct:recuperaCuentas"/>
+        <route id="_route1">
+            <from id="_from4" uri="direct:recuperaCuentas"/>
             <loop doWhile="true" id="_loop1">
                 <!-- Inicialmente inicializado a TRUE por SuspendeEliminaCuentasRestService
 				     posteriormente actualizado por recuperaUsuariosGmail -->
@@ -226,24 +224,25 @@
                             <delay id="_delay1">
                                 <constant>1000</constant>
                             </delay>
-                            <log id="_log3" message="(L122)Esperando se desocupe thread"/>
+                            <log id="_log3" message="(L227)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
                         </when>
                         <otherwise id="_otherwise2">
                             <bean id="_bean2" method="recuperaUsuario" ref="generaDatos"/>
-                            <log id="_log7" message="(L172) procesa elemento numero: ${header.listaUsuariosSincronizar.size}"/>
+                            <log id="_log7" message="(L231) procesa elemento numero: ${header.listaUsuariosSincronizar.size} keyResultado=${header.keyResultado}"/>
                             <to id="_to2" uri="seda:procesaUsuario"/>
                         </otherwise>
                     </choice>
                 </loop>
             </loop>
-            <log id="_log8" message="(L178) finalizaProceso"/>
+            <log id="_log8" message="(L1238) finalizaProceso"/>
             <process id="_process3" ref="finalizaProceso"/>
             <to id="_fin" uri="mock:end"/>
-		</route>
+        </route>
         <!-- ================================================================================================= -->
         <route id="_route3">
             <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=10"/>
             <process id="_process1" ref="sincronizaUsuario"/>
+			<log message="(L245) header.countThread=${header.countThread.getCounter}"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_generaMailRoute">
