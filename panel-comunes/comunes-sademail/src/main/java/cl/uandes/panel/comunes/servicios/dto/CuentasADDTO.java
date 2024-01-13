@@ -1,6 +1,7 @@
 package cl.uandes.panel.comunes.servicios.dto;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,7 +42,24 @@ public class CuentasADDTO implements Serializable {
 	private String loginName0;
 
 	private Integer seq = 0;
-	
+
+	public static enum RamasAD {
+		ALUMNOS("AlumnosUA"),
+		PROFESORES("ProfesoresUA"),
+		FUNCIONARIOS("Office365"),
+		RESTO("BibliotecaUA");
+
+		private String ramaAD;
+
+		private RamasAD(String ramaAD) {
+			this.ramaAD = ramaAD;
+		}
+
+		public String getRamaAD() {
+			return this.ramaAD;
+		}
+	}
+
 	public CuentasADDTO(String titulos, String linea) {
 		super();
 		if (linea != null && linea.length() > 0 && titulos != null && titulos.length() > 0) { 
@@ -71,6 +89,41 @@ public class CuentasADDTO implements Serializable {
 		
 	}
 
+	public CuentasADDTO(Map<String, Object> datos) {
+		this.rut = (String)datos.get("SPRIDEN_ID");
+		this.apellidos = parseaDato((String)datos.get("SPRIDEN_LAST_NAME"));
+		this.nombre = parseaDato((String)datos.get("SPRIDEN_FIRST_NAME"));
+		this.middleName = parseaDato((String)datos.get("SPRIDEN_MI"));
+		this.rama = RamasAD.ALUMNOS.getRamaAD();
+		this.nombres = String.format("%s %s",  
+				getMiddleName() != null ?
+						String.format("%s %s", getNombre(), getMiddleName()) : String.format("%s", getNombre()),
+				getApellidos());
+    	if (rut == null) this.password = "UAndes2024";
+    	if (rut.charAt(0) == '@')
+    		this.password =  "00000000";
+    	this.password =  rut.substring(0, 8);
+	}
+	
+	protected String parseaDato(String dato) {
+        // dos espacios por un espacio
+        String valor = dato;
+        if (valor != null) {
+	        do
+	        	valor = valor.replace("  ", " "); //ut.replaceInString(dto.getLastName().toLowerCase(),"  "," ");
+	            while (valor.indexOf("  ")>=0);
+	        valor = valor.trim();
+	
+	        int indx = valor.indexOf('/');
+	        if (indx >= 0) {
+	        	// viene un solo apellido
+	        	valor = valor.replace("/"," ");
+	        }
+        }
+        return valor;
+	}
+
+	
 	public synchronized void incSeq() {
 		this.seq++;
 	}
@@ -107,13 +160,17 @@ public class CuentasADDTO implements Serializable {
 		if (rut != null && rut.charAt(0) == '@')
 			return rut.substring(1);
 		
-		return getRut();
+		return getRut().toUpperCase();
 	}
 	
 	public String getNombres() {
 		return nombres;
 	}
 
+	/**
+	 * Es invocado por el constructor cuando viene una linea con titulo NOMBRES
+	 * @param nombres
+	 */
 	public void setNombres(String nombres) {
 		if (nombres != null) {
 			String partes[] = nombres.split(" ");
@@ -143,7 +200,12 @@ public class CuentasADDTO implements Serializable {
 	}
 
 	public String getPassword() {
-		return password;
+		if (password != null)
+			return password;
+    	if (rut == null) return "UAndes2024";
+    	if (rut.charAt(0) == '@')
+    		return "00000000";
+    	return rut.substring(0, 8);
 	}
 
 	public void setPassword(String password) {

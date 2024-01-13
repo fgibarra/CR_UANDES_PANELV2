@@ -90,9 +90,57 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- __________________________________________________________________________________________________ -->
+    <!--
+	Identificadores de restClient usados en comunes-sademail
+	rsADvalidarUsuario
+	consultaGMail
+	consultaNickNameGMail
+	rsFinProceso
+	-->
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario"
+        id="rsADvalidarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.comunes.servicios.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- Consultar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.comunes.servicios.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- Consultar nickname gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
+        id="consultaNickNameGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.comunes.servicios.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"
-        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.owners.api.restapi.SchedulerEndpoint">
+        id="rsFinProceso" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.comunes.servicios.restclient.SchedulerEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>

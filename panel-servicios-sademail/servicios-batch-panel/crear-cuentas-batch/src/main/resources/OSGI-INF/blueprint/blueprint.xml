@@ -19,21 +19,10 @@
     </jaxrs:server>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF clients -->
+	<!-- servicios AD -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/serviciosAD/consultaXrut"
         id="rsADconsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
-        <cxf:headers>
-            <entry key="Content-Type" value="application/json"/>
-            <entry key="Accept" value="application/json"/>
-        </cxf:headers>
-        <cxf:providers>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
-        </cxf:providers>
-    </cxf:rsClient>
-    <!-- __________________________________________________________________________________________________ -->
-    <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panel/panelToolCreaCuenta/creaCuenta"
-        id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -55,9 +44,49 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/panelToolCreaCuenta/creaCuenta"
+        id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/panelToolCreaCuenta/creaCuenta"
         id="rsCrearCuenta" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ServiciosPanelEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- servicios gmail -->
+    <!-- Consultar nickname gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
+        id="consultaNickNameGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- Consultar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultasGMailEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -86,19 +115,16 @@
         <property name="procesoCrearCuentas" value="{{crear-cuentas-gmail.proceso}}"/>
         <property name="tiposCuenta" value="{{crear-cuentas-gmail.tiposCuenta}}"/>
     </bean>
+    <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.servicio.crearCuentas.bean.GeneraDatos" id="generaDatos">
         <property name="proceso" value="{{crear-cuentas-gmail.proceso}}"/>
         <property name="kcoFuncion" value="{{crear-cuentas-gmail.kco-funcion}}"/>
     </bean>
+    <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.procesor.InicializarProceso" id="inicialiceCrearCuentas">
         <property name="registraInicio" ref="registrosComunes"/>
     </bean>
-    <!--
-    <bean
-        class="cl.uandes.panel.servicio.crearCuentas.procesor.InicialiceCrearCuentas" id="inicialiceCrearCuentas">
-		<property name="registraInicio" ref="registrosComunes"/>
-	</bean>
-	-->
+    <!-- __________________________________________________________________________________________________ -->
     <bean
         class="cl.uandes.panel.servicio.crearCuentas.procesor.CuentasThread" id="cuentasThread">
         <property name="adServices" value="{{crear-cuentas-gmail.uri-servicios-ad}}"/>
@@ -106,12 +132,14 @@
         <property name="validarUsuario" value="{{operacion.validarUsuario}}"/>
         <property name="ramaAD" value="{{crear-cuentas-gmail.ramaAD}}"/>
         <property name="sevicioCrearCuentaPanel" value="{{crear-cuentas-gmail.uri-servicio-crear-cuentas-panel}}"/>
+        <property name="registrosComunes" ref="registrosComunes"/>
     </bean>
-    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
         <argument index="0" value="crear-cuentas-batch"/>
         <!-- reemplazar artifactId -->
     </bean>
+    <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->
     <reference availability="mandatory"

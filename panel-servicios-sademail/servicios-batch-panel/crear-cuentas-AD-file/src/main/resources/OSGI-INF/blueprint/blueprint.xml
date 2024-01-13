@@ -119,8 +119,7 @@
         <property name="keyContador" value="contadoresCuentasAD"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
-    <bean
-        class="cl.uandes.panel.comunes.procesor.FinalizaProceso" id="finalizaProceso">
+    <bean class="cl.uandes.panel.comunes.procesor.FinalizaProceso" id="finalizaProceso">
         <property name="panelServices" value="{{scheduler.uri-serviciosBatch}}"/>
         <property name="registrosBD" ref="registrosComunes"/>
         <property name="keyContador" value="contadoresCuentasAD"/>
@@ -154,15 +153,15 @@
                 <constant>crear_cuentas_AD</constant>
             </setHeader>
             <process id="_recuperaDatosInicializarxFile" ref="inicialiceCrearCuentas"/>
-			<choice>
-				<when>
-					<simple>${header.inicializado}</simple>
-					<to id="_to5" uri="direct:procesaLista"/>
-				</when>
-				<otherwise>
-					<log message="NO se inicializo"/>
-				</otherwise>
-			</choice>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${header.inicializado}</simple>
+                    <to id="_to5" uri="direct:procesaLista"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log id="_log1" message="NO se inicializo"/>
+                </otherwise>
+            </choice>
             <to id="_to1" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
@@ -201,9 +200,9 @@
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <bean id="_bean3" method="getCuentaFromListaCuentas" ref="generaDatos"/>
                 <process id="_cuentasThreadProcess" ref="cuentasThread"/>
-				<log message="(L174)Termino el proceso de ${header.CuentasADDTO}"/>
+                <log id="_log2" message="(L174)Termino el proceso de ${header.CuentasADDTO}"/>
             </loop>
-			<process id="_cierraMiResultados" ref="finalizaProceso"/>
+            <process id="_cierraMiResultados" ref="finalizaProceso"/>
         </route>
     </camelContext>
 </blueprint>

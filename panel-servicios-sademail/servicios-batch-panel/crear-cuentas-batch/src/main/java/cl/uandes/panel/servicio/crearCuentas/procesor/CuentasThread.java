@@ -14,6 +14,7 @@ import org.apache.camel.PropertyInject;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.json.batch.crearcuentas.ConsultaXrutRequest;
 import cl.uandes.panel.comunes.json.batch.crearcuentas.ConsultaXrutResponse;
 import cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPRequest;
@@ -21,6 +22,7 @@ import cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPResponse;
 import cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario;
 import cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaRequest;
 import cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaResponse;
+import cl.uandes.panel.comunes.servicios.dto.CuentasADDTO;
 import cl.uandes.panel.comunes.servicios.dto.DatosCuentasBanner;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
@@ -33,6 +35,8 @@ import cl.uandes.panel.comunes.utils.ObjectFactory;
  */
 public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD implements Processor {
 
+	RegistrosComunes registrosComunes;
+	
 	@PropertyInject(value = "crear-cuentas-gmail.uri-servicios-ad", defaultValue = "http://localhost:8181/cxf/ESB/panel/serviciosAD")
 	private String adServices;
 	@PropertyInject(value = "servicios-ad.operacion.crearUsuario", defaultValue = "CrearUsuario")
@@ -144,6 +148,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 	private boolean defineCuentaEnAD(DatosCuentasBanner dto, Exchange exchange) {
 		return defineCuentaEnAD(dto, exchange, null);
 	}
+	
 	private boolean defineCuentaEnAD(DatosCuentasBanner dto, Exchange exchange, Boolean hayCuentaRegistrada) {
 		boolean resultado = false;
 		Message message = exchange.getIn();
@@ -154,7 +159,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 				response.getEstado()));
 		if (!"OK".equals(response.getEstado())) {
 			// NO existe cuenta en AD --> crearla
-			if (crearCuentaAD(dto)) {
+			if (crearCuentaAD(dto, exchange)) {
 				registraCuentaADenBD(dto.getLoginName(), dto.getSpridenId());
 				resultado = true;
 				incAgregadosAD(message);
@@ -191,26 +196,30 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 		logger.info(String.format("registraCuentaADenBD: registrada cuenta %s para rut %s", spridenId, spridenId));
 	}
 
-	private boolean crearCuentaAD(DatosCuentasBanner dto) {
+	private boolean crearCuentaAD(DatosCuentasBanner dto, Exchange exchange) {
 		logger.info(String.format("crearCuentaAD: DatosCuentasBanner: %s", dto));
-
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest(getSevicioADCrearCuenta(), null,
-				Usuario.createUsuario4crear(dto.getLoginName(), dto.getPassword(), getRamaAD(), dto.getRut(), dto.getNombres(),
-						dto.getApellidos()));
-		Map<String, Object> headers = new HashMap<String, Object>();
-		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateCuentaAD, getAdServices()));
-		headers.put("CamelHttpMethod", "POST");
-		logger.info(String.format("createCuenta URL: %s", headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
-		logger.info(String.format("createCuenta: request: %s", request));
 
 		ServiciosLDAPResponse response;
 		try {
+			String samaccountName = registrosComunes.getSamaccountName((CuentasADDTO)dto, exchange);
+			
+			ServiciosLDAPRequest request = new ServiciosLDAPRequest(getSevicioADCrearCuenta(), null,
+					Usuario.createUsuario4crear(samaccountName, dto.getPassword(), getRamaAD(), dto.getRut(), dto.getNombres(),
+							dto.getApellidos()));
+			Map<String, Object> headers = new HashMap<String, Object>();
+			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateCuentaAD, getAdServices()));
+			headers.put("CamelHttpMethod", "POST");
+			logger.info(String.format("createCuenta URL: %s", headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
+			logger.info(String.format("createCuenta: request: %s", request));
+
 			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
 					(ResponseImpl) createCuentaAD.requestBodyAndHeaders(request, headers),
 					ServiciosLDAPResponse.class);
+			
+			registrosComunes.add2AdNombresCuenta((CuentasADDTO)dto);
 		} catch (Exception e) {
-			logger.error("consultaXrut", e);
-			//registraLogError(getClass(),"crearCuentaAD", String.format("createCuenta: request: %s", request), e, keyResultado);
+			logger.error("crearCuentaAD", e);
+			registrosComunes.registraMiResultadoErrores("", String.format("createCuenta: CuentasADDTO: %s",dto), e, null, keyResultado);
 			response = new ServiciosLDAPResponse(-1, e.getMessage());
 		}
 		// ServiciosLDAPResponse response = (ServiciosLDAPResponse)
@@ -387,5 +396,13 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 
 	public void setSevicioCrearCuentaPanel(String sevicioCrearCuentaPanel) {
 		this.sevicioCrearCuentaPanel = sevicioCrearCuentaPanel;
+	}
+
+	public RegistrosComunes getRegistrosComunes() {
+		return registrosComunes;
+	}
+
+	public void setRegistrosComunes(RegistrosComunes registrosComunes) {
+		this.registrosComunes = registrosComunes;
 	}
 }

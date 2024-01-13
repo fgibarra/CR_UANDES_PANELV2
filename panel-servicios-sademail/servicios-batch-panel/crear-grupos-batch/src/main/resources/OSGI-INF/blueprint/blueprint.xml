@@ -114,6 +114,44 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
         </cxf:providers>
     </cxf:rsClient>
+    <!-- Consultar nickname gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
+        id="consultaNickNameGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- Consultar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario"
+        id="rsADvalidarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearGrupos.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- __________________________________________________________________________________________________ -->
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/servicioBatch/schedulerPanel/finProceso"

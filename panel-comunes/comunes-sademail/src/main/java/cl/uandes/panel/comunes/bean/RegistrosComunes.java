@@ -400,7 +400,7 @@ public class RegistrosComunes {
 		return cuentasADDTO;
 	}
 	
-	private void add2AdNombresCuenta(CuentasADDTO cuentasADDTO) {
+	public void add2AdNombresCuenta(CuentasADDTO cuentasADDTO) {
 		// ingresa este nombre a la tabla AD_NOMBRES_CUENTA
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("smaccountName", cuentasADDTO.getSamaccountName());

@@ -46,6 +46,7 @@
 							cl.uandes.panel.comunes.json.updateidgmail,
 							cl.uandes.panel.comunes.servicios.dto,
 							cl.uandes.panel.comunes.servicios.exceptions,
+							cl.uandes.panel.comunes.servicios.restclient,
 							cl.uandes.panel.comunes.utils,
 							cl.uandes.panel.comunes.bean,
 							cl.uandes.panel.comunes.procesor,

@@ -32,14 +32,16 @@
 					<instructions>
 						<Export-Package>cl.uandes.panel.servicio.crearGrupos.api.resources</Export-Package>
 						<Import-Package>
-							cl.uandes.panel.comunes.servicios.dto,
 							cl.uandes.panel.comunes.json.batch,
+							cl.uandes.panel.comunes.json.batch.crearcuentas,
 							cl.uandes.panel.comunes.json.batch.crearGrupos,
 							cl.uandes.panel.comunes.utils,
 							cl.uandes.panel.comunes.bean,
 							cl.uandes.panel.comunes.procesor,
 							sql_comunes,
+							cl.uandes.panel.comunes.servicios.dto,
 							cl.uandes.panel.comunes.servicios.exceptions,
+							cl.uandes.panel.comunes.servicios.restclient,
 							cl.uandes.sadmemail.comunes.gmail.json,
 							cl.uandes.sadmemail.comunes.google.api.services,
 							com.fasterxml.jackson.jaxrs.json,
