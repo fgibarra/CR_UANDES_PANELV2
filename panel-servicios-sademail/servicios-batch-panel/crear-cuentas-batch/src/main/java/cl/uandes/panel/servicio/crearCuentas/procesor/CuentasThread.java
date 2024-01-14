@@ -216,7 +216,6 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 					(ResponseImpl) createCuentaAD.requestBodyAndHeaders(request, headers),
 					ServiciosLDAPResponse.class);
 			
-			registrosComunes.add2AdNombresCuenta((CuentasADDTO)dto);
 		} catch (Exception e) {
 			logger.error("crearCuentaAD", e);
 			registrosComunes.registraMiResultadoErrores("", String.format("createCuenta: CuentasADDTO: %s",dto), e, null, keyResultado);
