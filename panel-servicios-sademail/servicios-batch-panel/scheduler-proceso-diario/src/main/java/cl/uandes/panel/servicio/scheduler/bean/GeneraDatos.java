@@ -35,8 +35,8 @@ public class GeneraDatos {
 
 	private SchedulerPanelRestService delegate;
 	private String tiposCuenta[] = {"Alumnos"};
-	private String tiposGrupos[] = {"crear_grupos", "grupos_inprogress", "grupos_inprogress_postgrado"};
-	private String tiposSincronizarGrupos[] = {"sinc_grupos_generales", "sinc_grupos_generales", "sinc_grupos_postgrado"};
+	private String tiposGrupos[] = {"crear_grupos", "grupos_inprogress"/*, "grupos_inprogress_postgrado"*/};
+	private String tiposSincronizarGrupos[] = {"sinc_grupos_generales", "sinc_grupos_generales"/*, "sinc_grupos_postgrado"*/};
 	private String tiposSincronizarSuspenderEliminar[] = {"sincronizar", "suspender", "eliminar"};
 	
 	private String funcionNocturnoCrearCuentas;
@@ -83,7 +83,6 @@ public class GeneraDatos {
 	}
 
 	public void generaRequestCrearGupos(Exchange exchange) throws Exception {
-		tiposGrupos = getSchedulerTiposGrupos().split(",");
 		ProcesoDiarioRequest req = new ProcesoDiarioRequest(getFuncionNocturnoCrearGrupos(), tiposGrupos);
 		logger.info(String.format("generaRequestCrearGupos: req:%s", req));
 		exchange.getIn().setBody(req);

@@ -1,0 +1,1 @@
+package cl.uandes.panel.servicio.getSamaccountName.bean;

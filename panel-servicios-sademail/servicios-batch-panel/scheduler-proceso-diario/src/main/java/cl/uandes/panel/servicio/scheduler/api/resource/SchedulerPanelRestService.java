@@ -46,6 +46,8 @@ public class SchedulerPanelRestService {
 	private String procesoSincronizarSuspenderEliminar;
     @PropertyInject(value = "ae-owners-members-grupo.nocturno.kco-funcion", defaultValue="asignar_owners")
 	private String procesoSincronizarOwners;
+    @PropertyInject(value = "crear-cuentasAD-postgrado.nocturno.kco-funcion", defaultValue="crear_cuentas_AD_postgrado")
+	private String procesoProcesoCrearCuentasADPostgrado;
     
     Logger logger = Logger.getLogger(getClass());
 
@@ -70,6 +72,8 @@ public class SchedulerPanelRestService {
 			producer.asyncSend("direct:terminaSincronizarSuspenderEliminar", exchange);
 		else if (esSincronizarOwners(request.getOperacion()))
 			producer.asyncSend("direct:terminaSincronizarOwners", exchange);
+		else if (esCrearCuentasADPostgrado(request.getOperacion()))
+			producer.asyncSend("direct:terminaCrearCuentasADPostgrado", exchange);
 		
 		logger.info("va a crear Response");
 		Response response = Response.ok().status(200).entity("{ \"respuesta\": \"ACK\"}").build();
@@ -112,6 +116,12 @@ public class SchedulerPanelRestService {
 	
 	public boolean esSincronizarOwners(String operacion) {
 		if (getProcesoSincronizarOwners().equalsIgnoreCase(operacion))
+			return true;
+		return false;
+	}
+	
+	public boolean esCrearCuentasADPostgrado(String operacion) {
+		if (getProcesoProcesoCrearCuentasADPostgrado().equalsIgnoreCase(operacion))
 			return true;
 		return false;
 	}
@@ -186,5 +196,13 @@ public class SchedulerPanelRestService {
 
 	public synchronized void setProcesoSincronizarOwners(String procesoSincronizarOwners) {
 		this.procesoSincronizarOwners = procesoSincronizarOwners;
+	}
+
+	public String getProcesoProcesoCrearCuentasADPostgrado() {
+		return procesoProcesoCrearCuentasADPostgrado;
+	}
+
+	public void setProcesoProcesoCrearCuentasADPostgrado(String procesoProcesoCrearCuentasADPostgrado) {
+		this.procesoProcesoCrearCuentasADPostgrado = procesoProcesoCrearCuentasADPostgrado;
 	}
 }

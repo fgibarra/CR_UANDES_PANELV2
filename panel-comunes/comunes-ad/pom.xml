@@ -23,7 +23,8 @@
 					<instructions>
 						<Export-Package>
 							cl.uandes.panel.comunes.json.consultaXrut,
-							cl.uandes.panel.comunes.json.serviciosLDAP
+							cl.uandes.panel.comunes.json.serviciosLDAP,
+							cl.uandes.panel.comunes.json.serviciosAD
 						</Export-Package>
 						<Import-Package>
 							org.apache.log4j;version="[1.2,2)",

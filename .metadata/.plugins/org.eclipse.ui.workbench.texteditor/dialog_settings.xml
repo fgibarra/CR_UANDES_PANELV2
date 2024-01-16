@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="rsFinProceso"/>
+		<item key="selection" value="tiposGrupos"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="tiposGrupos"/>
 			<item value="rsFinProceso"/>
 			<item value="consultaNickNameGMail"/>
 			<item value="consultaGMail"/>
@@ -22,7 +23,6 @@
 			<item value="insertNapGrupoOwner"/>
 			<item value="_to6"/>
 			<item value="_setHeader4"/>
-			<item value="members-retrieveOwners"/>
 		</list>
 		<list key="replacehistory">
 			<item value="{headers"/>
