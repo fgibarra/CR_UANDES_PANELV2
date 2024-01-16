@@ -85,6 +85,10 @@
         class="cl.uandes.panel.servicio.getSamaccountName.api.resources.GetSamaccountNameRestService" id="restService">
     </bean>
     <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.servicio.getSamaccountName.procesor.GeneraRespuesta" id="generaRespuesta">
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
         <argument index="0" value="get-samaccountName"/>
         <!-- reemplazar artifactId -->
@@ -97,8 +101,25 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <camelContext id="get-samaccountName" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <route id="_route1">
-            <from id="_from2" uri="direct:proceso"/>
-            <to id="_to1" uri="mock:end"/>
+            <from id="_from2" uri="direct:start"/>
+			<log message="(L101) CuentasADDTO=${header.CuentasADDTO}"/>
+			<onException>
+				<exception>java.lang.RuntimeException</exception>
+				<log message="Atrapo RuntimeException"/>
+				<setHeader headerName="exception" id="_setHeader1">
+                    <simple>${exception.message}</simple>
+                </setHeader>
+				<setBody><constant>null</constant></setBody>
+				<to uri="direct:generaRespuesta"/>
+			</onException>
+			<bean method="getSamaccountName" ref="registrosComunes"/>
+            <to uri="direct:generaRespuesta"/>
+			<to uri="mock:end"/>
         </route>
+		<route>
+			<from uri="direct:generaRespuesta"/>
+			<process ref="generaRespuesta"/>
+			<log message="(L121) response: ${body}"/>
+		</route>
     </camelContext>
 </blueprint>

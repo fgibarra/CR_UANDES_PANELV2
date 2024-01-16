@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1705170187157
+Bnd-LastModified: 1705421417968
 Build-Jdk: 1.8.0_291
 Built-By: sademail
 Bundle-Description: ComunesPanel
@@ -25,9 +25,9 @@ Export-Package: cl.uandes.panel.comunes.json.aeOwnersMembers;version="0.
  il;version="0.0.1";uses:="com.fasterxml.jackson.annotation",cl.uandes.p
  anel.comunes.servicios.dto;version="0.0.1";uses:="com.fasterxml.jackson
  .annotation",cl.uandes.panel.comunes.servicios.exceptions;version="0.0.
- 1",cl.uandes.panel.comunes.servicios.restclient;uses:="cl.uandes.panel.
- comunes.json.batch,cl.uandes.panel.comunes.json.batch.crearcuentas";ver
- sion="0.0.1",cl.uandes.panel.comunes.utils;version="0.0.1";uses:="cl.ua
+ 1",cl.uandes.panel.comunes.servicios.restclient;version="0.0.1";uses:="
+ cl.uandes.panel.comunes.json.batch,cl.uandes.panel.comunes.json.batch.c
+ rearcuentas",cl.uandes.panel.comunes.utils;version="0.0.1";uses:="cl.ua
  ndes.panel.comunes.json.batch,cl.uandes.panel.comunes.servicios.dto,org
  .apache.log4j",cl.uandes.panel.comunes.bean;version="0.0.1";uses:="cl.u
  andes.panel.comunes.servicios.dto",cl.uandes.panel.comunes.procesor;ver

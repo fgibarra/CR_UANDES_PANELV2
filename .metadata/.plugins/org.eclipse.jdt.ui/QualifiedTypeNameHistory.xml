@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
     <fullyQualifiedTypeName name="java.sql.Timestamp"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
@@ -41,7 +40,6 @@
     <fullyQualifiedTypeName name="javax.faces.bean.SessionScoped"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
     <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
-    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="org.apache.camel.Header"/>
     <fullyQualifiedTypeName name="java.io.File"/>
     <fullyQualifiedTypeName name="java.io.FileInputStream"/>
@@ -55,9 +53,11 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario"/>
     <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
-    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.CuentasADDTO"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.CuentasADDTO"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPResponse"/>
 </qualifiedTypeNameHistroy>

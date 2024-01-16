@@ -5422,3 +5422,24 @@ Binding(CTRL+SHIFT+T,
 
 !ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-01-16 12:26:06.425
 !MESSAGE ParseAttributes: Unsupported EIP will be ignored: custom
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-01-16 14:15:21.241
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-01-16 14:16:29.534
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-01-16 14:16:37.877
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-01-16 14:20:15.479
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-01-16 14:26:11.320
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-01-16 14:31:13.651
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-01-16 14:34:14.915
+!MESSAGE ParseAttributes: Unsupported EIP will be ignored: exception

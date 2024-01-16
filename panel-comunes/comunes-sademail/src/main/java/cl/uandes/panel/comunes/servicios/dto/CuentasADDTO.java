@@ -60,6 +60,10 @@ public class CuentasADDTO implements Serializable {
 		}
 	}
 
+	public CuentasADDTO() {
+		super();
+	}
+
 	public CuentasADDTO(String titulos, String linea) {
 		super();
 		if (linea != null && linea.length() > 0 && titulos != null && titulos.length() > 0) { 
