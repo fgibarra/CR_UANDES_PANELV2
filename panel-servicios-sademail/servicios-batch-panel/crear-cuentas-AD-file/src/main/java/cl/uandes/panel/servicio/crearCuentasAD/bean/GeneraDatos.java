@@ -5,9 +5,12 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
+import org.apache.camel.ProducerTemplate;
 import org.apache.camel.PropertyInject;
 import org.apache.camel.component.file.GenericFile;
 import org.apache.log4j.Logger;
@@ -21,6 +24,9 @@ public class GeneraDatos {
 	@PropertyInject(value = "crear-cuentas-gmail.kco-funcion", defaultValue = "crear_cuentas")
 	private String kcoFuncion;
 
+	@EndpointInject(uri = "sql:classpath:paraCrearCuentasAD.sql?dataSource=#bannerDataSource")
+	ProducerTemplate paraCrearCuentasAD;
+	
 	private Logger logger = Logger.getLogger(getClass());
 
 	/**
@@ -69,13 +75,18 @@ public class GeneraDatos {
 	 * 
 	 * @param exchange
 	 */
+	@SuppressWarnings("unchecked")
 	public void generaListaXrequest(Exchange exchange) {
 		Message message = exchange.getIn();
-		Object body = message.getBody();
-
-		// KCO_FUNCIONES
-		logger.info(String.format("para KCO_FUNCIONES: key: %s\n%s", body.getClass().getSimpleName(), body));
-
+		List<CuentasADDTO> lista = new ArrayList<CuentasADDTO>();
+		
+		List<Map<String, Object>> datos = (List<Map<String, Object>>) paraCrearCuentasAD.requestBody(null);
+		if (datos != null && datos.size() > 0) {
+			for (Map<String, Object> dato : datos) {
+				lista.add(new CuentasADDTO(dato));
+			}
+		}
+		message.setHeader("listaCuentas", lista);
 	}
 
 	/**

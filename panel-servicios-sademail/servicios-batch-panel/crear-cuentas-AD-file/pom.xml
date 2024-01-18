@@ -17,6 +17,13 @@
   		<scope>system</scope>
   		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-gmail/target/comunes-gmail-0.0.1.jar</systemPath>
   	</dependency>
+  	<dependency>
+  		<groupId>uandes.panel-v2.comunes</groupId>
+  		<artifactId>comunes-ad-soap</artifactId>
+  		<version>0.0.1</version>
+  		<scope>system</scope>
+  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-ad/target/comunes-ad-soap-0.0.1.jar</systemPath>
+  	</dependency>
   </dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>

@@ -18,6 +18,8 @@ import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentasAD;
 import cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPRequest;
 import cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPResponse;
 import cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario;
+import cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutRequest;
+import cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutResponse;
 import cl.uandes.panel.comunes.servicios.dto.CuentasADDTO;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
@@ -27,6 +29,8 @@ public class CuentasThread implements Processor {
 	private RegistrosComunes registrosComunes;
 	@PropertyInject(value = "crear-cuentas-AD.debug", defaultValue = "false")
 	private String debug;
+	@PropertyInject(value = "uri.serviciosAD", defaultValue = "http://localhost:8181/cxf/ESB/panel/serviciosAD")
+	private String adServices;
 
 	@EndpointInject(uri = "cxfrs:bean:rsADcrearUsuario") // crear cuenta AD
 	ProducerTemplate crearUsuarioAD;
@@ -39,74 +43,79 @@ public class CuentasThread implements Processor {
 	
 	private ContadoresCrearCuentasAD contadoresCuentasAD;
 	private Logger logger = Logger.getLogger(getClass());
-
+	private CuentasADDTO cuentasADDTO;
+	
 	/**
-	 * - Completa el DTO solicitando un samaccountName
-	 * 		Usa el servicio getSamaccountName de RegistrosComunes para generar un nombre de cuenta unico y no utilizado
-	 * 		para el AD.
-	 * - Invoca al API para crear la cuenta en el AD
+	 * - Verifica que el RUT co tenga una cuenta AD asociada.
+	 * - Si no tiene:
+	 * 		- Completa el DTO solicitando un samaccountName
+	 * 			Usa el servicio getSamaccountName de RegistrosComunes para generar un nombre de cuenta unico y no utilizado
+	 * 			para el AD.
+	 * 		- Invoca al API para crear la cuenta en el AD
+	 * - si tiene, se usa la que tiene
 	 * - Actualiza la BDC con la nueva cuenta.
 	 */
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
-		CuentasADDTO cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
+		cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
 		contadoresCuentasAD = (ContadoresCrearCuentasAD)message.getHeader("contadoresCuentasAD");
 		contadoresCuentasAD.incCountProcesados();
 		ResultadoFuncion res = (ResultadoFuncion) message.getHeader("ResultadoFuncion");
 		
-		String samaccountName = null;
-		try {
-			samaccountName = registrosComunes.getSamaccountName(cuentasADDTO, exchange);
-			logger.info(String.format("en el message cuentasADDTO: %s", (CuentasADDTO) message.getHeader("CuentasADDTO")));
-			if (samaccountName == null) {
-				// no pudo generar uno
-				String msg = String.format("Error: no pudo crear un samaccountName para %s",  cuentasADDTO);
-				logger.error(msg);
+		if (!existeCuentaAD()) {
+			String samaccountName = null;
+			try {
+				samaccountName = registrosComunes.getSamaccountName(cuentasADDTO, exchange);
+				logger.info(String.format("en el message cuentasADDTO: %s", (CuentasADDTO) message.getHeader("CuentasADDTO")));
+				if (samaccountName == null) {
+					// no pudo generar uno
+					String msg = String.format("Error: no pudo crear un samaccountName para %s",  cuentasADDTO);
+					logger.error(msg);
+					contadoresCuentasAD.incCountErrores();
+					registrosComunes.registraMiResultadoErrores(cuentasADDTO.getRut(), "CreaCuentasAD", msg, null, res.getKey());
+					return;
+				}
+			} catch (Exception e1) {
+				String msg = String.format("Error al procesar %s",  cuentasADDTO);
+				logger.error(msg, e1);
 				contadoresCuentasAD.incCountErrores();
-				registrosComunes.registraMiResultadoErrores(cuentasADDTO.getRut(), "CreaCuentasAD", msg, null, res.getKey());
+				registrosComunes.registraMiResultadoErrores(null, msg, e1, null, res.getKey());
 				return;
 			}
-		} catch (Exception e1) {
-			String msg = String.format("Error al procesar %s",  cuentasADDTO);
-			logger.error(msg, e1);
-			contadoresCuentasAD.incCountErrores();
-			registrosComunes.registraMiResultadoErrores(null, msg, e1, null, res.getKey());
-			return;
-		}
-		logger.info(String.format("CuentasThread: samaccountName=%s cuentasADDTO=%s", samaccountName, cuentasADDTO));
-		
-		final Map<String,Object> headers = new HashMap<String,Object>();
-		// crear el usuario en el AD
-		headers.put(Exchange.DESTINATION_OVERRIDE_URL, uriADcrearUsuarioAD);
-		headers.put("CamelHttpMethod", "POST");
-		
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", null, Usuario.createUsuario4crear(
-						cuentasADDTO.getSamaccountName(), 
-						cuentasADDTO.getPassword(),
-						cuentasADDTO.getRama(),
-						cuentasADDTO.getEmployeeId(),
-						cuentasADDTO.getNombres(),
-						cuentasADDTO.getApellidos()));
-		logger.info(String.format("asi quedaria la invocacion para crear la cuenta: %s", request));
-		
-		if (!Boolean.valueOf(getDebug())) {
-			// Si no se definio debug o esta en false
-			@SuppressWarnings("unused")
-			ServiciosLDAPResponse response = null;
-			try {
-				response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
-						(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
-						ServiciosLDAPResponse.class);
-				contadoresCuentasAD.incCountAgregadosAD();
-			} catch (Exception e) {
-				String msg = String.format("Error al invocar api para crear usuario AD. request=%s", request);
-				logger.error(msg, e);
-				registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
-				contadoresCuentasAD.incCountErrores();
+			logger.info(String.format("CuentasThread: samaccountName=%s cuentasADDTO=%s", samaccountName, cuentasADDTO));
+			
+			final Map<String,Object> headers = new HashMap<String,Object>();
+			// crear el usuario en el AD
+			headers.put(Exchange.DESTINATION_OVERRIDE_URL, uriADcrearUsuarioAD);
+			headers.put("CamelHttpMethod", "POST");
+			
+			ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", null, Usuario.createUsuario4crear(
+							cuentasADDTO.getSamaccountName(), 
+							cuentasADDTO.getPassword(),
+							cuentasADDTO.getRama(),
+							cuentasADDTO.getEmployeeId(),
+							cuentasADDTO.getNombres(),
+							cuentasADDTO.getApellidos()));
+			logger.info(String.format("asi quedaria la invocacion para crear la cuenta: %s", request));
+			
+			if (!Boolean.valueOf(getDebug())) {
+				// Si no se definio debug o esta en false
+				@SuppressWarnings("unused")
+				ServiciosLDAPResponse response = null;
+				try {
+					response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
+							(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
+							ServiciosLDAPResponse.class);
+					contadoresCuentasAD.incCountAgregadosAD();
+				} catch (Exception e) {
+					String msg = String.format("Error al invocar api para crear usuario AD. request=%s", request);
+					logger.error(msg, e);
+					registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
+					contadoresCuentasAD.incCountErrores();
+				}
 			}
 		}
-		
 		// Actualizar la BDC
 		try {
 			actualizarBDC(cuentasADDTO);
@@ -117,6 +126,31 @@ public class CuentasThread implements Processor {
 			contadoresCuentasAD.incCountErrores();
 		}
 		
+	}
+
+	@EndpointInject(uri = "cxfrs:bean:rsADconsultaXrut?continuationTimeout=-1")
+	ProducerTemplate consultaRutAD;
+	String templateConsultaXrut = "%s/consultaXrut";
+	private boolean existeCuentaAD() {
+		ConsultaXrutRequest request = new ConsultaXrutRequest(cuentasADDTO.getRut());
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateConsultaXrut, getAdServices()));
+		headers.put("CamelHttpMethod", "POST");
+		logger.info(String.format("consultaXrut URL: %s", headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
+		logger.info(String.format("consultaXrut: request: %s", request));
+		ConsultaXrutResponse response;
+		try {
+			response = (ConsultaXrutResponse) ObjectFactory.procesaResponseImpl(
+					(ResponseImpl) consultaRutAD.requestBodyAndHeaders(request, headers), ConsultaXrutResponse.class);
+		} catch (Exception e) {
+			logger.error("consultaXrut", e);
+			response = new ConsultaXrutResponse(-1, e.getMessage(), null, null, null, null, null, null, null, null,
+					null, null);
+		}
+		boolean existe = response.getCodigo() == 0 && response.getEstado().equalsIgnoreCase("OK"); 
+		if (existe)
+			cuentasADDTO.setLoginName(response.getUsuario());
+		return existe;
 	}
 
 	/**
@@ -168,6 +202,14 @@ public class CuentasThread implements Processor {
 
 	public void setDebug(String debug) {
 		this.debug = debug;
+	}
+
+	public String getAdServices() {
+		return adServices;
+	}
+
+	public void setAdServices(String adServices) {
+		this.adServices = adServices;
 	}
 
 }

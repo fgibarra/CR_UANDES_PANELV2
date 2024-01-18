@@ -119,7 +119,7 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/servicios-ad-soap/1.0.0</outputDirectory>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/ad/servicios-ad-soap/1.0.0</outputDirectory>
 					<finalName>servicios-ad-soap-0.0.1</finalName>
 					<attach>false</attach>
 				</configuration>

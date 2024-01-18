@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Reporte proceso carga cursos</title>
+<title>Reporte proceso nocturno Panelv2</title>
 <style>
 table, th, td {
   border: 1px solid black;
@@ -15,6 +15,9 @@ th, td {
 th {text-align: center;}
 .myDiv {
   width: 1200px;
+}
+p {
+  line-height: 1.5;
 }
 </style>
 </head>
@@ -173,47 +176,56 @@ KCsZdTfQ06U+XQZ0qbgdvlrXInSp8mvxz3Xdha/FZ/LrLvwX0aXrb4cuXX87dOn626FL198OXbr+
 dujS9beCmNj/AM/qdJfB+4YmAAAAAElFTkSuQmCC" alt="Logo UAndes" />
 		</td>
 		<td colspan="4" style="text-align:center;padding-left:100px; border:none;">
-<h1 style="text-shadow: 2px 2px;">Cambio cuenta correo miuandes</h1>
+<h1 style="text-shadow: 2px 2px;">Proceso nocturno Panelv3</h1>
 		</td>
 		</tr></table>
 		</div>
 	</header>
 
 <section>
-<h3>Estimado</h3>
-<br><br>
 <p align="right">Fecha del proceso: ${headers.fechaProceso}</p>
 <br><br>
- Se han ${headers.operacion} las siguientes cuentas a los grupos:
+<h3>Estimado</h3>
+<br><br>
+<h2>Informe de proceso ${headers.proceso}</h2>
+<br><br>
+<p>
+El proceso se ha ejecutado por &uacute;ltima vez a las ${headers.ultimaEjecucion}. Empez&oacute; a las ${headers.horaComienzo} y termin&oacute; a las ${headers.horaTermino}.
+</p>
+<li>Estad&iacute;sticas del proceso:
+<ul>Se leyeron ${headers.countProcesados} registros desde Banner</ul>
+<ul>Se detectaron ${headers.countErrores} errores en el proceso</ul>
+<ul>Cuentas agregadas a la tabla AD_NOMBRES_CUENTAS: ${headers.countAgregadosBD}</ul>
+<ul>Cuentas agregadas al Active Directory: ${headers.countAgregadosAD}</ul>
+</li>
+<br><br>
+#if(${headers.reporteErroresSize} > 0)
+	<table style="border: 1px solid black;width=100%">
+	<caption style="padding-bottom: 30px;text-decoration: underline;">Res&uacute;men de problemas encontrados en el proceso</caption>
+	<tr>
+	<th>RUT</th>
+	<th>Tipo</th>
+	<th colspan="2">causa</th>
+	<th>Fecha - Hora</th>
+	</tr>
+	#foreach($reporte in ${headers.reporteErrores})
+		<tr>
+		<td>$reporte.idUsuario</td>
+		<td>$reporte.tipo</td>
+		<td colspan="2">$reporte.causa</td>
+		<td>$reporte.fechaHoraRegistro</td>
+		</tr>
+	#end
+	</table>
 
-<div class="myDiv">
- 
-<table style="border: 1px solid black;width=100%;">
-<caption style="padding-bottom: 80px;text-decoration: underline;">Cuentas, grupos</caption>
-<tr>
-<th>CUENTA</th>
-<th>GRUPO</th>
-<th>FECHA</th>
-<th>RESULTADO</th>
-</tr>
-#foreach($reporte in ${headers.reporteList})
-<tr>
-<td>$reporte.correo</td>
-<td>$reporte.lista</td>
-<td>$reporte.fecha</td>
-<td>$reporte.resultado</td>
-</tr>
 #end
-</table>
-</div>
 </section>
 
 <footer style="padding-top: 100px;">
-<div style="margin-top: 20px;">
 Este correo ha sido generado en forma autom&aacute;tica por el Sistema PANEL de TI,<br><br>
 <a href="http://www.uandes.cl">Universidad de los Andes</a>
-</div
 </footer>
 
 </body>
 </html>
+

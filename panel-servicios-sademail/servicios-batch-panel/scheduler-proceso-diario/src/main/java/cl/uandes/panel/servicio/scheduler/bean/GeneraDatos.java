@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.json.batch.ContadoresAsignarOwners;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentas;
+import cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentasAD;
 import cl.uandes.panel.comunes.json.batch.ContadoresCrearGrupos;
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarCuentas;
 import cl.uandes.panel.comunes.json.batch.ContadoresSincronizarGrupos;
@@ -140,6 +141,9 @@ public class GeneraDatos {
 		exchange.getIn().setHeaders(generaHeaders(exchange));
 	}
 	
+	public void preparaMailResultadoCrearCuantasADPostgrado(Exchange exchange) {
+		exchange.getIn().setHeaders(generaHeaders(exchange));
+	}
 	
 	private Map<String,Object> generaHeaders(Exchange exchange) {
 		Map<String,Object> headers = new HashMap<String,Object>();
@@ -268,6 +272,18 @@ public class GeneraDatos {
 				headers.put("owners-sacados-gmail", contadores.getCountSacadosGMAIL());
 			} catch (Exception e) {
 				logger.error(String.format("ContadoresSincronizarSuspenderEliminar: json malo |%s|", jsonContadores), e);
+			}
+		} else if (delegate.esCrearCuentasADPostgrado(operacion)) {
+			try {
+				ContadoresCrearCuentasAD contadores = (ContadoresCrearCuentasAD)JSonUtilities.getInstance().
+						json2java(jsonContadores, ContadoresCrearCuentasAD.class, false);
+				logger.info(String.format("ContadoresSincronizarCuentas: %s", contadores));
+				headers.put("countProcesados", contadores.getCountProcesados());
+				headers.put("countErrores", contadores.getCountErrores());
+				headers.put("agregados-bd", contadores.getCountAgregadosBD());
+				headers.put("agregados-ad", contadores.getCountAgregadosAD());
+			} catch (Exception e) {
+				logger.error(String.format("ContadoresCrearCuentasAD: json malo |%s|", jsonContadores), e);
 			}
 		}
 	}

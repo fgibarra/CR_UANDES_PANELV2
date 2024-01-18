@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="tiposGrupos"/>
+		<item key="selection" value="_to7"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="_to7"/>
+			<item value="_bean9"/>
+			<item value="_setHeader5"/>
+			<item value="direct:_setHeader5"/>
+			<item value="direct:terminaCrearCuentasADPostgrado"/>
+			<item value="consultaRutAD"/>
 			<item value="tiposGrupos"/>
 			<item value="rsFinProceso"/>
 			<item value="consultaNickNameGMail"/>
@@ -17,12 +23,6 @@
 			<item value="_recuperaDatosInicializar"/>
 			<item value="direct:incrementaResultado"/>
 			<item value="countThread"/>
-			<item value="bundle.namespace"/>
-			<item value="deleteOwner"/>
-			<item value="MemberRequest"/>
-			<item value="insertNapGrupoOwner"/>
-			<item value="_to6"/>
-			<item value="_setHeader4"/>
 		</list>
 		<list key="replacehistory">
 			<item value="{headers"/>

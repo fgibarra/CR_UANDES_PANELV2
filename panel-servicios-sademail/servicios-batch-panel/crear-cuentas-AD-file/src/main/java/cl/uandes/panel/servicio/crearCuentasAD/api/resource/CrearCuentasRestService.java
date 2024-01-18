@@ -27,7 +27,7 @@ import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 public class CrearCuentasRestService {
 	@EndpointInject(uri = "direct:start")
 	ProducerTemplate producer;
-    @PropertyInject(value = "crear-cuentas-AD.funcion", defaultValue="crear_cuentas_AD")
+    @PropertyInject(value = "crear-cuentas-AD-postgrado.nocturno.kco-funcion", defaultValue="crear_cuentas_AD_postgrado")
 	private String procesoCrearCuentas;
      
     private String msgError;
@@ -63,15 +63,16 @@ public class CrearCuentasRestService {
 				.withBody(request).build();
 		logger.info(String.format("CrearCuentasRestService.procese: activa direct:proceso con header.request = %s", 
 				exchange.getIn().getHeader("request")));
-		procesoBatch.asyncSend("direct:proceso", exchange);
+		procesoBatch.asyncSend("seda:procesaAlumnosPostgrado", exchange);
 		
 		Response response = Response.ok().status(200).entity("Partio crear_cuentas").build();
 		return response;
 	}
 
 	private boolean valida(ProcesoDiarioRequest request) {
-		// TODO Auto-generated method stub
-		return true;
+		if (getProcesoCrearCuentas().equalsIgnoreCase(request.getFuncion()))
+			return true;
+		return false;
 	}
 
 	public String getMsgError() {

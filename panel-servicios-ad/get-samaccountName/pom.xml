@@ -96,7 +96,7 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/batch/get-samaccountName/${project.version}</outputDirectory>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/servicios/ad/get-samaccountName/${project.version}</outputDirectory>
 					<finalName>get-samaccountName-${project.version}</finalName>
 					<attach>false</attach>
 				</configuration>

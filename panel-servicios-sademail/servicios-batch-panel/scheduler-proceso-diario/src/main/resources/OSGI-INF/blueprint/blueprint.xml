@@ -206,6 +206,17 @@
             <to id="_to7" uri="direct:generaMail"/>
         </route>
         <!-- ================================================================================================= -->
+        <route id="_terminaCrearCuentasADPostgrado">
+            <from id="_from3" uri="direct:terminaCrearCuentasADPostgrado"/>
+            <setHeader headerName="operacion" id="_setHeader6">
+                <constant>crear_cuentas_AD_postgrado</constant>
+            </setHeader>
+            <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
+            <bean id="_bean10"
+                method="preparaMailResultadoCrearCuantasADPostgrado" ref="generaDatos"/>
+            <to id="_to8" uri="direct:generaMail"/>
+        </route>
+        <!-- ================================================================================================= -->
         <route id="_generaMailRoute">
             <from id="_from1" uri="direct:generaMail"/>
             <choice id="_choice1">
@@ -225,9 +236,13 @@
                     <simple>${header.operacion} == '{{se-cuentas-gmail.nocturno.funcion}}'</simple>
                     <to id="creaCuerpoSuspendeElimina" uri="velocity:templateMailSuspendeEliminaCuentas.vm?contentCache=true"/>
                 </when>
-                <when id="_when4">
+                <when id="_when5">
                     <simple>${header.operacion} == '{{ae-owners-members-grupo.nocturno.kco-funcion}}'</simple>
                     <to id="creaCuerpoAsignarOwners" uri="velocity:templateMailAsignarOwners.vm?contentCache=true"/>
+                </when>
+                <when id="_when6">
+                    <simple>${header.operacion} == '{{crear-cuentas-AD-postgrado.nocturno.kco-funcion}}'</simple>
+                    <to id="creaCuerpoCuentasAD" uri="velocity:templateMailCrearCuentasAD.vm?contentCache=true"/>
                 </when>
                 <otherwise id="_otherwise1">
                     <log id="_log4" message="NO HAY PROCESO PARA (${header.operacion})"/>
