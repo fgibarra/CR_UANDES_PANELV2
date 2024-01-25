@@ -68,8 +68,8 @@ public class InicializarProceso implements Processor {
 				if (keyContador.equals("No definido"))
 					keyContador = "contadoresCuentasAD";
 				message.setHeader(keyContador, new ContadoresCrearCuentasAD(0, 0, 0, 0));
-				message.setHeader("countThread", new CountThreads());
 			}
+			message.setHeader("countThread", new CountThreads());
 			
 			logger.info(String.format("InicializarProceso: KCO_FUNCIONES.deshabilitado %b", data.getParametros().getDisabled()));
 

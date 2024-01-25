@@ -132,7 +132,7 @@ public class CuentasThread implements Processor {
 	ProducerTemplate consultaRutAD;
 	String templateConsultaXrut = "%s/consultaXrut";
 	private boolean existeCuentaAD() {
-		ConsultaXrutRequest request = new ConsultaXrutRequest(cuentasADDTO.getRut());
+		ConsultaXrutRequest request = new ConsultaXrutRequest(cuentasADDTO.getEmployeeId());
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateConsultaXrut, getAdServices()));
 		headers.put("CamelHttpMethod", "POST");

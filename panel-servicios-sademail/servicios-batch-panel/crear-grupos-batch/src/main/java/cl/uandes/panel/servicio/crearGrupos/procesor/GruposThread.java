@@ -28,6 +28,8 @@ import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.GruposMiUandes;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException;
+import cl.uandes.panel.comunes.utils.CountThreads;
+import cl.uandes.panel.comunes.utils.JSonUtilities;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.panel.servicio.crearGrupos.api.dto.DatosMemeberDTO;
 import cl.uandes.panel.servicio.crearGrupos.api.resources.CrearGruposRestService;
@@ -108,13 +110,15 @@ public class GruposThread implements Processor {
 	
 	private ResultadoFuncion res;
 	private ContadoresCrearGrupos contadores;
-	
+	private CountThreads countThread;
 	private Logger logger = Logger.getLogger(getClass());
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		try {
 			logger.info("Entrando a GruposThread");
+			countThread = (CountThreads)exchange.getIn().getHeader("countThread");
+			countThread.incCounter();
 			res = (ResultadoFuncion)exchange.getIn().getHeader("ResultadoFuncion");
 			contadores = (ContadoresCrearGrupos)exchange.getIn().getHeader("contadoresCrearGrupos");
 			DatosKcoFunciones datos = (DatosKcoFunciones)exchange.getIn().getHeader("DatosKcoFunciones");
@@ -132,9 +136,12 @@ public class GruposThread implements Processor {
 					agregarMiembrosActivos(exchange, new BigDecimal(grupo.getKey()), new BigDecimal(res.getKey()), grupo.getGroupName());
 				}
 			}
+			
 		} catch (Exception e) {
 			if (res != null)
 				registrosBD.registraMiResultadoErrores("NA", null, e, null, res.getKey());
+		} finally {
+			countThread.decCounter();
 		}
 	}
 	
@@ -205,7 +212,8 @@ public class GruposThread implements Processor {
 					}
 					logger.info(String.format("Vuelve de crear crgupo con res: %s", res));
 					
-					if (res.getCodigo() == 0 || res.getMensaje().matches(".*creado.*")) {
+					String msg = res.getMensaje() != null ? res.getMensaje().replace("\n", "") : null;					
+					if (res.getCodigo() == 0 || (msg !=null && msg.matches("(.*)creado(.*)"))) {
 						grupo.setGroupId(res.getGrupo().getId());
 						grupo.setCreadoGmail(Boolean.TRUE);
 						headers.clear();
@@ -456,6 +464,21 @@ public class GruposThread implements Processor {
 		}
 	}
 
+	/*
+	public static void main (String args[]) throws Exception {
+		String jsonString = "{\"codigo\":-1,\"mensaje\":\"409 Conflict\\nPOST https://www.googleapis.com/admin/directory/v1/groups/02et92p03n6tjta/members\\n{\\n  \\\"code\\\" : 409,\\n  \\\"errors\\\" : [ {\\n    \\\"domain\\\" : \\\"global\\\",\\n    \\\"message\\\" : \\\"Member already exists.\\\",\\n    \\\"reason\\\" : \\\"duplicate\\\"\\n  } ],\\n  \\\"message\\\" : \\\"Member already exists.\\\"\\n}\"}";
+		MemberResponse response = (MemberResponse) JSonUtilities.getInstance().json2java(jsonString, MemberResponse.class, false);
+		String msg = response.getMensaje().replace("\n", "");
+		if (response.getCodigo() == 0 || (msg != null && (
+				msg.matches("(.*)already exist(.*)")) ||
+				msg.matches("(.*)409 Conflict(.*)"))
+			) {
+			System.out.println("found");
+		} else {
+			System.out.println("not found");
+		}
+	}
+	*/
 	/**
 	 * Usado por multithread para procesar en paralelo para agregar miembros
 	 * @param exchange
@@ -467,24 +490,28 @@ public class GruposThread implements Processor {
 			DatosMemeberDTO datos = (DatosMemeberDTO) exchange.getIn().getBody();
 			headers.put("DatosMemeberDTO", datos);
 			BigDecimal keyResultado = (BigDecimal)headers.get("keyResultado");
-			logger.info(String.format("agregarMiembrosActivos: miembro %s", datos));
+			logger.info(String.format("agregarMiembroAction: miembro %s", datos));
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateAgregarMember,getGmailServices()));
 			headers.put("CamelHttpMethod", "POST");
 			//logger.info(String.format("agregarMiembrosActivos: URL=%s", (String)headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
 			MemberResponse response = (MemberResponse) ObjectFactory.procesaResponseImpl((ResponseImpl)agregarMember.requestBodyAndHeaders(datos.getRequest(), headers),MemberResponse.class);
-			if (response.getCodigo() == 0 || (response.getMensaje() != null && (
-					response.getMensaje().matches(".*already exist.*")) ||
-					response.getMensaje().matches(".*409 Conflict.*"))
+			String msg = response.getMensaje() != null ? response.getMensaje().replace("\n", "") : null;
+			
+			if (response.getCodigo() == 0 || (msg != null && (
+					msg.matches(".*already exist.*")) ||
+					msg.matches(".*409 Conflict.*"))
 				) {
 				headers.put("idMiembro", datos.getKeyGrupoMiembro().getIdMiembro());
 				headers.put("keyGrupo", new BigDecimal(datos.getKeyGrupoMiembro().getKeyGrupo()));
-				logger.info(String.format("actualizar member: %s,%d", headers.get("idMiembro"), datos.getKeyGrupoMiembro().getKeyGrupo()));
+				logger.info(String.format("agregarMiembroAction: %s,%d", headers.get("idMiembro"), datos.getKeyGrupoMiembro().getKeyGrupo()));
 				updateMember.requestBodyAndHeaders(null, headers);
 				contadores.incCountMiembrosAgregadosAD();
 				contadores.incCountMiembrosAgregadosBD();
 			} else {
+				logger.info(String.format("agregarMiembroAction: NO PUDO %s,%d  msg=%s", headers.get("idMiembro"), datos.getKeyGrupoMiembro().getKeyGrupo(), msg));
 				contadores.incCountErrores();
-				registrosBD.registraMiResultadoErrores("NA", "agregarMember", response.getMensaje(), 
+				registrosBD.registraMiResultadoErrores("NA", "agregarMember", 
+						response.getMensaje() != null ? response.getMensaje() : "Sin mensaje", 
 						Integer.valueOf(datos.getKeyGrupoMiembro().getKeyGrupo().intValue()), keyResultado.intValue());
 			}
 			operaContador("MIEMBROS_CREADOS", keyResultado);

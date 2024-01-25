@@ -204,7 +204,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 			String samaccountName = registrosComunes.getSamaccountName((CuentasADDTO)dto, exchange);
 			
 			ServiciosLDAPRequest request = new ServiciosLDAPRequest(getSevicioADCrearCuenta(), null,
-					Usuario.createUsuario4crear(samaccountName, dto.getPassword(), getRamaAD(), dto.getRut(), dto.getNombres(),
+					Usuario.createUsuario4crear(samaccountName, dto.getPassword(), getRamaAD(), dto.getEmployeeId(), dto.getNombres(),
 							dto.getApellidos()));
 			Map<String, Object> headers = new HashMap<String, Object>();
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateCuentaAD, getAdServices()));

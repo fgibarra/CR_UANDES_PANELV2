@@ -434,13 +434,32 @@
             <log id="_log20" message="(L356) Entrando a direct:procesaGrupos para procesar ${header.listaGrupos.size} elementos"/>
             <loop doWhile="true" id="_loop2">
                 <simple>${header.listaGrupos.size} &gt; 0</simple>
-                <threads id="_threads1" maxPoolSize="3" poolSize="3">
-                    <bean id="_bean7" method="getGrupoFromListaGrupos" ref="generaDatos"/>
-                    <log id="_log16" message="(L361)el grupo a procesar: ${header.grupoGmail}"/>
-                    <process id="_process2" ref="gruposThread"/>
-                </threads>
+
+                <choice>
+                    <when>
+                        <simple>${header.countThread.getCounter} &gt; 12</simple>
+                        <delay>
+                            <constant>1000</constant>
+                        </delay>
+                        <log message="(L444)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                    </when>
+                    <otherwise>
+	                    <bean method="getGrupoFromListaGrupos" ref="generaDatos"/>
+	                    <log message="(L361)el grupo a procesar: ${header.grupoGmail}"/>
+                        <to uri="seda:procesaEsteGrupo"/>
+                    </otherwise>
+                </choice>
+
             </loop>
         </route>
+        <!-- ================================================================================================= -->
+        <!--                               seda:procesaEsteGrupo                                                -->
+        <!-- ================================================================================================= -->
+		<route id="_procesaEsteGrupo">
+			<from uri="seda:procesaEsteGrupo"/>
+	        <log message="(L460) procesa elemento numero: ${header.listaCuentas.size} keyResultado=${header.keyResultado}"/>
+            <process ref="gruposThread"/>
+		</route>
         <!-- ================================================================================================= -->
         <!--                               seda:sacaMiembroAction                                                -->
         <!-- ================================================================================================= -->

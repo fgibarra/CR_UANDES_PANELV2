@@ -19,7 +19,7 @@
     </jaxrs:server>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF clients -->
-	<!-- servicios AD -->
+    <!-- servicios AD -->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/serviciosAD/consultaXrut"
         id="rsADconsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
@@ -44,7 +44,6 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
-
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/panelToolCreaCuenta/creaCuenta"
         id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentas.api.restclient.ConsultaADEndpoint">
