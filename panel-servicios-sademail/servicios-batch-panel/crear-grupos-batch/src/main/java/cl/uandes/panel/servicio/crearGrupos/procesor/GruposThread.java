@@ -29,7 +29,6 @@ import cl.uandes.panel.comunes.servicios.dto.GruposMiUandes;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException;
 import cl.uandes.panel.comunes.utils.CountThreads;
-import cl.uandes.panel.comunes.utils.JSonUtilities;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.panel.servicio.crearGrupos.api.dto.DatosMemeberDTO;
 import cl.uandes.panel.servicio.crearGrupos.api.resources.CrearGruposRestService;
@@ -102,10 +101,10 @@ public class GruposThread implements Processor {
 	ProducerTemplate consultarIdCuenta;
 	String templateConsultarIdCuenta = "%s/idCuentaUsuario?email=%s";
 	
-	@EndpointInject(uri = "seda:sacaMiembroAction")
+	@EndpointInject(uri = "direct:sacaMiembroAction")
 	ProducerTemplate sacarMiembrosPT;
 	
-	@EndpointInject(uri = "seda:agregaMiembroAction")
+	@EndpointInject(uri = "direct:agregaMiembroAction")
 	ProducerTemplate agregarMiembrosPT;
 	
 	private ResultadoFuncion res;
@@ -393,8 +392,7 @@ public class GruposThread implements Processor {
 			logger.info(String.format("sacarMiembrosInactivos:miembrosSacar %d elementos", miembrosSacar.size()));
 			for (DatosMemeberDTO datos : miembrosSacar) {
 				// hacerlo en un multithread
-				//sacarMiembrosPT.requestBodyAndHeaders(datos, headers);
-				sacarMiembrosPT.asyncRequestBodyAndHeaders("seda:sacaMiembroAction", datos, headers);
+				sacarMiembrosPT.requestBodyAndHeaders(datos, headers);
 			}
 		}
 	}
@@ -454,12 +452,10 @@ public class GruposThread implements Processor {
 		if (miembrosActivos.size() > 0) {
 			List<DatosMemeberDTO> miembrosAgregar = factoryListaGrupoMiembro(miembrosActivos);
 			for (DatosMemeberDTO datos : miembrosAgregar) {
-				// hacerlo en un multithread
-				//agregarMiembrosPT.requestBodyAndHeaders(datos, headers);
 				logger.info(String.format("agregarMiembrosActivos: de grupo %s miembro: %s activo %b creado %b", 
 						groupName, datos.getLoginName(), datos.getKeyGrupoMiembro().getActivo(), datos.getKeyGrupoMiembro().getCreadoGmail()));
 				if (!datos.getKeyGrupoMiembro().getCreadoGmail()) // solo si aparece registrado en NAP_GRUPO_MIEMBRO.activo=1 NAP_GRUPO_MIEMBRO.creadoGmail=0
-					agregarMiembrosPT.asyncRequestBodyAndHeaders("seda:agregaMiembroAction", datos, headers);
+					agregarMiembrosPT.requestBodyAndHeaders(datos, headers);
 			}
 		}
 	}

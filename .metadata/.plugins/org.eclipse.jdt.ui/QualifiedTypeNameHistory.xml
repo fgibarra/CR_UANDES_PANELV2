@@ -7,7 +7,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.servicio.owners.dto.NapGrupoOwnerDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.MemberResponse"/>
     <fullyQualifiedTypeName name="java.util.HashSet"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersResponse"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentasAD"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
 </qualifiedTypeNameHistroy>

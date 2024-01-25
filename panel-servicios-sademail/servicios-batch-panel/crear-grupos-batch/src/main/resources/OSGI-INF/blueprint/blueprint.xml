@@ -239,7 +239,7 @@
         <!-- -->
         <route id="_readjson">
             <from id="_promService" uri="direct:start"/>
-            <log id="_log2" message="(L182)queda en el body: ${body}"/>
+            <log id="_log2" message="(L242)queda en el body: ${body}"/>
             <to id="_to1" uri="mock:end"/>
         </route>
         <!--
@@ -255,7 +255,7 @@
         <!-- ================================================================================================= -->
         <route id="_procesoRoute">
             <from id="_proceso" uri="direct:proceso"/>
-            <log id="_log6" message="(L198)En ruta _procesoRoute header.listaOperaciones.size: ${header.listaOperaciones.size}"/>
+            <log id="_log6" message="(L258)En ruta _procesoRoute header.listaOperaciones.size: ${header.listaOperaciones.size}"/>
             <loop doWhile="true" id="_loop1">
                 <simple>${header.listaOperaciones.size} &gt; 0</simple>
                 <!--
@@ -265,7 +265,7 @@
 				- generar el resultado
 				-->
                 <bean id="_bean2" method="getListaOperaciones" ref="generaDatos"/>
-                <log id="_log4" message="(L208)procesar ${header.proceso}"/>
+                <log id="_log4" message="(L268)procesar ${header.proceso}"/>
                 <!--
                 <log id="_log8" message="(L209)sql:select key, funcion, min_thread, max_thread, parametro, comentario, ultima_ejecucion from kco_funciones where funcion=${header.proceso}"/>
                 <to id="_to4" uri="sql:classpath:sql/getKcoFuncion.sql?dataSource=#bannerDataSource"/>
@@ -287,14 +287,14 @@
         <!-- ================================================================================================= -->
         <route id="_procesaFuncion">
             <from id="_from8" uri="direct:procesaFuncion"/>
-            <log id="_log15" message="(L212)despues de _recuperaDatosInicializar: DatosKcoFunciones_${header.DatosKcoFunciones} ResultadoFuncion: ${header.ResultadoFuncion} key: ${header.key}"/>
+            <log id="_log15" message="(L290)despues de _recuperaDatosInicializar: DatosKcoFunciones_${header.DatosKcoFunciones} ResultadoFuncion: ${header.ResultadoFuncion} key: ${header.key}"/>
             <choice id="_choice1">
                 <when id="_when1">
                     <simple>${header.proceso} == 'crear_grupos'</simple>
                     <setHeader headerName="emailPermission" id="_setHeader2">
                         <constant>Anyone</constant>
                     </setHeader>
-                    <log id="_log9" message="(L219)invoca prd_puebla_grupos_generales - values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
+                    <log id="_log9" message="(L297)invoca prd_puebla_grupos_generales - values funcion ${header.proceso} (${header.DatosKcoFunciones.periodo}, ${header.emailPermission}, ${header.key})"/>
                     <to id="_to8" uri="sql-stored:classpath:sql/prd_puebla_grupos_generales.sql?dataSource=#bannerDataSource"/>
                     <to id="_to9" uri="direct:crearGrupos"/>
                 </when>
@@ -303,7 +303,7 @@
                     <setHeader headerName="emailPermission" id="_setHeader3">
                         <constant>Owner</constant>
                     </setHeader>
-                    <log id="_log10" message="(L228)invoca prd_puebla_grupos_vigentes - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
+                    <log id="_log10" message="(L306)invoca prd_puebla_grupos_vigentes - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
                     <to id="_to10" uri="sql-stored:classpath:sql/prd_puebla_grupos_vigentes.sql?dataSource=#bannerDataSource"/>
                     <to id="_to2" uri="direct:crearGruposVigentes"/>
                 </when>
@@ -312,12 +312,12 @@
                     <setHeader headerName="emailPermission" id="_setHeader4">
                         <constant>Owner</constant>
                     </setHeader>
-                    <log id="_log11" message="(L237)invoca prd_puebla_grupos_postgrado - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
+                    <log id="_log11" message="(L315)invoca prd_puebla_grupos_postgrado - values funcion ${header.proceso} (${header.emailPermission}, ${header.key})"/>
                     <to id="_to11" uri="sql-stored:classpath:sql/prd_puebla_grupos_postgrado.sql?dataSource=#bannerDataSource"/>
                     <to id="_to3" uri="direct:crearGruposVigentesPosgrado"/>
                 </when>
                 <otherwise id="_otherwise1">
-                    <log id="_log5" message="(L242)Operacion desconocida"/>
+                    <log id="_log5" message="(L320)Operacion desconocida"/>
                     <bean id="_bean3" method="setOperacionDesconocida" ref="restService"/>
                 </otherwise>
             </choice>
@@ -330,7 +330,7 @@
         <route id="_crearGrupos">
             <from id="_crearGruposRoute" uri="direct:crearGrupos"/>
             <!-- recuperar los grupos a procesar -->
-            <log id="_log1" message="(L257) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposRegulares.sql"/>
+            <log id="_log1" message="(L333) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposRegulares.sql"/>
             <to id="_to12" uri="sql:classpath:sql/getGruposRegulares.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean4" method="factoryGrupos" ref="generaDatos"/>
             <to id="_to13" uri="direct:procesaGrupos"/>
@@ -342,7 +342,7 @@
         <!-- ================================================================================================= -->
         <route id="_crearGruposVigentes">
             <from id="_crearGruposVigentesRoute" uri="direct:crearGruposVigentes"/>
-            <log id="_log3" message="(L269) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposVigentes.sql"/>
+            <log id="_log3" message="(L345) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposVigentes.sql"/>
             <to id="_to14" uri="sql:classpath:sql/getGruposVigentes.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean5" method="factoryGrupos" ref="generaDatos"/>
             <to id="_to15" uri="direct:procesaGrupos"/>
@@ -355,7 +355,7 @@
         <!-- ================================================================================================= -->
         <route id="_crearGruposVigentesPosgrado">
             <from id="_crearGruposVigentesPosgradoRoute" uri="direct:crearGruposVigentesPosgrado"/>
-            <log id="_log17" message="(L282) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposPosgrado.sql"/>
+            <log id="_log17" message="(L358) proceso:${header.proceso} recuperar los grupos a procesar: sql:classpath:sql/getGruposPosgrado.sql"/>
             <to id="_to16" uri="sql:classpath:sql/getGruposPosgrado.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean6" method="factoryGrupos" ref="generaDatos"/>
             <to id="_to17" uri="direct:procesaGrupos"/>
@@ -368,9 +368,9 @@
         <!-- ================================================================================================= -->
         <route id="_eliminarGruposSinMiembrosRoute">
             <from id="_from3" uri="direct:eliminarGruposSinMiembros"/>
-            <log id="_log18" message="(L295)eliminar members no activos y no creados: sql/deleteNoActivosNocreados.sql"/>
+            <log id="_log18" message="(L371)eliminar members no activos y no creados: sql/deleteNoActivosNocreados.sql"/>
             <to id="_to18" uri="sql:classpath:sql/deleteNoActivosNocreados.sql?dataSource=#bannerDataSource"/>
-            <log id="_log18" message="(L297)eliminarGruposSinMiembros: sql/getGruposSinMiembros.sql"/>
+            <log id="_log18" message="(L373)eliminarGruposSinMiembros: sql/getGruposSinMiembros.sql"/>
             <choice id="_choice2">
                 <when id="_when4">
                     <simple>${header.proceso} == 'crear_grupos'</simple>
@@ -385,7 +385,7 @@
                     <to id="_to23" uri="sql:classpath:sql/getGruposSinMiembrosPosgrado.sql?dataSource=#bannerDataSource"/>
                 </when>
                 <otherwise id="_otherwise2">
-                    <log id="_log21" message="(L312)Operacion desconocida"/>
+                    <log id="_log21" message="(L388)Operacion desconocida"/>
                     <bean id="_bean1" method="setOperacionDesconocida" ref="restService"/>
                 </otherwise>
             </choice>
@@ -397,7 +397,7 @@
         <!-- ================================================================================================= -->
         <route id="_route1">
             <from id="_from4" uri="direct:termina"/>
-            <log id="_log19" message="(L324)avisa termino proceso:${header.proceso} - DatosKcoFunciones: ${header.DatosKcoFunciones} y hay en el body: ${body}"/>
+            <log id="_log19" message="(L400)avisa termino proceso:${header.proceso} - DatosKcoFunciones: ${header.DatosKcoFunciones} y hay en el body: ${body}"/>
             <process id="_process3" ref="actualizaMiResultados"/>
             <to id="_final" uri="mock:end"/>
         </route>
@@ -422,8 +422,8 @@
         <!-- ================================================================================================= -->
         <route id="_creaResult">
             <from id="_procesoInicialiceCrearGrupos2" uri="direct:creaResultado"/>
-            <log id="_log13" message="(L347)creaResult: values (${header.key},${header.funcion},${header.horaComienzo},${header.minThreads},${header.maxThreads}) "/>
-            <log id="_log14" message="(L348)creaResult: body: ${body} "/>
+            <log id="_log13" message="(L425)creaResult: values (${header.key},${header.funcion},${header.horaComienzo},${header.minThreads},${header.maxThreads}) "/>
+            <log id="_log14" message="(L426)creaResult: body: ${body} "/>
             <to id="_to6" uri="jdbc:bannerDataSource?useHeadersAsParameters=true"/>
         </route>
         <!-- ================================================================================================= -->
@@ -431,40 +431,39 @@
         <!-- ================================================================================================= -->
         <route id="_procesaGruposRoute">
             <from id="_procesaGruposAction" uri="direct:procesaGrupos"/>
-            <log id="_log20" message="(L356) Entrando a direct:procesaGrupos para procesar ${header.listaGrupos.size} elementos"/>
+            <log id="_log20" message="(L434) Entrando a direct:procesaGrupos para procesar ${header.listaGrupos.size} elementos"/>
             <loop doWhile="true" id="_loop2">
                 <simple>${header.listaGrupos.size} &gt; 0</simple>
-
-                <choice>
-                    <when>
+                <choice id="_choice5">
+                    <when id="_when9">
                         <simple>${header.countThread.getCounter} &gt; 12</simple>
-                        <delay>
+                        <delay id="_delay3">
                             <constant>1000</constant>
                         </delay>
-                        <log message="(L444)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                        <log id="_log8" message="(L443)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
                     </when>
-                    <otherwise>
-	                    <bean method="getGrupoFromListaGrupos" ref="generaDatos"/>
-	                    <log message="(L361)el grupo a procesar: ${header.grupoGmail}"/>
-                        <to uri="seda:procesaEsteGrupo"/>
+                    <otherwise id="_otherwise5">
+                        <bean id="_bean7"
+                            method="getGrupoFromListaGrupos" ref="generaDatos"/>
+                        <log id="_log12" message="(L448)el grupo a procesar: ${header.grupoGmail}"/>
+                        <to id="_to28" uri="seda:procesaEsteGrupo"/>
                     </otherwise>
                 </choice>
-
             </loop>
         </route>
         <!-- ================================================================================================= -->
         <!--                               seda:procesaEsteGrupo                                                -->
         <!-- ================================================================================================= -->
-		<route id="_procesaEsteGrupo">
-			<from uri="seda:procesaEsteGrupo"/>
-	        <log message="(L460) procesa elemento numero: ${header.listaCuentas.size} keyResultado=${header.keyResultado}"/>
-            <process ref="gruposThread"/>
-		</route>
+        <route id="_procesaEsteGrupo">
+            <from id="_from9" uri="seda:procesaEsteGrupo"/>
+            <log id="_log16" message="(L459) procesa elemento numero: ${header.listaCuentas.size} keyResultado=${header.keyResultado}"/>
+            <process id="_process2" ref="gruposThread"/>
+        </route>
         <!-- ================================================================================================= -->
-        <!--                               seda:sacaMiembroAction                                                -->
+        <!--                               direct:sacaMiembroAction                                                -->
         <!-- ================================================================================================= -->
         <route id="_procesaSacarMiembrosRoute">
-            <from id="_procesaGruposThreadSaca" uri="seda:sacaMiembroAction?concurrentConsumers=5"/>
+            <from id="_procesaGruposThreadSaca" uri="direct:sacaMiembroAction"/>
             <onException id="_onException1">
                 <exception>cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException</exception>
                 <handled>
@@ -476,17 +475,17 @@
                 <setBody id="_setBody1">
                     <method method="setErrorProcesoMiembro" ref="gruposThread"/>
                 </setBody>
-                <log id="_log26" message="(L382-${threadName}) atrapo un exception. en el body queda: ${body}"/>
+                <log id="_log26" message="(L478-${threadName}) atrapo un exception. en el body queda: ${body}"/>
                 <bean id="_bean17" method="errorProcesoMiembro" ref="gruposThread"/>
             </onException>
-            <log id="_log27" message="(L385-${threadName}) sacarMiembro ${header.DatosMemeberDTO.request} "/>
+            <log id="_log27" message="(L481-${threadName}) sacarMiembro ${header.DatosMemeberDTO.request} "/>
             <bean id="_bean18" method="sacarMiembroAction" ref="gruposThread"/>
         </route>
         <!-- ================================================================================================= -->
-        <!--                               seda:agregaMiembroAction                                                -->
+        <!--                               direct:agregaMiembroAction                                                -->
         <!-- ================================================================================================= -->
         <route id="_procesaAgregarRoute">
-            <from id="_procesaGruposThreadAgrega" uri="seda:agregaMiembroAction?concurrentConsumers=5"/>
+            <from id="_procesaGruposThreadAgrega" uri="direct:agregaMiembroAction"/>
             <onException id="_onException2">
                 <exception>cl.uandes.panel.comunes.servicios.exceptions.ProcesaMiembroException</exception>
                 <handled>
@@ -498,10 +497,10 @@
                 <setBody id="_setBody1">
                     <method method="setErrorProcesoMiembro" ref="gruposThread"/>
                 </setBody>
-                <log id="_log28" message="(L403) atrapo un exception. en el body queda: ${body}"/>
+                <log id="_log28" message="(L500) atrapo un exception. en el body queda: ${body}"/>
                 <bean id="_bean19" method="errorProcesoMiembro" ref="gruposThread"/>
             </onException>
-            <log id="_log29" message="(L407-${threadName}) agregarMiembro ${header.DatosMemeberDTO.request} "/>
+            <log id="_log29" message="(L503-${threadName}) agregarMiembro ${header.DatosMemeberDTO.request} "/>
             <bean id="_bean20" method="agregarMiembroAction" ref="gruposThread"/>
         </route>
         <!-- ================================================================================================= -->
@@ -509,7 +508,7 @@
         <!-- ================================================================================================= -->
         <route id="_route4">
             <from id="_from7" uri="direct:incrementaResultado"/>
-            <log id="_log31" message="(L412) incrementar keyResultado: ${header.keyResultado} idContador: ${header.idContador} p_operacion: ${header.operacion}"/>
+            <log id="_log31" message="(L511) incrementar keyResultado: ${header.keyResultado} idContador: ${header.idContador} p_operacion: ${header.operacion}"/>
             <to id="_to27" uri="sql-stored:classpath:sql/prd_operaContadorMiResultados.sql?dataSource=#bannerDataSource"/>
         </route>
         <!-- ================================================================================================= -->
@@ -518,15 +517,15 @@
         <!-- ================================================================================================= -->
         <route id="_route2">
             <from id="_from5" uri="direct:sincronizar"/>
-            <log id="_log22" message="(L424) sincronizar: request=${header.request}"/>
+            <log id="_log22" message="(L520) sincronizar: request=${header.request}"/>
             <loop doWhile="true" id="_loop3">
                 <simple>${header.listaOperaciones.size} &gt; 0</simple>
                 <bean id="_bean14" method="getListaOperaciones" ref="generaDatos"/>
                 <process id="_process5" ref="inicialiceSincronizarGrupos"/>
-                <log id="_log23" message="(L429) proceso: ${header.tipoGrupo}"/>
+                <log id="_log23" message="(L525) proceso: ${header.tipoGrupo}"/>
                 <to id="_to24" uri="sql:classpath:sql_s/getGruposXproceso.sql?dataSource=#bannerDataSource"/>
                 <bean id="_bean15" method="factoryGruposSincronizar" ref="generaDatos"/>
-                <log id="_log24" message="(L432) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
+                <log id="_log24" message="(L528) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
                 <loop doWhile="true" id="_loop4">
                     <simple>${header.listaGruposSincronizar.size} &gt; 0</simple>
                     <choice id="_choice3">
@@ -549,9 +548,9 @@
                 <delay id="_delay2">
                     <constant>1000</constant>
                 </delay>
-                <log id="_log32" message="(L451) Esperando counterThread valor=${header.countThread.getCounter}"/>
+                <log id="_log32" message="(L551) Esperando counterThread valor=${header.countThread.getCounter}"/>
             </loop>
-            <log id="_log25" message="(L453) termina"/>
+            <log id="_log25" message="(L553) termina"/>
             <to id="_to26" uri="direct:termina"/>
         </route>
         <!-- ================================================================================================= -->
@@ -559,7 +558,7 @@
         <!-- ================================================================================================= -->
         <route id="_route3">
             <from id="_from6" uri="seda:sincronizaGrupo?concurrentConsumers=15"/>
-            <log id="_log30" message="(L461-${threadName}) grupo a procesar: ${header.grupoGmail} countThread=${header.countThread}"/>
+            <log id="_log30" message="(L561-${threadName}) grupo a procesar: ${header.grupoGmail} countThread=${header.countThread}"/>
             <process id="_process7" ref="sincronizarGruposAction"/>
         </route>
         <!-- ================================================================================================= -->
