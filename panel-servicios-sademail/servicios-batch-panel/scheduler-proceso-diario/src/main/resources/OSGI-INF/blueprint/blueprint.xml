@@ -159,6 +159,9 @@
             <!-- prepara el mail con los resultados guardados en MI_RESULTADOS -->
             <bean id="_bean3" method="preparaMailResultadoCrearCuentas" ref="generaDatos"/>
             <to id="_to2" uri="direct:generaMail"/>
+            <delay>
+                <constant>5000</constant>
+            </delay>
             <bean id="_bean1" method="generaRequestCrearGupos" ref="generaDatos"/>
             <to id="_mandaEjecutarCrearGrupos" uri="cxfrs:bean:servCreaGrupos?timeout=-1"/>
         </route>

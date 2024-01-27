@@ -271,12 +271,12 @@
                 <to id="_to4" uri="sql:classpath:sql/getKcoFuncion.sql?dataSource=#bannerDataSource"/>
 				-->
                 <process id="_recuperaDatosInicializar" ref="inicialiceCrearGrupos"/>
-                <choice>
-                    <when>
+                <choice id="_choice4">
+                    <when id="_when8">
                         <simple>${header.inicializado}</simple>
-                        <to uri="direct:procesaFuncion"/>
+                        <to id="_to4" uri="direct:procesaFuncion"/>
                     </when>
-                    <otherwise>
+                    <otherwise id="_otherwise4">
                         <log id="_log7" message="proceso ${header.proceso} no pudo ser inicializado"/>
                         <to id="_avisaTerminaCrearGrupos" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
                         <to id="_to5" uri="mock:end"/>
@@ -334,22 +334,21 @@
             <to id="_to12" uri="sql:classpath:sql/getGruposRegulares.sql?dataSource=#bannerDataSource"/>
             <bean id="_bean4" method="factoryGrupos" ref="generaDatos"/>
             <to id="_to13" uri="direct:procesaGrupos"/>
-			<!-- esperar que tgerminen todos los threads -->
-                <choice>
-                    <when>
-                        <simple>${header.countThread.getCounter} &lt; 6</simple>
-                        <delay>
-                            <constant>1000</constant>
-                        </delay>
-                        <log message="(L443)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
-                    </when>
-                    <otherwise>
-                        <log message="(L347) terminaron todas las threads disponibles: ${header.countThread.getCounter}"/>
-			            <to id="_eliminarGruposSinMiembros1" uri="direct:eliminarGruposSinMiembros"/>
-			            <to uri="direct:termina"/>
-                    </otherwise>
-                </choice>
-			
+            <!-- esperar que tgerminen todos los threads -->
+            <choice id="_choice6">
+                <when id="_when10">
+                    <simple>${header.countThread.getCounter} &lt; 6</simple>
+                    <delay id="_delay4">
+                        <constant>1000</constant>
+                    </delay>
+                    <log id="_log33" message="(L443)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                </when>
+                <otherwise id="_otherwise6">
+                    <log id="_log34" message="(L347) terminaron todas las threads disponibles: ${header.countThread.getCounter}"/>
+                    <to id="_eliminarGruposSinMiembros1" uri="direct:eliminarGruposSinMiembros"/>
+                    <to id="_to7" uri="direct:termina"/>
+                </otherwise>
+            </choice>
         </route>
         <!-- ================================================================================================= -->
         <!--                               direct:crearGruposVigentes                                          -->
@@ -461,7 +460,7 @@
                             method="getGrupoFromListaGrupos" ref="generaDatos"/>
                         <log id="_log12" message="(L462)el grupo a procesar: ${header.grupoGmail}"/>
                         <to id="_to28" uri="seda:procesaEsteGrupo"/>
-						<to uri="sql:commit?dataSource=#bannerDataSource"/>
+                        <to id="_to29" uri="sql:commit?dataSource=#bannerDataSource"/>
                     </otherwise>
                 </choice>
             </loop>
@@ -475,8 +474,8 @@
             <process id="_process2" ref="gruposThread"/>
         </route>
         <!-- ================================================================================================= -->
-        <!--                               direct:sacaMiembroAction                                                -->
-        <!-- ================================================================================================= -->
+        <!--                               direct:sacaMiembroAction                                            -->
+        <!-- ================================================================================================= 
         <route id="_procesaSacarMiembrosRoute">
             <from id="_procesaGruposThreadSaca" uri="direct:sacaMiembroAction"/>
             <onException id="_onException1">
@@ -496,9 +495,10 @@
             <log id="_log27" message="(L496-${threadName}) sacarMiembro ${header.DatosMemeberDTO.request} "/>
             <bean id="_bean18" method="sacarMiembroAction" ref="gruposThread"/>
         </route>
+		-->
         <!-- ================================================================================================= -->
         <!--                               direct:agregaMiembroAction                                                -->
-        <!-- ================================================================================================= -->
+        <!-- ================================================================================================= 
         <route id="_procesaAgregarRoute">
             <from id="_procesaGruposThreadAgrega" uri="direct:agregaMiembroAction"/>
             <onException id="_onException2">
@@ -518,6 +518,7 @@
             <log id="_log29" message="(L518-${threadName}) agregarMiembro ${header.DatosMemeberDTO.request} "/>
             <bean id="_bean20" method="agregarMiembroAction" ref="gruposThread"/>
         </route>
+		-->
         <!-- ================================================================================================= -->
         <!-- direct:incrementaResultado  -->
         <!-- ================================================================================================= -->

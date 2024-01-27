@@ -97,7 +97,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <!-- __________________________________________________________________________________________________ -->
     <!-- __________________________________________________________________________________________________ -->
-	<!--
+    <!--
 	Identificadores de restClient usados en comunes-sademail
 	rsADvalidarUsuario
 	consultaGMail
@@ -235,7 +235,7 @@
         <!-- -->
         <route id="_readjson">
             <from id="_promService" uri="direct:start"/>
-            <log id="_log2" message="(L53)queda en el body: ${body}"/>
+            <log id="_log2" message="(L238)queda en el body: ${body}"/>
             <to id="_to1" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
@@ -251,9 +251,25 @@
                     <to id="_to3" uri="direct:recuperaCuentas"/>
                 </when>
                 <otherwise id="_otherwise1">
-                    <log id="_log4" message="(L144) inicialiceCrearCuentas dejo header.estaInicializado: ${header.inicializado} keyResultado: ${header.keyResultado}"/>
-                    <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
-                    <to id="_to7" uri="mock:end"/>
+                    <log id="_log4" message="(L254) inicialiceCrearCuentas dejo header.estaInicializado: ${header.inicializado} keyResultado: ${header.keyResultado}"/>
+					<!-- esperar a que termine el ultimo thread -->
+
+                    <choice>
+                        <when>
+                            <simple>${header.countThread.getCounter} &lt; 10</simple>
+                            <delay>
+                                <constant>2000</constant>
+                            </delay>
+                            <log message="(L263)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                        </when>
+                        <otherwise>
+                            <log message="(L266) Terminaron todos los threads (usadas= ${header.countThread.getCounter})"/>
+		                    <to id="_avisaTerminaCrearCuentas" uri="cxfrs:bean:rsFinProceso?timeout=-1"/>
+		                    <to uri="mock:end"/>
+                        </otherwise>
+                    </choice>
+					
+					
                 </otherwise>
             </choice>
         </route>
@@ -273,17 +289,17 @@
                             <delay id="_delay1">
                                 <constant>1000</constant>
                             </delay>
-                            <log id="_log3" message="(L227)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                            <log id="_log3" message="(L292)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
                         </when>
                         <otherwise id="_otherwise2">
                             <bean id="_bean2" method="recuperaUsuario" ref="generaDatos"/>
-                            <log id="_log7" message="(L231) procesa elemento numero: ${header.listaUsuariosSincronizar.size} keyResultado=${header.keyResultado}"/>
+                            <log id="_log7" message="(L296) procesa elemento numero: ${header.listaUsuariosSincronizar.size} keyResultado=${header.keyResultado}"/>
                             <to id="_to2" uri="seda:procesaUsuario"/>
                         </otherwise>
                     </choice>
                 </loop>
             </loop>
-            <log id="_log8" message="(L1238) finalizaProceso"/>
+            <log id="_log8" message="(L302) finalizaProceso"/>
             <process id="_process3" ref="finalizaProceso"/>
             <to id="_fin" uri="mock:end"/>
         </route>
@@ -291,7 +307,7 @@
         <route id="_route3">
             <from id="_from3" uri="seda:procesaUsuario?concurrentConsumers=10"/>
             <process id="_process1" ref="sincronizaUsuario"/>
-            <log id="_log1" message="(L245) header.countThread=${header.countThread.getCounter}"/>
+            <log id="_log1" message="(L310) header.countThread=${header.countThread.getCounter}"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_generaMailRoute">

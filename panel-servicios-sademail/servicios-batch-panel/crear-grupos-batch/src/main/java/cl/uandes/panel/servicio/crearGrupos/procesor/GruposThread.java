@@ -101,12 +101,13 @@ public class GruposThread implements Processor {
 	ProducerTemplate consultarIdCuenta;
 	String templateConsultarIdCuenta = "%s/idCuentaUsuario?email=%s";
 	
+	/*
 	@EndpointInject(uri = "direct:sacaMiembroAction")
 	ProducerTemplate sacarMiembrosPT;
 	
 	@EndpointInject(uri = "direct:agregaMiembroAction")
 	ProducerTemplate agregarMiembrosPT;
-	
+	*/
 	private ResultadoFuncion res;
 	private ContadoresCrearGrupos contadores;
 	private CountThreads countThread;
@@ -144,7 +145,7 @@ public class GruposThread implements Processor {
 				registrosBD.registraMiResultadoErrores("NA", null, e, null, res.getKey());
 		} finally {
 			countThread.decCounter();
-			logger.info(String.format("GruposThread: Saliendo de GruposThread countThread(-)=%d grupo procesados: %s",
+			logger.info(String.format("GruposThread: Saliendo de GruposThread countThread(-)=%d grupo procesado: %s",
 					countThread.getCounter(), 
 					((GruposMiUandes)exchange.getIn().getHeader("grupoGmail")).getGroupName()));
 		}
@@ -378,6 +379,7 @@ public class GruposThread implements Processor {
 			return "20500201";
 		}
 	}
+	
 	private void sacarMiembrosInactivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado, String groupName) throws ProcesaMiembroException {
 		/*
 		 * Recuperar lista de miembros que ya no estan en el grupo
@@ -398,7 +400,8 @@ public class GruposThread implements Processor {
 			logger.info(String.format("sacarMiembrosInactivos:miembrosSacar %d elementos", miembrosSacar.size()));
 			for (DatosMemeberDTO datos : miembrosSacar) {
 				// hacerlo en un multithread
-				sacarMiembrosPT.requestBodyAndHeaders(datos, headers);
+				//sacarMiembrosPT.requestBodyAndHeaders(datos, headers);
+				sacarMiembroAction(exchange, datos, headers);
 			}
 		}
 	}
@@ -408,13 +411,14 @@ public class GruposThread implements Processor {
 	 * @param exchange
 	 * @throws Exception
 	 */
-	public void sacarMiembroAction (Exchange exchange) {
+	public void sacarMiembroAction (Exchange exchange, DatosMemeberDTO datos, Map<String,Object> headers) {
 		try {
-			Map<String,Object> headers = exchange.getIn().getHeaders();
-			DatosMemeberDTO datos = (DatosMemeberDTO) exchange.getIn().getBody();
+			//Map<String,Object> headers = exchange.getIn().getHeaders();
+			//DatosMemeberDTO datos = (DatosMemeberDTO) exchange.getIn().getBody();
 			headers.put("DatosMemeberDTO", datos);
 			BigDecimal keyResultado = (BigDecimal)headers.get("keyResultado");
-			logger.info(String.format("sacarMiembroAction: %s", datos));
+			logger.info(String.format("sacarMiembroAction: %s grupo %s", 
+					datos, ((GruposMiUandes)exchange.getIn().getHeader("grupoGmail")).getGroupName()));
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateSacarMember,getGmailServices()));
 			headers.put("CamelHttpMethod", "POST");
 			Response response = (Response) sacarMember.requestBodyAndHeaders(datos.getRequest(), headers);
@@ -438,6 +442,7 @@ public class GruposThread implements Processor {
 	}
 	
 	//------------------------------------------------------------------------------------------------------------//
+	
 	private void agregarMiembrosActivos(Exchange exchange, BigDecimal keyGrupo, BigDecimal keyResultado, String groupName) throws ProcesaMiembroException {
 		/*
 		 * Recuperar lista de miembros que hay que agregar al grupo
@@ -447,7 +452,7 @@ public class GruposThread implements Processor {
 		 * 'One or more added object references already exist'
 		 * de esta manera se asegura que lo que este en la BD tambien este en Gmail.
 		 */
-		logger.info(String.format("agregarMiembrosActivos: de grupo %s (%d)", groupName, keyGrupo.intValue()));
+		logger.info(String.format("agregarMiembrosActivos: de grupo %s (keyGrupo=%d)", groupName, keyGrupo.intValue()));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("tipoOperacion", BigDecimal.ONE);
 		headers.put("keyGrupo", keyGrupo);
@@ -458,14 +463,17 @@ public class GruposThread implements Processor {
 		if (miembrosActivos.size() > 0) {
 			List<DatosMemeberDTO> miembrosAgregar = factoryListaGrupoMiembro(miembrosActivos);
 			for (DatosMemeberDTO datos : miembrosAgregar) {
-				logger.info(String.format("agregarMiembrosActivos: de grupo %s miembro: %s activo %b creado %b", 
-						groupName, datos.getLoginName(), datos.getKeyGrupoMiembro().getActivo(), datos.getKeyGrupoMiembro().getCreadoGmail()));
+				logger.info(String.format("agregarMiembrosActivos: de grupo %s miembro: %s activo %b creado %b (%s)", 
+						groupName, datos.getLoginName(), datos.getKeyGrupoMiembro().getActivo(), 
+						datos.getKeyGrupoMiembro().getCreadoGmail(), 
+						datos.getKeyGrupoMiembro().getCreadoGmail() ? "nada que hacer" : "agregarlo"));
 				if (!datos.getKeyGrupoMiembro().getCreadoGmail()) // solo si aparece registrado en NAP_GRUPO_MIEMBRO.activo=1 NAP_GRUPO_MIEMBRO.creadoGmail=0
-					agregarMiembrosPT.requestBodyAndHeaders(datos, headers);
+					//agregarMiembrosPT.requestBodyAndHeaders(datos, headers);
+					agregarMiembroAction(exchange, datos, headers);
 			}
 		}
 	}
-
+	
 	/*
 	public static void main (String args[]) throws Exception {
 		String jsonString = "{\"codigo\":-1,\"mensaje\":\"409 Conflict\\nPOST https://www.googleapis.com/admin/directory/v1/groups/02et92p03n6tjta/members\\n{\\n  \\\"code\\\" : 409,\\n  \\\"errors\\\" : [ {\\n    \\\"domain\\\" : \\\"global\\\",\\n    \\\"message\\\" : \\\"Member already exists.\\\",\\n    \\\"reason\\\" : \\\"duplicate\\\"\\n  } ],\\n  \\\"message\\\" : \\\"Member already exists.\\\"\\n}\"}";
@@ -486,13 +494,14 @@ public class GruposThread implements Processor {
 	 * @param exchange
 	 * @throws Exception
 	 */
-	public void agregarMiembroAction(Exchange exchange) {
+	public void agregarMiembroAction(Exchange exchange, DatosMemeberDTO datos, Map<String,Object> headers) {
 		try {
-			Map<String,Object> headers = exchange.getIn().getHeaders();
-			DatosMemeberDTO datos = (DatosMemeberDTO) exchange.getIn().getBody();
+			//Map<String,Object> headers = exchange.getIn().getHeaders();
+			//DatosMemeberDTO datos = (DatosMemeberDTO) exchange.getIn().getBody();
 			headers.put("DatosMemeberDTO", datos);
 			BigDecimal keyResultado = (BigDecimal)headers.get("keyResultado");
-			logger.info(String.format("agregarMiembroAction: miembro %s", datos));
+			logger.info(String.format("agregarMiembroAction: miembro %s grupo %s", 
+					datos, ((GruposMiUandes)exchange.getIn().getHeader("grupoGmail")).getGroupName()));
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateAgregarMember,getGmailServices()));
 			headers.put("CamelHttpMethod", "POST");
 			//logger.info(String.format("agregarMiembrosActivos: URL=%s", (String)headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
@@ -505,7 +514,7 @@ public class GruposThread implements Processor {
 				) {
 				headers.put("idMiembro", datos.getKeyGrupoMiembro().getIdMiembro());
 				headers.put("keyGrupo", new BigDecimal(datos.getKeyGrupoMiembro().getKeyGrupo()));
-				logger.info(String.format("agregarMiembroAction: %s,%d", headers.get("idMiembro"), datos.getKeyGrupoMiembro().getKeyGrupo()));
+				logger.info(String.format("agregarMiembroAction: %s,(keyGrupo=%d)", headers.get("idMiembro"), datos.getKeyGrupoMiembro().getKeyGrupo()));
 				updateMember.requestBodyAndHeaders(null, headers);
 				contadores.incCountMiembrosAgregadosAD();
 				contadores.incCountMiembrosAgregadosBD();
