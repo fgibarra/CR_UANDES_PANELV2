@@ -115,9 +115,12 @@ public class GruposThread implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		try {
-			logger.info("Entrando a GruposThread");
 			countThread = (CountThreads)exchange.getIn().getHeader("countThread");
 			countThread.incCounter();
+			logger.info(String.format("GruposThread: Entrando a GruposThread countThread(+)=%d elemento=%d grupo=%s",
+					countThread.getCounter(), ((List<?>)exchange.getIn().getHeader("listaGrupos")).size(),
+					((GruposMiUandes)exchange.getIn().getHeader("grupoGmail")).getGroupName()));
+			
 			res = (ResultadoFuncion)exchange.getIn().getHeader("ResultadoFuncion");
 			contadores = (ContadoresCrearGrupos)exchange.getIn().getHeader("contadoresCrearGrupos");
 			DatosKcoFunciones datos = (DatosKcoFunciones)exchange.getIn().getHeader("DatosKcoFunciones");
@@ -141,6 +144,9 @@ public class GruposThread implements Processor {
 				registrosBD.registraMiResultadoErrores("NA", null, e, null, res.getKey());
 		} finally {
 			countThread.decCounter();
+			logger.info(String.format("GruposThread: Saliendo de GruposThread countThread(-)=%d grupo procesados: %s",
+					countThread.getCounter(), 
+					((GruposMiUandes)exchange.getIn().getHeader("grupoGmail")).getGroupName()));
 		}
 	}
 	
@@ -494,8 +500,8 @@ public class GruposThread implements Processor {
 			String msg = response.getMensaje() != null ? response.getMensaje().replace("\n", "") : null;
 			
 			if (response.getCodigo() == 0 || (msg != null && (
-					msg.matches(".*already exist.*")) ||
-					msg.matches(".*409 Conflict.*"))
+					msg.matches(".*already exist.*") ||
+					msg.matches(".*409 Conflict.*")))
 				) {
 				headers.put("idMiembro", datos.getKeyGrupoMiembro().getIdMiembro());
 				headers.put("keyGrupo", new BigDecimal(datos.getKeyGrupoMiembro().getKeyGrupo()));
