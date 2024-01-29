@@ -72,7 +72,7 @@ public class RecuperaDeBanner implements Processor {
         	} while (apellido.endsWith("."));
         
         if (apellido.indexOf('.') >= 0) {
-        	logger.info("ERROR!!!! apellido=|"+apellido+"|");
+        	logger.info("ERROR!!!! apellido=["+apellido+"]");
         	apellido = apellido.replace(".","").toLowerCase();
         }
 

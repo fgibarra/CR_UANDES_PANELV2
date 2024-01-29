@@ -40,6 +40,8 @@ public class CuentasThread implements Processor {
 	ProducerTemplate estaEnBdc;
 	@EndpointInject(uri = "sql:classpath:sql/updateBdcUsuarioMillenium.sql?dataSource=#bannerDataSource")
 	ProducerTemplate updateBdcUsuarioMillenium;
+	@EndpointInject(uri = "sql:commit?dataSource=#bannerDataSource")
+	ProducerTemplate commit;
 	
 	private ContadoresCrearCuentasAD contadoresCuentasAD;
 	private Logger logger = Logger.getLogger(getClass());
@@ -181,6 +183,7 @@ public class CuentasThread implements Processor {
 			logger.info(String.format("actualizarBDC: sammacount=%s employeeid=%s password=%s rut=%s",
 					cuentasADDTO.getSamaccountName(),cuentasADDTO.getEmployeeId(),
 					cuentasADDTO.getPassword(), cuentasADDTO.getRut()));
+			commit.requestBody(null);
 		}
 	}
 

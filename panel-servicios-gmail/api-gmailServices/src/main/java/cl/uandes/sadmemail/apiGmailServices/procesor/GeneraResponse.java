@@ -296,7 +296,7 @@ public class GeneraResponse implements Processor {
 			} catch (Exception e) {
 				response = new GroupResponse(-1, e.getMessage(), null);
 			}
-			logger.info(String.format("group-retrieve: response |%s|", response));
+			logger.info(String.format("group-retrieve: response [%s]", response));
 			exchange.getIn().setBody(response);
 			
 		} else if ("group-update".equals(operacion)) {

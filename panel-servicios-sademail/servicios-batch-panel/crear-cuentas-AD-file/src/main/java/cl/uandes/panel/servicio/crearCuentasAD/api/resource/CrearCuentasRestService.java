@@ -50,7 +50,7 @@ public class CrearCuentasRestService {
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
     @Path("/procese")
 	public Response procese(ProcesoDiarioRequest request) {
-		logger.info(String.format("CrearCuentasRestService: request |%s|", request));
+		logger.info(String.format("CrearCuentasRestService: request [%s]", request));
 		if (!valida(request)) {
 			return Response.ok().status(401).entity(getMsgError()).build();
 		}

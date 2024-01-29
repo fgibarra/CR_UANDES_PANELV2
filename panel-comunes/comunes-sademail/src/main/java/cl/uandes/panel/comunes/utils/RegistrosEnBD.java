@@ -82,7 +82,7 @@ public abstract class RegistrosEnBD {
 		StringBuffer sb = new StringBuffer();
 		for (int i=0; i<args.length; i++)
 			sb.append(args[i]);
-		logger.info(String.format("registraError: args: |%s|",sb.toString()));
+		logger.info(String.format("registraError: args: [%s]",sb.toString()));
 		CommandLineParser parser = new CommandLineParser(args);
 		Map<String, Object> headers = new HashMap<String, Object> ();
 		headers.put("ID_USUARIO", parser.getValue("idUsuario"));

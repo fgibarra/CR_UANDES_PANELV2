@@ -209,7 +209,8 @@ public class CuentasADDTO implements Serializable {
     	if (rut == null) return "UAndes2024";
     	if (rut.charAt(0) == '@')
     		return "00000000";
-    	return rut.substring(0, 8);
+    	int lenRut = rut.length();
+    	return lenRut >= 8 ? rut.substring(0, 8) : rut;
 	}
 
 	public void setPassword(String password) {

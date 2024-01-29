@@ -177,7 +177,7 @@ public class GeneraDatos {
 	
 	@SuppressWarnings("unchecked")
 	private String getUltimaEjecucion(String funcion) {
-		logger.info(String.format("getUltimaEjecucion: busca funcion |%s| en KCO_FUNCIONES", funcion));
+		logger.info(String.format("getUltimaEjecucion: busca funcion [%s] en KCO_FUNCIONES", funcion));
 		List<Map<String, Object>> datos = (List<Map<String, Object>>) qryKcoFunciones.requestBodyAndHeader(null, "funcion", funcion);
 		if (datos != null && datos.size() > 0) {
 			Map<String, Object> map = (Map<String, Object>)datos.get(0);

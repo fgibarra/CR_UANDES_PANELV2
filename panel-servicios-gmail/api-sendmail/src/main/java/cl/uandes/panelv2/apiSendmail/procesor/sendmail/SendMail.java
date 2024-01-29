@@ -265,7 +265,7 @@ public class SendMail {
 	            // Put parts in message
 	            message.setContent(multipart);
 	            
-	            logger.info("send: antes de enviar |" + (dto.getMensaje().length() < 1000 ? dto.getMensaje() : dto.getMensaje().substring(0, 1000)) + "|");
+	            logger.info("send: antes de enviar [" + (dto.getMensaje().length() < 1000 ? dto.getMensaje() : dto.getMensaje().substring(0, 1000)) + "]");
 	            // Send the message
 	            Transport.send(message);
 

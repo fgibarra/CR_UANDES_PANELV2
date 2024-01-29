@@ -56,7 +56,7 @@ public class FinalizaProceso implements Processor {
 				headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateFinProceso,getPanelServices()));
 				headers.put("CamelHttpMethod", "POST");
 				
-				logger.info(String.format("FinalizaProceso: deje en el body:|%s|", request));
+				logger.info(String.format("FinalizaProceso: deje en el body:[%s]", request));
 				finProceso.requestBodyAndHeaders(request, headers);
 			} else
 				logger.info(String.format("FinalizaProceso: operacion %s no esta incluida en operacionesInvocadasScheduler: %s", operacion, operacionesInvocadasScheduler));
@@ -69,7 +69,7 @@ public class FinalizaProceso implements Processor {
 	private boolean esInvocadoPorScheduler(Exchange exchange) {
 		if ("crear_cuentas_AD".equals(operacion) && request == null)
 			return false;
-		if (operacionesInvocadasScheduler.matches(String.format(".*%s.*", operacion)))
+		if (operacionesInvocadasScheduler.matches(String.format("(.*)%s(.*)", operacion)))
 			return true;
 		
 		return false;

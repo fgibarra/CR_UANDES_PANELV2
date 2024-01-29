@@ -128,7 +128,7 @@ public class GruposThread implements Processor {
 			logger.info(String.format("GruposThread: datos: %s", datos));
 			logger.info(String.format("GruposThread: res: %s", res));
 			GruposMiUandes grupo = (GruposMiUandes)exchange.getIn().getHeader("grupoGmail");
-			logger.info(String.format("GruposThread: grupo |%s|", grupo));
+			logger.info(String.format("GruposThread: grupo [%s]", grupo));
 			if (grupo != null) {
 				contadores.incCountProcesados();
 				

@@ -24,10 +24,10 @@ public class CxfHeaderFilterStrategy extends DefaultHeaderFilterStrategy {
 	@Override
 	public boolean applyFilterToCamelHeaders(String headerName, Object headerValue, Exchange exchange) {
 		if (Boolean.valueOf(getDebug()))
-			logger.info(String.format("headerName: %s | headerValue: %s", headerName, headerValue));
+			logger.info(String.format("headerName: %s - headerValue: %s", headerName, headerValue));
 		Object body = exchange.getIn().getBody();
 		if (Boolean.valueOf(getDebug()))
-			logger.info(String.format("en el applyFilterToCamelHeaders clase del body |%s|", 
+			logger.info(String.format("en el applyFilterToCamelHeaders clase del body [%s]", 
 					body.getClass().getName()));
 		return true;
 	}

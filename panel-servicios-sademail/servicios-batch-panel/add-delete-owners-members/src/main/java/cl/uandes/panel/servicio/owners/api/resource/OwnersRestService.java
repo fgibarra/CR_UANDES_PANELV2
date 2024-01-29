@@ -184,7 +184,7 @@ public class OwnersRestService {
 	}
 
 	private boolean valida(AeOwnersMembersRequest request) {
-		//logger.info(String.format("valida: request: %s funcion |%s|", request, request.getCriterio().getFuncion().toLowerCase()));
+		//logger.info(String.format("valida: request: %s funcion [%s]", request, request.getCriterio().getFuncion().toLowerCase()));
 		setMsgErrorValidacion(null);
 		if (request.getCuentasEnvio() == null || request.getCuentasEnvio().length() == 0)
 			setMsgErrorValidacion("Debe ingresar correo para informar");

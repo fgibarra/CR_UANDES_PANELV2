@@ -141,7 +141,7 @@
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <!-- ================================================================================================= -->
         <route id="_fromFile">
-            <from uri="file:///home/sademail/cuentasAD?fileName=cuentas.csv"/>
+            <from id="_from1" uri="file:///home/sademail/cuentasAD?fileName=cuentas.csv"/>
             <!--
 				Parte porque se detecto el archivo en el directorio
 				- armar una lista con los datos del archivo  
@@ -149,30 +149,30 @@
 				- completa la lista de las cuentas AD a crear
 				- va a la ruta que crea las cuentas
 			-->
-            <bean method="generaListaXfile" ref="generaDatos"/>
-            <setHeader headerName="proceso">
+            <bean id="_bean1" method="generaListaXfile" ref="generaDatos"/>
+            <setHeader headerName="proceso" id="_setHeader1">
                 <constant>crear_cuentas_AD</constant>
             </setHeader>
             <process id="_recuperaDatosInicializarxFile" ref="inicialiceCrearCuentas"/>
-            <choice>
-                <when>
+            <choice id="_choice1">
+                <when id="_when1">
                     <simple>${header.inicializado}</simple>
-                    <to uri="direct:procesaLista"/>
+                    <to id="_to1" uri="direct:procesaLista"/>
                 </when>
-                <otherwise>
-                    <log message="NO se inicializo"/>
+                <otherwise id="_otherwise1">
+                    <log id="_log1" message="NO se inicializo"/>
                 </otherwise>
             </choice>
-            <to uri="mock:end"/>
+            <to id="_to2" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_readJson">
-            <from uri="direct:proceso"/>
+            <from id="_from2" uri="direct:proceso"/>
             <!--
 				Viene de algun scheduler.
 				- El RestService deja la respuesrta al que invoca y activa en forma asincrona a la ruta seda:doJob
 			-->
-            <to uri="mock:end"/>
+            <to id="_to3" uri="mock:end"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_fromRestService">
@@ -183,40 +183,40 @@
 				- arma la lista de las cuentas AD a crear
 				- va a la ruta que crea las cuentas
 			-->
-            <setHeader headerName="proceso">
+            <setHeader headerName="proceso" id="_setHeader2">
                 <constant>crear_cuentas_AD_postgrado</constant>
             </setHeader>
             <process id="_recuperaDatosInicializarxRequest" ref="inicialiceCrearCuentas"/>
-            <choice>
-                <when>
+            <choice id="_choice2">
+                <when id="_when2">
                     <simple>${header.inicializado}</simple>
-		            <bean method="generaListaXrequest" ref="generaDatos"/>
-					<!-- activar hasta 12 threads para hacer la pega -->
-					<loop doWhile="true">
-	                    <simple>${header.listaCuentas.size} &gt; 0</simple>
-	                    <choice>
-	                        <when>
-	                            <simple>${header.countThread.getCounter} &gt; 12</simple>
-	                            <delay>
-	                                <constant>1000</constant>
-	                            </delay>
-	                            <log message="(L202)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
-	                        </when>
-	                        <otherwise>
-	                            <bean method="getCuentaFromListaCuentas" ref="generaDatos"/>
-	                            <log message="(L206) procesa elemento numero: ${header.listaCuentas.size} keyResultado=${header.keyResultado}"/>
-	                            <to uri="seda:procesaCuenta"/>
-	                        </otherwise>
-	                    </choice>
-                	</loop>
-                    
+                    <bean id="_bean2" method="generaListaXrequest" ref="generaDatos"/>
+                    <!-- activar hasta 12 threads para hacer la pega -->
+                    <loop doWhile="true" id="_loop2">
+                        <simple>${header.listaCuentas.size} &gt; 0</simple>
+                        <choice id="_choice3">
+                            <when id="_when3">
+                                <simple>${header.countThread.getCounter} &gt; 12</simple>
+                                <delay id="_delay1">
+                                    <constant>1000</constant>
+                                </delay>
+                                <log id="_log2" message="(L202)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                            </when>
+                            <otherwise id="_otherwise2">
+                                <bean id="_bean3"
+                                    method="getCuentaFromListaCuentas" ref="generaDatos"/>
+                                <log id="_log3" message="(L206) procesa elemento numero: ${header.listaCuentas.size} keyResultado=${header.keyResultado}"/>
+                                <to id="_to4" uri="seda:procesaCuenta"/>
+                            </otherwise>
+                        </choice>
+                    </loop>
                 </when>
-                <otherwise>
-                    <log message="NO se inicializo"/>
+                <otherwise id="_otherwise3">
+                    <log id="_log4" message="NO se inicializo"/>
                 </otherwise>
             </choice>
-			<!-- finalizar el proceso -->
-			<process id="_finalizaProceso" ref="finalizaProceso"/>
+            <!-- finalizar el proceso -->
+            <process id="_finalizaProceso" ref="finalizaProceso"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_route2">
@@ -229,18 +229,17 @@
 			-->
             <loop doWhile="true" id="_loop1">
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
-                <bean method="getCuentaFromListaCuentas" ref="generaDatos"/>
+                <bean id="_bean4" method="getCuentaFromListaCuentas" ref="generaDatos"/>
                 <process id="_cuentasFileProcess" ref="cuentasThread"/>
-                <log message="(L230)Termino el proceso de ${header.CuentasADDTO}"/>
+                <log id="_log5" message="(L230)Termino el proceso de ${header.CuentasADDTO}"/>
             </loop>
             <process id="_cierraMiResultados" ref="finalizaProceso"/>
         </route>
-
         <!-- ================================================================================================= -->
-		<route>
-			<from uri="seda:procesaCuenta"/>
+        <route id="_route1">
+            <from id="_from5" uri="seda:procesaCuenta"/>
             <process id="_cuentasThreadProcess" ref="cuentasThread"/>
-            <log message="(L242)Termino el proceso de ${header.CuentasADDTO}"/>
-		</route>
+            <log id="_log6" message="(L242)Termino el proceso de ${header.CuentasADDTO}"/>
+        </route>
     </camelContext>
 </blueprint>

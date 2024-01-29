@@ -196,7 +196,7 @@ public class RegistrosComunes {
 	 */
 	public void registraMiResultadoErrores(String idUsuario, String apoyo, Throwable e, Integer keyGrupo, Integer keyResultado) {
 		try {
-			logger.info(String.format("registraMiResultadoErrores:  keyResultado=%d apoyo |%s|", keyResultado, apoyo));
+			logger.info(String.format("registraMiResultadoErrores:  keyResultado=%d apoyo [%s]", keyResultado, apoyo));
 			Map<String, Object> headers = new HashMap<String, Object>();
 			String msg = e.getMessage();
 			Map<String, String> map = getClaseMetodo((Exception) e);

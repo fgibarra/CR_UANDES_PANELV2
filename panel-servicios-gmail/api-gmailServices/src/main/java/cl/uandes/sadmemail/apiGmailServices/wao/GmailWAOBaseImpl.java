@@ -834,9 +834,9 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 				if (members != null && members.getMembers() != null) {
 					logger.info("deleteMemberFromGroup: grupo "+groupName+" tiene "+members.getMembers().size()+" miembros");
 					for (Member member : members.getMembers()) {
-						logger.info("deleteMemberFromGroup: miembro |"+member.getEmail()+"| role="+member.getRole()+" getCuenta(email)=|"+getCuenta(email)+"|");
+						logger.info("deleteMemberFromGroup: miembro ["+member.getEmail()+"] role="+member.getRole()+" getCuenta(email)=|"+getCuenta(email)+"|");
 						if (member.getEmail().equals(getCuenta(email)) ) {
-							logger.info("deleteMemberFromGroup: elimina cuenta |"+getCuenta(email)+"|");
+							logger.info("deleteMemberFromGroup: elimina cuenta ["+getCuenta(email)+"]");
 							directory.members().delete(groupName, getCuenta(email)).execute();
 							return;
 						}

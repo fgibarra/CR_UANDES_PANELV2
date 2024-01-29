@@ -47,7 +47,7 @@ public class FinalizaProceso implements Processor {
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateFinProceso,getPanelServices()));
 			headers.put("CamelHttpMethod", "POST");
 			
-			logger.info(String.format("deje en el body:|%s|", request));
+			logger.info(String.format("deje en el body:[%s]", request));
 			finProceso.requestBodyAndHeaders(request, headers);
 		} catch (Exception e) {
 			if (res != null)
