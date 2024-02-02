@@ -99,7 +99,7 @@ public class StringUtilities {
 	public String dumpMap(Map<String, Object> headers) {
 		StringBuffer sb = new StringBuffer();
 		for (String key : headers.keySet()) {
-			sb.append(String.format("%s = |%s| - ", key, headers.get(key)));
+			sb.append(String.format("%s = [%s] - ", key, headers.get(key)));
 		}
 		if (sb.length() > 3)
 			sb.setLength(sb.length() - 3);
@@ -109,7 +109,7 @@ public class StringUtilities {
 	public String dumpMapKeys(Map<String, Object> headers) {
 		StringBuffer sb = new StringBuffer();
 		for (String key : headers.keySet()) {
-			sb.append(String.format("|%s| ", key));
+			sb.append(String.format("[%s] ", key));
 		}
 		if (sb.length() > 1)
 			sb.setLength(sb.length() - 1);
@@ -239,7 +239,7 @@ public class StringUtilities {
 	   * @return
 	   */
 	  public String representacionHexadecimal(char[] dato, int count) {
-	    StringBuffer sb = new StringBuffer().append('|');
+	    StringBuffer sb = new StringBuffer().append('[');
 
 	    for (int len = count, i = 0; i < len; i++) {
 	      char c = dato[i];
@@ -251,7 +251,7 @@ public class StringUtilities {
 	        s = s.substring(s.length() - 2);
 	      }
 
-	      sb.append(s).append('|');
+	      sb.append(s).append(']');
 	    }
 
 	    return sb.toString();
