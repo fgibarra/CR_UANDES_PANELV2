@@ -40,7 +40,6 @@
     <fullyQualifiedTypeName name="java.io.FileInputStream"/>
     <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="java.nio.CharBuffer"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPRequest"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentasAD"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
 </qualifiedTypeNameHistroy>

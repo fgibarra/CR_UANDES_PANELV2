@@ -55,6 +55,9 @@ public class InicializarProceso implements Processor {
 				if (keyContador.equals("No definido"))
 					keyContador = "contadoresCrearGrupos";
 				message.setHeader(keyContador, new ContadoresCrearGrupos(0,0,0,0,0,0,0,0,0,0));
+				// importa solo para los procesos de sincronizacion de grupos
+				if (data.getParametros().getTipoGrupo() != null)
+					message.setHeader("tipoGrupo", data.getParametros().getTipoGrupo());
 			} else if ("crear-cuentas-batch".equals(getRegistraInicio().getLogAplicacion())) {
 				if (keyContador.equals("No definido"))
 					keyContador = "contadoresCrearCuentas";
