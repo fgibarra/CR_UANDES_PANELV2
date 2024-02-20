@@ -30,5 +30,6 @@
   	<module>serv-cambiar-apellido</module>
   	<module>serv-crear-cuenta</module>
   	<module>serv-crear-cuentas-panel</module>
+  	<module>serv-para-gui</module>
   </modules>
 </project>

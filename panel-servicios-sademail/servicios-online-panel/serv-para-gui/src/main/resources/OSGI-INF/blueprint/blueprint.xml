@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:camel="http://camel.apache.org/schema/blueprint"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd        http://camel.apache.org/schema/blueprint https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF servers -->
+    <jaxrs:server address="/ESB/panel/gui/" id="rsPanelServices" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref component-id="restService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- CXF clients -->
+    <cxf:rsClient
+        address="http://localhost:8000/api/v1/th_panel/1/"
+        id="rsActualizaTHPanel" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.paraGui.api.restclient.WebappUandesEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.paraGui.api.resources.GuiRestService" id="restService"/>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.paraGui.bean.GeneraDatos" id="generaDatos"/>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.paraGui.procesor.ActualizaConsumoPanel" id="actualizaConsumoPanel">
+		<property name="webappsUandesServices" value="{{uri.webappUandes-apiServices}}"/>
+    </bean>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- ==================================================================================================== -->
+    <reference availability="mandatory"
+        filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
+    <!-- ==================================================================================================== -->
+    <camelContext id="serv-para-gui-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+        <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
+        <!-- ================================================================================================= -->
+        <route id="_readjson">
+            <from id="_promService" uri="direct:start?timeout=-1"/>
+            <to id="_to1" uri="mock:end"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <!-- genera respuesta para el ultimo uso de una funcion (KCO_FUNCIONES)                                -->
+        <!-- ================================================================================================= -->
+        <route id="_route1">
+            <from id="_from1" uri="direct:lastUso"/>
+            <bean id="_bean1" method="ultimaEjecucion" ref="generaDatos"/>
+        </route>
+
+		<route>
+			<from uri="direct:actualizaConsumoPanel"/>
+			<process ref="actualizaConsumoPanel"/>
+		</route>
+		
+    </camelContext>
+</blueprint>

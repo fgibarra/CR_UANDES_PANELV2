@@ -266,7 +266,7 @@ public class SincronizaUsuario implements Processor {
 		try {
 			headersOut = (Map<String, Object>) prd_actualiza_cuenta.requestBodyAndHeaders(null, headers);
 		} catch (Exception e) {
-			logger.error(String.format("Al invocar SP: parametros (%s)",StringUtilities.getInstance().dumpMap(headersOut)), e);
+			logger.error(String.format("Al invocar SP: parametros (%s)",StringUtilities.getInstance().dumpMap(headers)), e);
 		}
 		return headersOut;
 	}
