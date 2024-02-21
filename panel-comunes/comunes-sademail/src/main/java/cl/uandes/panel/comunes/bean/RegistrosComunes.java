@@ -378,11 +378,23 @@ public class RegistrosComunes {
 					String loginName = (String) map.get("SAMACCOUNT_NAME");
 					if (loginName.length() != smaccountName.length()) {
 						// solo se saca la seq del login name cuando no es el mismo
+						logger.info(String.format("loginName=%s smaccountName=%s", loginName, smaccountName));
+						if (loginName.length() > smaccountName.length()) {
+							logger.error(String.format("lo traido desde tabla AD_NOMBRES_CUENTA no corresponde al qry. solicitado: %s%c, comparado con: %s - cuentasADDTO [%s]",
+									smaccountName, '%', loginName, cuentasADDTO));
+							return cuentasADDTO;
+						}
+						String valor = loginName.substring(smaccountName.length());
 						Integer seq;
 						try {
-							seq = StringUtilities.getInstance().toInteger(loginName.substring(smaccountName.length()));
-							if (seq > cuentasADDTO.getSeq())
+							seq = StringUtilities.getInstance().toInteger(valor);
+							if (seq != null && seq > cuentasADDTO.getSeq())
 								cuentasADDTO.setSeq(seq);
+							else if (seq == null) {
+								// se esta tratando de convertir kk
+								logger.error(String.format("se esta considerando como SEQ este valor=%s - cuentasADDTO=[%s]", valor, cuentasADDTO));
+								return cuentasADDTO;
+							}
 						} catch (Exception e) {
 							;
 						}

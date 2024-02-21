@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="direct:sincronizar"/>
+		<item key="selection" value="StringUtilities.getInstance().toInteger"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="StringUtilities.getInstance().toInteger"/>
+			<item value="soapLdapService"/>
 			<item value="direct:sincronizar"/>
 			<item value="inicialiceSincronizarGrupos"/>
 			<item value="sql_s/getGruposXproceso.sql"/>
@@ -21,8 +23,6 @@
 			<item value="direct:termina"/>
 			<item value="direct:procesaGrupos"/>
 			<item value="seda:procesaEsteGrupo"/>
-			<item value="&quot;(L"/>
-			<item value="sacarMiembrosPT"/>
 		</list>
 		<list key="replacehistory">
 			<item value="{headers"/>
