@@ -113,7 +113,7 @@ public class GmailServicesRestService {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/user/retrieve/{username}")
+    @Path("/user/forceChangePassword/{username}")
 	public UserResponse forceUserToChangePassword(@PathParam("username")String in_msg) {
 		logger.info(String.format("forceUserToChangePassword: in_msg: %s - %s", 
 				in_msg.getClass().getSimpleName(), in_msg));

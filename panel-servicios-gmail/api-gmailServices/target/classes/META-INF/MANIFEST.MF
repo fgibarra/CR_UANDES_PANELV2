@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1706560881796
+Bnd-LastModified: 1709140609250
 Build-Jdk: 1.8.0_291
 Built-By: sademail
 Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml

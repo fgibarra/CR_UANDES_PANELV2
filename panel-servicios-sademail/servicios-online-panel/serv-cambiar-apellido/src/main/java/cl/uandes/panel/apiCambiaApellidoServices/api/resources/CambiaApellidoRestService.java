@@ -42,6 +42,13 @@ public class CambiaApellidoRestService {
 		headers.put("Operacion", operacion);
 		headers.put("CambiaCuentaRequest", in_msg);
 		return (CambiaCuentaResponse)producer.requestBodyAndHeaders(in_msg, headers);
+		/*
+		CambiaCuentaResponse response = new CambiaCuentaResponse(0, "OK", 
+				new cl.uandes.panel.comunes.json.cambiacuenta.DatosCuenta("6794383K", 123456l, "antigua", "antiguoN", "atiguoAp", "idgmail"),
+				new cl.uandes.panel.comunes.json.cambiacuenta.DatosCuenta("6794383K", 123456l, "nueva", "nuevoN", "nuevoAp", "idgmail")
+				);
+		return response;
+		*/
 	}
 
 }

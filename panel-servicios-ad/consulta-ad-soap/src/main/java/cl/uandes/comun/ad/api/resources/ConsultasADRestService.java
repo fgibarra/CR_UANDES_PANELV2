@@ -162,8 +162,12 @@ public class ConsultasADRestService {
 
 	private boolean validar(Object request) {
 		if (request != null) {
-			if (request instanceof ServiciosLDAPRequest)
-				return validaServiciosLDAPRequest((ServiciosLDAPRequest) request);
+			if (request instanceof ServiciosLDAPRequest) {
+				boolean valida = validaServiciosLDAPRequest((ServiciosLDAPRequest) request);
+				logger.info(String.format("ConsultaADRestService: servicio = %s valida=%b, request: %s",
+						((ServiciosLDAPRequest) request).getServicio(), valida, request));
+				return valida;
+			}
 
 			if (request instanceof ConsultaXrutRequest)
 				return validaConsultaXrutRequest((ConsultaXrutRequest) request);

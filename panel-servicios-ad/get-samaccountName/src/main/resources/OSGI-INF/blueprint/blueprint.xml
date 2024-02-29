@@ -82,12 +82,10 @@
     <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
-        class="cl.uandes.panel.servicio.getSamaccountName.api.resources.GetSamaccountNameRestService" id="restService">
-    </bean>
+        class="cl.uandes.panel.servicio.getSamaccountName.api.resources.GetSamaccountNameRestService" id="restService"/>
     <!-- __________________________________________________________________________________________________ -->
     <bean
-        class="cl.uandes.panel.servicio.getSamaccountName.procesor.GeneraRespuesta" id="generaRespuesta">
-    </bean>
+        class="cl.uandes.panel.servicio.getSamaccountName.procesor.GeneraRespuesta" id="generaRespuesta"/>
     <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
         <argument index="0" value="get-samaccountName"/>
@@ -102,24 +100,26 @@
     <camelContext id="get-samaccountName" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <route id="_route1">
             <from id="_from2" uri="direct:start"/>
-			<log message="(L101) CuentasADDTO=${header.CuentasADDTO}"/>
-			<onException>
-				<exception>java.lang.RuntimeException</exception>
-				<log message="Atrapo RuntimeException"/>
-				<setHeader headerName="exception" id="_setHeader1">
+            <log id="_log1" message="(L101) CuentasADDTO=${header.CuentasADDTO}"/>
+            <onException id="_onException1">
+                <exception>java.lang.RuntimeException</exception>
+                <log id="_log2" message="Atrapo RuntimeException"/>
+                <setHeader headerName="exception" id="_setHeader1">
                     <simple>${exception.message}</simple>
                 </setHeader>
-				<setBody><constant>null</constant></setBody>
-				<to uri="direct:generaRespuesta"/>
-			</onException>
-			<bean method="getSamaccountName" ref="registrosComunes"/>
-            <to uri="direct:generaRespuesta"/>
-			<to uri="mock:end"/>
+                <setBody id="_setBody1">
+                    <constant>null</constant>
+                </setBody>
+                <to id="_to1" uri="direct:generaRespuesta"/>
+            </onException>
+            <bean id="_bean1" method="getSamaccountName" ref="registrosComunes"/>
+            <to id="_to2" uri="direct:generaRespuesta"/>
+            <to id="_to3" uri="mock:end"/>
         </route>
-		<route>
-			<from uri="direct:generaRespuesta"/>
-			<process ref="generaRespuesta"/>
-			<log message="(L121) response: ${body}"/>
-		</route>
+        <route id="_route2">
+            <from id="_from1" uri="direct:generaRespuesta"/>
+            <process id="_process1" ref="generaRespuesta"/>
+            <log id="_log3" message="(L121) response: ${body}"/>
+        </route>
     </camelContext>
 </blueprint>
