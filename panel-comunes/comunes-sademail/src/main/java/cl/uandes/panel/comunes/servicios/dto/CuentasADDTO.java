@@ -106,7 +106,10 @@ public class CuentasADDTO implements Serializable {
     	if (rut == null) this.password = "UAndes2024";
     	if (rut.charAt(0) == '@')
     		this.password =  "00000000";
-    	this.password =  rut.substring(0, 8);
+    	if (rut.length() > 8)
+    		this.password =  rut.substring(0, 8);
+    	else
+    		this.password = rut;
 	}
 	
 	protected String parseaDato(String dato) {
@@ -123,6 +126,7 @@ public class CuentasADDTO implements Serializable {
 	        	// viene un solo apellido
 	        	valor = valor.replace("/"," ");
 	        }
+	        valor = valor.replace(".", "");
         }
         return valor;
 	}

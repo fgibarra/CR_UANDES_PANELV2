@@ -196,16 +196,16 @@
                         <simple>${header.listaCuentas.size} &gt; 0</simple>
                         <choice id="_choice3">
                             <when id="_when3">
-                                <simple>${header.countThread.getCounter} &gt; 12</simple>
+                                <simple>${header.countThread.getCounter} &gt; 3</simple>
                                 <delay id="_delay1">
                                     <constant>1000</constant>
                                 </delay>
-                                <log id="_log2" message="(L202)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                                <log id="_log2" message="(L203)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
                             </when>
                             <otherwise id="_otherwise2">
                                 <bean id="_bean3"
                                     method="getCuentaFromListaCuentas" ref="generaDatos"/>
-                                <log id="_log3" message="(L206) procesa elemento numero: ${header.listaCuentas.size} keyResultado=${header.keyResultado}"/>
+                                <log id="_log3" message="(L208) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter} keyResultado=${header.key}"/>
                                 <to id="_to4" uri="seda:procesaCuenta"/>
                             </otherwise>
                         </choice>
@@ -231,15 +231,15 @@
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <bean id="_bean4" method="getCuentaFromListaCuentas" ref="generaDatos"/>
                 <process id="_cuentasFileProcess" ref="cuentasThread"/>
-                <log id="_log5" message="(L230)Termino el proceso de ${header.CuentasADDTO}"/>
+                <log id="_log5" message="(L230)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
             </loop>
             <process id="_cierraMiResultados" ref="finalizaProceso"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_route1">
-            <from id="_from5" uri="seda:procesaCuenta"/>
+            <from id="_from5" uri="seda:procesaCuenta?concurrentConsumers=4"/>
             <process id="_cuentasThreadProcess" ref="cuentasThread"/>
-            <log id="_log6" message="(L242)Termino el proceso de ${header.CuentasADDTO}"/>
+            <log id="_log6" message="(L242)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
         </route>
     </camelContext>
 </blueprint>

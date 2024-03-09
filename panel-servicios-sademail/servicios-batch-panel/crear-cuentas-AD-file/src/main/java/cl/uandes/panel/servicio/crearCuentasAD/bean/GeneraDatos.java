@@ -16,6 +16,7 @@ import org.apache.camel.component.file.GenericFile;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.servicios.dto.CuentasADDTO;
+import cl.uandes.panel.comunes.utils.CountThreads;
 
 public class GeneraDatos {
 
@@ -24,7 +25,7 @@ public class GeneraDatos {
 	@PropertyInject(value = "crear-cuentas-gmail.kco-funcion", defaultValue = "crear_cuentas")
 	private String kcoFuncion;
 
-	@EndpointInject(uri = "sql:classpath:paraCrearCuentasAD.sql?dataSource=#bannerDataSource")
+	@EndpointInject(uri = "sql:classpath:sql/paraCrearCuentasAD.sql?dataSource=#bannerDataSource")
 	ProducerTemplate paraCrearCuentasAD;
 	
 	private Logger logger = Logger.getLogger(getClass());
@@ -99,6 +100,8 @@ public class GeneraDatos {
 		List<CuentasADDTO> lista = (List<CuentasADDTO>)message.getHeader("listaCuentas");
 		CuentasADDTO dto = lista.remove(0);
 		message.setHeader("CuentasADDTO", dto);
+		CountThreads countThread = (CountThreads) message.getHeader("countThread");
+		countThread.incCounter();
 	}
 	//===============================================================================================================
 	// Getters y Setters

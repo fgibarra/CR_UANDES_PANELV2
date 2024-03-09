@@ -133,26 +133,33 @@
   <el>
    <linked-el length="46" name="%0" offset="2274" path="%1"/>
    <linked-el length="30" name="%2" offset="2095" path="%3"/>
-   <linked-el length="83" name="%4" offset="4721" path="%3"/>
-   <linked-el length="46" name="%5" offset="2274" path="%1"/>
-   <linked-el length="30" name="%6" offset="2095" path="%3"/>
+   <linked-el length="30" name="%2" offset="1048" path="%4"/>
+   <linked-el length="83" name="%5" offset="4721" path="%3"/>
+   <linked-el length="71" name="%5" offset="2617" path="%4"/>
+   <linked-el length="46" name="%6" offset="2274" path="%1"/>
    <linked-el length="30" name="%7" offset="2095" path="%3"/>
+   <linked-el length="30" name="%7" offset="1048" path="%4"/>
    <linked-el length="30" name="%8" offset="2095" path="%3"/>
-   <linked-el length="83" name="%9" offset="4721" path="%3"/>
+   <linked-el length="30" name="%8" offset="1048" path="%4"/>
+   <linked-el length="30" name="%9" offset="2095" path="%3"/>
+   <linked-el length="30" name="%9" offset="1048" path="%4"/>
+   <linked-el length="83" name="%10" offset="4721" path="%3"/>
+   <linked-el length="71" name="%10" offset="2617" path="%4"/>
   </el>
  </validation>
  <aliases>
   <alias path="karaf" value="%0"/>
+  <alias path="/comunes-gmail/pom.xml" value="%4"/>
   <alias
    path="/api-gmailServices/src/main/resources/OSGI-INF/blueprint/blueprint.xml" value="%1"/>
   <alias path="plugin" value="%2"/>
-  <alias path="user.home" value="%4"/>
-  <alias path="karaf.home" value="%5"/>
+  <alias path="user.home" value="%5"/>
+  <alias path="karaf.home" value="%6"/>
   <alias path="/api-gmailServices/pom.xml" value="%3"/>
-  <alias path="version.maven" value="%6"/>
-  <alias path="version" value="%7"/>
-  <alias path="bundle" value="%8"/>
-  <alias path="user" value="%9"/>
+  <alias path="version.maven" value="%7"/>
+  <alias path="version" value="%8"/>
+  <alias path="bundle" value="%9"/>
+  <alias path="user" value="%10"/>
  </aliases>
  <includes/>
  <uris/>

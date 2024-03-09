@@ -22,6 +22,7 @@ import cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutRequest;
 import cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutResponse;
 import cl.uandes.panel.comunes.servicios.dto.CuentasADDTO;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
+import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 
 public class CuentasThread implements Processor {
@@ -60,80 +61,98 @@ public class CuentasThread implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
-		cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
-		contadoresCuentasAD = (ContadoresCrearCuentasAD)message.getHeader("contadoresCuentasAD");
-		contadoresCuentasAD.incCountProcesados();
-		ResultadoFuncion res = (ResultadoFuncion) message.getHeader("ResultadoFuncion");
-		
-		if (!existeCuentaAD()) {
-			String samaccountName = null;
-			try {
-				samaccountName = registrosComunes.getSamaccountName(cuentasADDTO, exchange);
-				logger.info(String.format("en el message cuentasADDTO: %s", (CuentasADDTO) message.getHeader("CuentasADDTO")));
-				if (samaccountName == null) {
-					// no pudo generar uno
-					String msg = String.format("Error: no pudo crear un samaccountName para %s",  cuentasADDTO);
-					logger.error(msg);
+		CountThreads countThread = (CountThreads) message.getHeader("countThread");
+
+		try {
+			cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
+			contadoresCuentasAD = (ContadoresCrearCuentasAD)message.getHeader("contadoresCuentasAD");
+			contadoresCuentasAD.incCountProcesados();
+			ResultadoFuncion res = (ResultadoFuncion) message.getHeader("ResultadoFuncion");
+			
+			int existe = existeCuentaAD();
+			if (existe == 0) { // respondio en ws que no esta en el AD
+				String samaccountName = null;
+				try {
+					/*
+					 * Cambiado el 08-03-24 a peticion de Fco Fiogueroa
+					 * 
+					samaccountName = registrosComunes.getSamaccountName(cuentasADDTO, exchange);
+					 */
+					samaccountName = cuentasADDTO.getRut();
+					
+					/*       fin del cambio                                        */
+					
+					logger.info(String.format("en el message cuentasADDTO: %s", (CuentasADDTO) message.getHeader("CuentasADDTO")));
+					if (samaccountName == null) {
+						// no pudo generar uno
+						String msg = String.format("Error: no pudo crear un samaccountName para %s",  cuentasADDTO);
+						logger.error(msg);
+						contadoresCuentasAD.incCountErrores();
+						registrosComunes.registraMiResultadoErrores(cuentasADDTO.getRut(), "CreaCuentasAD", msg, null, res.getKey());
+						return;
+					}
+				} catch (Exception e1) {
+					String msg = String.format("Error al procesar %s",  cuentasADDTO);
+					logger.error(msg, e1);
 					contadoresCuentasAD.incCountErrores();
-					registrosComunes.registraMiResultadoErrores(cuentasADDTO.getRut(), "CreaCuentasAD", msg, null, res.getKey());
+					registrosComunes.registraMiResultadoErrores(null, msg, e1, null, res.getKey());
 					return;
 				}
-			} catch (Exception e1) {
-				String msg = String.format("Error al procesar %s",  cuentasADDTO);
-				logger.error(msg, e1);
-				contadoresCuentasAD.incCountErrores();
-				registrosComunes.registraMiResultadoErrores(null, msg, e1, null, res.getKey());
+				logger.info(String.format("CuentasThread: samaccountName=%s cuentasADDTO=%s", samaccountName, cuentasADDTO));
+				
+				final Map<String,Object> headers = new HashMap<String,Object>();
+				// crear el usuario en el AD
+				headers.put(Exchange.DESTINATION_OVERRIDE_URL, uriADcrearUsuarioAD);
+				headers.put("CamelHttpMethod", "POST");
+				
+				ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", null, Usuario.createUsuario4crear(
+								cuentasADDTO.getSamaccountName(), 
+								cuentasADDTO.getPassword(),
+								cuentasADDTO.getRama(),
+								cuentasADDTO.getEmployeeId(),
+								cuentasADDTO.getNombres(),
+								cuentasADDTO.getApellidos()));
+				logger.info(String.format("asi quedaria la invocacion para crear la cuenta: %s", request));
+				
+				if (!Boolean.valueOf(getDebug())) {
+					// Si no se definio debug o esta en false
+					@SuppressWarnings("unused")
+					ServiciosLDAPResponse response = null;
+					try {
+						response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
+								(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
+								ServiciosLDAPResponse.class);
+						contadoresCuentasAD.incCountAgregadosAD();
+					} catch (Exception e) {
+						String msg = String.format("Error al invocar api para crear usuario AD. request=%s", request);
+						logger.error(msg, e);
+						registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
+						contadoresCuentasAD.incCountErrores();
+					}
+				}
+			} else if (existe == 2) {
+				// se produjo un error en el WS
 				return;
 			}
-			logger.info(String.format("CuentasThread: samaccountName=%s cuentasADDTO=%s", samaccountName, cuentasADDTO));
-			
-			final Map<String,Object> headers = new HashMap<String,Object>();
-			// crear el usuario en el AD
-			headers.put(Exchange.DESTINATION_OVERRIDE_URL, uriADcrearUsuarioAD);
-			headers.put("CamelHttpMethod", "POST");
-			
-			ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", null, Usuario.createUsuario4crear(
-							cuentasADDTO.getSamaccountName(), 
-							cuentasADDTO.getPassword(),
-							cuentasADDTO.getRama(),
-							cuentasADDTO.getEmployeeId(),
-							cuentasADDTO.getNombres(),
-							cuentasADDTO.getApellidos()));
-			logger.info(String.format("asi quedaria la invocacion para crear la cuenta: %s", request));
-			
-			if (!Boolean.valueOf(getDebug())) {
-				// Si no se definio debug o esta en false
-				@SuppressWarnings("unused")
-				ServiciosLDAPResponse response = null;
-				try {
-					response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
-							(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
-							ServiciosLDAPResponse.class);
-					contadoresCuentasAD.incCountAgregadosAD();
-				} catch (Exception e) {
-					String msg = String.format("Error al invocar api para crear usuario AD. request=%s", request);
-					logger.error(msg, e);
-					registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
-					contadoresCuentasAD.incCountErrores();
-				}
+			// Actualizar la BDC
+			try {
+				actualizarBDC(cuentasADDTO);
+			} catch (Exception e) {
+				String msg = String.format("Error al actualizar BDC para usuario. cuentasADDTO=%s", cuentasADDTO);
+				logger.error(msg, e);
+				registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
+				contadoresCuentasAD.incCountErrores();
 			}
+		} finally {
+			countThread.decCounter();
 		}
-		// Actualizar la BDC
-		try {
-			actualizarBDC(cuentasADDTO);
-		} catch (Exception e) {
-			String msg = String.format("Error al actualizar BDC para usuario. cuentasADDTO=%s", cuentasADDTO);
-			logger.error(msg, e);
-			registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
-			contadoresCuentasAD.incCountErrores();
-		}
-		
 	}
 
 	@EndpointInject(uri = "cxfrs:bean:rsADconsultaXrut?continuationTimeout=-1")
 	ProducerTemplate consultaRutAD;
 	String templateConsultaXrut = "%s/consultaXrut";
-	private boolean existeCuentaAD() {
+	private int existeCuentaAD() {
+		int existe = 0;
 		ConsultaXrutRequest request = new ConsultaXrutRequest(cuentasADDTO.getEmployeeId());
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateConsultaXrut, getAdServices()));
@@ -148,10 +167,12 @@ public class CuentasThread implements Processor {
 			logger.error("consultaXrut", e);
 			response = new ConsultaXrutResponse(-1, e.getMessage(), null, null, null, null, null, null, null, null,
 					null, null);
+			existe = 2;
 		}
-		boolean existe = response.getCodigo() == 0 && response.getEstado().equalsIgnoreCase("OK"); 
-		if (existe)
+		if (response.getCodigo() == 0 && response.getEstado().equalsIgnoreCase("OK")) {
+			existe = 1; 
 			cuentasADDTO.setLoginName(response.getUsuario());
+		}
 		return existe;
 	}
 
