@@ -106,7 +106,8 @@ public class CuentasThread implements Processor {
 				headers.put("CamelHttpMethod", "POST");
 				
 				ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", null, Usuario.createUsuario4crear(
-								cuentasADDTO.getSamaccountName(), 
+								cuentasADDTO.getRut(), 
+//								cuentasADDTO.getSamaccountName(), //Cambiado el 08-03-24 a peticion de Fco Fiogueroa
 								cuentasADDTO.getPassword(),
 								cuentasADDTO.getRama(),
 								cuentasADDTO.getEmployeeId(),

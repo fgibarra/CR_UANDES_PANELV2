@@ -10,7 +10,7 @@ SELECT DISTINCT V.rut
                                                                             )
             AND v.nivel not in ('UG')
             AND v.estado in ('INPROGRESS','SUSPENDIDO')
-            and u.spriden_id = v.rut  and (u.usuario_ad is null or u.userid_alma is null)
+            and u.spriden_id = v.rut  and u.userid_alma is null
 union             
 select DISTINCT V.rut
 -- posgrado que no estan en BDC
