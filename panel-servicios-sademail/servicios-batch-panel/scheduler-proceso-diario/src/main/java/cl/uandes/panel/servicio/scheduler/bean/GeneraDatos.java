@@ -282,6 +282,8 @@ public class GeneraDatos {
 				headers.put("countErrores", contadores.getCountErrores());
 				headers.put("agregados-bd", contadores.getCountAgregadosBD());
 				headers.put("agregados-ad", contadores.getCountAgregadosAD());
+				headers.put("countAgregadosBD", contadores.getCountAgregadosBD());
+				headers.put("countAgregadosAD", contadores.getCountAgregadosAD());
 			} catch (Exception e) {
 				logger.error(String.format("ContadoresCrearCuentasAD: json malo |%s|", jsonContadores), e);
 			}

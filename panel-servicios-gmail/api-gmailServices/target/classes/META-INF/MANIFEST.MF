@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1709904890294
+Bnd-LastModified: 1711991899443
 Build-Jdk: 11.0.10
 Built-By: sademail
 Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
@@ -8,12 +8,12 @@ Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
 Bundle-ManifestVersion: 2
 Bundle-Name: api-gmailServices-v1
 Bundle-SymbolicName: api-gmailServices-v1
-Bundle-Version: 0.0.1
+Bundle-Version: 0.0.2
 Created-By: Apache Maven Bundle Plugin
 DynamicImport-Package: *
 Export-Package: cl.uandes.sadmemail.apiGmailServices.api.resources;uses:
  ="cl.uandes.sadmemail.comunes.gmail.json,javax.ws.rs,javax.ws.rs.core";
- version="0.0.1"
+ version="0.0.2"
 Import-Package: cl.uandes.sadmemail.comunes.gmail.json;version="[0.0,1)"
  ,cl.uandes.sadmemail.comunes.google.api.services;version="[0.0,1)",com.
  google.api.client.json;version="[1.39,2)",com.google.api.client.googlea

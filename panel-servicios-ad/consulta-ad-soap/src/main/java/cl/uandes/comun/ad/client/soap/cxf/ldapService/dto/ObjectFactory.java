@@ -51,7 +51,13 @@ public class ObjectFactory extends org.tempuri.ObjectFactory {
 			usuario.setCorreo(of.createUsuarioCorreo(request.getUsuario().getCorreo()));
 		if (request.getUsuario().getDireccion() != null)
 			usuario.setDireccion(of.createUsuarioDireccion(request.getUsuario().getDireccion()));
-
+		if (request.getUsuario().getPidm() != null)
+			usuario.setPidm(of.createUsuarioPidm(request.getUsuario().getPidm()));
+		if (request.getUsuario().getNivel() != null)
+			usuario.setNivel(of.createUsuarioNivel(request.getUsuario().getNivel()));
+		if (request.getUsuario().getEstadoAcademico() != null)
+			usuario.setEstadoAcademico(of.createUsuarioEstadoAcademico(request.getUsuario().getEstadoAcademico()));
+		
 		crearUsuario.setUsuario(createCrearUsuarioUsuario(usuario));
 		return crearUsuario;
 	}
@@ -73,6 +79,13 @@ public class ObjectFactory extends org.tempuri.ObjectFactory {
 			actualizarUsuario.setNombre(super.createActualizarUsuarioNombre(request.getUsuario().getNombre()));
 		if (request.getUsuario().getTelefono() != null)
 			actualizarUsuario.setTelefono(super.createActualizarUsuarioTelefono(request.getUsuario().getTelefono()));
+		if (request.getUsuario().getPidm() != null)
+			actualizarUsuario.setPidm(super.createActualizarUsuarioPidm(request.getUsuario().getPidm()));
+		if (request.getUsuario().getNivel() != null)
+			actualizarUsuario.setNivel(super.createActualizarUsuarioNivel(request.getUsuario().getNivel()));
+		if (request.getUsuario().getEstadoAcademico() != null)
+			actualizarUsuario.setEstadoAcademico(super.createActualizarUsuarioEstadoAcademico(request.getUsuario().getEstadoAcademico()));
+		
 		return actualizarUsuario;
 	}
 

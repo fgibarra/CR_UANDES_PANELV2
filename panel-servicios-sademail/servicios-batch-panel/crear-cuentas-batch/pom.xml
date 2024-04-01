@@ -8,7 +8,7 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>crear-cuentas-batch</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>bundle</packaging>
 	<name>APIREST para crear cuentas en AD y en GMAIL</name>
 	<build>

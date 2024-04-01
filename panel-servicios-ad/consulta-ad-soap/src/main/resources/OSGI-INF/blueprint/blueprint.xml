@@ -176,7 +176,7 @@
                 <constant>6794383K</constant>
             </setHeader>
 - ->
-            <to id="_toDoWork" uri="seda:ldapService"/>
+            <to id="_toDoWork" uri="direct:ldapService"/>
         </route>
 -->
         <!-- ========================================================================================== -->
@@ -185,16 +185,16 @@
             <choice id="_choice1">
                 <when id="_when1">
                     <simple>${header.Operacion} == "{{operacion.consultaXrut}}"</simple>
-                    <to id="_to2" uri="seda:consultaXrut"/>
+                    <to id="_to2" uri="direct:consultaXrut"/>
                 </when>
                 <otherwise id="_otherwise1">
-                    <to id="_to3" uri="seda:ldapService"/>
+                    <to id="_to3" uri="direct:ldapService"/>
                 </otherwise>
             </choice>
         </route>
         <!-- ========================================================================================== -->
         <route id="_consultaXrut">
-            <from id="_ruta1" uri="seda:consultaXrut"/>
+            <from id="_ruta1" uri="direct:consultaXrut"/>
             <bean id="_bean1" method="createSoapBody" ref="soapRequestConsultaXrut"/>
             <log id="_log2" message="despues del createSoapBody body:\n${body}"/>
             <log id="_log8" message="URL: {{consultaXrut.endpointAddress}}"/>
@@ -225,7 +225,7 @@
         </route>
         <!-- ========================================================================================== -->
         <route id="_ldapService">
-            <from id="_ruta1" uri="seda:ldapService"/>
+            <from id="_ruta1" uri="direct:ldapService"/>
             <bean id="_bean2" method="createSoapBody" ref="soapRequestPojoLdapService"/>
             <log id="_log1" message="despues del createSoapBody body:\n${body}"/>
             <marshal id="_marshal2" ref="soapLdapService"/>

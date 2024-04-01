@@ -44,7 +44,13 @@ public class Usuario implements Serializable {
 	String jefatura;
 	@JsonProperty("compania")
 	String compania;
-
+	@JsonProperty("pidm")
+	String pidm;
+	@JsonProperty("nivel")
+	String nivel;
+	@JsonProperty("estado-academico")
+	String estadoAcademico;
+	
 	@JsonCreator
 	public Usuario(@JsonProperty("cuenta")String cuenta, 
 			@JsonProperty("password")String password, 
@@ -59,7 +65,10 @@ public class Usuario implements Serializable {
 			@JsonProperty("cargo")String cargo, 
 			@JsonProperty("departamento")String departamento, 
 			@JsonProperty("jefatura")String jefatura,
-			@JsonProperty("compania")String compania) {
+			@JsonProperty("compania")String compania,
+			@JsonProperty("pidm")String pidm,
+			@JsonProperty("nivel")String nivel,
+			@JsonProperty("estado-academico")String estadoAcademico) {
 		super();
 		this.cuenta = cuenta;
 		this.password = password;
@@ -75,19 +84,22 @@ public class Usuario implements Serializable {
 		this.departamento = departamento;
 		this.jefatura = jefatura;
 		this.compania = compania;
+		this.pidm = pidm;
+		this.nivel = nivel;
+		this.estadoAcademico = estadoAcademico;
 	}
 
 	@JsonIgnore
 	public static Usuario createUsuario4validar (String nombreCuenta) {
 		return new Usuario(nombreCuenta, null, null, null, null, null, null, null, null, null, 
-				null, null, null, null);
+				null, null, null, null, null, null, null);
 	}
 
 	@JsonIgnore
 	public static Usuario createUsuario4crear (String nombreCuenta, String password, String rama, 
 			String rut, String nombre, String apellidos) {
 		return new Usuario(nombreCuenta, password, rama, rut, nombre, apellidos, null, null, null, 
-				null, null, null, null, null);
+				null, null, null, null, null, null, null, null);
 	}
 
 	//=======================================================================================================
@@ -148,6 +160,30 @@ public class Usuario implements Serializable {
 
 	public String getCompania() {
 		return compania;
+	}
+
+	public String getPidm() {
+		return pidm;
+	}
+
+	public void setPidm(String pidm) {
+		this.pidm = pidm;
+	}
+
+	public String getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
+	}
+
+	public String getEstadoAcademico() {
+		return estadoAcademico;
+	}
+
+	public void setEstadoAcademico(String estadoAcademico) {
+		this.estadoAcademico = estadoAcademico;
 	}
 
 }

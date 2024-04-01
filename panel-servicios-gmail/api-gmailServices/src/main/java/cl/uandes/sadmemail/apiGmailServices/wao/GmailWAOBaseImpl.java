@@ -344,6 +344,27 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 	 * @see sadmemail.lib.model.wao.GmailWAOBase#forceUserToChangePassword(java.lang.String)
 	 */
 	@Override
+	public User forceUserToChangePassword(String username, String password) throws Exception {
+		com.google.api.services.admin.directory.Directory.Users.Get get = directory
+				.users().get(getCuenta(username));
+		try {
+			User user = get.execute();
+			user.setChangePasswordAtNextLogin(true);
+			user.setPassword(password);
+			return updateUser(user);
+		} catch (Exception e) {
+			if (e instanceof com.google.api.client.googleapis.json.GoogleJsonResponseException) {
+				if (analizaException((com.google.api.client.googleapis.json.GoogleJsonResponseException)e) > 5) {
+					logger.error("forceUserToChangePassword",e);
+					throw e;
+				}
+				return null;
+			}
+			throw e;
+		}
+	}
+	/* version antigua
+	@Override
 	public User forceUserToChangePassword(String username) throws Exception {
 		com.google.api.services.admin.directory.Directory.Users.Get get = directory
 				.users().get(getCuenta(username));
@@ -362,7 +383,7 @@ public abstract class GmailWAOBaseImpl implements GmailWAOBase {
 			throw e;
 		}
 	}
-
+	*/
 	/* Eliminar la cuenta
 	 * @see sadmemail.lib.model.wao.GmailWAOBase#deleteUser(java.lang.String)
 	 */

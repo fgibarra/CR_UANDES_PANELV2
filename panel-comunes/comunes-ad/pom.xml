@@ -6,6 +6,7 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>comunes-ad-soap</artifactId>
+    <version>1.1.0</version>
   <packaging>bundle</packaging>
   <name>JSON usados por APIREST para invocar web services SOAP al Active Directory</name>
   <description>JSON y DTOs comunes para los servicios SOAP al Active Directory</description>
@@ -68,8 +69,8 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/comunes/comunes-ad-soap/0.0.1</outputDirectory>
-					<finalName>comunes-ad-soap-0.0.1</finalName>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/comunes/comunes-ad-soap/${project.version}</outputDirectory>
+					<finalName>comunes-ad-soap-${project.version}</finalName>
 					<attach>false</attach>
 				</configuration>
 			</plugin>

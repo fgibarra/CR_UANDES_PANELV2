@@ -33,6 +33,12 @@ public class CuentasADRequest implements Serializable {
 	private String comuna;
 	@JsonProperty("RAMA")
 	private String rama;
+	@JsonProperty("PIDM")
+	private String pidm;
+	@JsonProperty("NIVEL")
+	private String nivel;
+	@JsonProperty("ESTADO-ACADEMICO")
+	private String estadoAcademico;
 	
 	public CuentasADRequest(
 			@JsonProperty("NOMBRES")String nombres, 
@@ -44,7 +50,10 @@ public class CuentasADRequest implements Serializable {
 			@JsonProperty("EMAIL")String email, 
 			@JsonProperty("DIRECCION")String direccion, 
 			@JsonProperty("COMUNA")String comuna, 
-			@JsonProperty("RAMA")String rama) {
+			@JsonProperty("RAMA")String rama, 
+			@JsonProperty("PIDM")String pidm, 
+			@JsonProperty("NIVEL")String nivel, 
+			@JsonProperty("ESTADO-ACADEMICO")String estadoAcademico) {
 		super();
 		this.nombres = nombres;
 		this.nombre = nombre;
@@ -56,6 +65,9 @@ public class CuentasADRequest implements Serializable {
 		this.direccion = direccion;
 		this.comuna = comuna;
 		this.rama = rama;
+		this.pidm = pidm;
+		this.nivel = nivel;
+		this.estadoAcademico = estadoAcademico;
 	}
 
 	@Override
@@ -148,6 +160,30 @@ public class CuentasADRequest implements Serializable {
 
 	public void setRama(String rama) {
 		this.rama = rama;
+	}
+
+	public String getPidm() {
+		return pidm;
+	}
+
+	public void setPidm(String pidm) {
+		this.pidm = pidm;
+	}
+
+	public String getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
+	}
+
+	public String getEstadoAcademico() {
+		return estadoAcademico;
+	}
+
+	public void setEstadoAcademico(String estadoAcademico) {
+		this.estadoAcademico = estadoAcademico;
 	}
 	
 }

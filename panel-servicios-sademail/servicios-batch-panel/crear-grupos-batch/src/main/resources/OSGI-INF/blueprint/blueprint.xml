@@ -461,6 +461,7 @@
                         <log id="_log12" message="(L462)el grupo a procesar: ${header.grupoGmail}"/>
                         <to id="_to28" uri="seda:procesaEsteGrupo"/>
                         <to id="_to29" uri="sql:commit?dataSource=#bannerDataSource"/>
+						<log message="(L464) commit grupo ${header.grupoGmail} quedan en lista ${header.listaGrupos.size}"/>
                     </otherwise>
                 </choice>
             </loop>

@@ -17,7 +17,10 @@ public interface GmailWAOBase {
             String password) throws Exception;
 	public User retrieveUser(String username) throws Exception;
 	public User updateUser(User user) throws Exception;
+	public User forceUserToChangePassword(String username, String password) throws Exception;
+	/* version antigua
 	public User forceUserToChangePassword(String username) throws Exception;
+	*/
 	public void suspendUser(String username) throws Exception;
 	public void reactivarUser(String username) throws Exception;
 	public void deleteUser(String username) throws Exception;

@@ -125,6 +125,22 @@ public class GeneraResponse implements Processor {
 			exchange.getIn().setBody(response);
 			
 		} else if ("user-forceToChangePassword".equals(operacion)) {
+			UserRequest request = (UserRequest)exchange.getIn().getHeader("Body");
+			String username = request.getUser().getEmail();
+			String password = request.getUser().getPassword();
+			UserResponse response = null;
+			try {
+				User userGmail = wao.forceUserToChangePassword(username, password);
+				if (userGmail != null) {
+					response = new UserResponse(0, "OK", null);
+					response.setUser(response.factoryUser(userGmail));
+				}
+			} catch (Exception e) {
+				response = new UserResponse(-1, e.getMessage(), null);
+			}
+			exchange.getIn().setBody(response);
+		/* version antigua
+		} else if ("user-forceToChangePassword".equals(operacion)) {
 			String username = (String)exchange.getIn().getHeader("Body");
 			UserResponse response = null;
 			try {
@@ -137,6 +153,8 @@ public class GeneraResponse implements Processor {
 				response = new UserResponse(-1, e.getMessage(), null);
 			}
 			exchange.getIn().setBody(response);
+
+		 */
 		} else if ("user-suspend".equals(operacion)) {
 			String username = (String)exchange.getIn().getHeader("Body");
 			try {

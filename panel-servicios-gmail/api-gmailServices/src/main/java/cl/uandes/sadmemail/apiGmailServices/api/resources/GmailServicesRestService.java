@@ -109,7 +109,21 @@ public class GmailServicesRestService {
 		headers.put("Body", in_msg);
 		return (UserResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
+
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/user/forceChangePassword")
+	public UserResponse forceUserToChangePassword(UserRequest in_msg) {
+		logger.info(String.format("forceUserToChangePassword: in_msg: %s - %s", 
+				in_msg.getClass().getSimpleName(), in_msg));
+		Map<String,Object> headers = new HashMap<String,Object>();
+		headers.put("Operacion", "user-forceToChangePassword");
+		headers.put("Body", in_msg);
+		return (UserResponse) producer.requestBodyAndHeaders(in_msg, headers);
+	}
 	
+	/* version antigua
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
@@ -122,7 +136,7 @@ public class GmailServicesRestService {
 		headers.put("Body", in_msg);
 		return (UserResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
-	
+	*/
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")

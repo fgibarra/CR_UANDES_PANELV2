@@ -196,7 +196,8 @@ public class CuentasThread implements Processor {
 		}
 		if (esta) {
 			Map<String, Object> headers = new HashMap<String, Object>();
-			headers.put("sammacount", cuentasADDTO.getSamaccountName());
+			headers.put("sammacount", cuentasADDTO.getRut());
+			//headers.put("sammacount", cuentasADDTO.getSamaccountName());
 			headers.put("employeeid", cuentasADDTO.getEmployeeId());
 			headers.put("password", cuentasADDTO.getPassword());
 			headers.put("rut", cuentasADDTO.getRut());
