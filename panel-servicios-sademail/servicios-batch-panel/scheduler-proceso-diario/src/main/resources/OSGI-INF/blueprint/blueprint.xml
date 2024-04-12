@@ -22,7 +22,22 @@
     <!-- Ejecutar proceso crear cuentas-->
     <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/servicioBatch/crearCuentas/procese"
-        id="servCreaCuentas" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioCrearCuentasEndpoint">
+        id="servCreaCuentas" loggingFeatureEnabled="true" 
+        serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioCrearCuentasEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- Ejecutar proceso crear cuentas AD postgrado -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/servicioBatch/crearCuentasAD/procese"
+        id="servCreaCuentasADPosgrado" loggingFeatureEnabled="true" 
+        serviceClass="cl.uandes.panel.servicio.scheduler.api.restclient.ServicioCrearCuentasADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -92,6 +107,8 @@
         <argument index="1" value="generaGrupos"/>
         <argument index="2" value="sincronizaGrupos"/>
         <argument index="3" value="suspender_eliminar_cuentas"/>
+        <argument index="4" value="crear_cuentas_AD_postgrado"/>
+
         <property name="delegate" ref="restService"/>
         <property name="crearCuentasLeyenda" value="{{crear-cuentas-gmail.nocturno.leyenda}}"/>
         <property name="crearGruposLeyenda" value="{{crear-grupos-gmail.nocturno.leyenda}}"/>
@@ -162,6 +179,13 @@
             <delay id="_delay1">
                 <constant>5000</constant>
             </delay>
+			<!-- activar en paralelo creacion cuentas AD pogrado y creacion de grupos -->
+			<bean method="generaRequestCrearCuantasAD" ref="generaDatos"/>
+			<to id="_mandaCrearCuentasADPosgrado" uri="cxfrs:bean:servCreaCuentasADPosgrado"/>
+            <delay id="_delay1">
+                <constant>2000</constant>
+            </delay>
+			<!-- creacion de grupos -->
             <bean id="_bean1" method="generaRequestCrearGupos" ref="generaDatos"/>
             <to id="_mandaEjecutarCrearGrupos" uri="cxfrs:bean:servCreaGrupos?timeout=-1"/>
         </route>

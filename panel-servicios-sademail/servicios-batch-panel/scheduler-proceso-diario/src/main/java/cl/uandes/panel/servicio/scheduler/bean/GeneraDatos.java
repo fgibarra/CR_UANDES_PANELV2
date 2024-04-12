@@ -44,6 +44,8 @@ public class GeneraDatos {
 	private String funcionNocturnoCrearGrupos;
 	private String funcionSincronizaGrupos;
 	private String funcionSincronizaCuentas;
+	private String funcionCrearCuentasAD;
+	
 	@PropertyInject(value = "crear-cuentas-gmail.nocturno.leyenda", defaultValue="actualizacion de cuentas nocturno")
 	private String crearCuentasLeyenda;
 	@PropertyInject(value = "crear-grupos-gmail.nocturno.leyenda", defaultValue="actualizacion de grupos nocturno")
@@ -68,12 +70,13 @@ public class GeneraDatos {
 	ProducerTemplate qryMiResultados;
 	private Logger logger = Logger.getLogger(getClass());
 	
-	public GeneraDatos(String funcion1, String funcion2, String funcion3, String funcion4) {
+	public GeneraDatos(String funcion1, String funcion2, String funcion3, String funcion4, String funcion5) {
 		super();
 		this.funcionNocturnoCrearCuentas = funcion1;
 		this.funcionNocturnoCrearGrupos = funcion2;
 		this.funcionSincronizaGrupos = funcion3;
-		this.funcionSincronizaCuentas = funcion4;		
+		this.funcionSincronizaCuentas = funcion4;
+		this.funcionCrearCuentasAD = funcion5;
 	}
 
 	public void generaRequestCrearCuentas(Exchange exchange) throws Exception {
@@ -83,6 +86,12 @@ public class GeneraDatos {
 		exchange.getIn().setBody(req);
 	}
 
+	public void generaRequestCrearCuantasAD(Exchange exchange)throws Exception {
+		ProcesoDiarioRequest req = new ProcesoDiarioRequest(funcionCrearCuentasAD, null);
+		logger.info(String.format("generaRequestCrearCuantasAD: req:%s", req));
+		exchange.getIn().setBody(req);
+	}
+	
 	public void generaRequestCrearGupos(Exchange exchange) throws Exception {
 		ProcesoDiarioRequest req = new ProcesoDiarioRequest(getFuncionNocturnoCrearGrupos(), tiposGrupos);
 		logger.info(String.format("generaRequestCrearGupos: req:%s", req));

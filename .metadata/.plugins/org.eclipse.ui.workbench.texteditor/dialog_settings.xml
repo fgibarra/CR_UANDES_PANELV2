@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="preparaMailResultadoCrearCuantasADPostgrado"/>
+		<item key="selection" value="funcionNocturnoCrearCuentas"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="funcionNocturnoCrearCuentas"/>
+			<item value="direct:terminaCrearCuentas"/>
+			<item value="LDAPServiceb.endpointAddress"/>
+			<item value="direct:ldapService"/>
+			<item value="seda:ldapService"/>
+			<item value="seda:consultaXrut"/>
 			<item value="preparaMailResultadoCrearCuantasADPostgrado"/>
 			<item value="crear_cuentas_AD_postgrado"/>
 			<item value="direct:procesaGrupos"/>
@@ -17,14 +23,10 @@
 			<item value="soapLdapService"/>
 			<item value="direct:sincronizar"/>
 			<item value="inicialiceSincronizarGrupos"/>
-			<item value="sql_s/getGruposXproceso.sql"/>
-			<item value="crear-cuentas"/>
-			<item value="|%s|"/>
-			<item value="(L"/>
-			<item value="getIdsMiembroGrupos"/>
-			<item value="SinMiembros1"/>
 		</list>
 		<list key="replacehistory">
+			<item value="direct:ldapService"/>
+			<item value="direct:consultaXrut"/>
 			<item value="{headers"/>
 			<item value="Gmail"/>
 			<item value="InicialiceProceso"/>
@@ -38,8 +40,6 @@
 			<item value="CuentasMiUandes"/>
 			<item value="GruposMiUandes"/>
 			<item value="logger.info"/>
-			<item value="(3)"/>
-			<item value="(2)"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
