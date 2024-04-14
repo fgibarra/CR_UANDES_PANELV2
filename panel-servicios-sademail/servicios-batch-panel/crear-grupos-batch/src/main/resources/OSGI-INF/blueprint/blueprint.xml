@@ -337,18 +337,18 @@
             <!-- esperar que tgerminen todos los threads -->
             <choice id="_choice6">
                 <when id="_when10">
-                    <simple>${header.countThread.getCounter} &lt; 6</simple>
+                    <simple>${header.countThread.getCounter} &gt; 0</simple>
                     <delay id="_delay4">
                         <constant>1000</constant>
                     </delay>
-                    <log id="_log33" message="(L443)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                    <log id="_log33" message="(L344)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
                 </when>
                 <otherwise id="_otherwise6">
-                    <log id="_log34" message="(L347) terminaron todas las threads disponibles: ${header.countThread.getCounter}"/>
+                    <log id="_log34" message="(L347) eliminar grupos sin miembros: ${header.countThread.getCounter}"/>
                     <to id="_eliminarGruposSinMiembros1" uri="direct:eliminarGruposSinMiembros"/>
                     <to id="_to7" uri="direct:termina"/>
                 </otherwise>
-            </choice>
+            </choice> 
         </route>
         <!-- ================================================================================================= -->
         <!--                               direct:crearGruposVigentes                                          -->
@@ -460,18 +460,27 @@
                             method="getGrupoFromListaGrupos" ref="generaDatos"/>
                         <log id="_log12" message="(L462)el grupo a procesar: ${header.grupoGmail}"/>
                         <to id="_to28" uri="seda:procesaEsteGrupo"/>
-                        <to id="_to29" uri="sql:commit?dataSource=#bannerDataSource"/>
-						<log message="(L464) commit grupo ${header.grupoGmail} quedan en lista ${header.listaGrupos.size}"/>
+						<log message="(L463) grupo 4(header.grupoGmail} partio"/>
+                        <!--to id="_to29" uri="sql:commit?dataSource=#bannerDataSource"/>
+                        <log id="_log26" message="(L465) commit grupo ${header.grupoGmail} quedan en lista ${header.listaGrupos.size}"/-->
                     </otherwise>
                 </choice>
             </loop>
+			<loop doWhile="true">
+					<simple>${header.countThread.getCounter} &gt; 0</simple>
+					<delay id="_delay3">
+                            <constant>1000</constant>
+                    </delay>
+                    <log message="(L475)Esperando se terminen todas los thread (usandose aun: ${header.countThread.getCounter})"/>
+			</loop>
+			<log message="(L476) Saliendo de ruta direct:procesaGrupos"/>
         </route>
         <!-- ================================================================================================= -->
         <!--                               seda:procesaEsteGrupo                                                -->
         <!-- ================================================================================================= -->
         <route id="_procesaEsteGrupo">
             <from id="_from9" uri="seda:procesaEsteGrupo?concurrentConsumers=6"/>
-            <log id="_log16" message="(L474) procesa elemento numero: ${header.listaGrupos.size} keyResultado=${header.ResultadoFuncion.key}"/>
+            <log id="_log16" message="(L484) procesa elemento numero: ${header.listaGrupos.size} keyResultado=${header.ResultadoFuncion.key}"/>
             <process id="_process2" ref="gruposThread"/>
         </route>
         <!-- ================================================================================================= -->
@@ -525,7 +534,7 @@
         <!-- ================================================================================================= -->
         <route id="_route4">
             <from id="_from7" uri="direct:incrementaResultado"/>
-            <log id="_log31" message="(L526) incrementar keyResultado: ${header.keyResultado} idContador: ${header.idContador} p_operacion: ${header.operacion}"/>
+            <log id="_log31" message="(L538) incrementar keyResultado: ${header.keyResultado} idContador: ${header.idContador} p_operacion: ${header.operacion}"/>
             <to id="_to27" uri="sql-stored:classpath:sql/prd_operaContadorMiResultados.sql?dataSource=#bannerDataSource"/>
         </route>
         <!-- ================================================================================================= -->
@@ -534,15 +543,15 @@
         <!-- ================================================================================================= -->
         <route id="_route2">
             <from id="_from5" uri="direct:sincronizar"/>
-            <log id="_log22" message="(L534) sincronizar: request=${header.request}"/>
+            <log id="_log22" message="(L546) sincronizar: request=${header.request}"/>
             <loop doWhile="true" id="_loop3">
                 <simple>${header.listaOperaciones.size} &gt; 0</simple>
                 <bean id="_bean14" method="getListaOperaciones" ref="generaDatos"/>
                 <process id="_process5" ref="inicialiceSincronizarGrupos"/>
-                <log id="_log23" message="(L540) proceso: ${header.tipoGrupo}"/>
+                <log id="_log23" message="(L552) proceso: ${header.tipoGrupo}"/>
                 <to id="_to24" uri="sql:classpath:sql_s/getGruposXproceso.sql?dataSource=#bannerDataSource"/>
                 <bean id="_bean15" method="factoryGruposSincronizar" ref="generaDatos"/>
-                <log id="_log24" message="(L543) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
+                <log id="_log24" message="(L555) grupos a sincronizar= ${header.listaGruposSincronizar.size}"/>
                 <loop doWhile="true" id="_loop4">
                     <simple>${header.listaGruposSincronizar.size} &gt; 0</simple>
                     <choice id="_choice3">
@@ -565,9 +574,9 @@
                 <delay id="_delay2">
                     <constant>1000</constant>
                 </delay>
-                <log id="_log32" message="(L566) Esperando counterThread valor=${header.countThread.getCounter}"/>
+                <log id="_log32" message="(L578) Esperando counterThread valor=${header.countThread.getCounter}"/>
             </loop>
-            <log id="_log25" message="(L568) termina"/>
+            <log id="_log25" message="(L580) termina"/>
             <to id="_to26" uri="direct:termina"/>
         </route>
         <!-- ================================================================================================= -->
@@ -575,7 +584,7 @@
         <!-- ================================================================================================= -->
         <route id="_route3">
             <from id="_from6" uri="seda:sincronizaGrupo?concurrentConsumers=15"/>
-            <log id="_log30" message="(L576-${threadName}) grupo a procesar: ${header.grupoGmail} countThread=${header.countThread}"/>
+            <log id="_log30" message="(L588-${threadName}) grupo a procesar: ${header.grupoGmail} countThread=${header.countThread}"/>
             <process id="_process7" ref="sincronizarGruposAction"/>
         </route>
         <!-- ================================================================================================= -->

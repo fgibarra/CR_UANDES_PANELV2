@@ -51,14 +51,27 @@ public class GeneraDatos {
 		@SuppressWarnings("unchecked")
 		List<Map<String,Object>> listaRecuperada = (List<Map<String,Object>>)exchange.getIn().getBody();
 		int numberPrueba = Integer.valueOf(propNumberPrueba);
-		logger.info(String.format("factoryGrupos: recuperados %d grupos; para probar %d",
-				listaRecuperada!=null?listaRecuperada.size():0, numberPrueba));
+		logger.info(String.format("factoryGrupos: recuperados %d grupos (%s); para probar %d",
+				listaRecuperada!=null?listaRecuperada.size():0, (String)exchange.getIn().getHeader("proceso"), numberPrueba));
 		List<GruposMiUandes> listaGrupos = new ArrayList<GruposMiUandes>();
+		StringBuffer sb = new StringBuffer("[");
+		int count = 0;
 		for (Map<String,Object> map : listaRecuperada) {
-			listaGrupos.add(new GruposMiUandes(map));
+			GruposMiUandes grupo = new GruposMiUandes(map);
+			listaGrupos.add(grupo);
+			++count;
+			if (count > 15) {
+				sb.append(String.format("%s\n",grupo.getGroupName()));
+				count = 0;
+			} else
+				sb.append(String.format("%s,",grupo.getGroupName()));
 			if (--numberPrueba == 0)
 				break;
+			if (sb.length() > 1)
+				sb.setLength(sb.length()-1);
 		}
+		sb.append("]");
+		logger.info(String.format("factoryGrupos: grupos a procesar: %s", sb.toString()));
 		exchange.getIn().setHeader("listaGrupos", listaGrupos);
 	}
 	

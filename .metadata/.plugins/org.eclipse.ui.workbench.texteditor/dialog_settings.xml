@@ -9,6 +9,8 @@
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
 			<item value="(L"/>
+			<item value="direct:procesaGrupos"/>
+			<item value="direct:crearGrupos"/>
 			<item value="funcionNocturnoCrearCuentas"/>
 			<item value="direct:terminaCrearCuentas"/>
 			<item value="LDAPServiceb.endpointAddress"/>
@@ -17,12 +19,10 @@
 			<item value="seda:consultaXrut"/>
 			<item value="preparaMailResultadoCrearCuantasADPostgrado"/>
 			<item value="crear_cuentas_AD_postgrado"/>
-			<item value="direct:procesaGrupos"/>
 			<item value="direct:procesaLista"/>
 			<item value="(L206"/>
 			<item value="StringUtilities.getInstance().toInteger"/>
 			<item value="soapLdapService"/>
-			<item value="direct:sincronizar"/>
 		</list>
 		<list key="replacehistory">
 			<item value="direct:ldapService"/>
@@ -43,8 +43,8 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="931"/>
-		<item key="DIALOG_Y_ORIGIN" value="434"/>
+		<item key="DIALOG_X_ORIGIN" value="1033"/>
+		<item key="DIALOG_Y_ORIGIN" value="109"/>
 		<item key="DIALOG_WIDTH" value="345"/>
 		<item key="DIALOG_HEIGHT" value="458"/>
 		<item key="DIALOG_FONT_NAME" value="1|Cantarell|11.0|0|GTK|1|"/>
