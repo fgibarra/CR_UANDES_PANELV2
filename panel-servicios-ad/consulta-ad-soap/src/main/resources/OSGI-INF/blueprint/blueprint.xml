@@ -119,7 +119,7 @@
     <!-- fin BEANS para manejo del cliente SOAP -->
     <!-- ========================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-    <camelContext id="servicios-ad-soap-client" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="servicios-ad-soap-client_v2" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.soap-config.cfg"/>
         <!-- -->
         <camel:dataFormats>

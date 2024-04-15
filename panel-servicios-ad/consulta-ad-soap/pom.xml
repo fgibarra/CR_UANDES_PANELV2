@@ -76,9 +76,9 @@
 						<DynamicImport-Package>
 							*
 						</DynamicImport-Package>
-						<Bundle-SymbolicName>servicios-ad-soap-client</Bundle-SymbolicName>
+						<Bundle-SymbolicName>servicios-ad-soap-client-v2</Bundle-SymbolicName>
 						<Bundle-Name>Servicios AD cliente SOAP
-							[servicios-ad-soap-client]</Bundle-Name>
+							[servicios-ad-soap-client-v2]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>

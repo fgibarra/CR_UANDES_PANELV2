@@ -33,10 +33,10 @@
 							com.fasterxml.jackson.databind,
 							com.fasterxml.jackson.annotation
 						</Import-Package>
-						<Bundle-Description>ComunesPanelAzure</Bundle-Description>
-						<Bundle-Name>Comunes Panel Azure v1.0</Bundle-Name>
-						<Bundle-SymbolicName>comunes-panel-v-azure</Bundle-SymbolicName>
-						<Bundle-Name>Panel [comunes-panel-v-azure]</Bundle-Name>
+						<Bundle-Description>Comunes AD v2.0</Bundle-Description>
+						<Bundle-Name>Comunes AD v2.0</Bundle-Name>
+						<Bundle-SymbolicName>comunes-ad-v2</Bundle-SymbolicName>
+						<Bundle-Name>Panel [comunes-ad-v2]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>
