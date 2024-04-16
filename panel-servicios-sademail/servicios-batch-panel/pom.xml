@@ -13,9 +13,9 @@
   	<dependency>
   		<groupId>uandes.panel-v2.comunes</groupId>
   		<artifactId>comunes-sademail</artifactId>
-  		<version>0.0.1</version>
+  		<version>1.0.2</version>
   		<scope>system</scope>
-  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/target/comunes-sademail-0.0.1.jar</systemPath>
+  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/target/comunes-sademail-1.0.2.jar</systemPath>
   	</dependency>
   </dependencies>
 	<profiles>

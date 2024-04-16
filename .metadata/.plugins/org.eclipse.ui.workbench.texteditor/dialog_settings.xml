@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="(L"/>
+		<item key="selection" value="paraCrearCuentasAD"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="paraCrearCuentasAD"/>
 			<item value="(L"/>
 			<item value="direct:procesaGrupos"/>
 			<item value="direct:crearGrupos"/>
@@ -22,7 +23,6 @@
 			<item value="direct:procesaLista"/>
 			<item value="(L206"/>
 			<item value="StringUtilities.getInstance().toInteger"/>
-			<item value="soapLdapService"/>
 		</list>
 		<list key="replacehistory">
 			<item value="direct:ldapService"/>

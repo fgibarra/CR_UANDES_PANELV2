@@ -8,6 +8,7 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>comunes-sademail</artifactId>
+	<version>1.0.2</version>
 	<packaging>bundle</packaging>
 	<name>ComunesSademail</name>
 	<description>DTOs comunes para acceder a los servicios Sademail</description>

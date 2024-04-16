@@ -34,6 +34,10 @@ public class CuentasADDTO implements Serializable {
 	private String direccion;
 	@JsonProperty("COMUNA")
 	private String comuna;
+	@JsonProperty("NIVEL")
+	private String nivel;
+	@JsonProperty("ESTADO")
+	private String estadoAcademico;
 	@JsonProperty("RAMA")
 	private String rama;
 	@JsonProperty("LOGIN_NAME")
@@ -98,6 +102,8 @@ public class CuentasADDTO implements Serializable {
 		this.apellidos = parseaDato((String)datos.get("SPRIDEN_LAST_NAME"));
 		this.nombre = parseaDato((String)datos.get("SPRIDEN_FIRST_NAME"));
 		this.middleName = parseaDato((String)datos.get("SPRIDEN_MI"));
+		this.nivel = parseaDato((String)datos.get("NIVEL"));
+		this.estadoAcademico = parseaDato((String)datos.get("ESTADO"));
 		this.rama = RamasAD.ALUMNOS.getRamaAD();
 		this.nombres = String.format("%s %s",  
 				getMiddleName() != null ?
@@ -304,6 +310,22 @@ public class CuentasADDTO implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
+	}
+
+	public String getEstadoAcademico() {
+		return estadoAcademico;
+	}
+
+	public void setEstadoAcademico(String estadoAcademico) {
+		this.estadoAcademico = estadoAcademico;
 	}
 
 }
