@@ -106,6 +106,7 @@
         <argument index="2" value="sincronizaGrupos"/>
         <argument index="3" value="suspender_eliminar_cuentas"/>
         <argument index="4" value="crear_cuentas_AD_postgrado"/>
+        <argument index="5" value="4950"/>
         <property name="delegate" ref="restService"/>
         <property name="crearCuentasLeyenda" value="{{crear-cuentas-gmail.nocturno.leyenda}}"/>
         <property name="crearGruposLeyenda" value="{{crear-grupos-gmail.nocturno.leyenda}}"/>
@@ -178,14 +179,14 @@
             </delay>
             <!-- activar en paralelo creacion cuentas AD pogrado y creacion de grupos -->
             <bean id="_bean11" method="generaRequestCrearCuantasAD" ref="generaDatos"/>
-			<log message="(L181) Activa crear cuentas AD posgrado: req [${body}]"/>
+            <log id="_log9" message="(L181) Activa crear cuentas AD posgrado: req [${body}]"/>
             <to id="_mandaCrearCuentasADPosgrado" uri="cxfrs:bean:servCreaCuentasADPosgrado"/>
             <delay id="_delay1">
                 <constant>2000</constant>
             </delay>
             <!-- creacion de grupos -->
             <bean id="_bean1" method="generaRequestCrearGupos" ref="generaDatos"/>
-			<log message="(L188) Activa crear grupos: req: [${body}]"/>
+            <log id="_log10" message="(L188) Activa crear grupos: req: [${body}]"/>
             <to id="_mandaEjecutarCrearGrupos" uri="cxfrs:bean:servCreaGrupos?timeout=-1"/>
         </route>
         <!-- ================================================================================================= -->

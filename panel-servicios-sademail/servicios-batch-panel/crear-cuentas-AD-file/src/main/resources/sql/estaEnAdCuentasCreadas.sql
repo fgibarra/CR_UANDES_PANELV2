@@ -1,0 +1,1 @@
+select 'true' as esta_en_bdc from ad_cuentas_creadas where rut=:#rut

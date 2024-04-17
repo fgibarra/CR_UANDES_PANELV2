@@ -106,6 +106,7 @@
         class="cl.uandes.panel.servicio.crearCuentasAD.bean.GeneraDatos" id="generaDatos">
         <property name="proceso" value="{{crear-cuentas-AD.funcion}}"/>
         <property name="kcoFuncion" value="{{crear-cuentas-AD.funcion}}"/>
+        <property name="maxListaStr" value="{{crear-cuentas-AD.max_lista}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
@@ -200,13 +201,14 @@
                                 <delay id="_delay1">
                                     <constant>1000</constant>
                                 </delay>
-                                <log id="_log2" message="(L203)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                                <log id="_log2" message="(L204)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
                             </when>
                             <otherwise id="_otherwise2">
                                 <bean id="_bean3"
                                     method="getCuentaFromListaCuentas" ref="generaDatos"/>
-                                <log id="_log3" message="(L208) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter} keyResultado=${header.key}"/>
+                                <log id="_log3" message="(L209) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter} keyResultado=${header.key}"/>
                                 <to id="_to4" uri="seda:procesaCuenta"/>
+								<log message="(L211) Termina proceso cuenta: ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
                             </otherwise>
                         </choice>
                     </loop>
@@ -216,6 +218,14 @@
                 </otherwise>
             </choice>
             <!-- finalizar el proceso -->
+			<loop doWhile="true">
+				<simple>${header.countThread.getCounter} &gt; 0</simple>
+				<log message="(L224) esperando termines ${header.countThread.getCounter} threads"/>
+				<delay >
+                      <constant>1000</constant>
+                </delay>
+			</loop>
+			<log message="(L228) finalizar el proceso"/>
             <process id="_finalizaProceso" ref="finalizaProceso"/>
         </route>
         <!-- ================================================================================================= -->
@@ -231,7 +241,7 @@
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <bean id="_bean4" method="getCuentaFromListaCuentas" ref="generaDatos"/>
                 <process id="_cuentasFileProcess" ref="cuentasThread"/>
-                <log id="_log5" message="(L230)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
+                <log id="_log5" message="(L244)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
             </loop>
             <process id="_cierraMiResultados" ref="finalizaProceso"/>
         </route>
@@ -239,7 +249,7 @@
         <route id="_route1">
             <from id="_from5" uri="seda:procesaCuenta?concurrentConsumers=2"/>
             <process id="_cuentasThreadProcess" ref="cuentasThread"/>
-            <log id="_log6" message="(L242)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
+            <log id="_log6" message="(L252)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
         </route>
     </camelContext>
 </blueprint>

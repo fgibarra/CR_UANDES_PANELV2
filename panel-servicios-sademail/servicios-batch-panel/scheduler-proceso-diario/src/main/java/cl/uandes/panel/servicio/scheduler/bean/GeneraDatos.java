@@ -45,6 +45,7 @@ public class GeneraDatos {
 	private String funcionSincronizaGrupos;
 	private String funcionSincronizaCuentas;
 	private String funcionCrearCuentasAD;
+	private String txNoche;
 	
 	@PropertyInject(value = "crear-cuentas-gmail.nocturno.leyenda", defaultValue="actualizacion de cuentas nocturno")
 	private String crearCuentasLeyenda;
@@ -70,13 +71,14 @@ public class GeneraDatos {
 	ProducerTemplate qryMiResultados;
 	private Logger logger = Logger.getLogger(getClass());
 	
-	public GeneraDatos(String funcion1, String funcion2, String funcion3, String funcion4, String funcion5) {
+	public GeneraDatos(String funcion1, String funcion2, String funcion3, String funcion4, String funcion5, String valor1) {
 		super();
 		this.funcionNocturnoCrearCuentas = funcion1;
 		this.funcionNocturnoCrearGrupos = funcion2;
 		this.funcionSincronizaGrupos = funcion3;
 		this.funcionSincronizaCuentas = funcion4;
 		this.funcionCrearCuentasAD = funcion5;
+		this.txNoche = valor1;
 	}
 
 	public void generaRequestCrearCuentas(Exchange exchange) throws Exception {
@@ -87,7 +89,8 @@ public class GeneraDatos {
 	}
 
 	public void generaRequestCrearCuantasAD(Exchange exchange)throws Exception {
-		ProcesoDiarioRequest req = new ProcesoDiarioRequest(funcionCrearCuentasAD, null);
+		String operaciones[] = {txNoche};
+		ProcesoDiarioRequest req = new ProcesoDiarioRequest(funcionCrearCuentasAD, operaciones);
 		logger.info(String.format("generaRequestCrearCuantasAD: req:%s", req));
 		exchange.getIn().setBody(req);
 	}

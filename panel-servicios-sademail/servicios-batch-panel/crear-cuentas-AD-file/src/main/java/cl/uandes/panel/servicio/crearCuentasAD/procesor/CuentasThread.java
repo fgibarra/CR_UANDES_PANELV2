@@ -39,8 +39,12 @@ public class CuentasThread implements Processor {
 	// SQLs
 	@EndpointInject(uri = "sql:classpath:sql/estaEnBdc.sql?dataSource=#bannerDataSource")
 	ProducerTemplate estaEnBdc;
+	@EndpointInject(uri = "sql:classpath:sql/estaEnBdc.sql?dataSource=#bannerDataSource")
+	ProducerTemplate estaEnAdCuentasCreadas;
 	@EndpointInject(uri = "sql:classpath:sql/updateBdcUsuarioMillenium.sql?dataSource=#bannerDataSource")
 	ProducerTemplate updateBdcUsuarioMillenium;
+	@EndpointInject(uri = "sql:classpath:sql/insertAdCuentasCreadas.sql?dataSource=#bannerDataSource")
+	ProducerTemplate insertAdCuentasCreadas;
 	@EndpointInject(uri = "sql:commit?dataSource=#bannerDataSource")
 	ProducerTemplate commit;
 	
@@ -62,14 +66,14 @@ public class CuentasThread implements Processor {
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
 		CountThreads countThread = (CountThreads) message.getHeader("countThread");
-
+		int existe = -1;
 		try {
 			cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
 			contadoresCuentasAD = (ContadoresCrearCuentasAD)message.getHeader("contadoresCuentasAD");
 			contadoresCuentasAD.incCountProcesados();
 			ResultadoFuncion res = (ResultadoFuncion) message.getHeader("ResultadoFuncion");
 			
-			int existe = existeCuentaAD();
+			existe = existeCuentaAD();
 			if (existe == 0) { // respondio en ws que no esta en el AD
 				String samaccountName = null;
 				try {
@@ -129,15 +133,21 @@ public class CuentasThread implements Processor {
 						logger.error(msg, e);
 						registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
 						contadoresCuentasAD.incCountErrores();
+						return;
 					}
 				}
 			} else if (existe == 2) {
 				// se produjo un error en el WS
+				logger.info(String.format("process: se produjo un error en el WS consultaXRut. countThread.getCounter=%d", 
+						countThread.getCounter()));
 				return;
 			}
-			// Actualizar la BDC
+			// Actualizar la AD:_CUENTAS_CREADAS y BDC
 			try {
+				
+				actualizarAdCuantasCreadas(cuentasADDTO);
 				actualizarBDC(cuentasADDTO);
+				
 			} catch (Exception e) {
 				String msg = String.format("Error al actualizar BDC para usuario. cuentasADDTO=%s", cuentasADDTO);
 				logger.error(msg, e);
@@ -146,6 +156,7 @@ public class CuentasThread implements Processor {
 			}
 		} finally {
 			countThread.decCounter();
+			logger.info(String.format("process countThread.getCounter=%d existe=%d", countThread.getCounter(), existe));;
 		}
 	}
 
@@ -165,7 +176,7 @@ public class CuentasThread implements Processor {
 			response = (ConsultaXrutResponse) ObjectFactory.procesaResponseImpl(
 					(ResponseImpl) consultaRutAD.requestBodyAndHeaders(request, headers), ConsultaXrutResponse.class);
 		} catch (Exception e) {
-			logger.error("consultaXrut", e);
+			logger.error("existeCuentaAD: error en producer consultaRutAD", e);
 			response = new ConsultaXrutResponse(-1, e.getMessage(), null, null, null, null, null, null, null, null,
 					null, null);
 			existe = 2;
@@ -204,6 +215,29 @@ public class CuentasThread implements Processor {
 			updateBdcUsuarioMillenium.requestBodyAndHeaders(null, headers);
 			contadoresCuentasAD.incCountAgregadosBD();
 			logger.info(String.format("actualizarBDC: sammacount=%s employeeid=%s password=%s rut=%s",
+					cuentasADDTO.getSamaccountName(),cuentasADDTO.getEmployeeId(),
+					cuentasADDTO.getPassword(), cuentasADDTO.getRut()));
+			commit.requestBody(null);
+		}
+	}
+
+	private void actualizarAdCuantasCreadas(CuentasADDTO cuentasADDTO) throws Exception {
+		Boolean esta = Boolean.FALSE;
+		@SuppressWarnings("unchecked")
+		List<Map<String, Object>> datos = (List<Map<String, Object>>) estaEnAdCuentasCreadas.requestBodyAndHeader(null, "rut", cuentasADDTO.getRut());
+		if (datos != null && datos.size() > 0) {
+			esta = Boolean.valueOf((String)(datos.get(0).get("ESTA_EN_BDC")));
+			logger.info(String.format("actualizarAdCuantasCreadas: estaEnAdCuentasCreadas=%b", esta));
+		}
+		if (esta) {
+			Map<String, Object> headers = new HashMap<String, Object>();
+			headers.put("sammacount", cuentasADDTO.getSamaccountName());
+			//headers.put("sammacount", cuentasADDTO.getSamaccountName());
+			headers.put("ou", String.format("cn=%s,ou=%s", cuentasADDTO.getNombres(),cuentasADDTO.getEmployeeId()));
+			headers.put("rut", cuentasADDTO.getRut());
+			insertAdCuentasCreadas.requestBodyAndHeaders(null, headers);
+			contadoresCuentasAD.incCountAgregadosBD();
+			logger.info(String.format("actualizarAdCuantasCreadas: sammacount=%s employeeid=%s password=%s rut=%s",
 					cuentasADDTO.getSamaccountName(),cuentasADDTO.getEmployeeId(),
 					cuentasADDTO.getPassword(), cuentasADDTO.getRut()));
 			commit.requestBody(null);

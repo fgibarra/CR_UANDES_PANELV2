@@ -15,6 +15,7 @@ import org.apache.camel.PropertyInject;
 import org.apache.camel.component.file.GenericFile;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.servicios.dto.CuentasADDTO;
 import cl.uandes.panel.comunes.utils.CountThreads;
 
@@ -24,10 +25,13 @@ public class GeneraDatos {
 	private String proceso;
 	@PropertyInject(value = "crear-cuentas-gmail.kco-funcion", defaultValue = "crear_cuentas")
 	private String kcoFuncion;
-
+	@PropertyInject(value = "crear-cuentas-ad_posgrado.max_lista", defaultValue = "2000")
+	private String maxListaStr;
+	
 	@EndpointInject(uri = "sql:classpath:sql/paraCrearCuentasAD.sql?dataSource=#bannerDataSource")
 	ProducerTemplate paraCrearCuentasAD;
-	
+	@EndpointInject(uri = "sql:classpath:sql/paraCrearCuentasAD_todos.sql?dataSource=#bannerDataSource")
+	ProducerTemplate paraCrearCuentasADTotal;
 	private Logger logger = Logger.getLogger(getClass());
 
 	/**
@@ -76,18 +80,60 @@ public class GeneraDatos {
 	 * 
 	 * @param exchange
 	 */
-	@SuppressWarnings("unchecked")
 	public void generaListaXrequest(Exchange exchange) {
 		Message message = exchange.getIn();
 		List<CuentasADDTO> lista = new ArrayList<CuentasADDTO>();
-		
+		ProcesoDiarioRequest request = (ProcesoDiarioRequest)message.getHeader("request");
+		if (request.getOperaciones() == null) {		
+			lista = getListaNormal();
+		} else {
+			String valor = request.getOperaciones()[0];
+			if (valor.matches("[0-9]*"))
+				setMaxListaStr(valor);
+			lista = getListaTotal();
+			logger.info(String.format("generaListaXrequest: se procesaran %d registros leidos desde Banner", lista.size()));
+		}
+		message.setHeader("listaCuentas", lista);
+	}
+
+	private List<CuentasADDTO> getListaNormal() {
+		List<CuentasADDTO> lista = new ArrayList<CuentasADDTO>();
+		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> datos = (List<Map<String, Object>>) paraCrearCuentasAD.requestBody(null);
 		if (datos != null && datos.size() > 0) {
 			for (Map<String, Object> dato : datos) {
 				lista.add(new CuentasADDTO(dato));
 			}
 		}
-		message.setHeader("listaCuentas", lista);
+		logger.info(String.format("getListaNormal: elementos en la lista: %d", lista.size()));
+		return lista;
+	}
+	
+	private List<CuentasADDTO> getListaTotal() {
+		List<CuentasADDTO> lista = new ArrayList<CuentasADDTO>();
+		@SuppressWarnings("unchecked")
+		List<Map<String, Object>> datos = (List<Map<String, Object>>) paraCrearCuentasADTotal.requestBody(null);
+		if (datos != null && datos.size() > 0) {
+			int count = getMaxLista();
+			for (Map<String, Object> dato : datos) {
+				lista.add(new CuentasADDTO(dato));
+				if (--count <= 0)
+					break;
+			}
+		}
+		logger.info(String.format("getListaTotal: elementos en la lista: %d", lista.size()));
+		return lista;
+	}
+	
+	private int getMaxLista() {
+		if (getMaxListaStr() == null)
+			return 0;
+		try {
+			return Integer.valueOf(getMaxListaStr());
+		} catch (NumberFormatException e) {
+			logger.error(String.format("getMaxLista: error al convertir %s", getMaxListaStr()), e);
+			return 0;
+		}
 	}
 
 	/**
@@ -121,6 +167,14 @@ public class GeneraDatos {
 
 	public void setKcoFuncion(String kcoFuncion) {
 		this.kcoFuncion = kcoFuncion;
+	}
+
+	public String getMaxListaStr() {
+		return maxListaStr;
+	}
+
+	public void setMaxListaStr(String maxListaStr) {
+		this.maxListaStr = maxListaStr;
 	}
 
 }
