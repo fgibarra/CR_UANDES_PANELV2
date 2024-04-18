@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.servicios.dto.CuentasADDTO;
 import cl.uandes.panel.comunes.utils.CountThreads;
+import cl.uandes.sadmemail.comunes.utils.StringUtils;
 
 public class GeneraDatos {
 
@@ -88,7 +89,7 @@ public class GeneraDatos {
 			lista = getListaNormal();
 		} else {
 			String valor = request.getOperaciones()[0];
-			if (valor.matches("[0-9]*"))
+			if (StringUtils.esNumerico(valor))
 				setMaxListaStr(valor);
 			lista = getListaTotal();
 			logger.info(String.format("generaListaXrequest: se procesaran %d registros leidos desde Banner", lista.size()));
