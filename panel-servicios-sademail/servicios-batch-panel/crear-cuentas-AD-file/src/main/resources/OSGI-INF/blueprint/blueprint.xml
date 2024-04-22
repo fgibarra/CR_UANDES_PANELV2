@@ -208,7 +208,7 @@
                                     method="getCuentaFromListaCuentas" ref="generaDatos"/>
                                 <log id="_log3" message="(L209) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter} keyResultado=${header.key}"/>
                                 <to id="_to4" uri="seda:procesaCuenta"/>
-								<log message="(L211) Termina proceso cuenta: ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
+                                <log id="_log7" message="(L211) Activado proceso cuenta: ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
                             </otherwise>
                         </choice>
                     </loop>
@@ -218,14 +218,14 @@
                 </otherwise>
             </choice>
             <!-- finalizar el proceso -->
-			<loop doWhile="true">
-				<simple>${header.countThread.getCounter} &gt; 0</simple>
-				<log message="(L224) esperando termines ${header.countThread.getCounter} threads"/>
-				<delay >
-                      <constant>1000</constant>
+            <loop doWhile="true" id="_loop3">
+                <simple>${header.countThread.getCounter} &gt; 0</simple>
+                <log id="_log8" message="(L224) esperando termines ${header.countThread.getCounter} threads"/>
+                <delay id="_delay2">
+                    <constant>1000</constant>
                 </delay>
-			</loop>
-			<log message="(L228) finalizar el proceso"/>
+            </loop>
+            <log id="_log9" message="(L228) finalizar el proceso"/>
             <process id="_finalizaProceso" ref="finalizaProceso"/>
         </route>
         <!-- ================================================================================================= -->

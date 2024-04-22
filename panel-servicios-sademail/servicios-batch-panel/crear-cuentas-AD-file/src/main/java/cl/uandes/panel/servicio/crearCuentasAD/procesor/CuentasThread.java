@@ -39,7 +39,7 @@ public class CuentasThread implements Processor {
 	// SQLs
 	@EndpointInject(uri = "sql:classpath:sql/estaEnBdc.sql?dataSource=#bannerDataSource")
 	ProducerTemplate estaEnBdc;
-	@EndpointInject(uri = "sql:classpath:sql/estaEnBdc.sql?dataSource=#bannerDataSource")
+	@EndpointInject(uri = "sql:classpath:sql/estaEnAdCuentasCreadas.sql?dataSource=#bannerDataSource")
 	ProducerTemplate estaEnAdCuentasCreadas;
 	@EndpointInject(uri = "sql:classpath:sql/updateBdcUsuarioMillenium.sql?dataSource=#bannerDataSource")
 	ProducerTemplate updateBdcUsuarioMillenium;
@@ -50,7 +50,7 @@ public class CuentasThread implements Processor {
 	
 	private ContadoresCrearCuentasAD contadoresCuentasAD;
 	private Logger logger = Logger.getLogger(getClass());
-	private CuentasADDTO cuentasADDTO;
+	//private CuentasADDTO cuentasADDTO;
 	
 	/**
 	 * - Verifica que el RUT co tenga una cuenta AD asociada.
@@ -68,12 +68,13 @@ public class CuentasThread implements Processor {
 		CountThreads countThread = (CountThreads) message.getHeader("countThread");
 		int existe = -1;
 		try {
-			cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
+			CuentasADDTO cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
 			contadoresCuentasAD = (ContadoresCrearCuentasAD)message.getHeader("contadoresCuentasAD");
 			contadoresCuentasAD.incCountProcesados();
 			ResultadoFuncion res = (ResultadoFuncion) message.getHeader("ResultadoFuncion");
+			logger.info((String.format("process: rut: %s", cuentasADDTO.getRut())));
 			
-			existe = existeCuentaAD();
+			existe = existeCuentaAD(cuentasADDTO);
 			if (existe == 0) { // respondio en ws que no esta en el AD
 				String samaccountName = null;
 				try {
@@ -144,7 +145,6 @@ public class CuentasThread implements Processor {
 			}
 			// Actualizar la AD:_CUENTAS_CREADAS y BDC
 			try {
-				
 				actualizarAdCuantasCreadas(cuentasADDTO);
 				actualizarBDC(cuentasADDTO);
 				
@@ -163,20 +163,20 @@ public class CuentasThread implements Processor {
 	@EndpointInject(uri = "cxfrs:bean:rsADconsultaXrut?continuationTimeout=-1")
 	ProducerTemplate consultaRutAD;
 	String templateConsultaXrut = "%s/consultaXrut";
-	private int existeCuentaAD() {
+	private int existeCuentaAD(CuentasADDTO cuentasADDTO) {
 		int existe = 0;
 		ConsultaXrutRequest request = new ConsultaXrutRequest(cuentasADDTO.getEmployeeId());
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateConsultaXrut, getAdServices()));
 		headers.put("CamelHttpMethod", "POST");
 		logger.info(String.format("consultaXrut URL: %s", headers.get(Exchange.DESTINATION_OVERRIDE_URL)));
-		logger.info(String.format("consultaXrut: request: %s", request));
+		logger.info(String.format("consultaXrut: request(por employeeID): %s", request));
 		ConsultaXrutResponse response;
 		try {
 			response = (ConsultaXrutResponse) ObjectFactory.procesaResponseImpl(
 					(ResponseImpl) consultaRutAD.requestBodyAndHeaders(request, headers), ConsultaXrutResponse.class);
 		} catch (Exception e) {
-			logger.error("existeCuentaAD: error en producer consultaRutAD", e);
+			logger.error(String.format("existeCuentaAD: error en producer consultaRutAD %s",cuentasADDTO.getRut()), e);
 			response = new ConsultaXrutResponse(-1, e.getMessage(), null, null, null, null, null, null, null, null,
 					null, null);
 			existe = 2;
@@ -185,6 +185,7 @@ public class CuentasThread implements Processor {
 			existe = 1; 
 			cuentasADDTO.setLoginName(response.getUsuario());
 		}
+		logger.info(String.format("existeCuentaAD: devuelve existe=%d request: %s", existe, request));
 		return existe;
 	}
 
@@ -213,7 +214,7 @@ public class CuentasThread implements Processor {
 			headers.put("password", cuentasADDTO.getPassword());
 			headers.put("rut", cuentasADDTO.getRut());
 			updateBdcUsuarioMillenium.requestBodyAndHeaders(null, headers);
-			contadoresCuentasAD.incCountAgregadosBD();
+			
 			logger.info(String.format("actualizarBDC: sammacount=%s employeeid=%s password=%s rut=%s",
 					cuentasADDTO.getSamaccountName(),cuentasADDTO.getEmployeeId(),
 					cuentasADDTO.getPassword(), cuentasADDTO.getRut()));
@@ -222,6 +223,8 @@ public class CuentasThread implements Processor {
 	}
 
 	private void actualizarAdCuantasCreadas(CuentasADDTO cuentasADDTO) throws Exception {
+		logger.info(String.format("actualizarAdCuantasCreadas: sammacount=%s rut=%s",
+				cuentasADDTO.getSamaccountName(), cuentasADDTO.getRut()));
 		Boolean esta = Boolean.FALSE;
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> datos = (List<Map<String, Object>>) estaEnAdCuentasCreadas.requestBodyAndHeader(null, "rut", cuentasADDTO.getRut());
@@ -229,7 +232,7 @@ public class CuentasThread implements Processor {
 			esta = Boolean.valueOf((String)(datos.get(0).get("ESTA_EN_BDC")));
 			logger.info(String.format("actualizarAdCuantasCreadas: estaEnAdCuentasCreadas=%b", esta));
 		}
-		if (esta) {
+		if (!esta) {
 			Map<String, Object> headers = new HashMap<String, Object>();
 			headers.put("sammacount", cuentasADDTO.getSamaccountName());
 			//headers.put("sammacount", cuentasADDTO.getSamaccountName());
