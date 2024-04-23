@@ -28,11 +28,16 @@ public class GeneraDatos {
 	private String kcoFuncion;
 	@PropertyInject(value = "crear-cuentas-ad_posgrado.max_lista", defaultValue = "2000")
 	private String maxListaStr;
+	@PropertyInject(value = "crear-cuentas-ad_posgrado.periodo_inicial", defaultValue = "20240301")
+	private String periodoInicial;
 	
 	@EndpointInject(uri = "sql:classpath:sql/paraCrearCuentasAD.sql?dataSource=#bannerDataSource")
 	ProducerTemplate paraCrearCuentasAD;
 	@EndpointInject(uri = "sql:classpath:sql/paraCrearCuentasAD_todos.sql?dataSource=#bannerDataSource")
 	ProducerTemplate paraCrearCuentasADTotal;
+	@EndpointInject(uri = "sql:classpath:sql/paraCrearCuentasAD_bdc.sql?dataSource=#bannerDataSource")
+	ProducerTemplate paraCrearCuentasADBDC;
+	
 	private Logger logger = Logger.getLogger(getClass());
 
 	/**
@@ -85,14 +90,21 @@ public class GeneraDatos {
 		Message message = exchange.getIn();
 		List<CuentasADDTO> lista = new ArrayList<CuentasADDTO>();
 		ProcesoDiarioRequest request = (ProcesoDiarioRequest)message.getHeader("request");
-		if (request.getOperaciones() == null) {		
+		if (request.getOperaciones() == null || request.getOperaciones().length == 0) {		
 			lista = getListaNormal();
 		} else {
+			// si viene un numero, usa el sql paraCrearCuentasAD_todos
 			String valor = request.getOperaciones()[0];
-			if (StringUtils.esNumerico(valor))
+			if (StringUtils.esNumerico(valor)) {
 				setMaxListaStr(valor);
-			lista = getListaTotal();
-			logger.info(String.format("generaListaXrequest: se procesaran %d registros leidos desde Banner", lista.size()));
+				lista = getListaTotal();
+				logger.info(String.format("generaListaXrequest: se procesaran %d registros leidos desde Banner", lista.size()));
+			} else {
+				if ("BDC".equalsIgnoreCase(valor)) {
+					lista = getListaBdc();
+					logger.info(String.format("generaListaXrequest: se procesaran %d registros leidos desde BDC", lista.size()));
+				}
+			}
 		}
 		message.setHeader("listaCuentas", lista);
 	}
@@ -114,6 +126,23 @@ public class GeneraDatos {
 		List<CuentasADDTO> lista = new ArrayList<CuentasADDTO>();
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> datos = (List<Map<String, Object>>) paraCrearCuentasADTotal.requestBody(null);
+		if (datos != null && datos.size() > 0) {
+			int count = getMaxLista();
+			for (Map<String, Object> dato : datos) {
+				lista.add(new CuentasADDTO(dato));
+				if (--count <= 0)
+					break;
+			}
+		}
+		logger.info(String.format("getListaTotal: elementos en la lista: %d", lista.size()));
+		return lista;
+	}
+	
+	private List<CuentasADDTO> getListaBdc() {
+		List<CuentasADDTO> lista = new ArrayList<CuentasADDTO>();
+		@SuppressWarnings("unchecked")
+		List<Map<String, Object>> datos = (List<Map<String, Object>>) 
+						paraCrearCuentasADBDC.requestBodyAndHeader(null, "periodo", periodoInicial);
 		if (datos != null && datos.size() > 0) {
 			int count = getMaxLista();
 			for (Map<String, Object> dato : datos) {
@@ -176,6 +205,14 @@ public class GeneraDatos {
 
 	public void setMaxListaStr(String maxListaStr) {
 		this.maxListaStr = maxListaStr;
+	}
+
+	public String getPeriodoInicial() {
+		return periodoInicial;
+	}
+
+	public void setPeriodoInicial(String periodoInicial) {
+		this.periodoInicial = periodoInicial;
 	}
 
 }

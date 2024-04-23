@@ -107,6 +107,7 @@
         <property name="proceso" value="{{crear-cuentas-AD.funcion}}"/>
         <property name="kcoFuncion" value="{{crear-cuentas-AD.funcion}}"/>
         <property name="maxListaStr" value="{{crear-cuentas-AD.max_lista}}"/>
+        <property name="periodoInicial" value="{{crear-cuentas-AD.periodo_inicial}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
@@ -192,7 +193,7 @@
                 <when id="_when2">
                     <simple>${header.inicializado}</simple>
                     <bean id="_bean2" method="generaListaXrequest" ref="generaDatos"/>
-                    <!-- activar hasta 12 threads para hacer la pega -->
+                    <!-- activar hasta 2 threads para hacer la pega -->
                     <loop doWhile="true" id="_loop2">
                         <simple>${header.listaCuentas.size} &gt; 0</simple>
                         <choice id="_choice3">
