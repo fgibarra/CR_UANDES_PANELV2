@@ -104,7 +104,11 @@ public class CuentasADDTO implements Serializable {
 		this.middleName = parseaDato((String)datos.get("SPRIDEN_MI"));
 		this.nivel = parseaDato((String)datos.get("NIVEL"));
 		this.estadoAcademico = parseaDato((String)datos.get("ESTADO"));
-		this.rama = RamasAD.ALUMNOS.getRamaAD();
+		if (datos.get("RAMA") != null)
+			this.rama = (String) datos.get("RAMA");
+		else
+			this.rama = RamasAD.ALUMNOS.getRamaAD();
+		
 		this.nombres = String.format("%s %s",  
 				getMiddleName() != null ?
 						String.format("%s %s", getNombre(), getMiddleName()) : String.format("%s", getNombre()),
