@@ -67,6 +67,7 @@ public class CuentasThread implements Processor {
 		Message message = exchange.getIn();
 		CountThreads countThread = (CountThreads) message.getHeader("countThread");
 		int existe = -1;
+		String creadaExistia = null;
 		try {
 			CuentasADDTO cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
 			contadoresCuentasAD = (ContadoresCrearCuentasAD)message.getHeader("contadoresCuentasAD");
@@ -76,18 +77,18 @@ public class CuentasThread implements Processor {
 			
 			existe = existeCuentaAD(cuentasADDTO);
 			if (existe == 0) { // respondio en ws que no esta en el AD
+				creadaExistia = "creada";
 				String samaccountName = null;
 				try {
+					// genera al SAMACCOUNTNAME
 					/*
 					 * Cambiado el 08-03-24 a peticion de Fco Fiogueroa
 					 * 
 					samaccountName = registrosComunes.getSamaccountName(cuentasADDTO, exchange);
 					 */
 					samaccountName = cuentasADDTO.getRut();
-					
 					/*       fin del cambio                                        */
 					
-					logger.info(String.format("en el message cuentasADDTO: %s", (CuentasADDTO) message.getHeader("CuentasADDTO")));
 					if (samaccountName == null) {
 						// no pudo generar uno
 						String msg = String.format("Error: no pudo crear un samaccountName para %s",  cuentasADDTO);
@@ -96,6 +97,9 @@ public class CuentasThread implements Processor {
 						registrosComunes.registraMiResultadoErrores(cuentasADDTO.getRut(), "CreaCuentasAD", msg, null, res.getKey());
 						return;
 					}
+					cuentasADDTO.setLoginName(samaccountName);
+					logger.info(String.format("en el message cuentasADDTO: %s", 
+							(CuentasADDTO) message.getHeader("CuentasADDTO")));
 				} catch (Exception e1) {
 					String msg = String.format("Error al procesar %s",  cuentasADDTO);
 					logger.error(msg, e1);
@@ -111,8 +115,7 @@ public class CuentasThread implements Processor {
 				headers.put("CamelHttpMethod", "POST");
 				
 				ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", null, Usuario.createUsuario4crear(
-								cuentasADDTO.getRut(), 
-//								cuentasADDTO.getSamaccountName(), //Cambiado el 08-03-24 a peticion de Fco Fiogueroa
+								cuentasADDTO.getSamaccountName(),
 								cuentasADDTO.getPassword(),
 								cuentasADDTO.getRama(),
 								cuentasADDTO.getEmployeeId(),
@@ -121,14 +124,22 @@ public class CuentasThread implements Processor {
 				logger.info(String.format("asi quedaria la invocacion para crear la cuenta: %s", request));
 				
 				if (!Boolean.valueOf(getDebug())) {
-					// Si no se definio debug o esta en false
+					// OJO!!!!  Si debug esta en true no se crean cuentas en el AD
 					@SuppressWarnings("unused")
 					ServiciosLDAPResponse response = null;
 					try {
 						response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
 								(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
 								ServiciosLDAPResponse.class);
-						contadoresCuentasAD.incCountAgregadosAD();
+						if (response.getCodigo() == 0) { 
+							contadoresCuentasAD.incCountAgregadosAD();
+							logger.info(String.format("creada cuenta para samaccountName: %s rut: %s",
+									request.getUsuario().getCuenta(), request.getUsuario().getRut()));
+						} else {
+							logger.error(String.format("ERROR: no se creo la cuenta AD %s", response));
+							contadoresCuentasAD.incCountErrores();
+							return;
+						}
 					} catch (Exception e) {
 						String msg = String.format("Error al invocar api para crear usuario AD. request=%s", request);
 						logger.error(msg, e);
@@ -137,15 +148,18 @@ public class CuentasThread implements Processor {
 						return;
 					}
 				}
+				
 			} else if (existe == 2) {
 				// se produjo un error en el WS
 				logger.info(String.format("process: se produjo un error en el WS consultaXRut. countThread.getCounter=%d", 
 						countThread.getCounter()));
 				return;
-			}
+			} else
+				creadaExistia = "existia";
+			
 			// Actualizar la AD:_CUENTAS_CREADAS y BDC
 			try {
-				actualizarAdCuantasCreadas(cuentasADDTO);
+				actualizarAdCuantasCreadas(cuentasADDTO, creadaExistia);
 				actualizarBDC(cuentasADDTO);
 				
 			} catch (Exception e) {
@@ -222,7 +236,7 @@ public class CuentasThread implements Processor {
 		}
 	}
 
-	private void actualizarAdCuantasCreadas(CuentasADDTO cuentasADDTO) throws Exception {
+	private void actualizarAdCuantasCreadas(CuentasADDTO cuentasADDTO, String creadaExistia) throws Exception {
 		logger.info(String.format("actualizarAdCuantasCreadas: sammacount=%s rut=%s",
 				cuentasADDTO.getSamaccountName(), cuentasADDTO.getRut()));
 		Boolean esta = Boolean.FALSE;
@@ -236,7 +250,8 @@ public class CuentasThread implements Processor {
 			Map<String, Object> headers = new HashMap<String, Object>();
 			headers.put("sammacount", cuentasADDTO.getSamaccountName());
 			//headers.put("sammacount", cuentasADDTO.getSamaccountName());
-			headers.put("ou", String.format("cn=%s,ou=%s", cuentasADDTO.getNombres(),cuentasADDTO.getEmployeeId()));
+			headers.put("ou", String.format("cn=%s,ou=%s %s", 
+					cuentasADDTO.getNombres(),cuentasADDTO.getEmployeeId(),creadaExistia));
 			headers.put("rut", cuentasADDTO.getRut());
 			insertAdCuentasCreadas.requestBodyAndHeaders(null, headers);
 			contadoresCuentasAD.incCountAgregadosBD();
