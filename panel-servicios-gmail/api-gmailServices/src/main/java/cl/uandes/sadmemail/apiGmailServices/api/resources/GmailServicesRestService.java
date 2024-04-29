@@ -279,6 +279,8 @@ public class GmailServicesRestService {
 				in_msg.getClass().getSimpleName(), in_msg));
 		Map<String,Object> headers = new HashMap<String,Object>();
 		headers.put("Operacion", "groups-retrieveAll");
+		if ("null".equalsIgnoreCase(in_msg) || "first".equalsIgnoreCase(in_msg))
+			in_msg = null;
 		headers.put("Body", in_msg);
 		return (GroupsResponse) producer.requestBodyAndHeaders(in_msg, headers);
 	}
