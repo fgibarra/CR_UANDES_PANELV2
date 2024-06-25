@@ -10,16 +10,6 @@
   
   <name>serv-crear-cuenta</name>
 	<dependencies>
-		<dependency>
-		    <groupId>uandes.panel-v2.comunes</groupId>
-    		<artifactId>comunes-gmail</artifactId>
-    		<version>0.0.1</version>
-		</dependency>
-		<dependency>
-		    <groupId>uandes.panel-v2.comunes</groupId>
-    		<artifactId>comunes-sademail</artifactId>
-    		<version>0.0.1</version>
-		</dependency>
 		<!-- BIBLIOTECAS DE LA APLICACION BDC -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>

@@ -9,18 +9,6 @@
   <packaging>bundle</packaging>
   <name>serv-actualiza-id-gmail</name>
 
-	<dependencies>
-		<dependency>
-		    <groupId>uandes.panel-v2.comunes</groupId>
-    		<artifactId>comunes-gmail</artifactId>
-    		<version>0.0.1</version>
-		</dependency>
-		<dependency>
-		    <groupId>uandes.panel-v2.comunes</groupId>
-    		<artifactId>comunes-sademail</artifactId>
-    		<version>0.0.1</version>
-		</dependency>
-	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>

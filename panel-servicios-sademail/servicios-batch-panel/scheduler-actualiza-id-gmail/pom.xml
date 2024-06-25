@@ -11,16 +11,6 @@
 
 	<dependencies>
 		<dependency>
-		    <groupId>uandes.panel-v2.comunes</groupId>
-    		<artifactId>comunes-gmail</artifactId>
-    		<version>0.0.1</version>
-		</dependency>
-		<dependency>
-		    <groupId>uandes.panel-v2.comunes</groupId>
-    		<artifactId>comunes-sademail</artifactId>
-    		<version>0.0.1</version>
-		</dependency>
-		<dependency>
 		    <groupId>org.apache.camel</groupId>
 		    <artifactId>camel-quartz2</artifactId>
 		    <version>2.23.2.fuse-7_11_0-00037-redhat-00001</version>

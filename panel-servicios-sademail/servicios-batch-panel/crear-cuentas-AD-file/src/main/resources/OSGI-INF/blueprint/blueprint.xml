@@ -202,14 +202,14 @@
                                 <delay id="_delay1">
                                     <constant>1000</constant>
                                 </delay>
-                                <log id="_log2" message="(L204)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                                <log id="_log2" message="(L205)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
                             </when>
                             <otherwise id="_otherwise2">
                                 <bean id="_bean3"
                                     method="getCuentaFromListaCuentas" ref="generaDatos"/>
-                                <log id="_log3" message="(L209) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter} keyResultado=${header.key}"/>
+                                <log id="_log3" message="(L210) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter} keyResultado=${header.key}"/>
                                 <to id="_to4" uri="seda:procesaCuenta"/>
-                                <log id="_log7" message="(L211) Activado proceso cuenta: ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
+                                <log id="_log7" message="(L212) Activado proceso cuenta: ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
                             </otherwise>
                         </choice>
                     </loop>
@@ -226,7 +226,14 @@
                     <constant>1000</constant>
                 </delay>
             </loop>
-            <log id="_log9" message="(L228) finalizar el proceso"/>
+            <log id="_log9" message="(L229) finalizar el proceso"/>
+            <choice id="_choice4">
+                <when id="_when4">
+                    <simple>${header.reprocesaCuentas} == 'reprocese'</simple>
+                    <log id="_log10" message="Eliminar 500 cuantas desde ad_cuentas_creadas antes del 202404252300"/>
+                    <to id="_to5" uri="sql:classpath:sql/eliminaCuentasReprocesar.sql?dataSource=#bannerDataSource"/>
+                </when>
+            </choice>
             <process id="_finalizaProceso" ref="finalizaProceso"/>
         </route>
         <!-- ================================================================================================= -->
@@ -242,7 +249,7 @@
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <bean id="_bean4" method="getCuentaFromListaCuentas" ref="generaDatos"/>
                 <process id="_cuentasFileProcess" ref="cuentasThread"/>
-                <log id="_log5" message="(L244)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
+                <log id="_log5" message="(L252)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
             </loop>
             <process id="_cierraMiResultados" ref="finalizaProceso"/>
         </route>
@@ -250,7 +257,7 @@
         <route id="_route1">
             <from id="_from5" uri="seda:procesaCuenta?concurrentConsumers=2"/>
             <process id="_cuentasThreadProcess" ref="cuentasThread"/>
-            <log id="_log6" message="(L252)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
+            <log id="_log6" message="(L260)Termino el proceso de ${header.CuentasADDTO} countThread=${header.countThread.getCounter}"/>
         </route>
     </camelContext>
 </blueprint>

@@ -6,6 +6,7 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="tool-crea-cuentas-testAD"/>
 			<item value="serv-para-gui"/>
 			<item value="crear-cuentas-AD-file"/>
 			<item value="servicios-tools-panel"/>
@@ -38,13 +39,13 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
-			<item value="org.serv.para.gui"/>
+			<item value="org.tool.crea.cuentas.testAD"/>
 		</list>
 		<list key="groupId">
-			<item value="uandes.panel-v2.servicios.online"/>
+			<item value="uandes.panel-v2.servicios.tools"/>
 		</list>
 		<list key="artifactId">
-			<item value="serv-para-gui"/>
+			<item value="tool-crea-cuentas-testAD"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -60,11 +61,13 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="uandes.panel-v2.servicios.tools"/>
 			<item value="uandes.panel-v2.servicios.online"/>
 			<item value="uandes.panel-v2.servicios.batch"/>
 			<item value="uandes.panel-v2.gui"/>
 		</list>
 		<list key="name">
+			<item value="CreaCuentasTestAD"/>
 			<item value="serv-para-gui"/>
 			<item value="crear-cuentas-AD-file"/>
 			<item value="Esqueleto JSF con Primefaces"/>
@@ -73,6 +76,8 @@
 			<item value="Panel - v2 WebApp"/>
 		</list>
 		<list key="artifactId">
+			<item value="tool-crea-cuentas-testAD"/>
+			<item value="servicios-tools-panel"/>
 			<item value="serv-para-gui"/>
 			<item value="servicios-online-panel"/>
 			<item value="crear-cuentas-AD-file"/>
@@ -98,6 +103,7 @@
 	</section>
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="/home/sademail/Downloads/camel-examples-main/main-xml"/>
 			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-gui/panel-webapp"/>
 			<item value="/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-servicios-sademail/servicios-batch-panel"/>
 		</list>

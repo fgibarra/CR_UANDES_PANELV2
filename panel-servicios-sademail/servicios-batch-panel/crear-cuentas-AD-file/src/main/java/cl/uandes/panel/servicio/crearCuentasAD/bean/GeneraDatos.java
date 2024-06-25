@@ -99,6 +99,7 @@ public class GeneraDatos {
 				setMaxListaStr(valor);
 				lista = getListaTotal();
 				logger.info(String.format("generaListaXrequest: se procesaran %d registros leidos desde Banner", lista.size()));
+				message.setHeader("reprocesaCuentas", "reprocese");
 			} else {
 				if ("BDC".equalsIgnoreCase(valor)) {
 					lista = getListaBdc();

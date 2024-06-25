@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.AeOwnersMembersRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.aeOwnersMembers.RequestOwners"/>
-    <fullyQualifiedTypeName name="com.sun.xml.bind.v2.runtime.reflect.Accessor.GetterSetterReflection"/>
-    <fullyQualifiedTypeName name="javax.sql.DataSource"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="oracle.jdbc.driver.OracleConnection"/>
     <fullyQualifiedTypeName name="oracle.jdbc.OracleTypeMetaData.Array"/>
@@ -23,7 +18,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
     <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
     <fullyQualifiedTypeName name="org.apache.camel.Header"/>
-    <fullyQualifiedTypeName name="java.io.File"/>
     <fullyQualifiedTypeName name="java.io.FileInputStream"/>
     <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
@@ -44,7 +38,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.LastResponse"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response.Status"/>
     <fullyQualifiedTypeName name="org.apache.camel.Message"/>
-    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
     <fullyQualifiedTypeName name="java.math.BigDecimal"/>
@@ -60,4 +53,11 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
+    <fullyQualifiedTypeName name="org.apache.camel.CamelContext"/>
+    <fullyQualifiedTypeName name="org.apache.camel.impl.DefaultCamelContext"/>
+    <fullyQualifiedTypeName name="java.util.Properties"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.PropertyConfigurator"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
 </qualifiedTypeNameHistroy>

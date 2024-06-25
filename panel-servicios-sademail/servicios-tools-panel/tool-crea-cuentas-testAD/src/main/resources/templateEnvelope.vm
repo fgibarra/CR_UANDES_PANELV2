@@ -1,0 +1,21 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:ser="http://schemas.datacontract.org/2004/07/ServicioLDAP.core">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:CrearUsuario>
+         <tem:usuario>
+            <ser:Apellidos>${headers.Apellidos}</ser:Apellidos>
+            <ser:Comuna>${headers.Comuna}</ser:Comuna>
+            <ser:Correo>${headers.Correo}</ser:Correo>
+            <ser:Cuenta>${headers.Cuenta}</ser:Cuenta>
+            <ser:Direccion>${headers.Direccion}</ser:Direccion>
+            <ser:EstadoAcademico>${headers.EstadoAcademico}</ser:EstadoAcademico>
+            <ser:Nivel>${headers.Nivel}</ser:Nivel>
+            <ser:Nombre>${headers.Nombre}</ser:Nombre>
+            <ser:Password>${headers.Password}</ser:Password>
+            <ser:Pidm>${headers.Pidm}</ser:Pidm>
+            <ser:Rama>${headers.Rama}</ser:Rama>
+            <ser:Rut>${headers.Rut}</ser:Rut>
+         </tem:usuario>
+      </tem:CrearUsuario>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,157 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>uandes.panel-v2.servicios.tools</groupId>
+		<artifactId>servicios-tools-panel</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>tool-crea-cuentas-testAD</artifactId>
+	<name>CreaCuentasTestAD</name>
+
+	<properties>
+		<camel.version.main>4.7.0-SNAPSHOT</camel.version.main>
+		<!--  camel.version.main>4.0.0</camel.version.main-->
+		<!-- camel.version.main>3.22.2</camel.version.main -->
+		<camel.version.xml-io-dsl>3.22.2</camel.version.xml-io-dsl>
+		<camel.version.camel-core-model>3.16.0</camel.version.camel-core-model>
+		<log4j2-version>2.21.1</log4j2-version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.25.1</version>
+		</dependency>
+        <!-- use camel-main to bootstrap camel -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-main</artifactId>
+            <version>${camel.version.main}</version>
+        </dependency>
+        <!-- use fast and light-weight xml parser -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-xml-io-dsl</artifactId>
+            <version>${camel.version.main}</version>
+        </dependency>
+
+        <!-- and we use these components -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-bean</artifactId>
+            <version>${camel.version.main}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-log</artifactId>
+            <version>${camel.version.main}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-quartz2</artifactId>
+            <version>2.25.4</version>
+        </dependency>
+        <!-- para las rutas CAMEL -->
+		<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-core-model -->
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-core-model</artifactId>
+		    <version>${camel.version.main}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core-model-ribbon-service-call</artifactId>
+			<version>3.16.0</version>
+			<scope>system</scope>
+			<systemPath>${user.home}/.m2/repository/org/apache/camel/camel-core-model-ribbon-service-call/3.16.0/camel-core-model-ribbon-service-call-3.16.0.jar</systemPath>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-api</artifactId>
+		    <version>${camel.version.main}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-core-processor</artifactId>
+		    <version>${camel.version.main}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-support</artifactId>
+		    <version>${camel.version.main}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-util</artifactId>
+		    <version>${camel.version.main}</version>
+		</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.camel.springboot/camel-core-starter 
+<dependency>
+    <groupId>org.apache.camel.springboot</groupId>
+    <artifactId>camel-core-starter</artifactId>
+    <version>${camel.version.main}</version>
+</dependency> -->
+<dependency>
+    <groupId>org.apache.camel.springboot</groupId>
+    <artifactId>camel-spring-boot-starter</artifactId>
+    <version>4.6.0</version> <!-- use the same version as your Camel core version -->
+</dependency>
+	<!-- 
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-velocity</artifactId>
+		    <version>${camel.version.main}</version>
+		</dependency>
+		  -->
+        <!-- logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2-version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j2-version}</version>
+            <scope>runtime</scope>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>cl.uandes.panel.toolCreaCuentas.main.MainClass</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

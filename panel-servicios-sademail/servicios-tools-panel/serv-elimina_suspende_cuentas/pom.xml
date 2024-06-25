@@ -16,19 +16,6 @@
     		<version>0.0.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>uandes.panel-v2.comunes</groupId>
-    		<artifactId>comunes-sademail</artifactId>
-    		<version>0.0.1</version>
-		</dependency>
-		<!-- BIBLIOTECAS DE LA APLICACION BDC -->
-		<dependency>
-			<groupId>uandes</groupId>
-			<artifactId>json-datatransfer</artifactId>
-			<version>0.0.2</version>
-			<scope>system</scope>
-			<systemPath>${user.home}/CodereadyProjects/UANDES/INTEGRACION_LEGANTO/comunes-leganto/json-datatransfer/target/json-datatransfer-0.0.2.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-velocity</artifactId>
 			<version>${camel.version}</version>

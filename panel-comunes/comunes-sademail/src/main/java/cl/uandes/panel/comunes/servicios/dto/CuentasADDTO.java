@@ -40,6 +40,9 @@ public class CuentasADDTO implements Serializable {
 	private String estadoAcademico;
 	@JsonProperty("RAMA")
 	private String rama;
+	@JsonProperty("PIDM")
+	private String pidm;
+	
 	@JsonProperty("LOGIN_NAME")
 	private String loginName;
 	@JsonProperty("LOGIN_NAME_0")
@@ -330,6 +333,14 @@ public class CuentasADDTO implements Serializable {
 
 	public void setEstadoAcademico(String estadoAcademico) {
 		this.estadoAcademico = estadoAcademico;
+	}
+
+	public String getPidm() {
+		return pidm;
+	}
+
+	public void setPidm(String pidm) {
+		this.pidm = pidm;
 	}
 
 }

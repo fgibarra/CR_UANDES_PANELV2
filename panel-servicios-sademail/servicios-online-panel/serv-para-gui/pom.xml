@@ -8,13 +8,6 @@
   <artifactId>serv-para-gui</artifactId>
   <packaging>bundle</packaging>
   <name>serv-para-gui</name>
-	<dependencies>
-		<dependency>
-		    <groupId>uandes.panel-v2.comunes</groupId>
-    		<artifactId>comunes-sademail</artifactId>
-    		<version>0.0.1</version>
-		</dependency>
-	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
@@ -43,10 +36,10 @@
 							*
 						</DynamicImport-Package>
 						<_removeheaders>Import-Service,Export-Service</_removeheaders>
-						<Bundle-Description>ServiceCrearCuenta</Bundle-Description>
-						<Bundle-Name>Service crear cuenta v1.0</Bundle-Name>
-						<Bundle-SymbolicName>serv-crear-cuentas-panel-v1</Bundle-SymbolicName>
-						<Bundle-Name>Panel [serv-crear-cuentas-panel-v1]</Bundle-Name>
+						<Bundle-Description>ServiceParaGui</Bundle-Description>
+						<Bundle-Name>Service para gui v1.0</Bundle-Name>
+						<Bundle-SymbolicName>serv-para-gui-panel-v1</Bundle-SymbolicName>
+						<Bundle-Name>Panel [serv-para-gui-panel-v1]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>

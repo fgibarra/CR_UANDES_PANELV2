@@ -10,4 +10,25 @@
   <packaging>pom</packaging>
   <name>tools</name>
   <description>Herramientas para corregir problemas</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>uandes.panel-v2.comunes</groupId>
+  		<artifactId>comunes-sademail</artifactId>
+  		<version>1.0.2</version>
+  		<scope>system</scope>
+  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/target/comunes-sademail-1.0.2.jar</systemPath>
+  	</dependency>
+		<!-- BIBLIOTECAS DE LA APLICACION BDC -->
+		<dependency>
+			<groupId>uandes</groupId>
+			<artifactId>json-datatransfer</artifactId>
+			<version>0.0.2</version>
+			<scope>system</scope>
+			<systemPath>${user.home}/CodereadyProjects/UANDES/INTEGRACION_LEGANTO/comunes-leganto/json-datatransfer/target/json-datatransfer-0.0.2.jar</systemPath>
+		</dependency>
+  </dependencies>
+  <modules>
+  	<module>serv-elimina_suspende_cuentas</module>
+  	<module>tool-crea-cuentas-testAD</module>
+  </modules>
 </project>
