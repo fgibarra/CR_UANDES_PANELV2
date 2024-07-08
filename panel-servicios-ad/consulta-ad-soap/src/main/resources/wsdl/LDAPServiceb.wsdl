@@ -2,6 +2,7 @@
 <wsdl:types>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
 <xs:import namespace="http://schemas.datacontract.org/2004/07/ServicioLDAP.core"/>
+<xs:import namespace="http://schemas.datacontract.org/2004/07/LDAPManager"/>
 <xs:element name="CrearUsuario">
 <xs:complexType>
 <xs:sequence>
@@ -19,14 +20,11 @@
 <xs:element name="ActualizarUsuario">
 <xs:complexType>
 <xs:sequence>
-<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Cuenta" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="Nombre" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="Apellido" nillable="true" type="xs:string"/>
-<xs:element minOccurs="0" name="Cargo" nillable="true" type="xs:string"/>
-<xs:element minOccurs="0" name="Compania" nillable="true" type="xs:string"/>
-<xs:element minOccurs="0" name="Departamento" nillable="true" type="xs:string"/>
-<xs:element minOccurs="0" name="Jefatura" nillable="true" type="xs:string"/>
-<xs:element minOccurs="0" name="Telefono" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Comuna" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Direccion" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="Rut" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="Correo" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="Pidm" nillable="true" type="xs:string"/>
@@ -45,7 +43,7 @@
 <xs:element name="ValidarUsuario">
 <xs:complexType>
 <xs:sequence>
-<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Cuenta" nillable="true" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 </xs:element>
@@ -56,10 +54,24 @@
 </xs:sequence>
 </xs:complexType>
 </xs:element>
+<xs:element name="ConsultarUsuario">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="Cuenta" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ConsultarUsuarioResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/LDAPManager" minOccurs="0" name="ConsultarUsuarioResult" nillable="true" type="q2:Usuario"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
 <xs:element name="ResetearPassword">
 <xs:complexType>
 <xs:sequence>
-<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Cuenta" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="NuevaPassword" nillable="true" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
@@ -74,7 +86,7 @@
 <xs:element name="ActivarDesactivarUsuario">
 <xs:complexType>
 <xs:sequence>
-<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Cuenta" nillable="true" type="xs:string"/>
 <xs:element minOccurs="0" name="activar" type="xs:boolean"/>
 </xs:sequence>
 </xs:complexType>
@@ -89,7 +101,7 @@
 <xs:element name="DesbloquearUsuario">
 <xs:complexType>
 <xs:sequence>
-<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Cuenta" nillable="true" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 </xs:element>
@@ -97,6 +109,20 @@
 <xs:complexType>
 <xs:sequence>
 <xs:element minOccurs="0" name="DesbloquearUsuarioResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="EliminarUsuario">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="Cuenta" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="EliminarUsuarioResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="EliminarUsuarioResult" nillable="true" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 </xs:element>
@@ -161,6 +187,33 @@
 </xs:complexType>
 <xs:element name="Usuario" nillable="true" type="tns:Usuario"/>
 </xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/LDAPManager" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/LDAPManager">
+<xs:complexType name="Usuario">
+<xs:sequence>
+<xs:element minOccurs="0" name="Activo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Apellido" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Cargo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Compañia" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Comuna" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Correo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Departamento" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Direccion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DistinguishedName" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="EstadoAcademico" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Grupo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Manager" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Nivel" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Nombre" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="NombreUsuario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Pidm" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Rama" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Rut" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Telefono" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="UserPrincipalName" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="Usuario" nillable="true" type="tns:Usuario"/>
+</xs:schema>
 </wsdl:types>
 <wsdl:message name="ILDAPService_CrearUsuario_InputMessage">
 <wsdl:part name="parameters" element="tns:CrearUsuario"/>
@@ -180,6 +233,12 @@
 <wsdl:message name="ILDAPService_ValidarUsuario_OutputMessage">
 <wsdl:part name="parameters" element="tns:ValidarUsuarioResponse"/>
 </wsdl:message>
+<wsdl:message name="ILDAPService_ConsultarUsuario_InputMessage">
+<wsdl:part name="parameters" element="tns:ConsultarUsuario"/>
+</wsdl:message>
+<wsdl:message name="ILDAPService_ConsultarUsuario_OutputMessage">
+<wsdl:part name="parameters" element="tns:ConsultarUsuarioResponse"/>
+</wsdl:message>
 <wsdl:message name="ILDAPService_ResetearPassword_InputMessage">
 <wsdl:part name="parameters" element="tns:ResetearPassword"/>
 </wsdl:message>
@@ -198,6 +257,12 @@
 <wsdl:message name="ILDAPService_DesbloquearUsuario_OutputMessage">
 <wsdl:part name="parameters" element="tns:DesbloquearUsuarioResponse"/>
 </wsdl:message>
+<wsdl:message name="ILDAPService_EliminarUsuario_InputMessage">
+<wsdl:part name="parameters" element="tns:EliminarUsuario"/>
+</wsdl:message>
+<wsdl:message name="ILDAPService_EliminarUsuario_OutputMessage">
+<wsdl:part name="parameters" element="tns:EliminarUsuarioResponse"/>
+</wsdl:message>
 <wsdl:portType name="ILDAPService">
 <wsdl:operation name="CrearUsuario">
 <wsdl:input wsaw:Action="http://tempuri.org/ILDAPService/CrearUsuario" message="tns:ILDAPService_CrearUsuario_InputMessage"/>
@@ -211,6 +276,10 @@
 <wsdl:input wsaw:Action="http://tempuri.org/ILDAPService/ValidarUsuario" message="tns:ILDAPService_ValidarUsuario_InputMessage"/>
 <wsdl:output wsaw:Action="http://tempuri.org/ILDAPService/ValidarUsuarioResponse" message="tns:ILDAPService_ValidarUsuario_OutputMessage"/>
 </wsdl:operation>
+<wsdl:operation name="ConsultarUsuario">
+<wsdl:input wsaw:Action="http://tempuri.org/ILDAPService/ConsultarUsuario" message="tns:ILDAPService_ConsultarUsuario_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/ILDAPService/ConsultarUsuarioResponse" message="tns:ILDAPService_ConsultarUsuario_OutputMessage"/>
+</wsdl:operation>
 <wsdl:operation name="ResetearPassword">
 <wsdl:input wsaw:Action="http://tempuri.org/ILDAPService/ResetearPassword" message="tns:ILDAPService_ResetearPassword_InputMessage"/>
 <wsdl:output wsaw:Action="http://tempuri.org/ILDAPService/ResetearPasswordResponse" message="tns:ILDAPService_ResetearPassword_OutputMessage"/>
@@ -222,6 +291,10 @@
 <wsdl:operation name="DesbloquearUsuario">
 <wsdl:input wsaw:Action="http://tempuri.org/ILDAPService/DesbloquearUsuario" message="tns:ILDAPService_DesbloquearUsuario_InputMessage"/>
 <wsdl:output wsaw:Action="http://tempuri.org/ILDAPService/DesbloquearUsuarioResponse" message="tns:ILDAPService_DesbloquearUsuario_OutputMessage"/>
+</wsdl:operation>
+<wsdl:operation name="EliminarUsuario">
+<wsdl:input wsaw:Action="http://tempuri.org/ILDAPService/EliminarUsuario" message="tns:ILDAPService_EliminarUsuario_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/ILDAPService/EliminarUsuarioResponse" message="tns:ILDAPService_EliminarUsuario_OutputMessage"/>
 </wsdl:operation>
 </wsdl:portType>
 <wsdl:binding name="BasicHttpBinding_ILDAPService" type="tns:ILDAPService">
@@ -246,6 +319,15 @@
 </wsdl:operation>
 <wsdl:operation name="ValidarUsuario">
 <soap:operation soapAction="http://tempuri.org/ILDAPService/ValidarUsuario" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="ConsultarUsuario">
+<soap:operation soapAction="http://tempuri.org/ILDAPService/ConsultarUsuario" style="document"/>
 <wsdl:input>
 <soap:body use="literal"/>
 </wsdl:input>
@@ -280,10 +362,19 @@
 <soap:body use="literal"/>
 </wsdl:output>
 </wsdl:operation>
+<wsdl:operation name="EliminarUsuario">
+<soap:operation soapAction="http://tempuri.org/ILDAPService/EliminarUsuario" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
 </wsdl:binding>
 <wsdl:service name="LDAPService">
 <wsdl:port name="BasicHttpBinding_ILDAPService" binding="tns:BasicHttpBinding_ILDAPService">
-<soap:address location="http://activedirectoryserver/LDAPService.svc"/>
+<soap:address location="http://192.168.4.41/LDAPServicev3/LDAPService.svc"/>
 </wsdl:port>
 </wsdl:service>
 </wsdl:definitions>

@@ -6,8 +6,8 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>crear-cuentas-AD-file</artifactId>
-	<version>1.0.6</version>
-	<packaging>bundle</packaging>
+  <version>1.3.0</version>
+  <packaging>bundle</packaging>
   <name>crear-cuentas-AD-file</name>
   <dependencies>
   	<dependency>
@@ -22,7 +22,7 @@
   		<artifactId>comunes-ad-soap</artifactId>
   		<version>0.0.1</version>
   		<scope>system</scope>
-  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-ad/target/comunes-ad-soap-0.0.1.jar</systemPath>
+  		<systemPath>${user.home}/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-ad/target/comunes-ad-soap-1.3.0.jar</systemPath>
   	</dependency>
   </dependencies>
 	<build>
@@ -59,9 +59,9 @@
 							*
 						</DynamicImport-Package>
 						<Bundle-Description>Crear cuentas AD File</Bundle-Description>
-						<Bundle-Name>Crear cuentas AD File v1.0</Bundle-Name>
-						<Bundle-SymbolicName>crear-cuentas-AD-file-v1</Bundle-SymbolicName>
-						<Bundle-Name>Panel [crear-cuentas-AD-file-v1]</Bundle-Name>
+						<Bundle-Name>Crear cuentas AD File v1.3</Bundle-Name>
+						<Bundle-SymbolicName>crear-cuentas-AD-file-v3</Bundle-SymbolicName>
+						<Bundle-Name>Panel [crear-cuentas-AD-file-v3]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>

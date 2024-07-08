@@ -6,7 +6,7 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>comunes-ad-soap</artifactId>
-    <version>1.1.0</version>
+  <version>1.3.0</version>
   <packaging>bundle</packaging>
   <name>JSON usados por APIREST para invocar web services SOAP al Active Directory</name>
   <description>JSON y DTOs comunes para los servicios SOAP al Active Directory</description>
@@ -33,10 +33,10 @@
 							com.fasterxml.jackson.databind,
 							com.fasterxml.jackson.annotation
 						</Import-Package>
-						<Bundle-Description>Comunes AD v2.0</Bundle-Description>
-						<Bundle-Name>Comunes AD v2.0</Bundle-Name>
-						<Bundle-SymbolicName>comunes-ad-v2</Bundle-SymbolicName>
-						<Bundle-Name>Panel [comunes-ad-v2]</Bundle-Name>
+						<Bundle-Description>Comunes AD v3.0</Bundle-Description>
+						<Bundle-Name>Comunes AD v3.0</Bundle-Name>
+						<Bundle-SymbolicName>comunes-ad-v3</Bundle-SymbolicName>
+						<Bundle-Name>Panel [comunes-ad-v3]</Bundle-Name>
 					</instructions>
 				</configuration>
 			</plugin>

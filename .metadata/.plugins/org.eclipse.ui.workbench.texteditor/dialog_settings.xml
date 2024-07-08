@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="(L"/>
+		<item key="selection" value="uriADcrearUsuarioAD"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="uriADcrearUsuarioAD"/>
+			<item value="adServices"/>
 			<item value="(L"/>
 			<item value="groups-retrieveAll"/>
 			<item value="crear-cuentas-AD."/>
@@ -21,8 +23,6 @@
 			<item value="LDAPServiceb.endpointAddress"/>
 			<item value="direct:ldapService"/>
 			<item value="seda:ldapService"/>
-			<item value="seda:consultaXrut"/>
-			<item value="preparaMailResultadoCrearCuantasADPostgrado"/>
 		</list>
 		<list key="replacehistory">
 			<item value="direct:ldapService"/>

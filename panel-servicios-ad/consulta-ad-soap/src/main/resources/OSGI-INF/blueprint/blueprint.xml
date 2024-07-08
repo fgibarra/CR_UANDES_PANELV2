@@ -12,7 +12,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0          https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd         https://cxf.apache.org/schemas/wsdl/http-conf.xsd          http://schemas.xmlsoap.org/wsdl/2003-02-11.xsd          http://cxf.apache.org/schemas/configuration/security.xsd          http://cxf.apache.org/schemas/configuration/security.xsd          http://www.springframework.org/schema/beans          http://www.springframework.org/schema/beans/spring-beans.xsd         http://cxf.apache.org/schemas/configuration/cxf-beans.xsd   http://cxf.apache.org/schemas/configuration/parameterized-types.xsd   http://camel.apache.org/schema/blueprint    https://camel.apache.org/schema/blueprint/camel-blueprint-2.20.2.xsd">
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- CXF servers -->
-    <jaxrs:server address="/ESB/panel/serviciosAD" id="rsPanelServices" staticSubresourceResolution="true">
+    <jaxrs:server address="/ESB/panel/serviciosADv3"
+        id="rsPanelServices" staticSubresourceResolution="true">
         <jaxrs:serviceBeans>
             <ref component-id="restService"/>
         </jaxrs:serviceBeans>
@@ -43,7 +44,7 @@
     </cxf:cxfEndpoint>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- Outgoing SOAP client endpoint serviceLDAP-->
-    <cxf:cxfEndpoint address="{{LDAPServiceb.endpointAddress}}"
+    <cxf:cxfEndpoint address="{{LDAPServicev3.endpointAddress}}"
         id="cxfClientLdapServiceEndpoint"
         serviceClass="org.tempuri.ILDAPService" wsdlURL="{{LDAPServiceb.wsdlAddress}}">
         <!-- The interceptors - needed to log the SOAP requests and responses -->
@@ -119,7 +120,7 @@
     <!-- fin BEANS para manejo del cliente SOAP -->
     <!-- ========================================================================================== -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-    <camelContext id="servicios-ad-soap-client_v2" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="servicios-ad-soap-client_v3" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.soap-config.cfg"/>
         <!-- -->
         <camel:dataFormats>

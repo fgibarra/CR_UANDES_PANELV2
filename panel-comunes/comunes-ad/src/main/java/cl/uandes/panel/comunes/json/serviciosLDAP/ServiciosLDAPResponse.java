@@ -25,11 +25,18 @@ public class ServiciosLDAPResponse extends BaseResponse implements Serializable 
 	 */
 	@JsonIgnore
 	private static final long serialVersionUID = -4712865035099940074L;
-
+	@JsonProperty("usuario")
+	private Usuario usuario;
+	
 	public ServiciosLDAPResponse(
 			@JsonProperty("codigo")Integer codigo, 
 			@JsonProperty("mensaje")String mensaje) {
 		super(codigo, mensaje);
+	}
+
+	public ServiciosLDAPResponse(Integer codigo, UsuarioResponse usuario) {
+		super(codigo, usuario == null ? "NOK" : "OK");
+		this.usuario = usuario;
 	}
 
 	@Override

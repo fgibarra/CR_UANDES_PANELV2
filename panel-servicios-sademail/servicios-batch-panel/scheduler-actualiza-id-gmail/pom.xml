@@ -30,7 +30,7 @@
 					<instructions>
 						<Export-Package></Export-Package>
 						<Import-Package>
-							cl.uandes.panel.comunes.json.updateidgmail,
+							cl.uandes.panel.comunes.json.updateidgmail;version="[1.0.0,2)",
 							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",
 							javax.ws.rs;version="[2.1,3)",
 							javax.ws.rs.core;version="[2.1,3)",

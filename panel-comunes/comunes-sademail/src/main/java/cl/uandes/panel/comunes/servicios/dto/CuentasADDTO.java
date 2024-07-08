@@ -144,6 +144,13 @@ public class CuentasADDTO implements Serializable {
         return valor;
 	}
 
+	public boolean esAlumnoPostgrado() {
+		return !"UG".equalsIgnoreCase(getNivel());
+	}
+	
+	public boolean esAlumnoPregrado() {
+		return "UG".equalsIgnoreCase(getNivel());
+	}
 	
 	public synchronized void incSeq() {
 		this.seq++;
@@ -166,8 +173,17 @@ public class CuentasADDTO implements Serializable {
 		}
 	}
 
+	/**
+	 * Si son alumnos de pregrado es login name (nombre de la cuenta)
+	 * Si son alumnos de postgrado (nivel != UG) u otros --> el samaccountname es el rut sin @
+	 * @return
+	 */
 	public String getSamaccountName() {
-		return getLoginName();
+		if (getNivel() == null || "UG".equalsIgnoreCase(getNivel()))
+			return getEmployeeId();
+		if ("UG".equalsIgnoreCase(getNivel()))
+			return getLoginName();
+		return null;
 	}
 	/*
 	public static void main(String args[]) {

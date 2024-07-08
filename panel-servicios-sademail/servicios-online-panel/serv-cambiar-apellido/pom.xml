@@ -28,8 +28,8 @@
 					<instructions>
 						<Export-Package>cl.uandes.panel.apiCambiaApellidoServices.api.resources</Export-Package>
 						<Import-Package>
-							cl.uandes.panel.comunes.json.updateidgmail,
-							cl.uandes.panel.comunes.json.cambiacuenta,
+							cl.uandes.panel.comunes.json.updateidgmail;version="[1.0.0,2)",
+							cl.uandes.panel.comunes.json.cambiacuenta;version="[1.0.0,2)",
 							cl.uandes.mail.json,
 							cl.uandes.utils,
 							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",

@@ -205,15 +205,14 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 			
 			/* modificado a peticion Diego Anguita. 20240319  
 			 * Usa RUT como samaccountname
-			 */
 			ServiciosLDAPRequest request = new ServiciosLDAPRequest(getSevicioADCrearCuenta(), null,
 					Usuario.createUsuario4crear(dto.getRut(), dto.getPassword(), getRamaAD(), dto.getEmployeeId(), dto.getNombres(),
 							dto.getApellidos()));
-			/*
+			 */
 			ServiciosLDAPRequest request = new ServiciosLDAPRequest(getSevicioADCrearCuenta(), null,
 					Usuario.createUsuario4crear(samaccountName, dto.getPassword(), getRamaAD(), dto.getEmployeeId(), dto.getNombres(),
 							dto.getApellidos()));
-							*/
+
 			Map<String, Object> headers = new HashMap<String, Object>();
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateCuentaAD, getAdServices()));
 			headers.put("CamelHttpMethod", "POST");

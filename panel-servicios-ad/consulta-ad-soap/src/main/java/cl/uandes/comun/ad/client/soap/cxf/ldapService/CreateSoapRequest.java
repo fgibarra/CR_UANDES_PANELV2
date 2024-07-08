@@ -27,6 +27,10 @@ public class CreateSoapRequest {
     private String resetearPassword;
     @PropertyInject(value = "operacion.validarUsuario", defaultValue="ValidarUsuario")
     private String validarUsuario;
+    @PropertyInject(value = "operacion.consultarUsuario", defaultValue="ConsultarUsuario")
+    private String consultarUsuario;
+    @PropertyInject(value = "operacion.eliminarUsuario", defaultValue="EliminarUsuario")
+    private String eliminarUsuario;
 
     private Logger logger = Logger.getLogger(getClass());
 	
@@ -48,6 +52,10 @@ public class CreateSoapRequest {
 			exchange.getIn().setBody(factory.createActivarResetearPasswordRequest(request));
 		else if (operacion.equals(validarUsuario))	
 			exchange.getIn().setBody(factory.createValidarUsuarioRequest(request));
+		else if (operacion.equals(consultarUsuario))	
+			exchange.getIn().setBody(factory.createConsultarUsuarioRequest(request));
+		else if (operacion.equals(eliminarUsuario))	
+			exchange.getIn().setBody(factory.createEliminarUsuarioRequest(request));
 		exchange.getIn().setHeader("operacionOrigen", operacion);
 	}
 
@@ -99,28 +107,52 @@ public class CreateSoapRequest {
 		this.validarUsuario = validarUsuario;
 	}
 	
+	public String getConsultarUsuario() {
+		return consultarUsuario;
+	}
+
+	public void setConsultarUsuario(String consultarUsuario) {
+		this.consultarUsuario = consultarUsuario;
+	}
+	
+	public String getEliminarUsuario() {
+		return eliminarUsuario;
+	}
+
+	public void setEliminarUsuario(String eliminarUsuario) {
+		this.eliminarUsuario = eliminarUsuario;
+	}
+	
 	public void createRequestValidarUsuario(Exchange exchange) {
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ValidarUsuario", null, new Usuario("fgibarra",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null));
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ValidarUsuario", null, new Usuario("fgibarra",null,null,null,null,null,null,null,null,null,null,null/*,null,null,null,null,null*/));
 		exchange.getIn().setBody(request);
 	}
 	public void createRequestActivarDesactivarUsuario(Exchange exchange) {
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ActivarDesactivarUsuario", null, new Usuario("fgibarra",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null));
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ActivarDesactivarUsuario", null, new Usuario("fgibarra",null,null,null,null,null,null,null,null,null,null,null/*,null,null,null,null,null*/));
 		exchange.getIn().setBody(request);
 	}
 	public void createRequestActualizarUsuario(Exchange exchange) {
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ActualizarUsuario", null, new Usuario("fgibarra","password","rama","rut","Fernando","Ibarra","correo","telefono","direccion","comuna","cargo","depto","jefatura","compania","pidm","nivel","estadoAcademico"));
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ActualizarUsuario", null, new Usuario("fgibarra","password","rama","rut","Fernando","Ibarra","correo","direccion","comuna","pidm","nivel","estadoAcademico"));
 		exchange.getIn().setBody(request);
 	}
 	public void createRequestCrearUsuario(Exchange exchange) {
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", null, new Usuario("fgibarra","password","rama","rut","Fernando","Ibarra","correo","telefono","direccion","comuna","cargo","depto","jefatura","compania","pidm","nivel","estadoAcademico"));
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", null, new Usuario("fgibarra","password","rama","rut","Fernando","Ibarra","correo","direccion","comuna","pidm","nivel","estadoAcademico"));
 		exchange.getIn().setBody(request);
 	}
 	public void createRequestDesbloquearUsuario(Exchange exchange) {
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest("DesbloquearUsuario", null, new Usuario("fgibarra","password","rama","rut","Fernando","Ibarra","correo","telefono","direccion","comuna","cargo","depto","jefatura","compania","pidm","nivel","estadoAcademico"));
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("DesbloquearUsuario", null, new Usuario("fgibarra","password","rama","rut","Fernando","Ibarra","correo","direccion","comuna","pidm","nivel","estadoAcademico"));
 		exchange.getIn().setBody(request);
 	}
 	public void createRequestResetearPassword(Exchange exchange) {
-		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ResetearPassword", null, new Usuario("fgibarra","password","rama","rut","Fernando","Ibarra","correo","telefono","direccion","comuna","cargo","depto","jefatura","compania","pidm","nivel","estadoAcademico"));
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ResetearPassword", null, new Usuario("fgibarra","password","rama","rut","Fernando","Ibarra","correo","direccion","comuna","pidm","nivel","estadoAcademico"));
+		exchange.getIn().setBody(request);
+	}
+	public void createRequestConsultarUsuario(Exchange exchange) {
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ConsultarUsuario", null, new Usuario("fgibarra",null,null,null,null,null,null,null,null,null,null,null));
+		exchange.getIn().setBody(request);
+	}
+	public void createRequestEliminarUsuario(Exchange exchange) {
+		ServiciosLDAPRequest request = new ServiciosLDAPRequest("EliminarUsuario", null, new Usuario("fgibarra",null,null,null,null,null,null,null,null,null,null,null));
 		exchange.getIn().setBody(request);
 	}
 }

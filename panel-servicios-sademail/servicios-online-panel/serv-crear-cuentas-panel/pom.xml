@@ -27,8 +27,8 @@
 					<instructions>
 						<Export-Package>cl.uandes.panel.apiCrearCuentasServices.api.resources</Export-Package>
 						<Import-Package>
-							cl.uandes.panel.comunes.json.updateidgmail,
-							cl.uandes.panel.comunes.json.creaCuenta,
+							cl.uandes.panel.comunes.json.updateidgmail;version="[1.0.0,2)",
+							cl.uandes.panel.comunes.json.creaCuenta;version="[1.0.0,2)",
 							cl.uandes.sadmemail.comunes.google.api.services,
 							cl.uandes.mail.json,
 							cl.uandes.utils,

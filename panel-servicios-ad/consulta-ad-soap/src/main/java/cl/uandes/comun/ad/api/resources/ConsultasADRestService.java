@@ -58,6 +58,10 @@ public class ConsultasADRestService {
     private String resetearPassword;
     @PropertyInject(value = "operacion.validarUsuario", defaultValue="ValidarUsuario")
     private String validarUsuario;
+    @PropertyInject(value = "operacion.consultarUsuario", defaultValue="ConsultarUsuario")
+    private String consultarUsuario;
+    @PropertyInject(value = "operacion.eliminarUsuario", defaultValue="EliminarUsuario")
+    private String eliminarUsuario;
 
 	Logger logger = Logger.getLogger(getClass());
 	String msgErrorValidacion;
@@ -160,6 +164,30 @@ public class ConsultasADRestService {
 		return (ServiciosLDAPResponse)producer.requestBodyAndHeaders(request, headers);
 	}
 
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	@Path("/consultarUsuario")
+	public ServiciosLDAPResponse consularUsuario(ServiciosLDAPRequest request) {
+		if (!validar(request))
+			return new ServiciosLDAPResponse(-1, msgErrorValidacion);
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("Operacion", request.getServicio());
+		return (ServiciosLDAPResponse)producer.requestBodyAndHeaders(request, headers);
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	@Path("/eliminarUsuario")
+	public ServiciosLDAPResponse eliminarUsuario(ServiciosLDAPRequest request) {
+		if (!validar(request))
+			return new ServiciosLDAPResponse(-1, msgErrorValidacion);
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("Operacion", request.getServicio());
+		return (ServiciosLDAPResponse)producer.requestBodyAndHeaders(request, headers);
+	}
+
 	private boolean validar(Object request) {
 		if (request != null) {
 			if (request instanceof ServiciosLDAPRequest) {
@@ -192,6 +220,10 @@ public class ConsultasADRestService {
 		else if (operacion.equals(resetearPassword))	
 			return validaCuentaPassword(request);
 		else if (operacion.equals(validarUsuario))	
+			return validaCuenta(request);
+		else if (operacion.equals(consultarUsuario))	
+			return validaCuenta(request);
+		else if (operacion.equals(eliminarUsuario))	
 			return validaCuenta(request);
 		
 		return false;
@@ -258,8 +290,25 @@ public class ConsultasADRestService {
 			setMsgErrorValidacion("Debe indicar cuenta del A.D.");
 			return false;
 		}
+		if (request.getUsuario().getNombre() != null)
+			return true;
 		if (request.getUsuario().getApellidos() != null)
 			return true;
+		if (request.getUsuario().getRut() != null)
+			return true;
+		if (request.getUsuario().getCorreo() != null)
+			return true;
+		if (request.getUsuario().getPidm() != null)
+			return true;
+		if (request.getUsuario().getEstadoAcademico() != null)
+			return true;
+		if (request.getUsuario().getNivel() != null)
+			return true;
+		if (request.getUsuario().getComuna() != null)
+			return true;
+		if (request.getUsuario().getDireccion() != null)
+			return true;
+/*
 		if (request.getUsuario().getCargo() != null)
 			return true;
 		if (request.getUsuario().getCompania() != null)
@@ -268,11 +317,10 @@ public class ConsultasADRestService {
 			return true;
 		if (request.getUsuario().getJefatura() != null)
 			return true;
-		if (request.getUsuario().getNombre() != null)
-			return true;
 		if (request.getUsuario().getTelefono() != null)
 			return true;
 
+ */
 		setMsgErrorValidacion("Al menos debe indicar un atributo distinto del nombre de la cuenta a modificar");
 		return false;
 	}

@@ -30,12 +30,13 @@ public class CuentasThread implements Processor {
 	private RegistrosComunes registrosComunes;
 	@PropertyInject(value = "crear-cuentas-AD.debug", defaultValue = "false")
 	private String debug;
-	@PropertyInject(value = "uri.serviciosAD", defaultValue = "http://localhost:8181/cxf/ESB/panel/serviciosAD")
+	@PropertyInject(value = "uri.serviciosAD", defaultValue = "http://localhost:8181/cxf/ESB/panel/serviciosADv3")
 	private String adServices;
+	@PropertyInject(value = "uri.crearUsuarioAD", defaultValue = "http://localhost:8181/cxf/ESB/panel/serviciosADv3/crearUsuario")
+	private String uriADcrearUsuarioAD;
 
 	@EndpointInject(uri = "cxfrs:bean:rsADcrearUsuario") // crear cuenta AD
 	ProducerTemplate crearUsuarioAD;
-	private final String uriADcrearUsuarioAD = "http://localhost:8181/cxf/ESB/panel/serviciosAD/crearUsuario";
 	// SQLs
 	@EndpointInject(uri = "sql:classpath:sql/estaEnBdc.sql?dataSource=#bannerDataSource")
 	ProducerTemplate estaEnBdc;
@@ -83,10 +84,12 @@ public class CuentasThread implements Processor {
 					// genera al SAMACCOUNTNAME
 					/*
 					 * Cambiado el 08-03-24 a peticion de Fco Fiogueroa
-					 * 
-					samaccountName = registrosComunes.getSamaccountName(cuentasADDTO, exchange);
+					 * Cambio por Diego Anguita 07-24
+					 * - Alumnos de postgrado RUT sin @
+					 * - Alumnos de pre grado nombre de cuenta mail
 					 */
-					samaccountName = cuentasADDTO.getRut();
+					if (cuentasADDTO.esAlumnoPostgrado())
+							samaccountName = cuentasADDTO.getSamaccountName();
 					/*       fin del cambio                                        */
 					
 					if (samaccountName == null) {
@@ -288,6 +291,14 @@ public class CuentasThread implements Processor {
 
 	public void setAdServices(String adServices) {
 		this.adServices = adServices;
+	}
+
+	public String getUriADcrearUsuarioAD() {
+		return uriADcrearUsuarioAD;
+	}
+
+	public void setUriADcrearUsuarioAD(String uriADcrearUsuarioAD) {
+		this.uriADcrearUsuarioAD = uriADcrearUsuarioAD;
 	}
 
 }

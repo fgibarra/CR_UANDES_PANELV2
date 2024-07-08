@@ -22,7 +22,7 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- servicio AD -->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/consultaXrut"
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/consultaXrut"
         id="rsADconsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -34,7 +34,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/crearUsuario"
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/crearUsuario"
         id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -46,7 +46,7 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario"
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/validarUsuario"
         id="rsADvalidarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.servicio.crearCuentasAD.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
@@ -132,6 +132,7 @@
         <property name="registrosComunes" ref="registrosComunes"/>
         <property name="debug" value="{{crear-cuentas-AD.debug}}"/>
         <property name="adServices" value="{{uri.serviciosAD}}"/>
+        <property name="uriADcrearUsuarioAD" value="{{uri.crearUsuarioAD}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->

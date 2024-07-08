@@ -9,10 +9,13 @@ import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
+import org.datacontract.schemas._2004._07.ldapmanager.Usuario;
 import org.tempuri.ActivarDesactivarUsuarioResponse;
 import org.tempuri.ActualizarUsuarioResponse;
+import org.tempuri.ConsultarUsuarioResponse;
 import org.tempuri.CrearUsuarioResponse;
 import org.tempuri.DesbloquearUsuarioResponse;
+import org.tempuri.EliminarUsuarioResponse;
 import org.tempuri.ResetearPasswordResponse;
 import org.tempuri.ValidarUsuarioResponse;
 
@@ -40,6 +43,10 @@ public class GeneraResponse implements Processor {
     private String resetearPassword;
     @PropertyInject(value = "operacion.validarUsuario", defaultValue="ValidarUsuario")
     private String validarUsuario;
+    @PropertyInject(value = "operacion.consultarUsuario", defaultValue="ConsultarUsuario")
+    private String consultarUsuario;
+    @PropertyInject(value = "operacion.eliminarUsuario", defaultValue="EliminarUsuario")
+    private String eliminarUsuario;
     @PropertyInject(value = "operacion.consultaXrut", defaultValue="consultaXrut")
     private String consultaXrut;
 
@@ -63,6 +70,10 @@ public class GeneraResponse implements Processor {
 			generaResponseResetearPassword(soapResponse, exchange);
 		else if (operacion.equals(validarUsuario))	
 			generaResponseValidarUsuario(soapResponse, exchange);
+		else if (operacion.equals(consultarUsuario))	
+			generaResponseConsultarUsuario(soapResponse, exchange);
+		else if (operacion.equals(eliminarUsuario))	
+			generaResponseEliminarUsuario(soapResponse, exchange);
 		else if (operacion.equals(consultaXrut))	
 			generaResponseConsultaXrut(soapResponse, exchange);
 		else if (operacion.equalsIgnoreCase("ERROR")) {
@@ -110,6 +121,47 @@ public class GeneraResponse implements Processor {
 	private void generaResponseValidarUsuario(Object soapResponse, Exchange exchange) {
 		ValidarUsuarioResponse soapresponse = (ValidarUsuarioResponse)soapResponse;
 		ServiciosLDAPResponse response = new ServiciosLDAPResponse(0, soapresponse.getValidarUsuarioResult().getValue());
+		setInHeader(response, exchange);
+	}
+
+	private void generaResponseConsultarUsuario(Object soapResponse, Exchange exchange) {
+		ConsultarUsuarioResponse soapresponse = (ConsultarUsuarioResponse)soapResponse;
+		ServiciosLDAPResponse response = new ServiciosLDAPResponse(0, factoryUsuario(soapresponse.getConsultarUsuarioResult().getValue()));
+		setInHeader(response, exchange);
+	}
+
+	private cl.uandes.panel.comunes.json.serviciosLDAP.UsuarioResponse factoryUsuario(Usuario usuarioJaxb) {
+		String cuenta = usuarioJaxb.getNombreUsuario().getValue();
+		String rama = usuarioJaxb.getRama().getValue();
+		String rut = usuarioJaxb.getRut().getValue();
+		String nombre = usuarioJaxb.getNombre().getValue();
+		String apellidos = usuarioJaxb.getApellido().getValue();
+		String correo = usuarioJaxb.getCorreo().getValue();
+		String telefono = usuarioJaxb.getTelefono().getValue();
+		String direccion = usuarioJaxb.getDireccion().getValue();
+		String comuna = usuarioJaxb.getComuna().getValue();
+		String cargo = usuarioJaxb.getCargo().getValue();
+		String departamento = usuarioJaxb.getDepartamento().getValue();
+		String jefatura = null;
+		String compania = usuarioJaxb.getCompañia().getValue();
+		String pidm = usuarioJaxb.getPidm().getValue();
+		String nivel = usuarioJaxb.getNivel().getValue();
+		String estadoAcademico = usuarioJaxb.getEstadoAcademico().getValue();
+		String distinguishedName = usuarioJaxb.getDistinguishedName().getValue();
+		String grupo = usuarioJaxb.getGrupo().getValue();
+		String manager = usuarioJaxb.getManager().getValue();
+		String userPrincipalName = usuarioJaxb.getUserPrincipalName().getValue();
+		
+		cl.uandes.panel.comunes.json.serviciosLDAP.UsuarioResponse usuarioResponse = new cl.uandes.panel.comunes.json.serviciosLDAP.UsuarioResponse(
+				cuenta, null, rama, rut, nombre, apellidos, correo, telefono, direccion, comuna, cargo, 
+				departamento, jefatura, compania, pidm, nivel, estadoAcademico, 
+				distinguishedName, grupo, manager, userPrincipalName);
+		return usuarioResponse;
+	}
+
+	private void generaResponseEliminarUsuario(Object soapResponse, Exchange exchange) {
+		EliminarUsuarioResponse soapresponse = (EliminarUsuarioResponse)soapResponse;
+		ServiciosLDAPResponse response = new ServiciosLDAPResponse(0, soapresponse.getEliminarUsuarioResult().getValue());
 		setInHeader(response, exchange);
 	}
 

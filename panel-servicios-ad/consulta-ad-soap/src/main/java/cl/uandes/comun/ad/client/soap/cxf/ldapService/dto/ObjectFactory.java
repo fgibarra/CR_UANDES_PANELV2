@@ -2,8 +2,10 @@ package cl.uandes.comun.ad.client.soap.cxf.ldapService.dto;
 
 import org.tempuri.ActivarDesactivarUsuario;
 import org.tempuri.ActualizarUsuario;
+import org.tempuri.ConsultarUsuario;
 import org.tempuri.CrearUsuario;
 import org.tempuri.DesbloquearUsuario;
+import org.tempuri.EliminarUsuario;
 import org.tempuri.ResetearPassword;
 import org.tempuri.ValidarUsuario;
 
@@ -17,20 +19,20 @@ public class ObjectFactory extends org.tempuri.ObjectFactory {
 
 	public Object createValidarUsuarioRequest(ServiciosLDAPRequest request) {
 		ValidarUsuario validarUsuario = new ValidarUsuario();
-		validarUsuario.setNombreUsuario(super.createValidarUsuarioNombreUsuario(request.getUsuario().getCuenta()));
+		validarUsuario.setCuenta(super.createValidarUsuarioCuenta(request.getUsuario().getCuenta()));
 		return validarUsuario;
 	}
 
 	public Object createActivarResetearPasswordRequest(ServiciosLDAPRequest request) {
 		ResetearPassword resetearPassword = new ResetearPassword();
-		resetearPassword.setNombreUsuario(super.createResetearPasswordNombreUsuario(request.getUsuario().getCuenta()));
-		resetearPassword.setNuevaPassword(super.createResetearPasswordNuevaPassword(request.getUsuario().getPassword()));
+		resetearPassword.setCuenta(super.createResetearPasswordCuenta(request.getUsuario().getCuenta()));
+		resetearPassword.setNuevaPassword(super.createResetearPasswordCuenta(request.getUsuario().getPassword()));
 		return resetearPassword;
 	}
 
 	public Object createDesbloquearUsuarioRequest(ServiciosLDAPRequest request) {
 		DesbloquearUsuario desbloquearUsuario = new DesbloquearUsuario();
-		desbloquearUsuario.setNombreUsuario(super.createDesbloquearUsuarioNombreUsuario(request.getUsuario().getCuenta()));
+		desbloquearUsuario.setCuenta(super.createDesbloquearUsuarioCuenta(request.getUsuario().getCuenta()));
 		return desbloquearUsuario;
 	}
 
@@ -64,21 +66,15 @@ public class ObjectFactory extends org.tempuri.ObjectFactory {
 
 	public Object createActualizarUsuarioRequest(ServiciosLDAPRequest request) {
 		ActualizarUsuario actualizarUsuario = super.createActualizarUsuario();
-		actualizarUsuario.setNombreUsuario(super.createActualizarUsuarioNombreUsuario(request.getUsuario().getCuenta()));
+		actualizarUsuario.setCuenta(super.createActualizarUsuarioCuenta(request.getUsuario().getCuenta()));
 		if (request.getUsuario().getApellidos() != null)
 			actualizarUsuario.setApellido(super.createActualizarUsuarioApellido(request.getUsuario().getApellidos()));
-		if (request.getUsuario().getCargo() != null)
-			actualizarUsuario.setCargo(super.createActualizarUsuarioCargo(request.getUsuario().getCargo()));
-		if (request.getUsuario().getCompania() != null)
-			actualizarUsuario.setCompania(super.createActualizarUsuarioCompania(request.getUsuario().getCompania()));
-		if (request.getUsuario().getDepartamento() != null)
-			actualizarUsuario.setDepartamento(super.createActualizarUsuarioDepartamento(request.getUsuario().getDepartamento()));
-		if (request.getUsuario().getJefatura() != null)
-			actualizarUsuario.setJefatura(super.createActualizarUsuarioJefatura(request.getUsuario().getJefatura()));
+		if (request.getUsuario().getDireccion() != null)
+			actualizarUsuario.setDireccion(super.createActualizarUsuarioDireccion(request.getUsuario().getDireccion()));
+		if (request.getUsuario().getComuna() != null)
+			actualizarUsuario.setComuna(super.createActualizarUsuarioComuna(request.getUsuario().getComuna()));
 		if (request.getUsuario().getNombre() != null)
 			actualizarUsuario.setNombre(super.createActualizarUsuarioNombre(request.getUsuario().getNombre()));
-		if (request.getUsuario().getTelefono() != null)
-			actualizarUsuario.setTelefono(super.createActualizarUsuarioTelefono(request.getUsuario().getTelefono()));
 		if (request.getUsuario().getPidm() != null)
 			actualizarUsuario.setPidm(super.createActualizarUsuarioPidm(request.getUsuario().getPidm()));
 		if (request.getUsuario().getNivel() != null)
@@ -92,8 +88,19 @@ public class ObjectFactory extends org.tempuri.ObjectFactory {
 	public Object createActivarDesactivarUsuarioRequest(ServiciosLDAPRequest request) {
 		ActivarDesactivarUsuario activarDesactivarUsuario = new ActivarDesactivarUsuario();
 		activarDesactivarUsuario.setActivar(request.getActivar());
-		activarDesactivarUsuario.setNombreUsuario(super.createActivarDesactivarUsuarioNombreUsuario(request.getUsuario().getCuenta()));
+		activarDesactivarUsuario.setCuenta(super.createActivarDesactivarUsuarioCuenta(request.getUsuario().getCuenta()));
 		return activarDesactivarUsuario;
 	}
 
+	public Object createConsultarUsuarioRequest(ServiciosLDAPRequest request) {
+		ConsultarUsuario consultarUsuario = new ConsultarUsuario();
+		consultarUsuario.setCuenta(super.createActivarDesactivarUsuarioCuenta(request.getUsuario().getCuenta()));
+		return consultarUsuario;
+	}
+
+	public Object createEliminarUsuarioRequest(ServiciosLDAPRequest request) {
+		EliminarUsuario eliminarUsuario = new EliminarUsuario();
+		eliminarUsuario.setCuenta(super.createActivarDesactivarUsuarioCuenta(request.getUsuario().getCuenta()));
+		return eliminarUsuario;
+	}
 }

@@ -21,7 +21,7 @@
 					<instructions>
 						<Export-Package>cl.uandes.panel.apiActualizaIdGmailServices.api.resources</Export-Package>
 						<Import-Package>
-							cl.uandes.panel.comunes.json.updateidgmail,
+							cl.uandes.panel.comunes.json.updateidgmail;version="[1.0.0,2)",
 							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",
 							javax.sql,
 							javax.ws.rs;version="[2.1,3)",
