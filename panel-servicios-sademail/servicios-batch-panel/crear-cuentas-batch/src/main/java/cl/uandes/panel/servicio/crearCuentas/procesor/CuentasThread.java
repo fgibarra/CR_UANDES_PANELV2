@@ -211,7 +211,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 			 */
 			ServiciosLDAPRequest request = new ServiciosLDAPRequest(getSevicioADCrearCuenta(), null,
 					Usuario.createUsuario4crear(samaccountName, dto.getPassword(), getRamaAD(), dto.getEmployeeId(), dto.getNombres(),
-							dto.getApellidos()));
+							dto.getApellidos(), dto.getPidm(), dto.getNivel(), dto.getEstadoAcademico()));
 
 			Map<String, Object> headers = new HashMap<String, Object>();
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateCuentaAD, getAdServices()));

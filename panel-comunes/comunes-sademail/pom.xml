@@ -95,6 +95,14 @@
 					<finalName>comunes-sademail-${project.version}</finalName>
 					<attach>false</attach>
 				</configuration>
+				<executions>
+					<execution>
+						<id>attach-source</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -88,10 +88,14 @@ public class CuentasThread implements Processor {
 					 * - Alumnos de postgrado RUT sin @
 					 * - Alumnos de pre grado nombre de cuenta mail
 					 */
+					logger.info(String.format("process: es POSGRADO (%b) getSamaccountName=%s",
+							cuentasADDTO.esAlumnoPostgrado(), cuentasADDTO.getSamaccountName()));
 					if (cuentasADDTO.esAlumnoPostgrado())
-							samaccountName = cuentasADDTO.getSamaccountName();
+						samaccountName = cuentasADDTO.getSamaccountName();
 					/*       fin del cambio                                        */
-					
+					else
+						logger.info(String.format("process: no es POSGRADO (%b) getSamaccountName=%s cuentasADDTO: %s",
+								cuentasADDTO.esAlumnoPostgrado(), cuentasADDTO.getSamaccountName(), cuentasADDTO));
 					if (samaccountName == null) {
 						// no pudo generar uno
 						String msg = String.format("Error: no pudo crear un samaccountName para %s",  cuentasADDTO);
@@ -123,7 +127,10 @@ public class CuentasThread implements Processor {
 								cuentasADDTO.getRama(),
 								cuentasADDTO.getEmployeeId(),
 								cuentasADDTO.getNombres(),
-								cuentasADDTO.getApellidos()));
+								cuentasADDTO.getApellidos(),
+								cuentasADDTO.getPidm(),
+								cuentasADDTO.getNivel(),
+								cuentasADDTO.getEstadoAcademico()));
 				logger.info(String.format("asi quedaria la invocacion para crear la cuenta: %s", request));
 				
 				if (!Boolean.valueOf(getDebug())) {
@@ -202,7 +209,9 @@ public class CuentasThread implements Processor {
 			existe = 1; 
 			cuentasADDTO.setLoginName(response.getUsuario());
 		}
-		logger.info(String.format("existeCuentaAD: devuelve existe=%d request: %s", existe, request));
+		logger.info(String.format("existeCuentaAD: devuelve existe en AD=%d (%s) request: %s", existe, 
+				(existe == 0 ? "NO EXISTE" : (existe == 1 ? "EXISTE" : "ERROR")),
+				request));
 		return existe;
 	}
 

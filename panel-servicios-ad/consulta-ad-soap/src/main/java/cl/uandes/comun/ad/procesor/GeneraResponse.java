@@ -126,7 +126,14 @@ public class GeneraResponse implements Processor {
 
 	private void generaResponseConsultarUsuario(Object soapResponse, Exchange exchange) {
 		ConsultarUsuarioResponse soapresponse = (ConsultarUsuarioResponse)soapResponse;
-		ServiciosLDAPResponse response = new ServiciosLDAPResponse(0, factoryUsuario(soapresponse.getConsultarUsuarioResult().getValue()));
+		ServiciosLDAPResponse response;
+		logger.info(String.format("generaResponseConsultarUsuario: soapresponse.getConsultarUsuarioResult().getValue(): %b", 
+				soapresponse.getConsultarUsuarioResult().getValue() != null));
+		if (soapresponse.getConsultarUsuarioResult().getValue() != null)
+			response = new ServiciosLDAPResponse(0, factoryUsuario(soapresponse.getConsultarUsuarioResult().getValue()));
+		else
+			response = new ServiciosLDAPResponse(-1, "No existe");
+		logger.info(String.format("generaResponseConsultarUsuario: response: %s", response));
 		setInHeader(response, exchange);
 	}
 

@@ -58,8 +58,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -74,9 +74,17 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/comunes/comunes-gmail/0.0.1</outputDirectory>
-					<finalName>comunes-gmail-0.0.1</finalName>
+					<outputDirectory>${user.home}/.m2/repository/uandes/panel-v2/comunes/comunes-gmail/${project.version}</outputDirectory>
+					<finalName>comunes-gmail-${project.version}</finalName>
 					<attach>false</attach>
+				<executions>
+					<execution>
+						<id>attach-source</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 				</configuration>
 			</plugin>
 		</plugins>

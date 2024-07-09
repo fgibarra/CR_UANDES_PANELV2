@@ -38,7 +38,6 @@
     <fullyQualifiedTypeName name="org.apache.camel.Message"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
-    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.ActualizaConsumoPanel"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
     <fullyQualifiedTypeName name="org.tempuri.ConsultarUsuario"/>
     <fullyQualifiedTypeName name="org.tempuri.EliminarUsuario"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
 </qualifiedTypeNameHistroy>

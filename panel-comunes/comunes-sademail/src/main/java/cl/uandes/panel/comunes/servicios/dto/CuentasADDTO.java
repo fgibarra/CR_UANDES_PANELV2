@@ -2,6 +2,7 @@ package cl.uandes.panel.comunes.servicios.dto;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -102,6 +103,7 @@ public class CuentasADDTO implements Serializable {
 
 	public CuentasADDTO(Map<String, Object> datos) {
 		this.rut = (String)datos.get("SPRIDEN_ID");
+		this.pidm = StringUtilities.getInstance().toString( (BigDecimal)datos.get("SPRIDEN_PIDM") );
 		this.apellidos = parseaDato((String)datos.get("SPRIDEN_LAST_NAME"));
 		this.nombre = parseaDato((String)datos.get("SPRIDEN_FIRST_NAME"));
 		this.middleName = parseaDato((String)datos.get("SPRIDEN_MI"));
@@ -179,7 +181,7 @@ public class CuentasADDTO implements Serializable {
 	 * @return
 	 */
 	public String getSamaccountName() {
-		if (getNivel() == null || "UG".equalsIgnoreCase(getNivel()))
+		if (getNivel() == null || esAlumnoPostgrado())
 			return getEmployeeId();
 		if ("UG".equalsIgnoreCase(getNivel()))
 			return getLoginName();

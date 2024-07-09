@@ -38,6 +38,12 @@ public class StringUtilities {
 		}
 	}
 
+	public String toString(BigDecimal valor) {
+		if (valor == null)
+			return null;
+		return String.format("%d", valor.intValue());
+	}
+
 	public Integer toInteger(String valor) {
 		if (valor == null) return null;
 		try {
@@ -47,6 +53,12 @@ public class StringUtilities {
 					valor.toString(), e.getMessage()));
 		}
 		return null;
+	}
+
+	public Integer toInteger(BigDecimal valor) {
+		if (valor == null)
+			return null;
+		return valor.intValue();
 	}
 
 	public Object toBigDecimal(Integer valor) {

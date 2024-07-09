@@ -26,7 +26,7 @@ SELECT
         SPRIDEN_FIRST_NAME,
         SPRIDEN_MI        ,
         SPRIDEN_LAST_NAME ,
-        SPRIDEN_PIDM      ,
+        SPRIDEN_PIDM,
         FA.NIVEL          ,
         FA.ESTADO
 FROM

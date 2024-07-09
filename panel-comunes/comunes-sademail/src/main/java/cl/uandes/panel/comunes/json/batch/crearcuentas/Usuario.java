@@ -30,20 +30,16 @@ public class Usuario implements Serializable {
 	String apellidos;
 	@JsonProperty("correo")
 	String correo;
-	@JsonProperty("telefono")
-	String telefono;
 	@JsonProperty("direccion")
 	String direccion;
 	@JsonProperty("comuna")
 	String comuna;
-	@JsonProperty("cargo")
-	String cargo;
-	@JsonProperty("departamento")
-	String departamento;
-	@JsonProperty("jefatura")
-	String jefatura;
-	@JsonProperty("compania")
-	String compania;
+	@JsonProperty("pidm")
+	String pidm;
+	@JsonProperty("nivel")
+	String nivel;
+	@JsonProperty("estado-academico")
+	String estadoAcademico;
 
 	@JsonCreator
 	public Usuario(@JsonProperty("cuenta")String cuenta, 
@@ -53,13 +49,11 @@ public class Usuario implements Serializable {
 			@JsonProperty("nombre")String nombre, 
 			@JsonProperty("apellidos")String apellidos,
 			@JsonProperty("correo")String correo, 
-			@JsonProperty("telefono")String telefono, 
 			@JsonProperty("direccion")String direccion, 
 			@JsonProperty("comuna")String comuna, 
-			@JsonProperty("cargo")String cargo, 
-			@JsonProperty("departamento")String departamento, 
-			@JsonProperty("jefatura")String jefatura,
-			@JsonProperty("compania")String compania) {
+			@JsonProperty("pidm")String pidm, 
+			@JsonProperty("nivel")String nivel, 
+			@JsonProperty("estado-academico")String estadoAcademico) {
 		super();
 		this.cuenta = cuenta;
 		this.password = password;
@@ -68,26 +62,24 @@ public class Usuario implements Serializable {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.correo = correo;
-		this.telefono = telefono;
 		this.direccion = direccion;
 		this.comuna = comuna;
-		this.cargo = cargo;
-		this.departamento = departamento;
-		this.jefatura = jefatura;
-		this.compania = compania;
+		this.pidm = pidm;
+		this.nivel = nivel;
+		this.estadoAcademico = estadoAcademico;
+	}
+
+	@JsonIgnore
+	public static Usuario createUsuario4crear (String nombreCuenta, String password, String rama, 
+			String rut, String nombre, String apellidos, String pidm, String nivel, String estadoAcademico) {
+		return new Usuario(nombreCuenta, password, rama, rut, nombre, apellidos, null, null, null, pidm, nivel, 
+				estadoAcademico);
 	}
 
 	@JsonIgnore
 	public static Usuario createUsuario4validar (String nombreCuenta) {
 		return new Usuario(nombreCuenta, null, null, null, null, null, null, null, null, null, 
-				null, null, null, null);
-	}
-
-	@JsonIgnore
-	public static Usuario createUsuario4crear (String nombreCuenta, String password, String rama, 
-			String rut, String nombre, String apellidos) {
-		return new Usuario(nombreCuenta, password, rama, rut, nombre, apellidos, null, null, null, 
-				null, null, null, null, null);
+				null, null);
 	}
 
 	//=======================================================================================================
@@ -122,10 +114,6 @@ public class Usuario implements Serializable {
 		return correo;
 	}
 
-	public String getTelefono() {
-		return telefono;
-	}
-
 	public String getDireccion() {
 		return direccion;
 	}
@@ -134,20 +122,16 @@ public class Usuario implements Serializable {
 		return comuna;
 	}
 
-	public String getCargo() {
-		return cargo;
+	public String getPidm() {
+		return pidm;
 	}
 
-	public String getDepartamento() {
-		return departamento;
+	public String getNivel() {
+		return nivel;
 	}
 
-	public String getJefatura() {
-		return jefatura;
-	}
-
-	public String getCompania() {
-		return compania;
+	public String getEstadoAcademico() {
+		return estadoAcademico;
 	}
 
 }
