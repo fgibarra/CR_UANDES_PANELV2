@@ -10,11 +10,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import cl.uandes.panel.comunes.utils.StringUtilities;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -66,12 +64,14 @@ public class ActualizaCuentasADRequest implements Serializable {
 		return maxResultados;
 	}
 
+	@JsonIgnore
 	public Timestamp getTimestampFechaDesde() {
 		if (fechaDesde == null)
 			return null;
 		return toTimestamp(String.format("%s000000",fechaDesde));
 	}
 
+	@JsonIgnore
 	public Timestamp getTimestampFechaHasta() {
 		if (fechaHasta == null)
 			return null;
@@ -79,7 +79,7 @@ public class ActualizaCuentasADRequest implements Serializable {
 	}
 
 	private Timestamp toTimestamp(String fecha) {
-		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyhhmmss", new java.util.Locale("es", "CL"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyyhhmmss", new java.util.Locale("es", "CL"));
 		try {
 			Date f = sdf.parse(fecha);
 			return new Timestamp(f.getTime());

@@ -9,15 +9,29 @@ import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.utils.CountThreads;
+import cl.uandes.panel.comunes.utils.StringUtilities;
 import cl.uandes.panel.tools.actualizaCuentasAD.api.json.ActualizaCuentasADRequest;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.AdCuentasCreadasDTO;
+import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.ContadoresActualizaCuentas;
 
 public class GeneraDatos {
 
+	@PropertyInject(value = "actualizar-cuentas-AD.debug", defaultValue = "false")
+	protected String debug;
+	protected Boolean soloDebug = Boolean.valueOf(debug); //  true --> NO envia
+
 	@EndpointInject(uri = "sql:classpath:sql/qryAdCuentasCreadas.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qryAdCuentasCreadas;
+	@EndpointInject(uri = "sql:classpath:sql/qryAdCuentasCreadasDebug.sql?dataSource=#bannerDataSource")
+	ProducerTemplate qryAdCuentasCreadasDebug;
+	@EndpointInject(uri = "sql:delete from wrk_planilla?dataSource=#bannerDataSource")
+	ProducerTemplate deleteWrkPlanilla;
+	@EndpointInject(uri = "sql:commit?dataSource=#bannerDataSource")
+	ProducerTemplate commit;
 
 	private Logger logger = Logger.getLogger(getClass());
 
@@ -26,15 +40,26 @@ public class GeneraDatos {
 	 * 
 	 * @param exchange
 	 */
+	@SuppressWarnings("unchecked")		
 	public void generaListaXrequest(Exchange exchange) {
 		Message message = exchange.getIn();
+		this.soloDebug = Boolean.valueOf(getDebug());
 		List<AdCuentasCreadasDTO> lista = new ArrayList<AdCuentasCreadasDTO>();
 		ActualizaCuentasADRequest request = (ActualizaCuentasADRequest)message.getHeader("request");
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put("fechaDesde", request.getTimestampFechaDesde());
 		headers.put("fechaHasta", request.getTimestampFechaHasta());
-		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> datos = (List<Map<String, Object>>) qryAdCuentasCreadas.requestBodyAndHeaders(null, headers);
+		logger.info(String.format("generaListaXrequest: soloDebug: %b qry: %s\nheaders: %s", 
+				soloDebug, soloDebug ? qryAdCuentasCreadasDebug.getDefaultEndpoint().getEndpointUri() : 
+					qryAdCuentasCreadas.getDefaultEndpoint().getEndpointUri(),
+					StringUtilities.getInstance().dumpMap(headers)));
+		
+		List<Map<String, Object>> datos;		
+		if (soloDebug)
+			datos = (List<Map<String, Object>>) qryAdCuentasCreadasDebug.requestBodyAndHeaders(null, headers);
+		else
+			datos = (List<Map<String, Object>>) qryAdCuentasCreadas.requestBodyAndHeaders(null, headers);
+		
 		if (datos != null && datos.size() > 0) {
 			Integer filas = 0;
 			for (Map<String, Object> dato : datos) {
@@ -46,6 +71,41 @@ public class GeneraDatos {
 			}
 		}
 		logger.info(String.format("generaListaXrequest: elementos en la lista: %d", lista.size()));
+		for (AdCuentasCreadasDTO dto : lista)
+			logger.info(String.format("%s", dto));
 		
+		deleteWrkPlanilla.requestBody(null);
+		commit.requestBody(null);
+		
+		message.setHeader("listaCuentas", lista);
+		message.setHeader("countThread", new CountThreads());
+		message.setHeader("contadores", new ContadoresActualizaCuentas());
 	}
+	
+	/**
+	 * Saca un elemento de la lista y lo coloca en el header para su proceso por el Process
+	 * @param exchange
+	 */
+	public void getCuentaFromListaCuentas(Exchange exchange) {
+		Message message = exchange.getIn();
+		@SuppressWarnings("unchecked")
+		List<AdCuentasCreadasDTO> lista = (List<AdCuentasCreadasDTO>)message.getHeader("listaCuentas");
+		AdCuentasCreadasDTO dto = lista.remove(0);
+		message.setHeader("AdCuentasCreadasDTO", dto);
+		CountThreads countThread = (CountThreads) message.getHeader("countThread");
+		countThread.incCounter();
+	}
+	//===============================================================================================================
+	// Getters y Setters
+	//===============================================================================================================
+
+	public String getDebug() {
+		return debug;
+	}
+
+
+	public void setDebug(String debug) {
+		this.debug = debug;
+	}
+
 }

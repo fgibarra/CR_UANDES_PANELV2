@@ -4352,3 +4352,496 @@ java.util.concurrent.TimeoutException
 
 !ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-11 19:58:53.532
 !MESSAGE Unexpected child element of the context: propertyPlaceholder
+!SESSION 2024-07-12 09:08:30.926 -----------------------------------------------
+eclipse.buildId=12.18.0.GA-v20210115-1005-B7439
+java.version=11.0.10
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=es_CL
+Framework arguments:  -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -application org.eclipse.ui.ide.workbench -application org.eclipse.ui.ide.workbench -product com.jboss.devstudio.core.product
+
+!ENTRY org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.enclosing'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.next'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.previous'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.137
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.select.last'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.source.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.add.import'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.organize.imports'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.refactor.quickMenu'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.rename.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.move.element'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.138
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.modify.method.parameters'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.inline'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.method'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.extract.local.variable'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.edit.text.java.open.hierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.TypeHierarchy'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.PackageExplorer'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.139
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.SourceView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.140
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-07-12 09:11:47.140
+!MESSAGE Cannot bind to an undefined command: plug-in='org.eclipse.wst.jsdt.ui', id='org.eclipse.wst.jsdt.ui.JavadocView'
+
+!ENTRY org.eclipse.jface 2 0 2024-07-12 09:12:10.392
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2024-07-12 09:12:10.392
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@542aba71,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@4951dc8c,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.fusesource.ide.camel.model.service.impl 2 0 2024-07-12 09:13:48.479
+!MESSAGE Unable to load Camel Catalog for version 4.7.0-SNAPSHOT
+
+!ENTRY org.fusesource.ide.camel.model.service.impl 2 0 2024-07-12 09:13:48.479
+!MESSAGE The version 2.24.1 will be used instead.
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:14:29.108
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:15:35.390
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:18:38.088
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:18:45.843
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:33:57.407
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:34:50.035
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:34:59.300
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:35:03.078
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:35:07.635
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:35:45.711
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:40:07.905
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:40:10.712
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:49:05.151
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:53:31.457
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:56:03.771
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:56:38.556
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:57:03.445
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 09:57:07.296
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:01:08.331
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:01:46.216
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:06:58.462
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:07:01.259
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:07:10.107
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:11:24.350
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:11:43.998
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:37:51.216
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:38:19.591
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:38:23.786
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:39:35.325
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:39:37.501
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:41:28.600
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:41:46.798
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:43:35.318
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:44:35.819
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:46:01.272
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:51:41.668
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:52:14.846
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:52:18.557
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:53:46.543
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 10:54:01.810
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:11:31.905
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:12:34.687
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:12:38.147
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:23:33.619
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:28:35.102
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:28:49.224
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:29:49.190
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:31:15.231
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:31:56.969
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 11:48:08.343
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 12:34:58.097
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 12:37:11.489
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 12:37:24.418
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 12:41:35.372
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 12:41:50.586
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 12:56:22.104
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 12:56:40.900
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 13:03:15.242
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 13:04:40.801
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 13:04:55.914
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.eclipse.datatools.sqltools.sqleditor 4 0 2024-07-12 13:12:33.766
+!MESSAGE Error occurred while removing markers
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/tool-actualiza-cuentasAD/src/main/resources/sql/deleteAdCuentasCreadas.sql.sql)[368]: java.lang.Exception: Resource '/tool-actualiza-cuentasAD/src/main/resources/sql/deleteAdCuentasCreadas.sql.sql' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Resource.deleteMarkers(Resource.java:796)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeRememberedMarkers(SQLUpdater.java:496)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.access$1(SQLUpdater.java:466)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater$2.run(SQLUpdater.java:448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2292)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:444)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:423)
+	at org.eclipse.datatools.sqltools.sqleditor.SQLEditor.doSetInput(SQLEditor.java:1024)
+	at org.eclipse.datatools.sqltools.internal.sqlscrapbook.editor.SQLScrapbookEditor.doSetInput(SQLScrapbookEditor.java:219)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInputWithNotify(AbstractTextEditor.java:4243)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInput(AbstractTextEditor.java:4263)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener$1.run(AbstractTextEditor.java:526)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.execute(AbstractTextEditor.java:587)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.elementMoved(AbstractTextEditor.java:554)
+	at org.eclipse.ui.texteditor.AbstractDocumentProvider.fireElementMoved(AbstractDocumentProvider.java:724)
+	at org.eclipse.ui.editors.text.FileDocumentProvider.handleElementMoved(FileDocumentProvider.java:833)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$FileSynchronizer$3.execute(FileDocumentProvider.java:272)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$SafeChange.run(FileDocumentProvider.java:150)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4988)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4510)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2024-07-12 13:12:33.767
+!MESSAGE Resource '/tool-actualiza-cuentasAD/src/main/resources/sql/deleteAdCuentasCreadas.sql.sql' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/tool-actualiza-cuentasAD/src/main/resources/sql/deleteAdCuentasCreadas.sql.sql' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Resource.deleteMarkers(Resource.java:796)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeRememberedMarkers(SQLUpdater.java:496)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.access$1(SQLUpdater.java:466)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater$2.run(SQLUpdater.java:448)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2292)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2317)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:444)
+	at org.eclipse.datatools.sqltools.sqleditor.internal.editor.SQLUpdater.removeMarkers(SQLUpdater.java:423)
+	at org.eclipse.datatools.sqltools.sqleditor.SQLEditor.doSetInput(SQLEditor.java:1024)
+	at org.eclipse.datatools.sqltools.internal.sqlscrapbook.editor.SQLScrapbookEditor.doSetInput(SQLScrapbookEditor.java:219)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInputWithNotify(AbstractTextEditor.java:4243)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.setInput(AbstractTextEditor.java:4263)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener$1.run(AbstractTextEditor.java:526)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.execute(AbstractTextEditor.java:587)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$ElementStateListener.elementMoved(AbstractTextEditor.java:554)
+	at org.eclipse.ui.texteditor.AbstractDocumentProvider.fireElementMoved(AbstractDocumentProvider.java:724)
+	at org.eclipse.ui.editors.text.FileDocumentProvider.handleElementMoved(FileDocumentProvider.java:833)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$FileSynchronizer$3.execute(FileDocumentProvider.java:272)
+	at org.eclipse.ui.editors.text.FileDocumentProvider$SafeChange.run(FileDocumentProvider.java:150)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4988)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4510)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:153)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1438)
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 13:13:31.821
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 13:22:33.585
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 13:23:09.056
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 13:30:58.606
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 15:24:46.579
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 15:26:03.328
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 15:32:05.126
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 15:38:10.430
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 15:38:37.896
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 15:42:16.789
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 15:47:50.512
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 16:22:07.004
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 16:35:25.151
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 16:47:20.474
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 16:47:49.804
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 16:56:19.171
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 16:57:00.199
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:02:44.233
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:21:08.769
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:35:04.168
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:39:31.190
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:40:33.172
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:43:47.251
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:47:17.123
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:51:14.358
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:55:36.461
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 17:57:53.145
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 18:04:11.733
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 18:10:13.423
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 18:12:16.904
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 18:12:39.451
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 18:33:41.617
+!MESSAGE Unexpected child element of the context: propertyPlaceholder
+
+!ENTRY org.fusesource.ide.camel.model.service.core 2 0 2024-07-12 18:37:23.249
+!MESSAGE Unexpected child element of the context: propertyPlaceholder

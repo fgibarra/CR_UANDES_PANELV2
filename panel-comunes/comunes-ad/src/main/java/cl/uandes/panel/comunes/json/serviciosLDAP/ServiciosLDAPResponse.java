@@ -26,7 +26,7 @@ public class ServiciosLDAPResponse extends BaseResponse implements Serializable 
 	@JsonIgnore
 	private static final long serialVersionUID = -4712865035099940074L;
 	@JsonProperty("usuario")
-	private Usuario usuario;
+	private UsuarioResponse usuario;
 	
 	public ServiciosLDAPResponse(
 			@JsonProperty("codigo")Integer codigo, 
@@ -49,6 +49,10 @@ public class ServiciosLDAPResponse extends BaseResponse implements Serializable 
 		} catch (Exception e) {
 			return String.format("No pudo serializar %s",this.getClass().getSimpleName());
 		}
+	}
+
+	public UsuarioResponse getUsuario() {
+		return usuario;
 	}
 
 }

@@ -1,0 +1,1 @@
+insert into ad_cuentas_creadas (key, samaccount_name,rut,ou) values (HIBERNATE_SEQUENCE.NEXTVAL, :#samaccountName,:#rut,:#ou)

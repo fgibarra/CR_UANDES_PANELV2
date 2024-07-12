@@ -160,9 +160,9 @@ public class GeneraResponse implements Processor {
 		String userPrincipalName = usuarioJaxb.getUserPrincipalName().getValue();
 		
 		cl.uandes.panel.comunes.json.serviciosLDAP.UsuarioResponse usuarioResponse = new cl.uandes.panel.comunes.json.serviciosLDAP.UsuarioResponse(
-				cuenta, null, rama, rut, nombre, apellidos, correo, telefono, direccion, comuna, cargo, 
-				departamento, jefatura, compania, pidm, nivel, estadoAcademico, 
-				distinguishedName, grupo, manager, userPrincipalName);
+				cuenta, rama, rut, nombre, apellidos, correo, /*telefono,*/ direccion, comuna, /*cargo, 
+				departamento, jefatura, compania,*/ pidm, nivel, estadoAcademico, 
+				distinguishedName, /*grupo, manager,*/ userPrincipalName);
 		return usuarioResponse;
 	}
 

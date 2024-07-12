@@ -1,0 +1,1 @@
+delete from ad_cuentas_creadas where samaccount_name=:#samaccountName

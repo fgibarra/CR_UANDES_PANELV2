@@ -1,27 +1,42 @@
 package cl.uandes.panel.comunes.json.serviciosLDAP;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UsuarioResponse extends Usuario {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3213001075291748450L;
+	@JsonProperty("distinguishedName")
 	private String distinguishedName;
-	private String grupo;
-	private String manager;
+	@JsonProperty("userPrincipalName")
 	private String userPrincipalName;
 	
-	public UsuarioResponse(String cuenta, String password, String rama, String rut, String nombre, String apellidos,
-			String correo, String telefono, String direccion, String comuna, String cargo, String departamento,
-			String jefatura, String compania, String pidm, String nivel, String estadoAcademico,
-			String distinguishedName, String grupo, String manager, String userPrincipalName) {
-		super(cuenta, password, rama, rut, nombre, apellidos, correo, direccion, comuna, 
+	@JsonCreator
+	public UsuarioResponse(@JsonProperty("cuenta")String cuenta, 
+			@JsonProperty("rama")String rama, 
+			@JsonProperty("rut")String rut, 
+			@JsonProperty("nombre")String nombre, 
+			@JsonProperty("apellidos")String apellidos,
+			@JsonProperty("correo")String correo, 
+			//String telefono, 
+			@JsonProperty("direccion")String direccion, 
+			@JsonProperty("comuna")String comuna, 
+			//String cargo, String departamento,
+			//String jefatura, String compania, 
+			@JsonProperty("pidm")String pidm, 
+			@JsonProperty("nivel")String nivel, 
+			@JsonProperty("estado-academico")String estadoAcademico,
+			@JsonProperty("distinguishedName")String distinguishedName, 
+			//String grupo, String manager, 
+			@JsonProperty("userPrincipalName")String userPrincipalName) {
+		super(cuenta, null, rama, rut, nombre, apellidos, correo, direccion, comuna, 
 				pidm, nivel, estadoAcademico
 				/*,telefono, cargo, departamento, jefatura, compania, */);
 		
 		this.distinguishedName = distinguishedName;
-		this.grupo = grupo;
-		this.manager = manager;
 		this.userPrincipalName = userPrincipalName;
 	}
 
@@ -31,22 +46,6 @@ public class UsuarioResponse extends Usuario {
 
 	public void setDistinguishedName(String distinguishedName) {
 		this.distinguishedName = distinguishedName;
-	}
-
-	public String getGrupo() {
-		return grupo;
-	}
-
-	public void setGrupo(String grupo) {
-		this.grupo = grupo;
-	}
-
-	public String getManager() {
-		return manager;
-	}
-
-	public void setManager(String manager) {
-		this.manager = manager;
 	}
 
 	public String getUserPrincipalName() {

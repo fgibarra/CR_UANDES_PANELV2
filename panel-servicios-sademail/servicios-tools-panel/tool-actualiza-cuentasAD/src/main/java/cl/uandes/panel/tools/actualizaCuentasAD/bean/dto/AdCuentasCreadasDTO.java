@@ -1,6 +1,7 @@
 package cl.uandes.panel.tools.actualizaCuentasAD.bean.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import cl.uandes.panel.comunes.utils.StringUtilities;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -31,7 +34,7 @@ public class AdCuentasCreadasDTO implements Serializable {
 	
 	public AdCuentasCreadasDTO(Map<String, Object> map) {
 		this.rut = (String)map.get("RUT");
-		this.pidm = (String)map.get("PIDM");
+		this.pidm = StringUtilities.getInstance().toString((BigDecimal)map.get("PIDM"));
 		this.sammacountName = (String)map.get("SAMACCOUNT_NAME");
 		this.nivel = (String)map.get("NIVEL");
 		this.estado = (String)map.get("ESTADO");

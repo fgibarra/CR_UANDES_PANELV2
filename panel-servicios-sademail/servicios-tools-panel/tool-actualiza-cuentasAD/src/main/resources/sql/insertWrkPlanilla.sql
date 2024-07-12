@@ -1,0 +1,1 @@
+insert into wrk_planilla(id, resultado) values (:#id, :#resultado)

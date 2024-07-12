@@ -22,6 +22,18 @@
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- servicio AD -->
     <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/validarUsuario"
+        id="rsADvalidarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.tools.actualizaCuentasAD.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
         address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/actualizarUsuario"
         id="rsADactualizarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.tools.actualizaCuentasAD.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
@@ -34,8 +46,8 @@
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
     <cxf:rsClient
-        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/validarUsuario"
-        id="rsADvalidarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.tools.actualizaCuentasAD.api.restclient.ConsultaADEndpoint">
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/consultarUsuario"
+        id="rsADconsultarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.tools.actualizaCuentasAD.api.restclient.ConsultaADEndpoint">
         <cxf:headers>
             <entry key="Content-Type" value="application/json"/>
             <entry key="Accept" value="application/json"/>
@@ -57,12 +69,34 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/crearUsuario"
+        id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.tools.actualizaCuentasAD.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.api.resources.ActualizaCuentasADRestService" id="restService"/>
     <!-- __________________________________________________________________________________________________ -->
     <bean
-        class="cl.uandes.panel.tools.actualizaCuentasAD.bean.GeneraDatos" id="generaDatos"/>
+        class="cl.uandes.panel.tools.actualizaCuentasAD.bean.GeneraDatos" id="generaDatos">
+		<property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.tools.actualizaCuentasAD.procesor.CuentasThread" id="cuentasThread">
+		<property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean
+        class="cl.uandes.panel.tools.actualizaCuentasAD.procesor.FinalizaProceso" id="finalizaProceso"/>
     <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
@@ -75,7 +109,7 @@
     <reference availability="mandatory"
         filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
     <!-- ==================================================================================================== -->
-    <camelContext id="camelContext-711cb851-8539-48ac-b530-408956045a0f"
+    <camelContext id="tool-actualiza-cuentasAD-v1"
         trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <route id="_readjson">
@@ -88,9 +122,48 @@
         </route>
         <!-- ==================================================================================================== -->
         <route id="_fromRestService">
-			<from uri="seda:procesaActualizacionCuentas"/>
-			<bean id="_bean2" method="generaListaXrequest" ref="generaDatos"/>
-			
+            <from id="_from1" uri="seda:procesaActualizacionCuentas"/>
+            <bean id="_bean2" method="generaListaXrequest" ref="generaDatos"/>
+            <camel:setHeader headerName="numeroThreads" id="_setHeader1">
+                <simple resultType="java.lang.Integer">${properties:actualizar-cuentas-AD.threads:1}</simple>
+            </camel:setHeader>
+            <!-- activar hasta 2 threads para hacer la pega -->
+            <loop doWhile="true">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
+                <choice id="_choice3">
+                    <when id="_when3">
+                        <simple>${header.countThread.getCounter} &gt;= ${header.numeroThreads}</simple>
+                        <delay id="_delay1">
+                            <constant>1000</constant>
+                        </delay>
+                        <log message="(L102)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                    </when>
+                    <otherwise >
+                        <bean
+                            method="getCuentaFromListaCuentas" ref="generaDatos"/>
+                        <log message="(L107) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter}"/>
+                        <to uri="seda:procesaCuenta"/>
+                        <log message="(L109) Activado proceso cuenta: ${header.AdCuentasCreadasDTO} countThread=${header.countThread.getCounter}"/>
+                    </otherwise>
+                </choice>
+            </loop>
+	        <!-- finalizar el proceso -->
+	        <loop doWhile="true">
+	            <simple>${header.countThread.getCounter} &gt; 0</simple>
+	            <log message="(L116) esperando termines ${header.countThread.getCounter} threads"/>
+	            <delay>
+	                <constant>1000</constant>
+	            </delay>
+	        </loop>
+	        <log message="(L121) finalizar el proceso"/>
+            <process id="_finalizaProceso" ref="finalizaProceso"/>
         </route>
+        <!-- ================================================================================================= -->
+        <route id="_procesaCuenta">
+            <from uri="seda:procesaCuenta?concurrentConsumers=2"/>
+            <process id="_cuentasThreadProcess" ref="cuentasThread"/>
+            <log message="(L128)Termino el proceso de ${header.AdCuentasCreadasDTO} countThread=${header.countThread.getCounter}"/>
+        </route>
+        <!-- ================================================================================================= -->
     </camelContext>
 </blueprint>
