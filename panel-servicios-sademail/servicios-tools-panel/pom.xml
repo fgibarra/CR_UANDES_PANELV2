@@ -30,5 +30,6 @@
   <modules>
   	<module>serv-elimina_suspende_cuentas</module>
   	<module>tool-crea-cuentas-testAD</module>
+  	<module>tool-actualiza-cuentasAD</module>
   </modules>
 </project>
