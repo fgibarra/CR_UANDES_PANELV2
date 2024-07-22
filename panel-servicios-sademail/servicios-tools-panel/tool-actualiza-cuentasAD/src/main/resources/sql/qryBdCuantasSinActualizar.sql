@@ -1,0 +1,1 @@
+select samaccount_name, rut, key from ad_cuentas_creadas where fecha_actualizacion is null

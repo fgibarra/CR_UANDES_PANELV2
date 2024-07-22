@@ -69,10 +69,12 @@ public class CuentasThread implements Processor {
 		// dependiendo del samaccountName
 		int resultado = existeCuenta(dto);
 		if (resultado == 1) { // existe
-			if (dto.getSammacountName().startsWith("@"))
-				eliminaCreaCuenta(dto);
-			else
-				actualizaCuenta(dto);
+			if (esCuentaCreadaXpanel(dto)) {
+				if (dto.getSammacountName().startsWith("@"))
+					eliminaCreaCuenta(dto);
+				else
+					actualizaCuenta(dto);
+			}
 			
 		} else if ( resultado == 0) {
 			// No existe la cuenta en AD
@@ -131,7 +133,31 @@ public class CuentasThread implements Processor {
 		return existeCuenta;
 	}
 
-
+	/**
+	 * Recupera el distinguishedName para validar que la rama sea AlumnosUA (OU=AlumnosUA)
+	 * @param dto
+	 * @return
+	 */
+	private boolean esCuentaCreadaXpanel(AdCuentasCreadasDTO dto) {
+		boolean esCuentaCreadaXpanel = false;
+		UsuarioResponse datos = consultaUsuario(dto);
+		if (datos != null) {
+			String distinguishedName = datos.getDistinguishedName();
+			if (distinguishedName != null) {
+				String adAtts[] = distinguishedName.split(",");
+				for (String at : adAtts) {
+					String valores[] = at.split("=");
+					if (valores[0].equalsIgnoreCase("OU")) {
+						if (valores[1].equalsIgnoreCase("AlumnosUA"))
+							esCuentaCreadaXpanel = true;
+					}
+				}
+			}
+		}
+		logger.info(String.format("esCuentaCreadaXpanel: esCuentaCreadaXpanel=%b samaccount_name=%s dto: %s",
+				esCuentaCreadaXpanel, dto.getSammacountName(), dto));
+		return esCuentaCreadaXpanel;
+	}
 	/**
 	 * retorna TRUE si pudo actualizar, FALSE si no, deja msgError
 	 * @param dto
@@ -203,8 +229,12 @@ public class CuentasThread implements Processor {
 	}
 
 	private void registraBd(AdCuentasCreadasDTO dto, String resultado) {
+		registraBd(dto.getSammacountName(), resultado);
+	}
+	
+	protected void registraBd(String samaccountName, String resultado) {
 		Map<String,Object> headers = new HashMap<String,Object>();
-		headers.put("id", dto.getSammacountName());
+		headers.put("id", samaccountName);
 		headers.put("resultado", resultado);
 		insertWrkPlanilla.requestBodyAndHeaders(null, headers);
 	}
@@ -216,6 +246,10 @@ public class CuentasThread implements Processor {
 	 * @return
 	 */
 	private UsuarioResponse consultaUsuario(AdCuentasCreadasDTO dto) {
+		return consultaUsuario(dto.getSammacountName());
+	}
+	
+	protected UsuarioResponse consultaUsuario(String samaccountName) {
 		UsuarioResponse usuarioResponse = null;
 		Map<String,Object> headers = new HashMap<String,Object>();
 		// validar el usuario en el AD
@@ -223,7 +257,7 @@ public class CuentasThread implements Processor {
 		headers.put("CamelHttpMethod", "POST");
 		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ConsultarUsuario", 
 				null, 
-				Usuario.createUsuario4validar(dto.getSammacountName()));
+				Usuario.createUsuario4validar(samaccountName));
 		ServiciosLDAPResponse response = null;
 		try {
 			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
@@ -231,7 +265,7 @@ public class CuentasThread implements Processor {
 					ServiciosLDAPResponse.class);
 			if (response.getCodigo() == 0) {
 				logger.info(String.format("validar cuenta para samaccountName: %s msg: %s",
-						dto.getSammacountName(), response.getMensaje()));
+						samaccountName, response.getMensaje()));
 				if ("OK".equalsIgnoreCase(response.getMensaje()))
 					usuarioResponse = response.getUsuario();
 				else
@@ -303,7 +337,7 @@ public class CuentasThread implements Processor {
 		// validar el usuario en el AD
 		headers.put(Exchange.DESTINATION_OVERRIDE_URL, "http://localhost:8181/cxf/ESB/panel/serviciosADv3/crearUsuario");
 		headers.put("CamelHttpMethod", "POST");
-		Usuario usuario = new Usuario(dto.getRut().substring(1), "12345678,A#", "AlumnosUA", dto.getRut().substring(1),
+		Usuario usuario = new Usuario(dto.getRut().substring(1), soloDebug?"12345678,A#":dto.getPassword(), "AlumnosUA", dto.getRut().substring(1),
 				usuarioResponse.getNombre(), usuarioResponse.getApellidos(), usuarioResponse.getCorreo(),
 				usuarioResponse.getDireccion(), usuarioResponse.getComuna(), dto.getPidm(), dto.getNivel(), dto.getEstado());
 		
@@ -326,7 +360,7 @@ public class CuentasThread implements Processor {
 					headers.put("rut", dto.getRut());
 					headers.put("ou", String.format("cn=%s %s,ou=%s creada", usuario.getNombre(), usuario.getApellidos(), dto.getRut()));
 					insertAdCuentasCreadas.requestBodyAndHeaders(null, headers);
-					
+					deleteAdCuentasCreadas.requestBodyAndHeader(null, "samaccountName", dto.getRut());
 				} else
 					setMsgError(String.format("WS crear cuenta responde %s", response.getMensaje()));
 			} else {

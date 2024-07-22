@@ -16,6 +16,7 @@ import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.StringUtilities;
 import cl.uandes.panel.tools.actualizaCuentasAD.api.json.ActualizaCuentasADRequest;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.AdCuentasCreadasDTO;
+import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.BdCuentasSinActualizarDTO;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.ContadoresActualizaCuentas;
 
 public class GeneraDatos {
@@ -33,6 +34,9 @@ public class GeneraDatos {
 	@EndpointInject(uri = "sql:commit?dataSource=#bannerDataSource")
 	ProducerTemplate commit;
 
+	@EndpointInject(uri = "sql:classpath:sql/qryBdCuentasSinActualizar.sql?dataSource=#bannerDataSource")
+	ProducerTemplate qryBdCuentasSinActualizar;
+	
 	private Logger logger = Logger.getLogger(getClass());
 
 	/**
@@ -95,6 +99,61 @@ public class GeneraDatos {
 		CountThreads countThread = (CountThreads) message.getHeader("countThread");
 		countThread.incCounter();
 	}
+	
+	/**
+	 * 
+	 * Genera la lista de los registros que tienen fecha_actualizacion en nulo
+	 * @param exchange
+	 */
+	@SuppressWarnings("unchecked")
+	public void generaListaXpareo(Exchange exchange) {
+		Message message = exchange.getIn();
+		this.soloDebug = Boolean.valueOf(getDebug());
+		List<BdCuentasSinActualizarDTO> lista = new ArrayList<BdCuentasSinActualizarDTO>();
+		ActualizaCuentasADRequest request = (ActualizaCuentasADRequest)message.getHeader("request");
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("fechaDesde", request.getTimestampFechaDesde());
+		headers.put("fechaHasta", request.getTimestampFechaHasta());
+		logger.info(String.format("generaListaXrequest: soloDebug: %b qry: %s\nheaders: %s", 
+				soloDebug, qryBdCuentasSinActualizar.getDefaultEndpoint().getEndpointUri(),
+					StringUtilities.getInstance().dumpMap(headers)));
+		
+		List<Map<String, Object>> datos;		
+		datos = (List<Map<String, Object>>) qryBdCuentasSinActualizar.requestBodyAndHeaders(null, headers);
+		
+		if (datos != null && datos.size() > 0) {
+			Integer filas = 0;
+			for (Map<String, Object> dato : datos) {
+				lista.add(new BdCuentasSinActualizarDTO(dato));
+				if (request.getMaxResultados() > 0) {
+					if (++filas >= request.getMaxResultados())
+						break;
+				}
+			}
+		}
+		logger.info(String.format("generaListaXrequest: elementos en la lista: %d", lista.size()));
+		for (BdCuentasSinActualizarDTO dto : lista)
+			logger.info(String.format("%s", dto));
+		
+		message.setHeader("listaCuentas", lista);
+		message.setHeader("countThread", new CountThreads());
+		message.setHeader("contadores", new ContadoresActualizaCuentas());
+	}
+	
+	/**
+	 * Saca el primer elemento de la lista y lo deja en el header BdCuentasSinActualizarDTO
+	 * @param exchange
+	 */
+	public void getCuentaFromListaSinActualizar(Exchange exchange) {
+		Message message = exchange.getIn();
+		@SuppressWarnings("unchecked")
+		List<BdCuentasSinActualizarDTO> lista = (List<BdCuentasSinActualizarDTO>)message.getHeader("listaCuentas");
+		BdCuentasSinActualizarDTO dto = lista.remove(0);
+		message.setHeader("BdCuentasSinActualizarDTO", dto);
+		CountThreads countThread = (CountThreads) message.getHeader("countThread");
+		countThread.incCounter();
+	}
+	
 	//===============================================================================================================
 	// Getters y Setters
 	//===============================================================================================================

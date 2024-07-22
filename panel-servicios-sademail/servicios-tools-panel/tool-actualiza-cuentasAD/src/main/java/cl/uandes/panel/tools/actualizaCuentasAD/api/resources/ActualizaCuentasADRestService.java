@@ -61,6 +61,29 @@ public class ActualizaCuentasADRestService {
 		return response;
 	}
 
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/parearAD")
+	public Response parearAD(ActualizaCuentasADRequest request) {
+		logger.info(String.format("ActualizaCuentasADRestService: parearAD request [%s]", request));
+		if (!valida(request)) {
+			return Response.ok().status(401).entity(getMsgError()).build();
+		}
+		// responder al Scheduler y partir el proceso en forma batch
+		CamelContext camelContext = producer.getCamelContext();
+		// partir el proceso batch
+		ProducerTemplate procesoBatch = camelContext.createProducerTemplate();
+		Exchange exchange = ExchangeBuilder.anExchange(camelContext).withHeader("request", request).
+				withBody(request).build();
+		logger.info(String.format("ActualizaCuentasADRestService.procese: activa seda:pareaCuentasAD con header.request = %s", 
+				exchange.getIn().getHeader("request")));
+		procesoBatch.asyncSend("seda:pareaCuentasAD", exchange);
+		
+		Response response = Response.ok().status(200).entity("Partio pareao_cuentas").build();
+		return response;
+	}
+
 	private boolean valida(ActualizaCuentasADRequest request) {
 		boolean valida = false;
 		if (request != null) {

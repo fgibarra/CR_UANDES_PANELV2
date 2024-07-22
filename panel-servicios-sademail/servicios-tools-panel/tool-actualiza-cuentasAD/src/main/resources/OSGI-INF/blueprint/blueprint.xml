@@ -81,18 +81,34 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosAD/consultaXrut"
+        id="rsConsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.tools.actualizaCuentasAD.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.api.resources.ActualizaCuentasADRestService" id="restService"/>
     <!-- __________________________________________________________________________________________________ -->
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.bean.GeneraDatos" id="generaDatos">
-		<property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
+        <property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.procesor.CuentasThread" id="cuentasThread">
-		<property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
+        <property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.tools.actualizaCuentasAD.procesor.PareaCuentas" id="pareaCuentas">
+        <property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean
@@ -109,8 +125,7 @@
     <reference availability="mandatory"
         filter="(osgi.jndi.service.name=bannerds)" id="bannerDataSource" interface="javax.sql.DataSource"/>
     <!-- ==================================================================================================== -->
-    <camelContext id="tool-actualiza-cuentasAD-v1"
-        trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="tool-actualiza-cuentasAD-v1" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
         <propertyPlaceholder id="properties" location="file:${karaf.home}/etc/cl.uandes.panelv2.cfg"/>
         <route id="_readjson">
             <from id="_promService" uri="direct:start?timeout=-1"/>
@@ -128,7 +143,7 @@
                 <simple resultType="java.lang.Integer">${properties:actualizar-cuentas-AD.threads:1}</simple>
             </camel:setHeader>
             <!-- activar hasta 2 threads para hacer la pega -->
-            <loop doWhile="true">
+            <loop doWhile="true" id="_loop1">
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
                 <choice id="_choice3">
                     <when id="_when3">
@@ -136,34 +151,50 @@
                         <delay id="_delay1">
                             <constant>1000</constant>
                         </delay>
-                        <log message="(L102)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
+                        <log id="_log1" message="(L102)Esperando se desocupe thread (usadas= ${header.countThread.getCounter})"/>
                     </when>
-                    <otherwise >
-                        <bean
+                    <otherwise id="_otherwise1">
+                        <bean id="_bean1"
                             method="getCuentaFromListaCuentas" ref="generaDatos"/>
-                        <log message="(L107) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter}"/>
-                        <to uri="seda:procesaCuenta"/>
-                        <log message="(L109) Activado proceso cuenta: ${header.AdCuentasCreadasDTO} countThread=${header.countThread.getCounter}"/>
+                        <log id="_log2" message="(L107) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter}"/>
+                        <to id="_to1" uri="seda:procesaCuenta"/>
+                        <log id="_log3" message="(L109) Activado proceso cuenta: ${header.AdCuentasCreadasDTO} countThread=${header.countThread.getCounter}"/>
                     </otherwise>
                 </choice>
             </loop>
-	        <!-- finalizar el proceso -->
-	        <loop doWhile="true">
-	            <simple>${header.countThread.getCounter} &gt; 0</simple>
-	            <log message="(L116) esperando termines ${header.countThread.getCounter} threads"/>
-	            <delay>
-	                <constant>1000</constant>
-	            </delay>
-	        </loop>
-	        <log message="(L121) finalizar el proceso"/>
+            <!-- finalizar el proceso -->
+            <loop doWhile="true" id="_loop2">
+                <simple>${header.countThread.getCounter} &gt; 0</simple>
+                <log id="_log4" message="(L116) esperando termines ${header.countThread.getCounter} threads"/>
+                <delay id="_delay2">
+                    <constant>1000</constant>
+                </delay>
+            </loop>
+            <log id="_log5" message="(L121) finalizar el proceso"/>
             <process id="_finalizaProceso" ref="finalizaProceso"/>
         </route>
         <!-- ================================================================================================= -->
         <route id="_procesaCuenta">
-            <from uri="seda:procesaCuenta?concurrentConsumers=2"/>
+            <from id="_from2" uri="seda:procesaCuenta?concurrentConsumers=2"/>
             <process id="_cuentasThreadProcess" ref="cuentasThread"/>
-            <log message="(L128)Termino el proceso de ${header.AdCuentasCreadasDTO} countThread=${header.countThread.getCounter}"/>
+            <log id="_log6" message="(L128)Termino el proceso de ${header.AdCuentasCreadasDTO} countThread=${header.countThread.getCounter}"/>
         </route>
         <!-- ================================================================================================= -->
+        <!-- ================================================================================================= -->
+		<route id="_parearADRoute">
+			<from uri="seda:pareaCuentasAD"/>
+			<bean method="generaListaXpareo" ref="generaDatos"/>
+			<loop doWhile="true">
+                <simple>${header.listaCuentas.size} &gt; 0</simple>
+				<bean method="getCuentaFromListaSinActualizar" ref="generaDatos"/>
+                <log message="(L178) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter}"/>
+                <to uri="direct:pareaCuenta"/>
+			</loop>
+		</route>			
+        <!-- ================================================================================================= -->
+		<route id="_pareaCuentaRoute">
+			<from uri="direct:pareaCuenta"/>
+			<process ref="pareaCuentas"/>
+		</route>
     </camelContext>
 </blueprint>

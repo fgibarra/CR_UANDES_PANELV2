@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion"/>
     <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
     <fullyQualifiedTypeName name="org.apache.camel.Header"/>
     <fullyQualifiedTypeName name="java.io.FileInputStream"/>
@@ -43,7 +42,6 @@
     <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
     <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
-    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
@@ -51,13 +49,15 @@
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonInclude.Include"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.ContadoresActualizaCuentas"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.Usuario"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
     <fullyQualifiedTypeName name="org.apache.cxf.jaxrs.impl.ResponseImpl"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.UsuarioResponse"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.BdCuentasSinActualizarDTO"/>
 </qualifiedTypeNameHistroy>

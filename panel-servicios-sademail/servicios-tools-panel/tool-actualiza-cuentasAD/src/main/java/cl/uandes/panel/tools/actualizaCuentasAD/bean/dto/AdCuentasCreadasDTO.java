@@ -91,4 +91,11 @@ public class AdCuentasCreadasDTO implements Serializable {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	public String getPassword() {
+		if (rut != null && rut.startsWith("@"))
+			return rut.substring(1);
+		
+		return rut;
+	}
 }
