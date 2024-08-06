@@ -50,6 +50,7 @@ public class CuentasThread implements Processor {
 	ProducerTemplate commit;
 	
 	private ContadoresCrearCuentasAD contadoresCuentasAD;
+	private ResultadoFuncion res = null;
 	private Logger logger = Logger.getLogger(getClass());
 	//private CuentasADDTO cuentasADDTO;
 	
@@ -73,7 +74,7 @@ public class CuentasThread implements Processor {
 			CuentasADDTO cuentasADDTO = (CuentasADDTO) message.getHeader("CuentasADDTO");
 			contadoresCuentasAD = (ContadoresCrearCuentasAD)message.getHeader("contadoresCuentasAD");
 			contadoresCuentasAD.incCountProcesados();
-			ResultadoFuncion res = (ResultadoFuncion) message.getHeader("ResultadoFuncion");
+			res = (ResultadoFuncion) message.getHeader("ResultadoFuncion");
 			logger.info((String.format("process: rut: %s", cuentasADDTO.getRut())));
 			
 			existe = existeCuentaAD(cuentasADDTO);
@@ -163,6 +164,7 @@ public class CuentasThread implements Processor {
 				// se produjo un error en el WS
 				logger.info(String.format("process: se produjo un error en el WS consultaXRut. countThread.getCounter=%d", 
 						countThread.getCounter()));
+				contadoresCuentasAD.incCountErrores();
 				return;
 			} else
 				creadaExistia = "existia";
@@ -200,7 +202,9 @@ public class CuentasThread implements Processor {
 			response = (ConsultaXrutResponse) ObjectFactory.procesaResponseImpl(
 					(ResponseImpl) consultaRutAD.requestBodyAndHeaders(request, headers), ConsultaXrutResponse.class);
 		} catch (Exception e) {
-			logger.error(String.format("existeCuentaAD: error en producer consultaRutAD %s",cuentasADDTO.getRut()), e);
+			String msg = String.format("existeCuentaAD: error en producer consultaRutAD %s",cuentasADDTO.getRut());
+			logger.error(msg, e);
+			registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
 			response = new ConsultaXrutResponse(-1, e.getMessage(), null, null, null, null, null, null, null, null,
 					null, null);
 			existe = 2;
