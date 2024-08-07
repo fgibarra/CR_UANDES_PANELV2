@@ -112,7 +112,7 @@ public class CuentasThread implements Processor {
 					String msg = String.format("Error al procesar %s",  cuentasADDTO);
 					logger.error(msg, e1);
 					contadoresCuentasAD.incCountErrores();
-					registrosComunes.registraMiResultadoErrores(null, msg, e1, null, res.getKey());
+					registrosComunes.registraMiResultadoErrores(cuentasADDTO.getSamaccountName(), msg, e1, null, res.getKey());
 					return;
 				}
 				logger.info(String.format("CuentasThread: samaccountName=%s cuentasADDTO=%s", samaccountName, cuentasADDTO));
@@ -154,7 +154,7 @@ public class CuentasThread implements Processor {
 					} catch (Exception e) {
 						String msg = String.format("Error al invocar api para crear usuario AD. request=%s", request);
 						logger.error(msg, e);
-						registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
+						registrosComunes.registraMiResultadoErrores(request.getUsuario().getRut(), msg, e, null, res.getKey());
 						contadoresCuentasAD.incCountErrores();
 						return;
 					}
@@ -177,7 +177,7 @@ public class CuentasThread implements Processor {
 			} catch (Exception e) {
 				String msg = String.format("Error al actualizar BDC para usuario. cuentasADDTO=%s", cuentasADDTO);
 				logger.error(msg, e);
-				registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
+				registrosComunes.registraMiResultadoErrores(cuentasADDTO.getEmployeeId(), msg, e, null, res.getKey());
 				contadoresCuentasAD.incCountErrores();
 			}
 		} finally {
@@ -204,7 +204,7 @@ public class CuentasThread implements Processor {
 		} catch (Exception e) {
 			String msg = String.format("existeCuentaAD: error en producer consultaRutAD %s",cuentasADDTO.getRut());
 			logger.error(msg, e);
-			registrosComunes.registraMiResultadoErrores(null, msg, e, null, res.getKey());
+			registrosComunes.registraMiResultadoErrores(cuentasADDTO.getEmployeeId(), msg, e, null, res.getKey());
 			response = new ConsultaXrutResponse(-1, e.getMessage(), null, null, null, null, null, null, null, null,
 					null, null);
 			existe = 2;
