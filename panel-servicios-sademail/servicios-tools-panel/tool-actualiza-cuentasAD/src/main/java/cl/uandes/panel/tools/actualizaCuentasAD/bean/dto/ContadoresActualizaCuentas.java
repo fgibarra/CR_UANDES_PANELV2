@@ -19,6 +19,8 @@ public class ContadoresActualizaCuentas implements Contadores {
 	private Integer countErrores;
 	@JsonProperty("cuentas-actualizadas-ad")
 	private Integer countActualizadasAD;
+	@JsonProperty("cuentas-creadas-ad")
+	private Integer countCreadasAD;
 	@JsonProperty("cuentas-recreadas-ad")
 	private Integer countRecreadasAD;
 
@@ -27,6 +29,7 @@ public class ContadoresActualizaCuentas implements Contadores {
 		this.countProcesados = 0;
 		this.countErrores = 0;
 		this.countActualizadasAD = 0;
+		this.countCreadasAD = 0;
 		this.countRecreadasAD = 0;
 	}
 
@@ -54,12 +57,20 @@ public class ContadoresActualizaCuentas implements Contadores {
 		countActualizadasAD++;
 	}
 
+	public synchronized void incCountCreadasAD() {
+		countCreadasAD++;
+	}
+
 	public synchronized void incCountRecreadasAD() {
 		countRecreadasAD++;
 	}
 
 	public synchronized Integer getCountActualizadasAD() {
 		return countActualizadasAD;
+	}
+
+	public synchronized Integer getCountCreadasAD() {
+		return countCreadasAD;
 	}
 
 	public synchronized Integer getCountRecreadasAD() {

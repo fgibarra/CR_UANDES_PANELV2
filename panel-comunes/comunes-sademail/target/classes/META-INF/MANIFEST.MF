@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1720796190319
+Bnd-LastModified: 1723755149274
 Build-Jdk: 1.8.0_291
 Built-By: sademail
 Bundle-Description: ComunesPanel
@@ -7,7 +7,7 @@ Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
 Bundle-ManifestVersion: 2
 Bundle-Name: Panel [comunes-panel-v1]
 Bundle-SymbolicName: comunes-panel-v1
-Bundle-Version: 1.0.2
+Bundle-Version: 1.0.3
 Created-By: Apache Maven Bundle Plugin
 DynamicImport-Package: *
 Export-Package: cl.uandes.panel.comunes.json.aeOwnersMembers;version="1.

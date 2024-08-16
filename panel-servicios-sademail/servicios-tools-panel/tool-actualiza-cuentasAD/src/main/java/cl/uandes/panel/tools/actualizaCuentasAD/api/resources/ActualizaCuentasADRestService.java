@@ -16,6 +16,7 @@ import org.apache.camel.builder.ExchangeBuilder;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.tools.actualizaCuentasAD.api.json.ActualizaCuentasADRequest;
+import cl.uandes.panel.tools.actualizaCuentasAD.api.json.OperacionXFecha;
 
 @Path("/")
 public class ActualizaCuentasADRestService {
@@ -41,10 +42,42 @@ public class ActualizaCuentasADRestService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
-    @Path("/procese")
-	public Response procese(ActualizaCuentasADRequest request) {
+    @Path("/pregrado")
+	public Response procesePregrado(ActualizaCuentasADRequest request) {
 		logger.info(String.format("ActualizaCuentasADRestService: request [%s]", request));
-		if (!valida(request)) {
+		if (!validaPregrado(request)) {
+			return Response.ok().status(401).entity(getMsgError()).build();
+		}
+		// responder al Scheduler y partir el proceso en forma batch
+		CamelContext camelContext = producer.getCamelContext();
+		// partir el proceso batch
+		ProducerTemplate procesoBatch = camelContext.createProducerTemplate();
+		Exchange exchange = ExchangeBuilder.anExchange(camelContext).withHeader("request", request).
+				withBody(request).build();
+		logger.info(String.format("ActualizaCuentasADRestService.procese: activa seda:procesaPregrado con header.request = %s", 
+				exchange.getIn().getHeader("request")));
+		procesoBatch.asyncSend("seda:procesaPregrado", exchange);
+		
+		Response response = Response.ok().status(200).entity("Partio actualizar_cuentas").build();
+		return response;
+	}
+
+	private boolean validaPregrado(ActualizaCuentasADRequest request) {
+		boolean valida = false;
+		
+		if (request.getOperacion().equalsIgnoreCase("pregrado"))
+			valida = true;
+		
+		return valida;
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
+    @Path("/procese")
+	public Response procesePosgrado(ActualizaCuentasADRequest request) {
+		logger.info(String.format("ActualizaCuentasADRestService: request [%s]", request));
+		if (!validaPosgrado(request.getDatos())) {
 			return Response.ok().status(401).entity(getMsgError()).build();
 		}
 		// responder al Scheduler y partir el proceso en forma batch
@@ -60,7 +93,7 @@ public class ActualizaCuentasADRestService {
 		Response response = Response.ok().status(200).entity("Partio actualizar_cuentas").build();
 		return response;
 	}
-
+/*
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON+"; charset=UTF-8")
@@ -83,8 +116,8 @@ public class ActualizaCuentasADRestService {
 		Response response = Response.ok().status(200).entity("Partio pareao_cuentas").build();
 		return response;
 	}
-
-	private boolean valida(ActualizaCuentasADRequest request) {
+*/
+	private boolean validaPosgrado(OperacionXFecha request) {
 		boolean valida = false;
 		if (request != null) {
 			if (request.getFechaDesde() == null) {

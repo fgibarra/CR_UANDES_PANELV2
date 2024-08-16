@@ -201,7 +201,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 
 		ServiciosLDAPResponse response;
 		try {
-			String samaccountName = registrosComunes.getSamaccountName((CuentasADDTO)dto, exchange);
+			String samaccountName = registrosComunes.getSamaccountNamePregrado((CuentasADDTO)dto, exchange);
 			
 			/* modificado a peticion Diego Anguita. 20240319  
 			 * Usa RUT como samaccountname
@@ -211,7 +211,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 			 */
 			ServiciosLDAPRequest request = new ServiciosLDAPRequest(getSevicioADCrearCuenta(), null,
 					Usuario.createUsuario4crear(samaccountName, dto.getPassword(), getRamaAD(), dto.getEmployeeId(), dto.getNombres(),
-							dto.getApellidos(), dto.getPidm(), dto.getNivel(), dto.getEstadoAcademico()));
+							dto.getApellidos(), dto.getEmail(), dto.getPidm(), dto.getNivel(), dto.getEstadoAcademico()));
 
 			Map<String, Object> headers = new HashMap<String, Object>();
 			headers.put(Exchange.DESTINATION_OVERRIDE_URL, String.format(templateCreateCuentaAD, getAdServices()));

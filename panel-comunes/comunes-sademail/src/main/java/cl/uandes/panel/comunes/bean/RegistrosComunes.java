@@ -99,6 +99,20 @@ public class RegistrosComunes {
 		return datosInicializacion;
 	}
 	
+	public Map<String, Object> inicializarTool(Exchange exchange) {
+		Message message = exchange.getIn();
+		Map<String, Object> datosInicializacion = new HashMap<String, Object>();
+		
+		proceso = (String) message.getHeader("proceso");
+		logger.info(String.format("inicializar proceso %s", proceso));
+		
+		ResultadoFuncion res = initResultadoFuncion(proceso);
+		if (res == null) return null;
+		datosInicializacion.put("ResultadoFuncion", res);
+		
+		return datosInicializacion;
+	}
+	
 	/**
 	 * @param proceso
 	 * @return
@@ -131,6 +145,31 @@ public class RegistrosComunes {
 			// inicializa el resultado
 			BigDecimal valor = getKey();
 			ResultadoFuncion res = ObjectFactory.createResultadoFuncion(data, valor);
+			
+			headers.put("key", BigDecimal.valueOf(res.getKey().longValue()));
+			headers.put("funcion", res.getFuncion());
+			headers.put("horaComienzo", res.getHoraComienzo());
+			headers.put("minThreads", BigDecimal.valueOf(res.getMinThreads().longValue()));
+			headers.put("maxThreads", BigDecimal.valueOf(res.getMaxThreads().longValue()));
+			
+			insertMiResultado.requestBodyAndHeaders(null, headers);
+			
+			logger.info(String.format("initResultadoFuncion res: %s", res));
+			
+			return res;
+			
+		} catch (Exception e) {
+			registraError(proceso, StringUtilities.getInstance().dumpMap(headers), e);
+			return null;
+		}
+	}
+	
+	private ResultadoFuncion initResultadoFuncion(String proceso) {
+		Map<String, Object> headers = new HashMap<String,Object>();
+		try {
+			// inicializa el resultado
+			BigDecimal key = getKey();
+			ResultadoFuncion res = ObjectFactory.createResultadoFuncion(proceso, key);
 			
 			headers.put("key", BigDecimal.valueOf(res.getKey().longValue()));
 			headers.put("funcion", res.getFuncion());
@@ -324,6 +363,42 @@ public class RegistrosComunes {
 	 * @return
 	 * @throws Exception 
 	 */
+	public String getSamaccountNamePregrado(@Header(value = "CuentasADDTO")CuentasADDTO cuentasADDTO, Exchange exchange) throws Exception {
+		if (cuentasADDTO != null) {
+			
+			// verifica que no se haya ocupado como nombre de cuenta o nickname en GMAIL
+			boolean esteOcupado = true;
+			do {
+				esteOcupado = estaOcupadoEngmail(cuentasADDTO);
+				if (esteOcupado) {
+					add2AdNombresCuenta(cuentasADDTO);
+					cuentasADDTO.incSeq();
+					cuentasADDTO.setLastLoginName();
+				}
+			} while (esteOcupado);
+
+			// verifica que no este ocupado como sAmaccountName en el AD
+			esteOcupado = true;
+			do {
+				try {
+					esteOcupado = estaOcupadoEnAD(cuentasADDTO);
+				} catch (Exception e) {
+					throw e;
+				}
+				if (esteOcupado) {
+					add2AdNombresCuenta(cuentasADDTO);
+					cuentasADDTO.incSeq();
+					cuentasADDTO.setLastLoginName();
+				}
+			} while (esteOcupado);
+
+			add2AdNombresCuenta(cuentasADDTO);
+		}
+		logger.info(String.format("getSamaccountName devuelve %s", cuentasADDTO.getSamaccountName()));
+		exchange.getIn().setHeader("CuentasADDTO", cuentasADDTO);
+		return cuentasADDTO.getSamaccountName();
+	}
+	
 	public String getSamaccountName(@Header(value = "CuentasADDTO")CuentasADDTO cuentasADDTO, Exchange exchange) throws Exception {
 		if (cuentasADDTO != null) {
 			// recuperar un login name desde AD_NOMBRES_CUENTA que no este ocupado
@@ -361,7 +436,6 @@ public class RegistrosComunes {
 		exchange.getIn().setHeader("CuentasADDTO", cuentasADDTO);
 		return cuentasADDTO.getSamaccountName();
 	}
-	
 	private CuentasADDTO getSamaccountName(CuentasADDTO cuentasADDTO) {
 		logger.info(String.format("getSamaccountName: loginName0=%s seq=%d", cuentasADDTO.getLoginName0(), cuentasADDTO.getSeq()));
 		String smaccountName = cuentasADDTO.getLoginName0();

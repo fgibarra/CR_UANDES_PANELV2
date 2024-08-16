@@ -71,8 +71,12 @@ public class Usuario implements Serializable {
 
 	@JsonIgnore
 	public static Usuario createUsuario4crear (String nombreCuenta, String password, String rama, 
-			String rut, String nombre, String apellidos, String pidm, String nivel, String estadoAcademico) {
-		return new Usuario(nombreCuenta, password, rama, rut, nombre, apellidos, null, null, null, pidm, nivel, 
+			String rut, String nombre, String apellidos, String correo, String pidm, String nivel, String estadoAcademico) {
+		if (correo != null) {
+			if (correo.indexOf("@") < 0 )
+				correo += "@miuandes.cl";
+		}
+		return new Usuario(nombreCuenta, password, rama, rut, nombre, apellidos, correo, null, null, pidm, nivel, 
 				estadoAcademico);
 	}
 

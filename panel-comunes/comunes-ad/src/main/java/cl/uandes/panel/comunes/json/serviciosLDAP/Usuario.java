@@ -186,6 +186,42 @@ public class Usuario implements Serializable {
 		this.estadoAcademico = estadoAcademico;
 	}
 
+	public void setCuenta(String cuenta) {
+		this.cuenta = cuenta;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setRama(String rama) {
+		this.rama = rama;
+	}
+
+	public void setRut(String rut) {
+		this.rut = rut;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public void setComuna(String comuna) {
+		this.comuna = comuna;
+	}
+
 	/*
 	public String getTelefono() {
 		return telefono;

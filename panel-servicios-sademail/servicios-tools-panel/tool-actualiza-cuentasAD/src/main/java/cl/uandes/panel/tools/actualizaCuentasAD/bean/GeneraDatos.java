@@ -14,10 +14,11 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.StringUtilities;
-import cl.uandes.panel.tools.actualizaCuentasAD.api.json.ActualizaCuentasADRequest;
+import cl.uandes.panel.tools.actualizaCuentasAD.api.json.OperacionXFecha;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.AdCuentasCreadasDTO;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.BdCuentasSinActualizarDTO;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.ContadoresActualizaCuentas;
+import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.CorregirPregradoDTO;
 
 public class GeneraDatos {
 
@@ -25,6 +26,7 @@ public class GeneraDatos {
 	protected String debug;
 	protected Boolean soloDebug = Boolean.valueOf(debug); //  true --> NO envia
 
+	// procese masivo actualizar datos que faltaban
 	@EndpointInject(uri = "sql:classpath:sql/qryAdCuentasCreadas.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qryAdCuentasCreadas;
 	@EndpointInject(uri = "sql:classpath:sql/qryAdCuentasCreadasDebug.sql?dataSource=#bannerDataSource")
@@ -33,9 +35,14 @@ public class GeneraDatos {
 	ProducerTemplate deleteWrkPlanilla;
 	@EndpointInject(uri = "sql:commit?dataSource=#bannerDataSource")
 	ProducerTemplate commit;
-
 	@EndpointInject(uri = "sql:classpath:sql/qryBdCuentasSinActualizar.sql?dataSource=#bannerDataSource")
 	ProducerTemplate qryBdCuentasSinActualizar;
+
+	// Corrige cuentas pregrado
+	@EndpointInject(uri = "sql:classpath:sql/corregir_pregrado.sql?dataSource=#bannerDataSource")
+	ProducerTemplate corregirPregrado;
+	
+	
 	
 	private Logger logger = Logger.getLogger(getClass());
 
@@ -49,7 +56,7 @@ public class GeneraDatos {
 		Message message = exchange.getIn();
 		this.soloDebug = Boolean.valueOf(getDebug());
 		List<AdCuentasCreadasDTO> lista = new ArrayList<AdCuentasCreadasDTO>();
-		ActualizaCuentasADRequest request = (ActualizaCuentasADRequest)message.getHeader("request");
+		OperacionXFecha request = (OperacionXFecha)message.getHeader("request");
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put("fechaDesde", request.getTimestampFechaDesde());
 		headers.put("fechaHasta", request.getTimestampFechaHasta());
@@ -110,7 +117,7 @@ public class GeneraDatos {
 		Message message = exchange.getIn();
 		this.soloDebug = Boolean.valueOf(getDebug());
 		List<BdCuentasSinActualizarDTO> lista = new ArrayList<BdCuentasSinActualizarDTO>();
-		ActualizaCuentasADRequest request = (ActualizaCuentasADRequest)message.getHeader("request");
+		OperacionXFecha request = (OperacionXFecha)message.getHeader("request");
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put("fechaDesde", request.getTimestampFechaDesde());
 		headers.put("fechaHasta", request.getTimestampFechaHasta());
@@ -154,6 +161,46 @@ public class GeneraDatos {
 		countThread.incCounter();
 	}
 	
+	//===========================================================================================================
+	/**
+	 * Genera la lista de los alumnos de pregrado que hay que actualizar
+	 * @param exchange
+	 */
+	@SuppressWarnings("unchecked")
+	public void generaListaPregrado(Exchange exchange) {
+		Message message = exchange.getIn();
+		this.soloDebug = Boolean.valueOf(getDebug());
+		
+		List<Map<String, Object>> datos;		
+		datos = (List<Map<String, Object>>) corregirPregrado.requestBody(null);
+		
+		List<CorregirPregradoDTO> lista = new ArrayList<CorregirPregradoDTO>();
+		
+		if (datos != null && datos.size() > 0) {
+			for (Map<String, Object> dato : datos) {
+				CorregirPregradoDTO dto = new CorregirPregradoDTO(dato);
+				lista.add(dto);
+				if (soloDebug)
+					logger.info(String.format("CorregirPregradoDTO: %s", dto));
+			}
+		}
+		logger.info(String.format("generaListaPregrado: elementos en la lista: %d", lista.size()));
+
+		message.setHeader("listaCuentas", lista);
+		message.setHeader("contadores", new ContadoresActualizaCuentas());
+	}
+	
+	public void getCuentaCorregir(Exchange exchange) {
+		Message message = exchange.getIn();
+		@SuppressWarnings("unchecked")
+		List<CorregirPregradoDTO> lista = (List<CorregirPregradoDTO>)message.getHeader("listaCuentas");
+		CorregirPregradoDTO dto = lista.remove(0);
+		message.setHeader("CorregirPregradoDTO", dto);
+		if (soloDebug)
+			logger.info(String.format("procesar CorregirPregradoDTO: %s", dto));
+		CountThreads countThread = (CountThreads) message.getHeader("countThread");
+		countThread.incCounter();
+	}
 	//===============================================================================================================
 	// Getters y Setters
 	//===============================================================================================================

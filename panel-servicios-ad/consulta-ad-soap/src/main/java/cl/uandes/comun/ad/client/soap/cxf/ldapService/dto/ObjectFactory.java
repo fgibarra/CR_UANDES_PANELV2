@@ -81,6 +81,8 @@ public class ObjectFactory extends org.tempuri.ObjectFactory {
 			actualizarUsuario.setNivel(super.createActualizarUsuarioNivel(request.getUsuario().getNivel()));
 		if (request.getUsuario().getEstadoAcademico() != null)
 			actualizarUsuario.setEstadoAcademico(super.createActualizarUsuarioEstadoAcademico(request.getUsuario().getEstadoAcademico()));
+		if (request.getUsuario().getCorreo() != null)
+			actualizarUsuario.setCorreo(super.createActualizarUsuarioCorreo(request.getUsuario().getCorreo()));
 		
 		return actualizarUsuario;
 	}

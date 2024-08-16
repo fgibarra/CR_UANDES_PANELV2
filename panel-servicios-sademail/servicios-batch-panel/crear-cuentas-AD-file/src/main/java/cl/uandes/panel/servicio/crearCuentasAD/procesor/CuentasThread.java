@@ -58,7 +58,6 @@ public class CuentasThread implements Processor {
 	 * - Verifica que el RUT co tenga una cuenta AD asociada.
 	 * - Si no tiene:
 	 * 		- Completa el DTO solicitando un samaccountName
-	 * 			Usa el servicio getSamaccountName de RegistrosComunes para generar un nombre de cuenta unico y no utilizado
 	 * 			para el AD.
 	 * 		- Invoca al API para crear la cuenta en el AD
 	 * - si tiene, se usa la que tiene
@@ -129,6 +128,7 @@ public class CuentasThread implements Processor {
 								cuentasADDTO.getEmployeeId(),
 								cuentasADDTO.getNombres(),
 								cuentasADDTO.getApellidos(),
+								cuentasADDTO.getEmail(),
 								cuentasADDTO.getPidm(),
 								cuentasADDTO.getNivel(),
 								cuentasADDTO.getEstadoAcademico()));

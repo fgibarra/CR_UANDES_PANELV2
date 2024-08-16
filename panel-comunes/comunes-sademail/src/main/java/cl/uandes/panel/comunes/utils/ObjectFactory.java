@@ -39,6 +39,16 @@ public class ObjectFactory {
 		return res;
 	}
 
+	public static ResultadoFuncion createResultadoFuncion(String proceso, BigDecimal key) {
+		ResultadoFuncion res = new ResultadoFuncion();
+		res.setKey(Integer.valueOf(key.intValue()));
+		res.setFuncion(proceso);
+		res.setMaxThreads(1);
+		res.setMinThreads(1);
+		res.setHoraComienzo(new Timestamp(new java.util.Date().getTime()));
+		return res;
+	}
+
 	public static Integer toInteger(BigDecimal dato) {
 		if (dato == null)
 			return (Integer) null;

@@ -93,7 +93,44 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- __________________________________________________________________________________________________ -->
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- servicios gmail -->
+    <!-- Consultar nickname gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/nickName/retrieve/{username}"
+        id="consultaNickNameGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.tools.actualizaCuentasAD.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- Consultar cuenta gmail -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/gmailServices/user/retrieve?loginName=${loginName}"
+        id="consultaGMail" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.tools.actualizaCuentasAD.api.restclient.ConsultasGMailEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <bean class="cl.uandes.panel.comunes.bean.RegistrosComunes" id="registrosComunes">
+        <argument index="0" value="corregirPregrado"/>
+        <!-- reemplazar artifactId -->
+    </bean>
+    <!-- __________________________________________________________________________________________________ -->
+    <bean class="cl.uandes.panel.comunes.procesor.InicializarTool" id="inicialiceCorregirPregrado">
+        <property name="registraInicio" ref="registrosComunes"/>
+		<property name="proceso" value="corregirPregrado"/>
+    </bean>
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.api.resources.ActualizaCuentasADRestService" id="restService"/>
     <!-- __________________________________________________________________________________________________ -->
@@ -108,6 +145,10 @@
     </bean>
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.procesor.PareaCuentas" id="pareaCuentas">
+        <property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
+    </bean>
+    <bean
+        class="cl.uandes.panel.tools.actualizaCuentasAD.procesor.CuentasPregrado" id="cuentasPregrado">
         <property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
@@ -181,20 +222,40 @@
         </route>
         <!-- ================================================================================================= -->
         <!-- ================================================================================================= -->
-		<route id="_parearADRoute">
-			<from uri="seda:pareaCuentasAD"/>
-			<bean method="generaListaXpareo" ref="generaDatos"/>
-			<loop doWhile="true">
+        <route id="_parearADRoute">
+            <from uri="seda:pareaCuentasAD"/>
+            <bean method="generaListaPregrado" ref="generaDatos"/>
+            <loop doWhile="true" id="_loop3">
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
-				<bean method="getCuentaFromListaSinActualizar" ref="generaDatos"/>
+                <bean method="getCuentaFromListaSinActualizar" ref="generaDatos"/>
                 <log message="(L178) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter}"/>
                 <to uri="direct:pareaCuenta"/>
-			</loop>
-		</route>			
+            </loop>
+        </route>
         <!-- ================================================================================================= -->
-		<route id="_pareaCuentaRoute">
-			<from uri="direct:pareaCuenta"/>
-			<process ref="pareaCuentas"/>
-		</route>
+        <route id="_pareaCuentaRoute">
+            <from id="_from4" uri="direct:pareaCuenta"/>
+            <process id="_process1" ref="pareaCuentas"/>
+        </route>
+        <!-- ================================================================================================= -->
+        <route id="_pregradoRoute">
+            <from uri="seda:procesaPregrado"/>
+			<process id="_recuperaDatosInicializar" ref="inicialiceCorregirPregrado"/>
+			<log message="(L212) inicializado procesa pregrado: ${header.inicializado}"/>
+            <choice>
+                <when>
+                    <simple>${header.inicializado}</simple>
+			            <bean method="generaListaPregrado" ref="generaDatos"/>
+			            <loop doWhile="true">
+			                <simple>${header.listaCuentas.size} &gt; 0</simple>
+							<bean method="getCuentaCorregir" ref="generaDatos"/>
+			                <process ref="cuentasPregrado"/>
+			            </loop>
+                </when>
+				<otherwise>
+					<log message="(L225) No se ejecuto el proceso"/>
+				</otherwise>
+            </choice>
+        </route>
     </camelContext>
 </blueprint>

@@ -20,6 +20,7 @@
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/procesor/FinalizaProceso.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/bean/package-info.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/restclient/ConsultaADEndpoint.java
+/home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/procesor/InicializarTool.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/servicios/dto/KcoLogErrorDTO.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/bean/RegistrosComunes.java
 /home/sademail/CodereadyProjects/UANDES/PANELV2/panel-comunes/comunes-sademail/src/main/java/cl/uandes/panel/comunes/json/creaCuenta/CreaCuentaResponse.java
