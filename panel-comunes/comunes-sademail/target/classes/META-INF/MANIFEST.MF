@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1723755149274
+Bnd-LastModified: 1723812314672
 Build-Jdk: 1.8.0_291
 Built-By: sademail
 Bundle-Description: ComunesPanel
@@ -23,17 +23,18 @@ Export-Package: cl.uandes.panel.comunes.json.aeOwnersMembers;version="1.
  l.uandes.panel.comunes.json.sincronizaGrupos;version="1.0.2";uses:="com
  .fasterxml.jackson.annotation",cl.uandes.panel.comunes.json.updateidgma
  il;version="1.0.2";uses:="com.fasterxml.jackson.annotation",cl.uandes.p
- anel.comunes.servicios.dto;version="1.0.2";uses:="com.fasterxml.jackson
- .annotation",cl.uandes.panel.comunes.servicios.exceptions;version="1.0.
- 2",cl.uandes.panel.comunes.servicios.restclient;version="1.0.2";uses:="
- cl.uandes.panel.comunes.json.batch,cl.uandes.panel.comunes.json.batch.c
- rearcuentas",cl.uandes.panel.comunes.utils;version="1.0.2";uses:="cl.ua
- ndes.panel.comunes.json.batch,cl.uandes.panel.comunes.servicios.dto,org
- .apache.log4j",cl.uandes.panel.comunes.bean;version="1.0.2";uses:="cl.u
- andes.panel.comunes.servicios.dto",cl.uandes.panel.comunes.procesor;ver
- sion="1.0.2";uses:="cl.uandes.panel.comunes.bean,cl.uandes.panel.comune
- s.json.batch,cl.uandes.panel.comunes.servicios.dto",sql_comunes;version
- ="1.0.2"
+ anel.comunes.json.tools;version="1.0.3";uses:="com.fasterxml.jackson.an
+ notation",cl.uandes.panel.comunes.servicios.dto;version="1.0.2";uses:="
+ com.fasterxml.jackson.annotation",cl.uandes.panel.comunes.servicios.exc
+ eptions;version="1.0.2",cl.uandes.panel.comunes.servicios.restclient;ve
+ rsion="1.0.2";uses:="cl.uandes.panel.comunes.json.batch,cl.uandes.panel
+ .comunes.json.batch.crearcuentas",cl.uandes.panel.comunes.utils;version
+ ="1.0.2";uses:="cl.uandes.panel.comunes.json.batch,cl.uandes.panel.comu
+ nes.servicios.dto,org.apache.log4j",cl.uandes.panel.comunes.bean;versio
+ n="1.0.2";uses:="cl.uandes.panel.comunes.servicios.dto",cl.uandes.panel
+ .comunes.procesor;version="1.0.2";uses:="cl.uandes.panel.comunes.bean,c
+ l.uandes.panel.comunes.json.batch,cl.uandes.panel.comunes.servicios.dto
+ ",sql_comunes;version="1.0.2"
 Import-Package: org.apache.log4j;version="[1.2,2)",com.fasterxml.jackson
  .databind;version="[2.6,3)",com.fasterxml.jackson.annotation;version="[
  2.6,3)",org.apache.commons.lang;version="[2.6,3)",cl.uandes.sadmemail.c

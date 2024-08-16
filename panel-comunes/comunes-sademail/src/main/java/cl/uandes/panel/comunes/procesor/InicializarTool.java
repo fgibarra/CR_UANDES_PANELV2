@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.json.batch.ProcesoDiarioResponse;
-import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.utils.CountThreads;
 
@@ -31,17 +30,13 @@ public class InicializarTool implements Processor {
 		message.setHeader("proceso", getProceso());
 		Map<String, Object> datosInicializacion = registraInicio.inicializarTool(exchange);
 		if (datosInicializacion != null) {
-			DatosKcoFunciones data = (DatosKcoFunciones) datosInicializacion.get("DatosKcoFunciones");
 			ResultadoFuncion res = (ResultadoFuncion) datosInicializacion.get("ResultadoFuncion");
 			
-			message.setHeader("DatosKcoFunciones", data);
 			message.setHeader("ResultadoFuncion", res);
 			message.setHeader("key", BigDecimal.valueOf(res.getKey().longValue()));		
 			
 			message.setHeader("countThread", new CountThreads());
 			
-			logger.info(String.format("InicializarProceso: KCO_FUNCIONES.deshabilitado %b", data.getParametros().getDisabled()));
-
 			inicializado = Boolean.TRUE;
 		} else {
 			// no pudo inicializar

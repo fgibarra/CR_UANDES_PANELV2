@@ -53,4 +53,4 @@ FROM
 WHERE
     rut LIKE '@%'
 ORDER BY
-    spriden_id
+    rut

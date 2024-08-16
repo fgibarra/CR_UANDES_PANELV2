@@ -12,8 +12,10 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.StringUtilities;
+import cl.uandes.panel.tools.actualizaCuentasAD.api.json.ActualizaCuentasADRequest;
 import cl.uandes.panel.tools.actualizaCuentasAD.api.json.OperacionXFecha;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.AdCuentasCreadasDTO;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.BdCuentasSinActualizarDTO;
@@ -22,6 +24,8 @@ import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.CorregirPregradoDTO;
 
 public class GeneraDatos {
 
+	RegistrosComunes registrosComunes;
+	
 	@PropertyInject(value = "actualizar-cuentas-AD.debug", defaultValue = "false")
 	protected String debug;
 	protected Boolean soloDebug = Boolean.valueOf(debug); //  true --> NO envia
@@ -169,7 +173,7 @@ public class GeneraDatos {
 	@SuppressWarnings("unchecked")
 	public void generaListaPregrado(Exchange exchange) {
 		Message message = exchange.getIn();
-		this.soloDebug = Boolean.valueOf(getDebug());
+		this.soloDebug = ((ActualizaCuentasADRequest)message.getHeader("request")).getSoloDebug();
 		
 		List<Map<String, Object>> datos;		
 		datos = (List<Map<String, Object>>) corregirPregrado.requestBody(null);
@@ -192,6 +196,7 @@ public class GeneraDatos {
 	
 	public void getCuentaCorregir(Exchange exchange) {
 		Message message = exchange.getIn();
+		this.soloDebug = ((ActualizaCuentasADRequest)message.getHeader("request")).getSoloDebug();
 		@SuppressWarnings("unchecked")
 		List<CorregirPregradoDTO> lista = (List<CorregirPregradoDTO>)message.getHeader("listaCuentas");
 		CorregirPregradoDTO dto = lista.remove(0);
@@ -200,6 +205,10 @@ public class GeneraDatos {
 			logger.info(String.format("procesar CorregirPregradoDTO: %s", dto));
 		CountThreads countThread = (CountThreads) message.getHeader("countThread");
 		countThread.incCounter();
+	}
+	
+	public void cierraListaPregrado(Exchange exchange) {
+		registrosComunes.cierraMiResultados(exchange, "contadores");
 	}
 	//===============================================================================================================
 	// Getters y Setters
@@ -212,6 +221,14 @@ public class GeneraDatos {
 
 	public void setDebug(String debug) {
 		this.debug = debug;
+	}
+
+	public RegistrosComunes getRegistrosComunes() {
+		return registrosComunes;
+	}
+
+	public void setRegistrosComunes(RegistrosComunes registrosComunes) {
+		this.registrosComunes = registrosComunes;
 	}
 
 }

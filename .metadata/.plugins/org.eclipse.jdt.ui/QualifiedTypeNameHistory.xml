@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.io.FileInputStream"/>
-    <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="java.nio.CharBuffer"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.CuentasADDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentasAD"/>
-    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonCreator"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.LastResponse"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response.Status"/>
     <fullyQualifiedTypeName name="org.apache.camel.Message"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.ActualizaConsumoPanel"/>
     <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.GuiResponse"/>
@@ -51,7 +43,6 @@
     <fullyQualifiedTypeName name="java.math.BigDecimal"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.StringUtilities"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.BdCuentasSinActualizarDTO"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.api.json.ActualizaCuentasADRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.CorregirPregradoDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.ContadoresActualizaCuentas"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
@@ -60,4 +51,13 @@
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
     <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonCreator"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.api.json.ActualizaCuentasADRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.Traza"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.tools.Servicios"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
 </qualifiedTypeNameHistroy>

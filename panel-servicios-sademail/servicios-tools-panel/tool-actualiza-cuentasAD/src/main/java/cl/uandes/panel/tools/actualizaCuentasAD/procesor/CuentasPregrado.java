@@ -14,10 +14,13 @@ import org.apache.camel.PropertyInject;
 import org.apache.cxf.jaxrs.impl.ResponseImpl;
 import org.apache.log4j.Logger;
 
+import cl.uandes.panel.comunes.bean.RegistrosComunes;
 import cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPRequest;
 import cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPResponse;
 import cl.uandes.panel.comunes.json.serviciosLDAP.Usuario;
 import cl.uandes.panel.comunes.json.serviciosLDAP.UsuarioResponse;
+import cl.uandes.panel.comunes.json.tools.Servicios;
+import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
 import cl.uandes.panel.comunes.utils.CountThreads;
 import cl.uandes.panel.comunes.utils.ObjectFactory;
 import cl.uandes.panel.tools.actualizaCuentasAD.api.exceptions.ConsultaCuentaADException;
@@ -28,8 +31,10 @@ import cl.uandes.panel.tools.actualizaCuentasAD.api.exceptions.EliminarDeTablaEx
 import cl.uandes.panel.tools.actualizaCuentasAD.api.exceptions.EsCuentaCreadaXpanelException;
 import cl.uandes.panel.tools.actualizaCuentasAD.api.exceptions.ExisteCuentaADException;
 import cl.uandes.panel.tools.actualizaCuentasAD.api.exceptions.ValidarCuentaADException;
+import cl.uandes.panel.tools.actualizaCuentasAD.api.json.ActualizaCuentasADRequest;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.ContadoresActualizaCuentas;
 import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.CorregirPregradoDTO;
+import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.Traza;
 
 /**
  * 
@@ -52,6 +57,8 @@ import cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.CorregirPregradoDTO;
  */
 public class CuentasPregrado implements Processor {
 
+	RegistrosComunes registrosComunes;
+	
 	@PropertyInject(value = "actualizar-cuentas-AD.debug", defaultValue = "false")
 	protected String debug;
 	protected Boolean soloDebug = Boolean.valueOf(debug); //  true --> NO envia
@@ -73,37 +80,49 @@ public class CuentasPregrado implements Processor {
 	private String msgError;
 	private ContadoresActualizaCuentas contadores;
 	private Logger logger = Logger.getLogger(getClass());
-
+	private Traza traza;
+	
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message message = exchange.getIn();
-		this.soloDebug = Boolean.valueOf(getDebug());
+		this.soloDebug = ((ActualizaCuentasADRequest)message.getHeader("request")).getSoloDebug();
 		this.contadores = (ContadoresActualizaCuentas)message.getHeader("contadores");
 		if (contadores == null)
 			throw new RuntimeException("No se inicializo ContadoresActualizaCuentas");
 		contadores.incCountProcesados();
+		ResultadoFuncion res = (ResultadoFuncion)message.getHeader("ResultadoFuncion");
+		if (res == null)
+			throw new RuntimeException("No se inicializo ResultadoFuncion");
+
 		CorregirPregradoDTO dto = (CorregirPregradoDTO) message.getHeader("CorregirPregradoDTO");
+		traza = new Traza(dto.toString());
+		
+		logger.info(String.format("CuentasPregrado procesa getEmployeeId: %s getSammacountName: %s traza: %s",
+				dto.getEmployeeId(), dto.getSammacountName(), traza));
 		try {
 			if (existeCuentaAD(dto.getEmployeeId())) {
 				if (esCuentaCreadaXpanel(dto.getEmployeeId())) {
-					if (!soloDebug) {
-						eliminarCuentaAD(dto.getEmployeeId());
-						eliminarDeTabla(dto.getRut());
-						crearCuentaAD(dto);
-					}
+					eliminarCuentaAD(dto.getEmployeeId());
+					eliminarDeTabla(dto.getRut());
+					crearCuentaAD(dto);
+					//crearEnTabla(dto);
 					contadores.incCountRecreadasAD();
 				}
 			} else if (existeCuentaAD(dto.getSammacountName())) {
 				if (esCuentaCreadaXpanel(dto.getSammacountName())) {
 					validarCuentaAD(dto);
+					eliminarDeTabla(dto.getRut());
+					//crearEnTabla(dto);
 					contadores.incCountActualizadasAD();
 				}
 			} else {
 				crearCuentaAD(dto);
-				crearEnTabla(dto);
+				eliminarDeTabla(dto.getRut());
+				//crearEnTabla(dto);
 				contadores.incCountCreadasAD();
 			}
 		} catch (Exception e) {
+			logger.error(String.format("ERROR procesando: %s", dto), e);
 			contadores.incCountErrores();
 			String msg = e.getMessage();
 			if (e instanceof ExisteCuentaADException) {
@@ -114,14 +133,21 @@ public class CuentasPregrado implements Processor {
 			} else if ( e instanceof CrearEnTablaException) {
 				
 			}
-			
+			// registrar el error en BD
+			registrosComunes.registraMiResultadoErrores(e.getClass().getSimpleName(), msg, e, null, res.getKey());
 		}
+		
+		// grabar la traza en archivo
+		message.setBody(traza.dump());
+		exchange.getContext().createProducerTemplate().requestBody("direct:grabaTraza", traza.dump());
+		
 		CountThreads countThread = (CountThreads) message.getHeader("countThread");
 		countThread.decCounter();
 	}
 
 	private boolean existeCuentaAD(String sammacountName) throws ValidarCuentaADException {
 		boolean existeCuenta = false;
+		logger.info(String.format("valiadrCuenta: %s", sammacountName));
 		try {
 			Map<String,Object> headers = new HashMap<String,Object>();
 			// validar el usuario en el AD
@@ -130,10 +156,15 @@ public class CuentasPregrado implements Processor {
 			ServiciosLDAPRequest request = new ServiciosLDAPRequest("ValidarUsuario", 
 					null, 
 					Usuario.createUsuario4validar(sammacountName));
+			
+			Servicios servicio = traza.add("POST",validarUsuarioAD.getDefaultEndpoint().getEndpointUri(), request.toString());
+			
 			ServiciosLDAPResponse response = null;
 			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
 					(ResponseImpl) validarUsuarioAD.requestBodyAndHeaders(request, headers),
 					ServiciosLDAPResponse.class);
+			servicio.setResponse(response.toString());
+			
 			if (response.getCodigo() == 0) {
 				logger.info(String.format("validar cuenta para samaccountName: %s msg: %s",
 						sammacountName, response.getMensaje()));
@@ -148,10 +179,12 @@ public class CuentasPregrado implements Processor {
 				throw new ValidarCuentaADException(msg);
 			}
 		} catch (Exception e) {
-			String msg = String.format("Error al validarCuenta %s", sammacountName);
+			String msg = String.format("Error al validarCuenta %s. traza: %s", sammacountName, traza);
 			setMsgError(msg);
+			logger.error(msg, e);
 			throw new ValidarCuentaADException(msg, e);
 		}
+		logger.info(String.format(" existeCuenta %s ? = %b", sammacountName, existeCuenta));
 		return existeCuenta;
 	}
 
@@ -224,9 +257,7 @@ public class CuentasPregrado implements Processor {
 				logger.info(String.format("actualizar los siguientes atributos cuenta %s", usuario));
 			
 			// actualizar el AD
-			if (!soloDebug) {
-				actualizaCuenta(usuario);
-			}
+			actualizaCuenta(usuario);
 		}
 	}
 
@@ -239,11 +270,17 @@ public class CuentasPregrado implements Processor {
 		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ActualizarUsuario", 
 				null, 
 				usuario);
+		Servicios servicio = traza.add("POST",actualizarUsuarioAD.getDefaultEndpoint().getEndpointUri(), request.toString());
 		ServiciosLDAPResponse response = null;
 		try {
-			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
-					(ResponseImpl) actualizarUsuarioAD.requestBodyAndHeaders(request, headers),
-					ServiciosLDAPResponse.class);
+			if (!soloDebug)
+				response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
+						(ResponseImpl) actualizarUsuarioAD.requestBodyAndHeaders(request, headers),
+						ServiciosLDAPResponse.class);
+			else
+				response = new ServiciosLDAPResponse(0, "OK");
+			
+			servicio.setResponse(response.toString());
 			if (response.getCodigo() == 0) {
 				logger.info(String.format("actualizar cuenta para usuario: %s msg: %s",
 						usuario, response.getMensaje()));
@@ -273,11 +310,17 @@ public class CuentasPregrado implements Processor {
 		ServiciosLDAPRequest request = new ServiciosLDAPRequest("EliminarUsuario", 
 				null, 
 				Usuario.createUsuario4validar(samaccountName));
+		Servicios servicio = traza.add("POST",eliminarUsuarioAD.getDefaultEndpoint().getEndpointUri(), request.toString());
 		ServiciosLDAPResponse response = null;
 		try {
-			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
-					(ResponseImpl) eliminarUsuarioAD.requestBodyAndHeaders(request, headers),
-					ServiciosLDAPResponse.class);
+			if (!soloDebug)
+				response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
+						(ResponseImpl) eliminarUsuarioAD.requestBodyAndHeaders(request, headers),
+						ServiciosLDAPResponse.class);
+			else
+				response = new ServiciosLDAPResponse(0, "OK");
+			servicio.setResponse(response.toString());
+			
 			if (response.getCodigo() == 0) {
 				logger.info(String.format("eliminar cuenta para samaccountName: %s msg: %s",
 						samaccountName, response.getMensaje()));
@@ -311,11 +354,16 @@ public class CuentasPregrado implements Processor {
 		ServiciosLDAPRequest request = new ServiciosLDAPRequest("CrearUsuario", 
 				null, 
 				usuario);
+		Servicios servicio = traza.add("POST",crearUsuarioAD.getDefaultEndpoint().getEndpointUri(), request.toString());
 		ServiciosLDAPResponse response = null;
 		try {
-			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
-					(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
-					ServiciosLDAPResponse.class);
+			if (!soloDebug)
+				response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
+						(ResponseImpl) crearUsuarioAD.requestBodyAndHeaders(request, headers),
+						ServiciosLDAPResponse.class);
+			else
+				response = new ServiciosLDAPResponse(0, "OK" );
+			servicio.setResponse(response.toString());
 			if (response.getCodigo() == 0) {
 				logger.info(String.format("crear cuenta para samaccountName: %s msg: %s",
 						dto.getSammacountName(), response.getMensaje()));
@@ -340,7 +388,11 @@ public class CuentasPregrado implements Processor {
 
 	private void eliminarDeTabla(String samaccountName) throws EliminarDeTablaException {
 		try {
-			eliminarUsuarioAD.requestBodyAndHeader(null, "samaccountName", samaccountName);
+			if (!soloDebug)
+				eliminarUsuarioAD.requestBodyAndHeader(null, "samaccountName", samaccountName);
+			Servicios servicio = traza.add("SQL.DELETE",eliminarUsuarioAD.getDefaultEndpoint().getEndpointUri(), samaccountName);
+			servicio.setResponse("OK");
+			
 		} catch (CamelExecutionException e) {
 			throw new EliminarDeTablaException(String.format("Error al tratar de eliminar %s de la tabla", samaccountName), e);
 		}
@@ -353,7 +405,12 @@ public class CuentasPregrado implements Processor {
 		headers.put("rut", dto.getRut());
 		headers.put("ou", String.format("cn=%s %s,ou=%s creada", dto.getNombres(), dto.getApellidos(), dto.getRut()));
 		try {
-			insertAdCuentasCreadas.requestBodyAndHeaders(null, headers);
+			if (!soloDebug)
+				insertAdCuentasCreadas.requestBodyAndHeaders(null, headers);
+			Servicios servicio = traza.add("SQL.INSERT",insertAdCuentasCreadas.getDefaultEndpoint().getEndpointUri(), 
+					String.format("samaccountName: %s rut: %s ou: %s", 
+							headers.get("samaccountName"), headers.get("rut"), headers.get("ou")));
+			servicio.setResponse("OK");
 		} catch (CamelExecutionException e) {
 			throw new CrearCuentaADException(String.format("Al tratar de crear entrada en tabla: %s", dto), e);
 		}
@@ -398,11 +455,14 @@ public class CuentasPregrado implements Processor {
 		ServiciosLDAPRequest request = new ServiciosLDAPRequest("ConsultarUsuario", 
 				null, 
 				Usuario.createUsuario4validar(samaccountName));
+		Servicios servicio = traza.add("POST",consultarUsuarioAD.getDefaultEndpoint().getEndpointUri(), request.toString());
 		ServiciosLDAPResponse response = null;
 		try {
 			response = (ServiciosLDAPResponse) ObjectFactory.procesaResponseImpl(
 					(ResponseImpl) consultarUsuarioAD.requestBodyAndHeaders(request, headers),
 					ServiciosLDAPResponse.class);
+			servicio.setResponse(response.toString());
+			
 			if (response.getCodigo() == 0) {
 				logger.info(String.format("validar cuenta para samaccountName: %s msg: %s",
 						samaccountName, response.getMensaje()));
@@ -444,5 +504,13 @@ public class CuentasPregrado implements Processor {
 
 	public void setMsgError(String msgError) {
 		this.msgError = msgError;
+	}
+
+	public RegistrosComunes getRegistrosComunes() {
+		return registrosComunes;
+	}
+
+	public void setRegistrosComunes(RegistrosComunes registrosComunes) {
+		this.registrosComunes = registrosComunes;
 	}
 }

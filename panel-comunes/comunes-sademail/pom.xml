@@ -45,6 +45,7 @@
 							cl.uandes.panel.comunes.json.sendmail,
 							cl.uandes.panel.comunes.json.sincronizaGrupos,
 							cl.uandes.panel.comunes.json.updateidgmail,
+							cl.uandes.panel.comunes.json.tools,
 							cl.uandes.panel.comunes.servicios.dto,
 							cl.uandes.panel.comunes.servicios.exceptions,
 							cl.uandes.panel.comunes.servicios.restclient,

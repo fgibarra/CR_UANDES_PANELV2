@@ -15,14 +15,19 @@ public class ActualizaCuentasADRequest implements Serializable {
 	private static final long serialVersionUID = 2617833104842000010L;
 	@JsonProperty("operacion")
 	private String operacion;
+	@JsonProperty("soloDebug")
+	private Boolean soloDebug;
 	@JsonProperty("datos-servicio")
 	private OperacionXFecha datos;
 
 	@JsonCreator
-	public ActualizaCuentasADRequest(@JsonProperty("operacion") String operacion,
+	public ActualizaCuentasADRequest(
+			@JsonProperty("operacion") String operacion,
+			@JsonProperty("soloDebug") Boolean soloDebug,
 			@JsonProperty("datos-servicio") OperacionXFecha datos) {
 		super();
 		this.operacion = operacion;
+		this.soloDebug = soloDebug;
 		this.datos = datos;
 	}
 
@@ -44,6 +49,14 @@ public class ActualizaCuentasADRequest implements Serializable {
 
 	public OperacionXFecha getDatos() {
 		return datos;
+	}
+
+	public Boolean getSoloDebug() {
+		return soloDebug;
+	}
+
+	public void setSoloDebug(Boolean soloDebug) {
+		this.soloDebug = soloDebug;
 	}
 
 }

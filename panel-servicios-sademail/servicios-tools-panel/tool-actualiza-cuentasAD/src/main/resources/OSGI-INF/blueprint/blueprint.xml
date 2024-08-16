@@ -129,7 +129,7 @@
     <!-- __________________________________________________________________________________________________ -->
     <bean class="cl.uandes.panel.comunes.procesor.InicializarTool" id="inicialiceCorregirPregrado">
         <property name="registraInicio" ref="registrosComunes"/>
-		<property name="proceso" value="corregirPregrado"/>
+        <property name="proceso" value="corregirPregrado"/>
     </bean>
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.api.resources.ActualizaCuentasADRestService" id="restService"/>
@@ -137,6 +137,7 @@
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.bean.GeneraDatos" id="generaDatos">
         <property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
+        <property name="registrosComunes" ref="registrosComunes"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean
@@ -150,6 +151,7 @@
     <bean
         class="cl.uandes.panel.tools.actualizaCuentasAD.procesor.CuentasPregrado" id="cuentasPregrado">
         <property name="debug" value="{{actualizar-cuentas-AD.debug}}"/>
+        <property name="registrosComunes" ref="registrosComunes"/>
     </bean>
     <!-- __________________________________________________________________________________________________ -->
     <bean
@@ -223,13 +225,14 @@
         <!-- ================================================================================================= -->
         <!-- ================================================================================================= -->
         <route id="_parearADRoute">
-            <from uri="seda:pareaCuentasAD"/>
-            <bean method="generaListaPregrado" ref="generaDatos"/>
+            <from id="_from3" uri="seda:pareaCuentasAD"/>
+            <bean id="_bean3" method="generaListaPregrado" ref="generaDatos"/>
             <loop doWhile="true" id="_loop3">
                 <simple>${header.listaCuentas.size} &gt; 0</simple>
-                <bean method="getCuentaFromListaSinActualizar" ref="generaDatos"/>
-                <log message="(L178) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter}"/>
-                <to uri="direct:pareaCuenta"/>
+                <bean id="_bean4"
+                    method="getCuentaFromListaSinActualizar" ref="generaDatos"/>
+                <log id="_log7" message="(L178) procesa elemento numero: ${header.listaCuentas.size} countThread=${header.countThread.getCounter}"/>
+                <to id="_to2" uri="direct:pareaCuenta"/>
             </loop>
         </route>
         <!-- ================================================================================================= -->
@@ -239,23 +242,29 @@
         </route>
         <!-- ================================================================================================= -->
         <route id="_pregradoRoute">
-            <from uri="seda:procesaPregrado"/>
-			<process id="_recuperaDatosInicializar" ref="inicialiceCorregirPregrado"/>
-			<log message="(L212) inicializado procesa pregrado: ${header.inicializado}"/>
-            <choice>
-                <when>
+            <from id="_from5" uri="seda:procesaPregrado"/>
+            <process id="_recuperaDatosInicializar" ref="inicialiceCorregirPregrado"/>
+            <log id="_log8" message="(L245) inicializado procesa pregrado: ${header.inicializado}"/>
+            <choice id="_choice1">
+                <when id="_when1">
                     <simple>${header.inicializado}</simple>
-			            <bean method="generaListaPregrado" ref="generaDatos"/>
-			            <loop doWhile="true">
-			                <simple>${header.listaCuentas.size} &gt; 0</simple>
-							<bean method="getCuentaCorregir" ref="generaDatos"/>
-			                <process ref="cuentasPregrado"/>
-			            </loop>
+                    <bean id="_bean5" method="generaListaPregrado" ref="generaDatos"/>
+                    <loop doWhile="true" id="_loop4">
+                        <simple>${header.listaCuentas.size} &gt; 0</simple>
+                        <bean id="_bean6" method="getCuentaCorregir" ref="generaDatos"/>
+                        <process id="_process2" ref="cuentasPregrado"/>
+                    </loop>
+					<bean method="cierraListaPregrado" ref="generaDatos"/>
                 </when>
-				<otherwise>
-					<log message="(L225) No se ejecuto el proceso"/>
-				</otherwise>
+                <otherwise id="_otherwise2">
+                    <log id="_log9" message="(L258) No se ejecuto el proceso"/>
+                </otherwise>
             </choice>
         </route>
+        <!-- ================================================================================================= -->
+		<route id="_grabaTraza">
+			<from uri="direct:grabaTraza"/>
+			<to uri="file:///tmp?autoCreate=true&amp;fileName=trazaCorrigePregrado.log&amp;fileExist=Append"/>
+		</route>
     </camelContext>
 </blueprint>

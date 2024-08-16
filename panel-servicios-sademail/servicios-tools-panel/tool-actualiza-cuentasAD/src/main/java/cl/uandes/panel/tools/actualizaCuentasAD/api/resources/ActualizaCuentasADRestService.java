@@ -68,6 +68,10 @@ public class ActualizaCuentasADRestService {
 		if (request.getOperacion().equalsIgnoreCase("pregrado"))
 			valida = true;
 		
+		if (request.getSoloDebug() != null)
+			valida = true;
+		else
+			valida = false;
 		return valida;
 	}
 
@@ -88,9 +92,9 @@ public class ActualizaCuentasADRestService {
 				withBody(request).build();
 		logger.info(String.format("ActualizaCuentasADRestService.procese: activa seda:procesaActualizacionCuentas con header.request = %s", 
 				exchange.getIn().getHeader("request")));
-		procesoBatch.asyncSend("seda:procesaActualizacionCuentas", exchange);
+		//procesoBatch.asyncSend("seda:procesaActualizacionCuentas", exchange);
 		
-		Response response = Response.ok().status(200).entity("Partio actualizar_cuentas").build();
+		Response response = Response.ok().status(200).entity("Deshabilitado actualizar_cuentas").build();
 		return response;
 	}
 /*
