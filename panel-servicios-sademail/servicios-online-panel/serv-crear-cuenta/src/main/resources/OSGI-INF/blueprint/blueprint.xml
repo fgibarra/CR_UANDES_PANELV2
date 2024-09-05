@@ -140,18 +140,18 @@
             <choice id="_choice5">
                 <when id="_when5">
                     <simple>${header.request.enBanner}</simple>
-                    <to id="_to5" uri="seda:enBanner"/>
+                    <to id="_to5" uri="direct:enBanner"/>
                 </when>
                 <otherwise id="_otherwise4">
-                    <to id="_to6" uri="seda:noBanner"/>
+                    <to id="_to6" uri="direct:noBanner"/>
                 </otherwise>
             </choice>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_enBannerRoute">
-            <from id="_from4" uri="seda:enBanner"/>
+            <from id="_from4" uri="direct:enBanner"/>
             <!-- validar que ya no este creada -->
-            <to id="_validaMiCuentasGmail" uri="seda:validaMiCuentasGmail"/>
+            <to id="_validaMiCuentasGmail" uri="direct:validaMiCuentasGmail"/>
             <choice id="_choice3">
                 <when id="_when3">
                     <simple>${header.existeEnMicuentasGmail}</simple>
@@ -250,19 +250,19 @@
         </route>
         <!-- ==================================================================================================== -->
         <route id="_routeValidaMiCuentasGmail">
-            <from id="_from2" uri="seda:validaMiCuentasGmail"/>
+            <from id="_from2" uri="direct:validaMiCuentasGmail"/>
             <!-- deja en header.existeEnMicuentasGmail: true o false y en header.datosMiCuentasGmail los datos -->
-            <to id="_to3" uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where MOODLE_ID = :#${header.request.rut}?dataSource=#bannerDataSource"/>
+            <to id="_to3" uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where BANNER_PIDM in (SELECT SPRIDEN_PIDM FROM SPRIDEN WHERE SPRIDEN_CHANGE_IND is null and SPRIDEN_ID=:#${header.request.rut})?dataSource=#bannerDataSource"/>
             <process id="_armaDatosMiCuentasGmail" ref="armaDatosMiCuentasGmail"/>
-            <log id="_log8" message="en seda:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
+            <log id="_log8" message="en direct:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_routeValidaMiCuentasGmailByCuenta">
-            <from id="_from6" uri="seda:validaMiCuentasGmailByCuenta"/>
+            <from id="_from6" uri="direct:validaMiCuentasGmailByCuenta"/>
             <!-- deja en header.existeEnMicuentasGmail: true o false y en header.datosMiCuentasGmail los datos -->
             <to id="_to9" uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where LOGIN_NAME = :#${header.request.loginName}?dataSource=#bannerDataSource"/>
             <process id="_armaDatosMiCuentasGmailByCuenta" ref="armaDatosMiCuentasGmail"/>
-            <log id="_log14" message="en seda:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
+            <log id="_log14" message="en direct:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
         </route>
         <!-- ==================================================================================================== -->
         <route id="_routeLeeSpriden">
@@ -285,8 +285,8 @@
         </route>
         <!-- ==================================================================================================== -->
         <route id="_routeNoBanner">
-            <from id="_from5" uri="seda:noBanner"/>
-            <to id="_validaCuentaMiCuentasGmail" uri="seda:validaMiCuentasGmailByCuenta"/>
+            <from id="_from5" uri="direct:noBanner"/>
+            <to id="_validaCuentaMiCuentasGmail" uri="direct:validaMiCuentasGmailByCuenta"/>
             <choice id="_choice1">
                 <when id="_when1">
                     <simple>${header.existeEnMicuentasGmail}</simple>

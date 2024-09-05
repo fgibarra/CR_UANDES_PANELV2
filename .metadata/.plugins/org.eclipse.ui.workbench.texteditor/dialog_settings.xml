@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="mail"/>
+		<item key="selection" value="direct:validaMiCuentasGmail"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="direct:validaMiCuentasGmail"/>
+			<item value="seda:validaMiCuentasGmail"/>
+			<item value="seda:noBanner"/>
+			<item value="seda:enBanner"/>
+			<item value="rsCrearCuenta"/>
+			<item value="templateCreaCuentaGmail"/>
+			<item value="creaCuentaGmail"/>
 			<item value="mail"/>
 			<item value="registraMiResultadoErrores"/>
 			<item value="L212"/>
@@ -16,15 +23,11 @@
 			<item value="uriADcrearUsuarioAD"/>
 			<item value="adServices"/>
 			<item value="(L"/>
-			<item value="groups-retrieveAll"/>
-			<item value="crear-cuentas-AD."/>
-			<item value="nombres"/>
-			<item value="crear-cuentas-AD"/>
-			<item value="paraCrearCuentasAD"/>
-			<item value="direct:procesaGrupos"/>
-			<item value="direct:crearGrupos"/>
 		</list>
 		<list key="replacehistory">
+			<item value="direct:validaMiCuentasGmail"/>
+			<item value="direct:noBanner"/>
+			<item value="direct:enBanner"/>
 			<item value="ActualizaCuentasADRestService"/>
 			<item value="direct:ldapService"/>
 			<item value="direct:consultaXrut"/>
@@ -37,9 +40,6 @@
 			<item value="direct:"/>
 			<item value="SuspendeEliminaCuentasRestService"/>
 			<item value="-gmail"/>
-			<item value="gmail"/>
-			<item value="CuentasMiUandes"/>
-			<item value="GruposMiUandes"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

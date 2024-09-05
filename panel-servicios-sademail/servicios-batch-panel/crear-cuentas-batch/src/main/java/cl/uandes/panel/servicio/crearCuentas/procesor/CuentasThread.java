@@ -259,7 +259,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 		CreaCuentaResponse response;
 		try {
 			response = (CreaCuentaResponse) ObjectFactory.procesaResponseImpl(
-					(ResponseImpl) consultaRutAD.requestBodyAndHeaders(request, headers), CreaCuentaResponse.class);
+					(ResponseImpl) creaCuentaGmail.requestBodyAndHeaders(request, headers), CreaCuentaResponse.class);
 			if (response.getCodigo() == 0) {
 				// colocar en el header los datos de la cuenta creada
 				return true;
