@@ -252,7 +252,7 @@
         <route id="_routeValidaMiCuentasGmail">
             <from id="_from2" uri="direct:validaMiCuentasGmail"/>
             <!-- deja en header.existeEnMicuentasGmail: true o false y en header.datosMiCuentasGmail los datos -->
-            <to id="_to3" uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where BANNER_PIDM in (SELECT SPRIDEN_PIDM FROM SPRIDEN WHERE SPRIDEN_CHANGE_IND is null and SPRIDEN_ID=:#${header.request.rut})?dataSource=#bannerDataSource"/>
+            <to id="_to3" uri="sql:select KEY, MOODLE_ID, BANNER_PIDM, LOGIN_NAME, APELLIDOS, NOMBRES from MI_CUENTAS_GMAIL where BANNER_PIDM IS NOT null and BANNER_PIDM in (SELECT SPRIDEN_PIDM FROM SPRIDEN WHERE SPRIDEN_ID=:#${header.request.rut} and ROWNUM = 1)?dataSource=#bannerDataSource"/>
             <process id="_armaDatosMiCuentasGmail" ref="armaDatosMiCuentasGmail"/>
             <log id="_log8" message="en direct:validaMiCuentasGmail existeEnMicuentasGmail: ${header.existeEnMicuentasGmail} datosMiCuentasGmail: ${header.datosMiCuentasGmail}"/>
         </route>
