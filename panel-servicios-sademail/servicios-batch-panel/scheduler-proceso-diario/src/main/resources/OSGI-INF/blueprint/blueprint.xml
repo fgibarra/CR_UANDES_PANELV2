@@ -120,6 +120,7 @@
         class="cl.uandes.panel.servicio.scheduler.procesor.PreparaDatosMail" id="preparaDatosMail">
         <property name="asunto" value="{{scheduler.mail.asunto}}"/>
         <property name="from" value="{{serv.mailPanel.mail_from}}"/>
+        <property name="mailCcxservicio" value="{{serv.mailPanel.mail_ccxservicio}}"/>
     </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <!-- ==================================================================================================== -->

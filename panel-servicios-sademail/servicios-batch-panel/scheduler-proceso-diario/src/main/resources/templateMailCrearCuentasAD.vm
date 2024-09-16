@@ -204,7 +204,7 @@ El proceso se ha ejecutado por &uacute;ltima vez a las ${headers.ultimaEjecucion
 	<caption style="padding-bottom: 30px;text-decoration: underline;">Res&uacute;men de problemas encontrados en el proceso</caption>
 	<tr>
 	<th>RUT</th>
-	<th>Tipo</th>
+	<th>Tipo/Metodo</th>
 	<th colspan="2">causa</th>
 	<th>Fecha - Hora</th>
 	</tr>
