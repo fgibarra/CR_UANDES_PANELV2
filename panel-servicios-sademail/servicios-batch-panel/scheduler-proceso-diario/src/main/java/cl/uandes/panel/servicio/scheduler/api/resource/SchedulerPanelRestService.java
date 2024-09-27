@@ -59,9 +59,9 @@ public class SchedulerPanelRestService {
 		Exchange exchange = ExchangeBuilder.anExchange(producer.getCamelContext()).withHeader("request", request)
 				.withBody(request.getOperacion()).build();
 		logger.info(String.format("SchedulerPanelRestService: %s", request));
-		logger.info(String.format("SchedulerPanelRestService: esCrearCuentas: %b esCrearGrupos: %b esSincronizarGrupos: %b",
+		logger.info(String.format("SchedulerPanelRestService: esCrearCuentas: %b esCrearGrupos: %b esSincronizarGrupos: %b esCrearCuentasADPostgrado: %b",
 				esCrearCuentas(request.getOperacion()), esCrearGrupos(request.getOperacion()),
-				esSincronizarGrupos(request.getOperacion())));
+				esSincronizarGrupos(request.getOperacion()),esCrearCuentasADPostgrado(request.getOperacion())));
 		if (esCrearCuentas(request.getOperacion()))
 			producer.asyncSend("direct:terminaCrearCuentas", exchange);
 		else if (esCrearGrupos(request.getOperacion()))
@@ -72,8 +72,11 @@ public class SchedulerPanelRestService {
 			producer.asyncSend("direct:terminaSincronizarSuspenderEliminar", exchange);
 		else if (esSincronizarOwners(request.getOperacion()))
 			producer.asyncSend("direct:terminaSincronizarOwners", exchange);
-		else if (esCrearCuentasADPostgrado(request.getOperacion()))
+		else if (esCrearCuentasADPostgrado(request.getOperacion())) {
+			if ("BDC".indexOf(request.getOperacion()) >= 0)
+				exchange.getMessage().setHeader("tipo", "BDC");
 			producer.asyncSend("direct:terminaCrearCuentasADPostgrado", exchange);
+		}
 		
 		logger.info("va a crear Response");
 		Response response = Response.ok().status(200).entity("{ \"respuesta\": \"ACK\"}").build();
@@ -121,7 +124,7 @@ public class SchedulerPanelRestService {
 	}
 	
 	public boolean esCrearCuentasADPostgrado(String operacion) {
-		if (getProcesoProcesoCrearCuentasADPostgrado().equalsIgnoreCase(operacion))
+		if (operacion.indexOf(getProcesoProcesoCrearCuentasADPostgrado()) >= 0)
 			return true;
 		return false;
 	}

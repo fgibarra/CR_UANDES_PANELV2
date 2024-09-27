@@ -71,6 +71,69 @@
         </cxf:providers>
     </cxf:rsClient>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- servicio AD -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/consultaXrut"
+        id="rsADconsultaXrut" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/consultarUsuario"
+        id="rsADconsultarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/actualizarUsuario"
+        id="rsADactualizarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/eliminarUsuario"
+        id="rsADeliminarUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <cxf:rsClient
+        address="http://localhost:8181/cxf/ESB/panel/serviciosADv3/crearUsuario"
+        id="rsADcrearUsuario" loggingFeatureEnabled="true" serviceClass="cl.uandes.panel.apiCrearCuentaServices.api.restclient.ConsultaADEndpoint">
+        <cxf:headers>
+            <entry key="Content-Type" value="application/json"/>
+            <entry key="Accept" value="application/json"/>
+        </cxf:headers>
+        <cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsClient>
+    <!-- __________________________________________________________________________________________________ -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <bean
         class="cl.uandes.panel.apiCrearCuentaServices.api.resources.CrearCuentaRestService" id="restService"/>
     <bean
@@ -93,6 +156,9 @@
         class="cl.uandes.panel.apiCrearCuentaServices.procesor.EliminaCuentaGmail" id="eliminaCuentaGmail"/>
     <bean
         class="cl.uandes.panel.apiCrearCuentaServices.procesor.ArmaMiCuentasGmailFromRequest" id="armaMiCuentasGmailFromRequest"/>
+    <bean class="cl.uandes.panel.apiCrearCuentaServices.bean.ValidaEnAD" id="validaEnAD">
+        <property name="adServices" value="{{uri.serviciosAD}}"/>
+    </bean>
     <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
     <http-conf:conduit name="*.http-conduit">
         <http-conf:client ReceiveTimeout="600000"/>
@@ -158,6 +224,8 @@
                     <setHeader headerName="tipoRespuesta" id="_setHeader6">
                         <simple>Cuenta ${header.datosMiCuentasGmail.loginName} ya existe registrada para rut: ${header.request.rut}</simple>
                     </setHeader>
+                    <bean id="_validaUserPrincipalName1"
+                        method="validaUserPrincipalName" ref="validaEnAD"/>
                     <process id="_generaRespuestaExiste" ref="generaRespuesta"/>
                     <log id="_log10" message="TERMINA EL PROCESO"/>
                     <to id="_terminaExisteCuenta" uri="mock:end"/>
@@ -220,6 +288,8 @@
                         <when id="_when7">
                             <simple>${header.out_resultado} == 'OK'</simple>
                             <!-- Buscarla en el AD -->
+                            <bean id="_validaUserPrincipalName2"
+                                method="validaUserPrincipalName" ref="validaEnAD"/>
                             <!-- generar la respuesta -->
                             <process id="_generaRespuestaOK" ref="generaRespuesta"/>
                             <log id="_log11" message="TERMINA EL PROCESO OK"/>

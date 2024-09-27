@@ -6,6 +6,7 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>serv-crear-cuentas-panel</artifactId>
+  <version>0.0.2</version>
   <packaging>bundle</packaging>
   <name>serv-crear-cuentas-panel</name>
 	<dependencies>

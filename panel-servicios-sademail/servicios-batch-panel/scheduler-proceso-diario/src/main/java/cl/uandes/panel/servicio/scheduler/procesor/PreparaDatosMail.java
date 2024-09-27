@@ -40,6 +40,7 @@ public class PreparaDatosMail implements Processor {
 		Message message = exchange.getIn();
 		String mensaje = (String) message.getBody();
 		String operacion = (String)message.getHeader("operacion");
+		Integer reporteErroresSize = (Integer)message.getHeader("reporteErroresSize");
 		
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> lista = (List<Map<String, Object>>)qryKcoSendmailParams.requestBody(null);
@@ -48,7 +49,8 @@ public class PreparaDatosMail implements Processor {
 		// agregar al cc los mails especificos
 		String copias[] = params.getEmailsSoporte();
 		if ("crear_cuentas_AD_postgrado".equals(operacion)) {
-			copias = agregarCopias(copias, "crear_cuentas_AD_postgrado");
+			if (reporteErroresSize != null && reporteErroresSize > 0)
+				copias = agregarCopias(copias, "crear_cuentas_AD_postgrado");
 		}
 		SendmailRequest sendmailRequest = new SendmailRequest(params.getEmailWebMaster(), 
 				copias, from, null, getAsunto(), mensaje);

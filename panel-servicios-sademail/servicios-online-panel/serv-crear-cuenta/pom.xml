@@ -6,11 +6,19 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>serv-crear-cuenta</artifactId>
+  <version>0.0.2</version>
   <packaging>bundle</packaging>
   
   <name>serv-crear-cuenta</name>
 	<dependencies>
-		<!-- BIBLIOTECAS DE LA APLICACION BDC -->
+		<!-- BIBLIOTECAS DE LA APLICACION AD -->
+	  	<dependency>
+	  		<groupId>uandes.panel-v2.comunes</groupId>
+	  		<artifactId>comunes-ad-soap</artifactId>
+	  		<version>1.2.0</version>
+	  		<scope>system</scope>
+	  		<systemPath>${user.home}/.m2/repository/uandes/panel-v2/comunes/comunes-ad-soap/1.3.0/comunes-ad-soap-1.3.0.jar</systemPath>
+	  	</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-velocity</artifactId>
@@ -34,6 +42,8 @@
 							cl.uandes.sadmemail.comunes.google.api.services,
 							cl.uandes.mail.json,
 							cl.uandes.utils,
+							cl.uandes.panel.comunes.json.consultaXrut,
+							cl.uandes.panel.comunes.json.serviciosLDAP,
 							com.fasterxml.jackson.jaxrs.json;version="[2.6,3)",
 							com.fasterxml.jackson.databind,
 							com.fasterxml.jackson.annotation,

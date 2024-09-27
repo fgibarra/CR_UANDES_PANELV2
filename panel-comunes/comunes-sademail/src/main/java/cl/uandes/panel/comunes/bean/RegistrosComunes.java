@@ -365,7 +365,9 @@ public class RegistrosComunes {
 	 */
 	public String getSamaccountNamePregrado(@Header(value = "CuentasADDTO")CuentasADDTO cuentasADDTO, Exchange exchange) throws Exception {
 		if (cuentasADDTO != null) {
-			
+
+			logger.info(String.format("getSamaccountNamePregrado: cuentasADDTO: %s", cuentasADDTO));
+
 			// verifica que no se haya ocupado como nombre de cuenta o nickname en GMAIL
 			boolean esteOcupado = true;
 			do {
@@ -562,7 +564,8 @@ public class RegistrosComunes {
 	ProducerTemplate validarUsuarioAD;
 	private final String uriADvalidarUsuario = "http://localhost:8181/cxf/ESB/panel/serviciosAD/validarUsuario";
 	private Boolean estaOcupadoEnAD (CuentasADDTO cuentasADDTO) throws Exception {
-		logger.info(String.format("estaOcupadoEnAD: loginName=%s seq=%d", cuentasADDTO.getLoginName(), cuentasADDTO.getSeq()));
+		logger.info(String.format("estaOcupadoEnAD: loginName=%s seq=%d cuentasADDTO: %s",
+				cuentasADDTO.getLoginName(), cuentasADDTO.getSeq(), cuentasADDTO));
 		
 		if (!Boolean.valueOf(getDebug())) {
 			// Si no se definio debug o esta en false

@@ -224,7 +224,7 @@ public class CuentasThread extends cl.uandes.panel.comunes.utils.RegistrosEnBD i
 					ServiciosLDAPResponse.class);
 			
 		} catch (Exception e) {
-			logger.error("crearCuentaAD", e);
+			logger.error(String.format("crearCuentaAD: error al procesar: %s", dto), e);
 			registrosComunes.registraMiResultadoErrores("", String.format("createCuenta: CuentasADDTO: %s",dto), e, null, keyResultado);
 			response = new ServiciosLDAPResponse(-1, e.getMessage());
 		}

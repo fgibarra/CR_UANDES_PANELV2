@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.Usuario"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.servicios.dto.CuentasADDTO"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutResponse"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ContadoresCrearCuentasAD"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.LastResponse"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.core.Response.Status"/>
-    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.ActualizaConsumoPanel"/>
-    <fullyQualifiedTypeName name="javax.ws.rs.core.Response"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.GuiResponse"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.paraGui.json.ActualizaConsumoPanelRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.cambiacuenta.DatosCuenta"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest"/>
     <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.utils.StringUtils"/>
     <fullyQualifiedTypeName name="org.apache.camel.CamelContext"/>
     <fullyQualifiedTypeName name="org.apache.camel.impl.DefaultCamelContext"/>
@@ -27,15 +16,12 @@
     <fullyQualifiedTypeName name="java.sql.Timestamp"/>
     <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.EndpointInject"/>
     <fullyQualifiedTypeName name="org.apache.camel.ProducerTemplate"/>
-    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonInclude.Include"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPRequest"/>
-    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.Usuario"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPResponse"/>
     <fullyQualifiedTypeName name="org.apache.cxf.jaxrs.impl.ResponseImpl"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.UsuarioResponse"/>
@@ -45,7 +31,6 @@
     <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.CorregirPregradoDTO"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.tools.actualizaCuentasAD.bean.dto.ContadoresActualizaCuentas"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.ObjectFactory"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.utils.CountThreads"/>
     <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonCreator"/>
@@ -56,8 +41,23 @@
     <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="cl.uandes.panel.comunes.bean.RegistrosComunes"/>
     <fullyQualifiedTypeName name="java.util.LinkedList"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="java.util.StringTokenizer"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Exchange"/>
+    <fullyQualifiedTypeName name="org.apache.camel.Message"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ConsultaXrutRequest"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="org.apache.camel.PropertyInject"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.crearcuentas.ConsultaXrutResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.apiCrearCuentaServices.dto.DatosCuentaAdDTO"/>
+    <fullyQualifiedTypeName name="cl.uandes.sadmemail.comunes.gmail.json.UserResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.creaCuenta.CreaCuentaRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutResponse"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutRequest"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.serviciosLDAP.Usuario"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.apiCrearCuentaServices.exceptions.ValidaEnAdException"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
+    <fullyQualifiedTypeName name="cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest"/>
 </qualifiedTypeNameHistroy>

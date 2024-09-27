@@ -163,7 +163,9 @@ public class GeneraDatos {
 		SchedulerPanelRequest request = (SchedulerPanelRequest) message.getHeader("request");
 		String proceso = (String)message.getBody();
 		Integer keyResultado = request.getKeyResultado();
-		String operacion = (String)message.getHeader("operacion");
+		String tipo = (String)message.getHeader("tipo");
+		String operacion = String.format("%s%s", 
+				(String)message.getHeader("operacion"), tipo != null ? String.format(".%s", tipo) : "");
 		
 		logger.info(String.format("generaHeaders: proceso/funcion=%s keyResultado=%d operacion=%s", 
 				proceso, keyResultado, operacion));
@@ -327,6 +329,10 @@ public class GeneraDatos {
 			return getCrearCuentasLeyenda();
 		if (delegate.esCrearGrupos(operacion))
 			return String.format("%s (%s)",getCrearGruposLeyenda(), operacion);
+		if (delegate.esCrearCuentasADPostgrado(operacion))
+			if (operacion.indexOf("BDC") >= 0)
+				return "Actualiza cuenta AD en BDC";
+		
 		return String.format("operacion %s", operacion);
 	}
 

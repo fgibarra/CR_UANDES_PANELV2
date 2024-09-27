@@ -1,4 +1,4 @@
-package cl.uandes.panel.servicio.crearCuentasAD.api.restclient;
+package cl.uandes.panel.apiCrearCuentaServices.api.restclient;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -6,10 +6,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import cl.uandes.panel.comunes.json.batch.crearcuentas.ConsultaXrutRequest;
-import cl.uandes.panel.comunes.json.batch.crearcuentas.ConsultaXrutResponse;
-import cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPRequest;
-import cl.uandes.panel.comunes.json.batch.crearcuentas.ServiciosLDAPResponse;
+import cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutRequest;
+import cl.uandes.panel.comunes.json.consultaXrut.ConsultaXrutResponse;
+import cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPRequest;
+import cl.uandes.panel.comunes.json.serviciosLDAP.ServiciosLDAPResponse;
 
 /**
  * Definicion de los Endpoints del servicio cxf/ESB/panel/serviciosAD

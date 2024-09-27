@@ -12,6 +12,7 @@ import org.apache.camel.PropertyInject;
 import org.apache.log4j.Logger;
 
 import cl.uandes.panel.comunes.bean.RegistrosComunes;
+import cl.uandes.panel.comunes.json.batch.ProcesoDiarioRequest;
 import cl.uandes.panel.comunes.json.batch.SchedulerPanelRequest;
 import cl.uandes.panel.comunes.servicios.dto.DatosKcoFunciones;
 import cl.uandes.panel.comunes.servicios.dto.ResultadoFuncion;
@@ -31,7 +32,7 @@ public class FinalizaProceso implements Processor {
 	
 	private DatosKcoFunciones datos;
 	private String operacion;
-	Object request;
+	ProcesoDiarioRequest request;
 	private final String operacionesInvocadasScheduler = "suspender_eliminar_cuentas|asignar_owners|crear_cuentas|crear_grupos|grupos_inprogress|grupos_inprogress_postgrado|crear_cuentas_AD|crear_cuentas_AD_postgrado|";
 	private Logger logger = Logger.getLogger(getClass());
 
@@ -40,8 +41,13 @@ public class FinalizaProceso implements Processor {
 		Message message = exchange.getIn();
 		try {
 			datos = (DatosKcoFunciones)message.getHeader("DatosKcoFunciones");
-			request = message.getHeader("request");
+			request = (ProcesoDiarioRequest)message.getHeader("request");
 			operacion = datos.getFuncion();
+			if (operacion.equalsIgnoreCase("crear_cuentas_AD_postgrado")) {
+				String operaciones[] = request.getOperaciones();
+				if (operaciones[0] != null && "BDC".equalsIgnoreCase(operaciones[0]))
+					operacion = String.format("%s.%s", operacion, operaciones[0]);
+			}
 			logger.info(String.format("FinalizaProceso: keyContador=%s DatosKcoFunciones datos=%s", getKeyContador(), datos));
 			res = (ResultadoFuncion)message.getHeader("ResultadoFuncion");
 			
@@ -69,6 +75,8 @@ public class FinalizaProceso implements Processor {
 	private boolean esInvocadoPorScheduler(Exchange exchange) {
 		if ("crear_cuentas_AD".equals(operacion) && request == null)
 			return false;
+		if ("crear_cuentas_AD_postgrado.BDC".equals(operacion))
+			return true;
 		if (operacionesInvocadasScheduler.matches(String.format("(.*)%s(.*)", operacion)))
 			return true;
 		
