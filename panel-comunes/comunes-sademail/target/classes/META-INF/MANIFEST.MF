@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1727465679717
+Bnd-LastModified: 1727720077213
 Build-Jdk: 1.8.0_291
 Built-By: sademail
 Bundle-Description: ComunesPanel

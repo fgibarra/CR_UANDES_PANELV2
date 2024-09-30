@@ -285,6 +285,8 @@ public class CuentasADDTO implements Serializable {
 	}
 
 	public String getLoginName() {
+		if (loginName == null)
+			return getLoginName0();
 		return loginName;
 	}
 
